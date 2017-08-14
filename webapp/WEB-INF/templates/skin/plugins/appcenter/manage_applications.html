@@ -1,0 +1,41 @@
+
+<@row>
+<@columns>
+<@messages infos=infos />
+<@tform action='jsp/site/Portal.jsp?page=application'>
+<@button type='submit' name='view_createApplication' class='pull-right' buttonIcon='plus' title='#i18n{appcenter.manage_applications.buttonAdd}' />
+</@tform>
+
+<h1>#i18n{appcenter.manage_applications.title}</h1>
+
+<@table>
+<tr>
+<input type="hidden" id="id" name="id"/>
+<th>#i18n{appcenter.manage_applications.columnName}</th>
+<th>#i18n{appcenter.manage_applications.columnDescription}</th>
+<th>#i18n{appcenter.manage_applications.columnApplicationData}</th>
+<th>#i18n{portal.util.labelActions}</th>
+</tr>
+<#list application_list as application >
+<tr>
+<input type="hidden" id="id" name="id" />
+<td>
+    ${application.name}
+</td>    
+<td>
+    ${application.description}
+</td>    
+<td>
+    ${application.applicationData}
+</td>    
+<td>
+    <@aButton href='jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}' title='#i18n{portal.util.labelModify}' showTitle=false buttonIcon='pencil-square-o' />
+
+    <@aButton href='jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false color='btn-danger' />
+</td>
+</tr>
+</#list>
+</@table>
+</@columns>
+</@row>
+

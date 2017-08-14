@@ -1,0 +1,16 @@
+<#macro tabs2 tab application >
+
+<h1>${application.name}</h1>
+<h3><small>${application.description}</small></h3>
+<br>    
+<@tabs>
+    <@listTabs>
+        <li <#if tab="general">class="active"</#if>>
+            <a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">#i18n{appcenter.tabs.general}</a>
+        </li>
+        <li <#if tab="sources">class="active"</#if>>
+            <a href="jsp/site/Portal.jsp?page=sources&id=${application.id}">#i18n{appcenter.tabs.sources}</a>
+	</li>
+    </@listTabs>
+</@tabs>
+</#macro>

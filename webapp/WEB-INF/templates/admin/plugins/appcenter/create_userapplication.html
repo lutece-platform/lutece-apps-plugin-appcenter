@@ -1,0 +1,20 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="userapplication" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_userapplication.title}' />
+	<@boxBody>
+    <@tform name='create_userapplication' action='jsp/admin/plugins/appcenter/ManageUserApplications.jsp'>
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+        
+				<@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>
+					<@input type='text' name='user_id' value='${userapplication.userId!\'\'}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserRole}' helpKey='#i18n{appcenter.create_userapplication.labelUserRole.help}' mandatory=true>
+					<@input type='text' name='user_role' value='${userapplication.userRole!\'\'}' />
+				</@formGroup>
+				
+				<@actionButtons button1Name="action_createUserApplication" button2Name="view_manageUserApplication"/>
+    </@tform>
+	</@boxBody>
+</@box>

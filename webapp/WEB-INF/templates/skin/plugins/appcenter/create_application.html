@@ -1,0 +1,27 @@
+<@row>
+	<@columns>
+		<@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
+			<fieldset>
+				<legend>#i18n{appcenter.create_application.title{i18n_close}</legend>
+				<@messages errors=errors />
+				<input type="hidden" id="id" name="id"/>  
+				
+          <@formGroup labelFor='name' labelKey='#i18n{appcenter.create_application.labelName}' helpKey='#i18n{appcenter.create_application.labelName.help}' mandatory=true>
+						<@input type='text' id='name' name='name' value='${application.name!''}'  maxlength='50' tabIndex='0' />
+					</@formGroup>
+          <@formGroup labelFor='description' labelKey='#i18n{appcenter.create_application.labelDescription}' helpKey='#i18n{appcenter.create_application.labelDescription.help}' mandatory=true>
+						<@input type='text' id='description' name='description' value='${application.description!''}'  maxlength='255' tabIndex='1' />
+					</@formGroup>
+          <@formGroup labelFor='application_data' labelKey='#i18n{appcenter.create_application.labelApplicationData}' helpKey='#i18n{appcenter.create_application.labelApplicationData.help}' mandatory=true>
+						<@input type='text' id='application_data' name='application_data' value='${application.applicationData!''}'  tabIndex='2' />
+					</@formGroup>
+        <@formGroup>
+          <@button name='action_createApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />
+					<@button name='view_manageApplications' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='btn-secondary' />
+				</@formGroup>
+        </fieldset>
+    </@tform>
+	</@columns>
+</@row>
+
+  

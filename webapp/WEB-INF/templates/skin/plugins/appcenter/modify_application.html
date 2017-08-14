@@ -1,0 +1,32 @@
+<#include "appcenter_tabs.html" />
+<@tabs2 tab="general" application=application />
+
+<@row>
+	<@columns>
+		<@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
+			<fieldset>
+				<legend>#i18n{appcenter.modify_application.title{i18n_close}</legend>
+				<@messages errors=errors />
+				<input type="hidden" id="id" name="id" value="${application.id}"/>
+				
+				<@formGroup labelFor='name' labelKey='#i18n{appcenter.modify_application.labelName}' mandatory=true>
+          <@input type='text' id='name' name='name'  maxlength=50 value='${application.name}' tabIndex='0' />
+				</@formGroup>
+				<@formGroup labelFor='description' labelKey='#i18n{appcenter.modify_application.labelDescription}' mandatory=true>
+          <@input type='text' id='description' name='description'  maxlength=255 value='${application.description}' tabIndex='1' />
+				</@formGroup>
+				<@formGroup labelFor='application_data' labelKey='#i18n{appcenter.modify_application.labelApplicationData}' >
+                                <textarea class="form-control" id='application_data' name='application_data' readonly> ${application.applicationData}</textarea>
+          
+				</@formGroup>
+
+				<@formGroup>
+          <@button name='action_modifyApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelModify}' buttonIcon='plus' />
+          <@button name='view_manageApplications' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='btn-secondary' />
+				</@formGroup>
+        </fieldset>
+		</@tform>
+	</@columns>
+</@row>
+
+  

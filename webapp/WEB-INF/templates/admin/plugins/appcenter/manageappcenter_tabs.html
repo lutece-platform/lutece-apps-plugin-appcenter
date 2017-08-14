@@ -1,0 +1,12 @@
+<#macro tabs2 tab >
+<@tabs>
+	<@listTabs>
+			<li <#if tab="application">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/ManageApplications.jsp">#i18n{appcenter.manage_applications.pageTitle}</a>
+			</li>
+			<li <#if tab="userapplication">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/ManageUserApplications.jsp">#i18n{appcenter.manage_userapplications.pageTitle}</a>
+			</li>
+	</@listTabs>
+</@tabs>
+</#macro>
