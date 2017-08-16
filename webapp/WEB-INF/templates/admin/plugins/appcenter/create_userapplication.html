@@ -7,14 +7,19 @@
         <@messages errors=errors />
         <input type="hidden" id="id" name="id"/>
         
-				<@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>
-					<@input type='text' name='user_id' value='${userapplication.userId!\'\'}' />
-				</@formGroup>
-				<@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserRole}' helpKey='#i18n{appcenter.create_userapplication.labelUserRole.help}' mandatory=true>
-					<@input type='text' name='user_role' value='${userapplication.userRole!\'\'}' />
-				</@formGroup>
-				
-				<@actionButtons button1Name="action_createUserApplication" button2Name="view_manageUserApplication"/>
+        <@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>
+                <@input type='text' name='user_id' value='${userapplication.userId!\'\'}' />
+        </@formGroup>
+        
+        <@formGroup labelKey='#i18n{appcenter.create_userapplication.labelApplicationId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>
+                <@select name='id' items=applications_list default_value='1'/>
+        </@formGroup>
+        
+        <@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserRole}' helpKey='#i18n{appcenter.create_userapplication.labelUserRole.help}' mandatory=true>
+                <@select name='user_role' items=roles_list default_value='1' />
+        </@formGroup>
+
+        <@actionButtons button1Name="action_createUserApplication" button2Name="view_manageUserApplication"/>
     </@tform>
 	</@boxBody>
 </@box>

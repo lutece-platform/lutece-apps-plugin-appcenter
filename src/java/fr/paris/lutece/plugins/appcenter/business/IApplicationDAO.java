@@ -35,6 +35,7 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 
 /**
@@ -103,6 +104,14 @@ public interface IApplicationDAO
      */
     List<AuthorizedApp> selectByUserId( String strUserId , Plugin plugin);
 
+    /**
+     * Load the data of all the application objects and returns them as a referenceList
+     * 
+     * @param plugin
+     *            the Plugin
+     * @return The referenceList which contains the data of all the application objects
+     */
+    ReferenceList selectApplicationsReferenceList( Plugin plugin );
     
     /**
      * Checks if an application is authorized for a given user

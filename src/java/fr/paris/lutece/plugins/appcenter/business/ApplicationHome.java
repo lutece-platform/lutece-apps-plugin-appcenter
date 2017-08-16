@@ -117,12 +117,22 @@ public final class ApplicationHome
         return _dao.selectApplicationsList( _plugin );
     }
 
+   /**
+     * Load the data of all the application objects and returns them as a referenceList
+     * 
+     * @return the referenceList which contains the data of all the application objects
+     */
+    public static ReferenceList getApplicationsReferenceList( )
+    {
+        return _dao.selectApplicationsReferenceList( _plugin );
+    }
+    
     /**
      * Get authorized app for a given user
      * @param strUserId The user ID
      * @return The list of apps
      */
-    public static List<AuthorizedApp> getApplicationByUser( String strUserId )
+    public static List<AuthorizedApp> getApplicationsByUser( String strUserId )
     {
         return _dao.selectByUserId( strUserId, _plugin );
     }

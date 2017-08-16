@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.plugins.appcenter.web;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -68,6 +70,8 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     // Markers
     private static final String MARK_USERAPPLICATION_LIST = "userapplication_list";
     private static final String MARK_USERAPPLICATION = "userapplication";
+    private static final String MARK_APPLICATION_LIST = "applications_list";
+    private static final String MARK_ROLES_LIST = "roles_list";
 
     private static final String JSP_MANAGE_USERAPPLICATIONS = "jsp/admin/plugins/appcenter/ManageUserApplications.jsp";
 
@@ -127,7 +131,8 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
-
+        model.put( MARK_APPLICATION_LIST , ApplicationHome.getApplicationsReferenceList() );
+        model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
         return getPage( PROPERTY_PAGE_TITLE_CREATE_USERAPPLICATION, TEMPLATE_CREATE_USERAPPLICATION, model );
     }
 

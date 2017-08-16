@@ -35,6 +35,7 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
@@ -182,6 +183,26 @@ public final class ApplicationDAO implements IApplicationDAO
         return applicationList;
     }
 
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public ReferenceList selectApplicationsReferenceList( Plugin plugin )
+    {
+        ReferenceList applicationList = new ReferenceList( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            applicationList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+        }
+
+        daoUtil.free( );
+        return applicationList;
+    }
+    
     /**
      * {@inheritDoc }
      */
