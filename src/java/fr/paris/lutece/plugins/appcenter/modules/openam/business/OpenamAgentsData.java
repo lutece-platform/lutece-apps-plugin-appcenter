@@ -35,12 +35,12 @@ package fr.paris.lutece.plugins.appcenter.modules.openam.business;
 
 import java.util.ArrayList;
 import java.util.List;
-import fr.paris.lutece.plugins.appcenter.service.ApplicationDataSubset;
+import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
  * OpenamAgentsData Data Subset
  */
-public class OpenamAgentsData implements ApplicationDataSubset
+public class OpenamAgentsData implements DataSubset
 {
     public static final String DATA_OPENAM_AGENTS_NAME = "openamagents";
     public static final String DEMAND_TYPE_KEY = "openamagent";

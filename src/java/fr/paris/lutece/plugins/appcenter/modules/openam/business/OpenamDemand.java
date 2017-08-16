@@ -14,7 +14,6 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 public class OpenamDemand extends Demand{
 
  private String _strApplicationCode;
- 
  @NotEmpty( message = "#i18n{appcenter.validation.openamagent.webapp.notEmpty}" )
  @Size( max = 50, message = "#i18n{appcenter.validation.openamagent.webapp.size}" )
  private String _strWebAppName;
