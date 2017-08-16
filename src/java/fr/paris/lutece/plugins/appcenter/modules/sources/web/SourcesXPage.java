@@ -34,24 +34,26 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.sources.web;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * SourcesXPage
  */
 @Controller( xpageName = "sources", pageTitleI18nKey = "appcenter.xpage.sources.pageTitle", pagePathI18nKey = "appcenter.xpage.sources.pagePathLabel" )
-public class SourcesXPage extends MVCApplication
+public class SourcesXPage extends AppCenterXPage
 {
     // Templates
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
@@ -62,10 +64,10 @@ public class SourcesXPage extends MVCApplication
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
 
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request )
+    public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
-        Application application = ApplicationHome.findByPrimaryKey( nId );
+       
+    	Application application = getApplication(request);
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
 
         Map<String, Object> model = getModel( );
@@ -76,11 +78,11 @@ public class SourcesXPage extends MVCApplication
     }
 
     @Action( ACTION_ADD_SITE_REPOSITORY )
-    public XPage doAddSiteRepository( HttpServletRequest request )
+    public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
-        Application application = ApplicationHome.findByPrimaryKey( nId );
+        Application application = getApplication(request);
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
         if ( dataSubset == null )
         {
