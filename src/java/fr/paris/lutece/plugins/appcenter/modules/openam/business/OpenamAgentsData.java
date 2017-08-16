@@ -31,29 +31,54 @@
  *
  * License 1.0
  */
+package fr.paris.lutece.plugins.appcenter.modules.openam.business;
 
-package fr.paris.lutece.plugins.appcenter.web;
+import java.util.ArrayList;
+import java.util.List;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationDataSubset;
 
 /**
- * Constants
+ * OpenamAgentsData Data Subset
  */
-public class Constants
+public class OpenamAgentsData implements ApplicationDataSubset
 {
-    // JSP
-    public static final String JSP_PAGE_PORTAL = "jsp/site/Portal.jsp";
+    public static final String DATA_OPENAM_AGENTS_NAME = "openamagents";
+    public static final String DEMAND_TYPE_KEY = "openamagent";
+    
+    private List<OpenamAgentData> _listOpenamAgents = new ArrayList<OpenamAgentData>( );
 
-    // Parameters
-    public static final String PARAMETER_ID_APPLICATION = "id";
-    public static final String PARAM_ACTION = "action";
-    public static final String PARAM_PAGE = "page";
+    /**
+     * {@inheritDoc }
+     * 
+     * @return
+     */
+    @Override
+    public String getName( )
+    {
+        return DATA_OPENAM_AGENTS_NAME;
+    }
 
-    // Markers
-    public static final String MARK_APPLICATION_LIST = "application_list";
-    public static final String MARK_APPLICATION = "application";
-    public static final String MARK_DEMAND = "demand";
-    public static final String MARK_DATA = "data";
-    public static final String MARK_DEMANDS = "demands";
-    public static final String MARK_DEMANDS_STATES = "demands_states";
-    public static final String MARK_DEMANDS_HISTORIES = "demands_histories";
+    /**
+     * Returns the OpenamAgentData
+     *
+     * @return The OpenamAgentData
+     */
+    public List<OpenamAgentData> getOpenamAgents( )
+    {
+        return _listOpenamAgents;
+    }
+
+    /**
+     * Sets the OpenamAgentData
+     *
+     * @param agent
+     *          
+     */
+    public void addAgent( OpenamAgentData agent )
+    {
+    	_listOpenamAgents.add( agent );
+    }
+
+   
 
 }
