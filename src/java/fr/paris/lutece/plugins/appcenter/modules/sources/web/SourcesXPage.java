@@ -41,11 +41,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Config;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.service.ConfigsData;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
@@ -56,6 +58,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+import java.util.ArrayList;
 
 /**
  * SourcesXPage
@@ -67,6 +70,11 @@ public class SourcesXPage extends AppCenterXPage
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
 
     private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
+    private static final String PARAMETER_SVN_USERNAMES = "svn_usernames";
+    private static final String PARAMETER_SVN_EMAILS = "svn_emails";
+    
+    private static final String MESSAGE_KEY_SVN_USERNAME = "appcenter.manage_sources.labelSvnAccessDemandUserName";
+    private static final String MESSAGE_KEY_SVN_EMAIL = "appcenter.manage_sources.labelSvnAccessDemandEmail";
 
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
@@ -130,9 +138,22 @@ public class SourcesXPage extends AppCenterXPage
         Application application = getApplication(request);
         Demand demand = new Demand( );
         demand.setIdDemandType( DEMAND_TYPE );
+        demand.setDemandType( DEMAND_TYPE );
         demand.setIdApplication( application.getId( ) );
         DemandHome.create( demand );
-
+        
+        String strSVNUserNames = request.getParameter( PARAMETER_SVN_USERNAMES );
+        String strSVNUserEmails = request.getParameter( PARAMETER_SVN_EMAILS );
+        
+        //Save the configs
+        List<Config> listConfig = new ArrayList<>();
+        listConfig.add( new Config( MESSAGE_KEY_SVN_USERNAME, strSVNUserNames ) );
+        listConfig.add( new Config( MESSAGE_KEY_SVN_EMAIL, strSVNUserEmails ) );
+        ConfigsData configDatas = new ConfigsData();
+        configDatas.setListConfigs( listConfig );
+        DemandService.saveDemandData( demand, configDatas );
+        
+        //Run the workflow
         int nIdResource = application.getId( );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
         WorkflowService.getInstance( ).getState( nIdResource, WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );

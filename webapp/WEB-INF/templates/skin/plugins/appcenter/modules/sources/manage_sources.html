@@ -60,8 +60,11 @@
                         <input type="hidden" name="page" value="sources" />
                         <input type="hidden" name="id" value="${application.id}" />
                         <input type="hidden" name="action" value="addAccessDemand" />
-                        <@formGroup labelFor='svn_username' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName}' mandatory=true>
-                            <@input type='text' id='svn_username' name='svn_username'  maxlength=250 tabIndex='0' />
+                        <@formGroup labelFor='svn_usernames' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName}' mandatory=true>
+                            <@input type='text' id='svn_usernames' name='svn_usernames'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='svn_emails' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserEmail}' mandatory=true>
+                            <@input type='text' id='svn_emails' name='svn_emails'  maxlength=250 tabIndex='0' />
                         </@formGroup>
                         <br><br>
                         <button class="btn btn-primary" type="submit">
