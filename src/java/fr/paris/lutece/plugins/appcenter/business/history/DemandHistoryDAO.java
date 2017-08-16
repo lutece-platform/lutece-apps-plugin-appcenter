@@ -32,7 +32,7 @@
  * License 1.0
  */
 
-package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business.history;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
@@ -42,31 +42,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides Data Access methods for Demand objects
+ * This class provides Data Access methods for DemandHistory objects
  */
-public final class DemandDAO implements IDemandDAO
+public final class DemandHistoryDAO implements IDemandHistoryDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_demand, statusText, demandType, idApplication, environmentPrefix FROM appcenter_demand WHERE id_demand = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( statusText, demandType, idApplication, environmentPrefix ) VALUES ( ?, ?, ?, ?, ? ) ";
-    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET id_demand = ?, statusText = ?, demandType = ?, idApplication = ?, environmentPrefix = ? WHERE id_demand = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, statusText, demandType, idApplication, environmentPrefix FROM appcenter_demand";
-    private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
+    private static final String SQL_QUERY_SELECT = "SELECT id_history, id_user_front FROM appcenter_workflow_resource_history_demand WHERE id_demand_history = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_workflow_resource_history_demand ( id_history, id_user_front ) VALUES ( ?, ? ) ";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_workflow_resource_history_demand WHERE id_history = ? ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_workflow_resource_history_demand SET id_history = ?, id_user_front = ? WHERE id_demand_history = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_history, id_user_front FROM appcenter_workflow_resource_history_demand";
+    private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_history FROM appcenter_workflow_resource_history_demand";
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void insert( Demand demand, Plugin plugin )
+    public void insert( DemandHistory resourceHistory, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         int nIndex = 1;
         
-        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getEnvironment( ).getPrefix( ) );
+        daoUtil.setInt( nIndex++ , resourceHistory.getIdWorkflowHistory( ) );
+        daoUtil.setInt( nIndex++ , resourceHistory.getIdUserFront( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -76,27 +74,24 @@ public final class DemandDAO implements IDemandDAO
      * {@inheritDoc }
      */
     @Override
-    public Demand load( int nKey, Plugin plugin )
+    public DemandHistory load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setInt( 1 , nKey );
         daoUtil.executeQuery( );
-        Demand demand = null;
+        DemandHistory resourceHistory = null;
 
         if ( daoUtil.next( ) )
         {
-            demand = new Demand();
+            resourceHistory = new DemandHistory();
             int nIndex = 1;
             
-            demand.setId( daoUtil.getInt( nIndex++ ) );
-            demand.setStatusText( daoUtil.getString( nIndex++ ) );
-            demand.setDemandType( daoUtil.getString( nIndex++ ) );
-            demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-            demand.setEnvironment( daoUtil.getString( nIndex++ ) );
+            resourceHistory.setIdWorkflowHistory( daoUtil.getInt( nIndex++ ) );
+            resourceHistory.setIdUserFront( daoUtil.getInt( nIndex++ ) );
         }
 
         daoUtil.free( );
-        return demand;
+        return resourceHistory;
     }
 
     /**
@@ -115,17 +110,14 @@ public final class DemandDAO implements IDemandDAO
      * {@inheritDoc }
      */
     @Override
-    public void store( Demand demand, Plugin plugin )
+    public void store( DemandHistory resourceHistory, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
         
-        daoUtil.setInt( nIndex++ , demand.getId( ) );
-        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getEnvironment( ).getPrefix( ) );
-        daoUtil.setInt( nIndex , demand.getId( ) );
+        daoUtil.setInt( nIndex++ , resourceHistory.getIdWorkflowHistory( ));
+        daoUtil.setInt( nIndex++ , resourceHistory.getIdUserFront( ) );
+        daoUtil.setInt( nIndex , resourceHistory.getIdWorkflowHistory( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -135,65 +127,62 @@ public final class DemandDAO implements IDemandDAO
      * {@inheritDoc }
      */
     @Override
-    public List<Demand> selectDemandsList( Plugin plugin )
+    public List<DemandHistory> selectDemandHistorysList( Plugin plugin )
     {
-        List<Demand> demandList = new ArrayList<Demand>(  );
+        List<DemandHistory> resourceHistoryList = new ArrayList<DemandHistory>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
         {
-            Demand demand = new Demand(  );
+            DemandHistory resourceHistory = new DemandHistory(  );
             int nIndex = 1;
             
-            demand.setId( daoUtil.getInt( nIndex++ ) );
-            demand.setStatusText( daoUtil.getString( nIndex++ ) );
-            demand.setDemandType( daoUtil.getString( nIndex++ ) );
-            demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-            demand.setEnvironment( daoUtil.getString( nIndex++ ) );
+            resourceHistory.setIdWorkflowHistory( daoUtil.getInt( nIndex++ ) );
+            resourceHistory.setIdUserFront( daoUtil.getInt( nIndex++ ) );
 
-            demandList.add( demand );
+            resourceHistoryList.add( resourceHistory );
         }
 
         daoUtil.free( );
-        return demandList;
+        return resourceHistoryList;
     }
     
     /**
      * {@inheritDoc }
      */
     @Override
-    public List<Integer> selectIdDemandsList( Plugin plugin )
+    public List<Integer> selectIdDemandHistorysList( Plugin plugin )
     {
-        List<Integer> demandList = new ArrayList<Integer>( );
+        List<Integer> resourceHistoryList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
         {
-            demandList.add( daoUtil.getInt( 1 ) );
+            resourceHistoryList.add( daoUtil.getInt( 1 ) );
         }
 
         daoUtil.free( );
-        return demandList;
+        return resourceHistoryList;
     }
     
     /**
      * {@inheritDoc }
      */
     @Override
-    public ReferenceList selectDemandsReferenceList( Plugin plugin )
+    public ReferenceList selectDemandHistorysReferenceList( Plugin plugin )
     {
-        ReferenceList demandList = new ReferenceList();
+        ReferenceList resourceHistoryList = new ReferenceList();
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
         {
-            demandList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+            resourceHistoryList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
         }
 
         daoUtil.free( );
-        return demandList;
+        return resourceHistoryList;
     }
 }
