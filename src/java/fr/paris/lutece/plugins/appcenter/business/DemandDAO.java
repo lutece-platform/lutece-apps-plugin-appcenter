@@ -52,6 +52,8 @@ public final class DemandDAO implements IDemandDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ? WHERE id_demand = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content FROM appcenter_demand";
+    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? " ;
+    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
     /**
@@ -87,15 +89,7 @@ public final class DemandDAO implements IDemandDAO
 
         if ( daoUtil.next( ) )
         {
-            demand = new Demand();
-            int nIndex = 1;
-            
-            demand.setId( daoUtil.getInt( nIndex++ ) );
-            demand.setStatusText( daoUtil.getString( nIndex++ ) );
-            demand.setIdDemandType( daoUtil.getString( nIndex++ ) );       
-            demand.setDemandType( daoUtil.getString( nIndex++ ) );
-            demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-            demand.setDemandContent( daoUtil.getString( nIndex++ ) );
+            demand = getRow( daoUtil );
         }
 
         daoUtil.free( );
@@ -147,15 +141,54 @@ public final class DemandDAO implements IDemandDAO
 
         while ( daoUtil.next(  ) )
         {
-            Demand demand = new Demand(  );
-            int nIndex = 1;
-            
-            demand.setId( daoUtil.getInt( nIndex++ ) );
-            demand.setStatusText( daoUtil.getString( nIndex++ ) );
-            demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
-            demand.setDemandType( daoUtil.getString( nIndex++ ) );
-            demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-            demand.setDemandContent( daoUtil.getString( nIndex++ ) );
+            Demand demand = getRow( daoUtil );
+
+            demandList.add( demand );
+        }
+
+        daoUtil.free( );
+        return demandList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Demand> selectDemandsListByApplication( int nIdApplication, Plugin plugin )
+    {
+        List<Demand> demandList = new ArrayList<Demand>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION, plugin );
+        int nIndex = 1;
+        daoUtil.setInt( nIndex++ , nIdApplication );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Demand demand = getRow( daoUtil );
+
+            demandList.add( demand );
+        }
+
+        daoUtil.free( );
+        return demandList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Demand> selectDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Plugin plugin )
+    {
+        List<Demand> demandList = new ArrayList<Demand>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE, plugin );
+        int nIndex = 1;
+        daoUtil.setInt( nIndex++ , nIdApplication );
+        daoUtil.setString( nIndex++ , strDemandType );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Demand demand = getRow( daoUtil );
 
             demandList.add( demand );
         }
@@ -200,5 +233,17 @@ public final class DemandDAO implements IDemandDAO
 
         daoUtil.free( );
         return demandList;
+    }
+
+    private Demand getRow( DAOUtil daoUtil ) {
+        Demand demand = new Demand();
+        int nIndex = 1;
+        demand.setId( daoUtil.getInt( nIndex++ ) );
+        demand.setStatusText( daoUtil.getString( nIndex++ ) );
+        demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
+        demand.setDemandType( daoUtil.getString( nIndex++ ) );
+        demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
+        demand.setDemandContent( daoUtil.getString( nIndex++ ) );
+        return demand;
     }
 }

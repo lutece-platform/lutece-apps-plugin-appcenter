@@ -81,7 +81,23 @@ public interface IDemandDAO
      * @return The list which contains the data of all the demand objects
      */
     List<Demand> selectDemandsList( Plugin plugin );
+
+    /**
+     * Load the data of all the demand objects and returns them as a list
+     * @param nIdApplication the id of the application
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the demand objects
+     */
+    List<Demand> selectDemandsListByApplication( int nIdApplication, Plugin plugin );
     
+    /**
+     * Load the data of all the demand objects and returns them as a list
+     * @param nIdApplication the id of the application
+     * @param strDemandType the type of the demand
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the demand objects
+     */
+    List<Demand> selectDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Plugin plugin );
     /**
      * Load the id of all the demand objects and returns them as a list
      * @param plugin the Plugin

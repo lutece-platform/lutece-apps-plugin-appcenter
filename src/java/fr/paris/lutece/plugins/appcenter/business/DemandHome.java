@@ -107,6 +107,27 @@ public final class DemandHome
     {
         return _dao.selectDemandsList( _plugin );
     }
+
+    /**
+     * Load the data of all the demand objects and returns them as a list
+     * @param nIdApplication the id of the application
+     * @return the list which contains the data of all the demand objects
+     */
+    public static List<Demand> getDemandsListByApplication( int nIdApplication )
+    {
+        return _dao.selectDemandsListByApplication( nIdApplication, _plugin );
+    }
+
+    /**
+     * Load the data of all the demand objects and returns them as a list
+     * @param nIdApplication the id of the application
+     * @param strDemandType the type of the demand
+     * @return the list which contains the data of all the demand objects
+     */
+    public static List<Demand> getDemandsListByApplicationAndType( int nIdApplication, String strDemandType )
+    {
+        return _dao.selectDemandsListByApplicationAndType( nIdApplication, strDemandType, _plugin );
+    }
     
     /**
      * Load the id of all the demand objects and returns them as a list
