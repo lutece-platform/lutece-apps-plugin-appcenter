@@ -89,11 +89,18 @@ public class SourcesXPage extends AppCenterXPage
         model.put( Constants.MARK_DEMANDS, listDemand );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( DEMAND_TYPE );
         Map<String, Object> mapStates = new HashMap<>();
+        Map<String, Object> mapHistories = new HashMap<>();
         for (Demand demand: listDemand) {
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
             mapStates.put( Integer.toString( demand.getId() ), state );
+
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
+                    demand.getId( ), WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
+            );
+            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
+        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
