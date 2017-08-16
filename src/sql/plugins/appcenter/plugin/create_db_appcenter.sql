@@ -35,7 +35,6 @@ status_text long varchar,
 id_demand_type varchar(255) NOT NULL,
 demand_type long varchar NOT NULL,
 id_application int(11) default '0' NOT NULL,
-environment_prefix varchar(50) default '',
 PRIMARY KEY (id_demand) 
 );
 

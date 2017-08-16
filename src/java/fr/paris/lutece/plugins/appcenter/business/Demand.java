@@ -52,8 +52,6 @@ public class Demand implements Serializable
     private String _strDemandType;
     
     private int _nIdApplication;
-    
-    private Environment _environment;
 
     /**
      * Returns the Id
@@ -125,24 +123,6 @@ public class Demand implements Serializable
     public void setIdApplication( int nIdApplication )
     {
         _nIdApplication = nIdApplication;
-    }
-    
-    /**
-     * Returns the Environment of the demand
-     * @return The Environment of the demand
-     */
-    public Environment getEnvironment( )
-    {
-        return _environment;
-    }
-
-    /**
-     * Sets the environnement of the demand
-     * @param strEnvironmentPrefix The EnvironmentPrefix
-     */ 
-    public void setEnvironment( String strEnvironmentPrefix )
-    {
-        _environment = Environment.getEnvironment( strEnvironmentPrefix );
     }
 
     /**
