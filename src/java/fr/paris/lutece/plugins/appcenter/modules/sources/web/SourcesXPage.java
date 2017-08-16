@@ -41,7 +41,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
@@ -108,7 +107,6 @@ public class SourcesXPage extends AppCenterXPage
     @Action( ACTION_ADD_SITE_REPOSITORY )
     public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
         Application application = getApplication(request);
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
@@ -119,7 +117,7 @@ public class SourcesXPage extends AppCenterXPage
         dataSubset.setSiteRepository( strSiteDirectory );
         ApplicationService.saveApplicationData( application, dataSubset );
 
-        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, nId );
+        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, application.getId() );
     }
 
 
