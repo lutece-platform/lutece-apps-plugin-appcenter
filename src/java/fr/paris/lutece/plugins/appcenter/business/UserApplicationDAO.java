@@ -47,13 +47,13 @@ import java.util.List;
 public final class UserApplicationDAO implements IUserApplicationDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_user_application ) FROM appcenter_user_application";
-    private static final String SQL_QUERY_SELECT = "SELECT id_user_application, user_id, user_role FROM appcenter_user_application WHERE id_user_application = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application ( id_user_application, user_id, user_role ) VALUES ( ?, ?, ? ) ";
-    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_user_application = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_user_application = ?, user_id = ?, user_role = ? WHERE id_user_application = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_user_application, user_id, user_role FROM appcenter_user_application";
-    private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_user_application FROM appcenter_user_application";
+    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_user_application";
+    private static final String SQL_QUERY_SELECT = "SELECT id_application, user_id, user_role FROM appcenter_user_application WHERE id_application = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application ( id_application, user_id, user_role ) VALUES ( ?, ?, ? ) ";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_application = ?, user_id = ?, user_role = ? WHERE id_application = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, user_id, user_role FROM appcenter_user_application";
+    private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_user_application";
 
     /**
      * Generates a new primary key

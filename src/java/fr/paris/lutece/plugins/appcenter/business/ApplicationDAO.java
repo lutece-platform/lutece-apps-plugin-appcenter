@@ -35,7 +35,6 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
@@ -53,8 +52,11 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET id_application = ?, name = ?, description = ?, application_data = ? WHERE id_application = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data FROM appcenter_application";
-    private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_application";
-
+    private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data, b.user_role "
+            + " FROM appcenter_application a, appcenter_user_application b "
+            + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
+    private static final String SQL_QUERY_SELECT_AUTHORIZED = " SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
+            
     /**
      * Generates a new primary key
      * 
@@ -159,7 +161,7 @@ public final class ApplicationDAO implements IApplicationDAO
     @Override
     public List<Application> selectApplicationsList( Plugin plugin )
     {
-        List<Application> applicationList = new ArrayList<Application>( );
+        List<Application> applicationList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery( );
 
@@ -184,15 +186,25 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public List<Integer> selectIdApplicationsList( Plugin plugin )
+    public List<AuthorizedApp> selectByUserId(String strUserId, Plugin plugin)
     {
-        List<Integer> applicationList = new ArrayList<Integer>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
+        List<AuthorizedApp> applicationList = new ArrayList<>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_USER, plugin );
+        daoUtil.setString( 1 , strUserId );
         daoUtil.executeQuery( );
 
         while ( daoUtil.next( ) )
         {
-            applicationList.add( daoUtil.getInt( 1 ) );
+            AuthorizedApp application = new AuthorizedApp( );
+            int nIndex = 1;
+
+            application.setId( daoUtil.getInt( nIndex++ ) );
+            application.setName( daoUtil.getString( nIndex++ ) );
+            application.setDescription( daoUtil.getString( nIndex++ ) );
+            application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setUserRole( daoUtil.getInt( nIndex++ ) );
+
+            applicationList.add( application );
         }
 
         daoUtil.free( );
@@ -203,18 +215,13 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public ReferenceList selectApplicationsReferenceList( Plugin plugin )
+    public boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin)
     {
-        ReferenceList applicationList = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_AUTHORIZED );
+        daoUtil.setString( 2 , strUserId );
         daoUtil.executeQuery( );
 
-        while ( daoUtil.next( ) )
-        {
-            applicationList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
-        }
-
-        daoUtil.free( );
-        return applicationList;
+        return daoUtil.next( );
     }
+
 }

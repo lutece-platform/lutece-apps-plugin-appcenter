@@ -118,22 +118,24 @@ public final class ApplicationHome
     }
 
     /**
-     * Load the id of all the application objects and returns them as a list
-     * 
-     * @return the list which contains the id of all the application objects
+     * Get authorized app for a given user
+     * @param strUserId The user ID
+     * @return The list of apps
      */
-    public static List<Integer> getIdApplicationsList( )
+    public static List<AuthorizedApp> getApplicationByUser( String strUserId )
     {
-        return _dao.selectIdApplicationsList( _plugin );
+        return _dao.selectByUserId( strUserId, _plugin );
     }
-
+    
     /**
-     * Load the data of all the application objects and returns them as a referenceList
-     * 
-     * @return the referenceList which contains the data of all the application objects
+     * Checks if an application is authorized for a given user
+     * @param nApplicationId The application Id
+     * @param strUserId The user Id
+     * @return true if authorized
      */
-    public static ReferenceList getApplicationsReferenceList( )
+    public static boolean isAuthorized( int nApplicationId , String strUserId )
     {
-        return _dao.selectApplicationsReferenceList( _plugin );
-    }
+        return _dao.isAuthorized( nApplicationId , strUserId , _plugin );
+    }        
+
 }
