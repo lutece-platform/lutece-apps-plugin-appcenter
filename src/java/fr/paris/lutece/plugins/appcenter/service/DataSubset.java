@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * ApplicationDataSubset
  */
-public interface ApplicationDataSubset
+public interface DataSubset
 {
     /**
      * The data name

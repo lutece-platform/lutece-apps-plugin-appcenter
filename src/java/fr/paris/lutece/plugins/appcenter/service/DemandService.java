@@ -37,38 +37,38 @@ package fr.paris.lutece.plugins.appcenter.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Application Service
+ * Demand Service
  */
-public class ApplicationService
+public class DemandService
 {
     private static ObjectMapper _mapper = new ObjectMapper( );
 
     /**
-     * Save a data subset into the global JSON data of an application
+     * Save a data subset into the global JSON data of a demand
      * 
-     * @param application
-     *            The application
+     * @param demand
+     *            The Demand
      * @param dataSubset
      *            The data subset
      */
-    public static void saveApplicationData( Application application, DataSubset dataSubset )
+    public static void saveDemandData( Demand demand, DataSubset dataSubset )
     {
         try
         {
-            String strUpdatedJson = getApplicationData( application, dataSubset );
-            application.setApplicationData( strUpdatedJson );
-            ApplicationHome.update( application );
+            String strUpdatedJson = getDemandData( demand, dataSubset );
+            demand.setDemandContent( strUpdatedJson );
+            DemandHome.update( demand );
         }
         catch( IOException ex )
         {
-            Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
+            Logger.getLogger(DemandService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
     }
 
@@ -77,53 +77,53 @@ public class ApplicationService
      * 
      * @param <T>
      *            The datasubset type
-     * @param application
-     *            The application
+     * @param demand
+     *            The demand
      * @param strDataSubsetName
      *            The subset name
      * @param valueType
      *            The class of the data subset
      * @return The data subset as an object
      */
-    public static <T> T loadApplicationDataSubset( Application application, String strDataSubsetName, Class<T> valueType )
+    public static <T> T loadDemandDataSubset( Demand demand, String strDataSubsetName, Class<T> valueType )
     {
         try
         {
-            String strApplicationJson = application.getApplicationData( );
-            return getDataSubset( strApplicationJson, strDataSubsetName, valueType );
+            String strDemandJson = demand.getDemandContent();
+            return getDataSubset( strDemandJson, strDataSubsetName, valueType );
         }
         catch( IOException ex )
         {
-            Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
+            Logger.getLogger(DemandService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
         return null;
     }
 
     /**
-     * Build a global JSON data of an application by adding or replacing a data subset
+     * Build a global JSON data of an demand by adding or replacing a data subset
      * 
-     * @param application
-     *            The application
+     * @param demand
+     *            The demand
      * @param dataSubset
      *            The data subset
      * @return The JSON
      * @throws IOException
      *             if an error occurs
      */
-    static String getApplicationData( Application application, DataSubset dataSubset ) throws IOException
+    static String getDemandData( Demand demand, DataSubset dataSubset ) throws IOException
     {
-        String strApplicationJson = application.getApplicationData( );
-        JsonNode nodeApplication = _mapper.readTree( strApplicationJson );
-        JsonNode nodeData = nodeApplication.get( dataSubset.getName( ) );
+        String strDemandJson = demand.getDemandContent( );
+        JsonNode nodeDemand = _mapper.readTree( strDemandJson );
+        JsonNode nodeData = nodeDemand.get( dataSubset.getName( ) );
         if ( nodeData != null )
         {
-            ( (ObjectNode) nodeApplication ).replace( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
+            ( (ObjectNode) nodeDemand ).replace( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
         }
         else
         {
-            ( (ObjectNode) nodeApplication ).set( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
+            ( (ObjectNode) nodeDemand ).set( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
         }
-        return nodeApplication.toString( );
+        return nodeDemand.toString( );
     }
 
     /**
@@ -131,18 +131,18 @@ public class ApplicationService
      * 
      * @param <T>
      *            The datasubset type
-     * @param strApplicationJson
-     *            The global JSON of the application
+     * @param strDemandJson
+     *            The global JSON of the demand
      * @param strDataSubsetName
      *            The subset name
      * @param valueType
      *            The class of the data subset
      * @return The data subset as an object
      */
-    static <T> T getDataSubset( String strApplicationJson, String strDataSubsetName, Class<T> valueType ) throws IOException
+    static <T> T getDataSubset( String strDemandJson, String strDataSubsetName, Class<T> valueType ) throws IOException
     {
-        JsonNode nodeApplication = _mapper.readTree( strApplicationJson );
-        JsonNode nodeData = nodeApplication.get( strDataSubsetName );
+        JsonNode nodeDemand = _mapper.readTree( strDemandJson );
+        JsonNode nodeData = nodeDemand.get( strDataSubsetName );
         if ( nodeData != null )
         {
             return _mapper.treeToValue( nodeData, valueType );

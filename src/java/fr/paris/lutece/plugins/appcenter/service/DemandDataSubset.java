@@ -31,74 +31,23 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
-import java.util.ArrayList;
-import java.util.List;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+package fr.paris.lutece.plugins.appcenter.service;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Sources Data Subset
+ * DemandDataSubset
  */
-public class SourcesData implements DataSubset
+public interface DemandDataSubset
 {
-    public static final String DATA_SUBSET_NAME = "sources";
-    public static final String DEMAND_TYPE_KEY = "sources";
-    
-    private String _strSiteRepository;
-    private List _listPluginRepositories = new ArrayList( );
-
     /**
-     * {@inheritDoc }
+     * The data name
      * 
-     * @return
+     * @return The name of the data subset
      */
-    @Override
-    public String getName( )
-    {
-        return DATA_SUBSET_NAME;
-    }
 
-    /**
-     * Returns the PluginRepositories
-     *
-     * @return The PluginRepositories
-     */
-    public List getPluginRepositories( )
-    {
-        return _listPluginRepositories;
-    }
-
-    /**
-     * Sets the PluginRepositories
-     *
-     * @param strRepository
-     *            A plugin repository
-     */
-    public void addPluginRepository( String strRepository )
-    {
-        _listPluginRepositories.add( strRepository );
-    }
-
-    /**
-     * Returns the SiteRepository
-     *
-     * @return The SiteRepository
-     */
-    public String getSiteRepository( )
-    {
-        return _strSiteRepository;
-    }
-
-    /**
-     * Sets the SiteRepository
-     *
-     * @param strSiteRepository
-     *            The SiteRepository
-     */
-    public void setSiteRepository( String strSiteRepository )
-    {
-        _strSiteRepository = strSiteRepository;
-    }
+    @JsonIgnore
+    String getName( );
 
 }
