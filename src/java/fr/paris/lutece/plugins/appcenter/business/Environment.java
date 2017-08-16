@@ -44,8 +44,8 @@ public enum Environment
     PREPROD( "preprod","appcenter.environment.preprod" ),
     PROD( "prod", "appcenter.environment.prod" );
     
-    private String _strPrefix;
-    private String _strLabelKey;
+    private final String _strPrefix;
+    private final String _strLabelKey;
 
     /**
      * Constructor for environment 
@@ -68,15 +68,6 @@ public enum Environment
     }
 
     /**
-     * Set the prefix for the environment
-     * @param strPrefix the prefix of the environment
-     */
-    public void setPrefix( String strPrefix )
-    {
-        _strPrefix = strPrefix;
-    }
-
-    /**
      * Get the I18nk of the environment
      * @return 
      */
@@ -86,15 +77,6 @@ public enum Environment
     }
 
     /**
-     * Set the I18nk of the environment
-     * @param strLabelKey the strKey of the environnement
-     */
-    public void setLabelKey( String strLabelKey )
-    {
-        _strLabelKey = strLabelKey;
-    }
-    
-    /**
      * Get the environment with given prefix
      * @param strPrefix the prefix 
      * @return the environment with given prefix
@@ -103,7 +85,7 @@ public enum Environment
     {
         for ( Environment envi : Environment.values( ) )
         {
-            if ( envi.getLabelKey().equals( strPrefix ) )
+            if ( envi.getPrefix( ).equals( strPrefix ) )
             {
                 return envi;
             }
