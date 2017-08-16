@@ -31,10 +31,11 @@ PRIMARY KEY (id_user_application)
 DROP TABLE IF EXISTS appcenter_demand;
 CREATE TABLE appcenter_demand  (
 id_demand int(6) AUTO_INCREMENT,
-statustext long varchar,
-demandtype long varchar NOT NULL,
-idapplication int(11) default '0' NOT NULL,
-environmentprefix varchar(50) default '',
+status_text long varchar,
+id_demand_type varchar(255) NOT NULL,
+demand_type long varchar NOT NULL,
+id_application int(11) default '0' NOT NULL,
+environment_prefix varchar(50) default '',
 PRIMARY KEY (id_demand) 
 );
 

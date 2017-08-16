@@ -47,6 +47,8 @@ public class Demand implements Serializable
     
     private String _strStatusText;
     
+    private String _strIdDemandType;
+    
     private String _strDemandType;
     
     private int _nIdApplication;
@@ -142,4 +144,24 @@ public class Demand implements Serializable
     {
         _environment = Environment.getEnvironment( strEnvironmentPrefix );
     }
+
+    /**
+     * Get the demand type id
+     * @return the demand type id 
+     */
+    public String getIdDemandType()
+    {
+        return _strIdDemandType;
+    }
+
+    /**
+     * Set the demand type id of the demand
+     * @param strIdDemandType 
+     */
+    public void setIdDemandType( String strIdDemandType )
+    {
+        _strIdDemandType = strIdDemandType;
+    }
+    
+    
 }
