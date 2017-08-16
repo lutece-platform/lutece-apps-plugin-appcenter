@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -61,7 +62,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
 
     // Parameters
     private static final String PARAMETER_ID_USERAPPLICATION = "id";
-
+    private static final String PARAMETER_USER_ID = "user_id";
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_USERAPPLICATIONS = "appcenter.manage_userapplications.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_USERAPPLICATION = "appcenter.modify_userapplication.pageTitle";
@@ -71,6 +72,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     private static final String MARK_USERAPPLICATION_LIST = "userapplication_list";
     private static final String MARK_USERAPPLICATION = "userapplication";
     private static final String MARK_APPLICATION_LIST = "applications_list";
+    private static final String MARK_USERS_LIST = "users_list";
     private static final String MARK_ROLES_LIST = "roles_list";
 
     private static final String JSP_MANAGE_USERAPPLICATIONS = "jsp/admin/plugins/appcenter/ManageUserApplications.jsp";
@@ -132,6 +134,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
         model.put( MARK_APPLICATION_LIST , ApplicationHome.getApplicationsReferenceList() );
+        model.put( MARK_USERS_LIST, UserService.getUserList() );
         model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
         return getPage( PROPERTY_PAGE_TITLE_CREATE_USERAPPLICATION, TEMPLATE_CREATE_USERAPPLICATION, model );
     }
@@ -171,8 +174,10 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     public String getConfirmRemoveUserApplication( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_USERAPPLICATION ) );
+        String strUserId = request.getParameter( PARAMETER_USER_ID );
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_USERAPPLICATION ) );
         url.addParameter( PARAMETER_ID_USERAPPLICATION, nId );
+        url.addParameter( PARAMETER_USER_ID, strUserId );
 
         String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_USERAPPLICATION, url.getUrl( ),
                 AdminMessage.TYPE_CONFIRMATION );
@@ -191,7 +196,8 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     public String doRemoveUserApplication( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_USERAPPLICATION ) );
-        UserApplicationHome.remove( nId );
+        String strUserId = request.getParameter( PARAMETER_USER_ID );
+        UserApplicationHome.remove( nId , strUserId );
         addInfo( INFO_USERAPPLICATION_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_USERAPPLICATIONS );
@@ -208,14 +214,16 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     public String getModifyUserApplication( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_USERAPPLICATION ) );
+        String strUserId = request.getParameter( PARAMETER_USER_ID );
 
         if ( _userapplication == null || ( _userapplication.getId( ) != nId ) )
         {
-            _userapplication = UserApplicationHome.findByPrimaryKey( nId );
+            _userapplication = UserApplicationHome.findByPrimaryKey( nId , strUserId );
         }
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
+        model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_USERAPPLICATION, TEMPLATE_MODIFY_USERAPPLICATION, model );
     }

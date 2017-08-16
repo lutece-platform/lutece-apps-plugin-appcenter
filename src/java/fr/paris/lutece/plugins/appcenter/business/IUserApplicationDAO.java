@@ -68,10 +68,12 @@ public interface IUserApplicationDAO
      * 
      * @param nKey
      *            The identifier of the UserApplication to delete
+     * @param strUserId
+     *            The user ID
      * @param plugin
      *            the Plugin
      */
-    void delete( int nKey, Plugin plugin );
+    void delete( int nKey, String strUserId, Plugin plugin );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders
@@ -81,11 +83,13 @@ public interface IUserApplicationDAO
      * 
      * @param nKey
      *            The identifier of the userApplication
+     * @param strUserId
+     *            The user ID
      * @param plugin
      *            the Plugin
      * @return The instance of the userApplication
      */
-    UserApplication load( int nKey, Plugin plugin );
+    UserApplication load( int nKey, String strUserId, Plugin plugin );
 
     /**
      * Load the data of all the userApplication objects and returns them as a list

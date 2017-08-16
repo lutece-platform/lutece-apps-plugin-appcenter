@@ -5,15 +5,18 @@
 	<@boxHeader title='#i18n{appcenter.modify_userapplication.title}' />
 	<@boxBody>
     <@tform class="form-horizontal" method="post" name="modify_userapplication" action="jsp/admin/plugins/appcenter/ManageUserApplications.jsp">
-			<@messages errors=errors />
-			<input type="hidden" id="id" name="id" value="${userapplication.id}"/>
-			
-				<@formGroup labelKey='#i18n{appcenter.modify_userapplication.labelUserId}' helpKey='#i18n{appcenter.modify_userapplication.labelUserId.help}' mandatory=true>
-					<@input type='text' name='user_id' value='${userapplication.userId}' />
-				</@formGroup>
-				<@formGroup labelKey='#i18n{appcenter.modify_userapplication.labelUserRole}' helpKey='#i18n{appcenter.modify_userapplication.labelUserRole.help}' mandatory=true>
-					<@input type='text' name='user_role' value='${userapplication.userRole}' />
-				</@formGroup>
+    <@messages errors=errors />
+    <input type="hidden" id="id" name="id" value="${userapplication.id}"/>
+    <input type="hidden" id="user_id" name="id" value="${userapplication.userId}"/>
+    <@formGroup labelKey='#i18n{appcenter.modify_userapplication.labelApplicationId}' helpKey='#i18n{appcenter.modify_userapplication.labelApplicationId.help}' mandatory=true>
+            ${userapplication.applicationName}
+    </@formGroup>
+    <@formGroup labelKey='#i18n{appcenter.modify_userapplication.labelUserId}' helpKey='#i18n{appcenter.modify_userapplication.labelUserId.help}' mandatory=true>
+            ${userapplication.userId}
+    </@formGroup>
+    <@formGroup labelKey='#i18n{appcenter.modify_userapplication.labelUserRole}' helpKey='#i18n{appcenter.modify_userapplication.labelUserRole.help}' mandatory=true>
+            <@select name='user_role' items=roles_list default_value='${userapplication.userRole}' />
+    </@formGroup>
         <@actionButtons button1Name="action_modifyUserApplication" button2Name="view_manageUserApplication"/>
     </@tform>
 	</@boxBody>

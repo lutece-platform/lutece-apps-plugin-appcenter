@@ -48,11 +48,14 @@ public final class UserApplicationDAO implements IUserApplicationDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_user_application";
-    private static final String SQL_QUERY_SELECT = "SELECT id_application, user_id, user_role FROM appcenter_user_application WHERE id_application = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application ( id_application, user_id, user_role ) VALUES ( ?, ?, ? ) ";
-    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_application = ?, user_id = ?, user_role = ? WHERE id_application = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, user_id, user_role FROM appcenter_user_application";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_application = ?  AND user_id = ? ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_application = ?, user_id = ?, user_role = ? WHERE id_application = ?  AND user_id = ? ";
+    private static final String SQL_QUERY_SELECTALL = "SELECT a.id_application, a.user_id, user_role, b.name "
+            + " FROM appcenter_user_application a , appcenter_application b "
+            + " WHERE a.id_application = b.id_application ";
+    private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECTALL  + " AND a.id_application = ? AND a.user_id = ?";
+   
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_user_application";
 
     /**
@@ -99,10 +102,11 @@ public final class UserApplicationDAO implements IUserApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public UserApplication load( int nKey, Plugin plugin )
+    public UserApplication load( int nKey, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setInt( 1, nKey );
+        daoUtil.setString( 2, strUserId );
         daoUtil.executeQuery( );
         UserApplication userApplication = null;
 
@@ -114,6 +118,7 @@ public final class UserApplicationDAO implements IUserApplicationDAO
             userApplication.setId( daoUtil.getInt( nIndex++ ) );
             userApplication.setUserId( daoUtil.getString( nIndex++ ) );
             userApplication.setUserRole( daoUtil.getInt( nIndex++ ) );
+            userApplication.setApplicationName( daoUtil.getString( nIndex++ ) );
         }
 
         daoUtil.free( );
@@ -124,10 +129,11 @@ public final class UserApplicationDAO implements IUserApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public void delete( int nKey, Plugin plugin )
+    public void delete( int nKey, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         daoUtil.setInt( 1, nKey );
+        daoUtil.setString( 2, strUserId );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -144,7 +150,8 @@ public final class UserApplicationDAO implements IUserApplicationDAO
         daoUtil.setInt( nIndex++, userApplication.getId( ) );
         daoUtil.setString( nIndex++, userApplication.getUserId( ) );
         daoUtil.setInt( nIndex++, userApplication.getUserRole( ) );
-        daoUtil.setInt( nIndex, userApplication.getId( ) );
+        daoUtil.setInt( nIndex++, userApplication.getId( ) );
+        daoUtil.setString( nIndex++, userApplication.getUserId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -156,7 +163,7 @@ public final class UserApplicationDAO implements IUserApplicationDAO
     @Override
     public List<UserApplication> selectUserApplicationsList( Plugin plugin )
     {
-        List<UserApplication> userApplicationList = new ArrayList<UserApplication>( );
+        List<UserApplication> userApplicationList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery( );
 
@@ -168,6 +175,7 @@ public final class UserApplicationDAO implements IUserApplicationDAO
             userApplication.setId( daoUtil.getInt( nIndex++ ) );
             userApplication.setUserId( daoUtil.getString( nIndex++ ) );
             userApplication.setUserRole( daoUtil.getInt( nIndex++ ) );
+            userApplication.setApplicationName( daoUtil.getString( nIndex++ ) );
 
             userApplicationList.add( userApplication );
         }
@@ -182,7 +190,7 @@ public final class UserApplicationDAO implements IUserApplicationDAO
     @Override
     public List<Integer> selectIdUserApplicationsList( Plugin plugin )
     {
-        List<Integer> userApplicationList = new ArrayList<Integer>( );
+        List<Integer> userApplicationList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
         daoUtil.executeQuery( );
 
