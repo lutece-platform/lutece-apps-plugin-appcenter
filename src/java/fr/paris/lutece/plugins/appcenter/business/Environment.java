@@ -47,32 +47,58 @@ public enum Environment
     private String _strPrefix;
     private String _strLabelKey;
 
+    /**
+     * Constructor for environment 
+     * @param strPrefix the prefix for environment
+     * @param strLabelKey the i18nk for the environment 
+     */
     private Environment( String strPrefix, String strLabelKey )
     {
         _strPrefix = strPrefix;
         _strLabelKey = strLabelKey;
     }
     
+    /**
+     * Get the prefix of the environment
+     * @return the prefix for the environment
+     */
     public String getPrefix()
     {
         return _strPrefix;
     }
 
+    /**
+     * Set the prefix for the environment
+     * @param strPrefix the prefix of the environment
+     */
     public void setPrefix( String strPrefix )
     {
         _strPrefix = strPrefix;
     }
 
+    /**
+     * Get the I18nk of the environment
+     * @return 
+     */
     public String getLabelKey()
     {
         return _strLabelKey;
     }
 
+    /**
+     * Set the I18nk of the environment
+     * @param strLabelKey the strKey of the environnement
+     */
     public void setLabelKey( String strLabelKey )
     {
         _strLabelKey = strLabelKey;
     }
     
+    /**
+     * Get the environment with given prefix
+     * @param strPrefix the prefix 
+     * @return the environment with given prefix
+     */
     public static Environment getEnvironment( String strPrefix )
     {
         for ( Environment envi : Environment.values( ) )
