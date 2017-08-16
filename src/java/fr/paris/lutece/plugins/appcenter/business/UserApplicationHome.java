@@ -89,22 +89,26 @@ public final class UserApplicationHome
      * 
      * @param nKey
      *            The userApplication Id
+     * @param strUserId
+     *            The user ID
      */
-    public static void remove( int nKey )
+    public static void remove( int nKey , String strUserId )
     {
-        _dao.delete( nKey, _plugin );
+        _dao.delete( nKey, strUserId, _plugin );
     }
 
     /**
      * Returns an instance of a userApplication whose identifier is specified in parameter
      * 
      * @param nKey
-     *            The userApplication primary key
+     *            The application primary key
+     * @param strUserId
+     *            The user ID
      * @return an instance of UserApplication
      */
-    public static UserApplication findByPrimaryKey( int nKey )
+    public static UserApplication findByPrimaryKey( int nKey , String strUserId )
     {
-        return _dao.load( nKey, _plugin );
+        return _dao.load( nKey, strUserId , _plugin );
     }
 
     /**

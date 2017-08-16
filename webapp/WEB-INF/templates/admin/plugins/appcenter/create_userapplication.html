@@ -8,7 +8,7 @@
         <input type="hidden" id="id" name="id"/>
         
         <@formGroup labelKey='#i18n{appcenter.create_userapplication.labelUserId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>
-                <@input type='text' name='user_id' value='${userapplication.userId!\'\'}' />
+                <@select name='user_id' items=users_list default_value='' />
         </@formGroup>
         
         <@formGroup labelKey='#i18n{appcenter.create_userapplication.labelApplicationId}' helpKey='#i18n{appcenter.create_userapplication.labelUserId.help}' mandatory=true>

@@ -14,6 +14,7 @@
     <@table>
         <tr>
             <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_userapplication.columnApplicationId}</th>
             <th>#i18n{appcenter.manage_userapplication.columnUserId}</th>
             <th>#i18n{appcenter.manage_userapplication.columnUserRole}</th>
             <th>#i18n{portal.util.labelActions}</th>
@@ -21,17 +22,19 @@
         <@tableHeadBodySeparator />
             <#list userapplication_list as userapplication >
         <tr>
-            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${userapplication.applicationName}
+            </td>
             <td>
                 ${userapplication.userId}
             </td>
             <td>
-                ${userapplication.userRole}
+                ${userapplication.userRoleName}
             </td>
         <td>
-						<@aButton href='jsp/admin/plugins/appcenter/ManageUserApplications.jsp?view=modifyUserApplication&id=${userapplication.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
-						
-						<@aButton href='jsp/admin/plugins/appcenter/ManageUserApplications.jsp?action=confirmRemoveUserApplication&id=${userapplication.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+            <@aButton href='jsp/admin/plugins/appcenter/ManageUserApplications.jsp?view=modifyUserApplication&id=${userapplication.id}&user_id=${userapplication.userId}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+
+            <@aButton href='jsp/admin/plugins/appcenter/ManageUserApplications.jsp?action=confirmRemoveUserApplication&id=${userapplication.id}&user_id=${userapplication.userId}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
         </td>
         </tr>
         </#list>

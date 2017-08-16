@@ -34,41 +34,41 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
 
 /**
- * RoleService
+ * UserService
  */
-public class RoleService 
+public class UserService 
 {
-    private static final String KEY_PREFIX = "appcenter.role.";
-    private static final String[] ROLES = { "admin" , "owner", "view" , "modify" };
+    private static final String MOCK_USER = "john.doe@nowhere.com";
     
-    /**
-     * Get the list of roles
-     * @return The list
-     */
-    public static ReferenceList getRolesList()
+    public static ReferenceList getUserList()
+    {
+        if( SecurityService.isAuthenticationEnable() )
+        {
+            ReferenceList list = new ReferenceList();
+            for( LuteceUser user : SecurityService.getInstance().getUsers())
+            {
+                list.addItem( user.getEmail() , user.getEmail()  );
+            }
+            return list;
+            
+        }
+        else
+        {
+            return getMockUserList();
+        }
+    }
+
+    private static ReferenceList getMockUserList()
     {
         ReferenceList list = new ReferenceList();
-        for( int i = 0 ; i < ROLES.length ; i++ )
-        { 
-            String strRole = getRoleName( i );
-            list.addItem( i , strRole );
-        }
+        list.addItem( MOCK_USER , MOCK_USER );
         return list;
     }
-    
-    /**
-     * Get a role name from its ID
-     * @param nRoleId The role ID
-     * @return The role name
-     */
-    public static String getRoleName( int nRoleId )
-    {
-        return I18nService.getLocalizedString( KEY_PREFIX + ROLES[nRoleId] , LocaleService.getDefault() );
-    }
-    
+
+
 }

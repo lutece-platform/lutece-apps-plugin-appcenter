@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
@@ -50,8 +51,8 @@ public class UserApplication implements Serializable
     @NotEmpty( message = "#i18n{appcenter.validation.userapplication.UserId.notEmpty}" )
     @Size( max = 50, message = "#i18n{appcenter.validation.userapplication.UserId.size}" )
     private String _strUserId;
-
     private int _nUserRole;
+    private String _strApplicationName;
 
     /**
      * Returns the Id
@@ -115,4 +116,36 @@ public class UserApplication implements Serializable
     {
         _nUserRole = nUserRole;
     }
+
+    /**
+     * Returns the ApplicationName
+     * 
+     * @return The ApplicationName
+     */
+    public String getApplicationName( )
+    {
+        return _strApplicationName;
+    }
+
+    /**
+     * Sets the ApplicationName
+     * 
+     * @param strApplicationName
+     *            The ApplicationName
+     */
+    public void setApplicationName( String strApplicationName )
+    {
+        _strApplicationName = strApplicationName;
+    }
+
+    /**
+     * Returns the UserRoleName
+     * 
+     * @return The UserRoleName
+     */
+    public String getUserRoleName( )
+    {
+        return RoleService.getRoleName( _nUserRole );
+    }
+
 }
