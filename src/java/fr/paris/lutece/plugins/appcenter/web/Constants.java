@@ -51,5 +51,7 @@ public class Constants
     public static final String MARK_APPLICATION_LIST = "application_list";
     public static final String MARK_APPLICATION = "application";
     public static final String MARK_DATA = "data";
+    public static final String MARK_DEMANDS = "demands";
+    public static final String MARK_DEMANDS_STATES = "demands_states";
 
 }

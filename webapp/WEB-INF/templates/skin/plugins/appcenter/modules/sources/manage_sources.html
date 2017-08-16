@@ -16,6 +16,18 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository">
                         #i18n{appcenter.manage_sources.modifySiteRepositoryButton}
                     </button>
+                    <#if 0 < demands?size>
+                        <ul>
+                        <#list demands as demand>
+                        <li>
+                            ${demand.statusText!'TODO STATUS TEXT'}
+                            ${demand.demandContent!'TODO DEMAND CONTENT'}
+                            ${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}
+                            ${(demands_states[demand.id?string].description)!'TODO DEMAND STATE DESCIPTION'}
+                        </li>
+                        </#list>
+                        </ul>
+                    </#if>
             <#else>   
                 <form action="jsp/site/Portal.jsp">
                     <input type="hidden" name="page" value="sources" />
@@ -43,7 +55,18 @@
                     <h4 class="modal-title">#i18n{appcenter.manage_sources.modalTitle.requestSiteRepositoryAccess}</h4>
                 </div>
                 <div class="modal-body">
-                    <p></p>
+                    <form action="jsp/site/Portal.jsp">
+                        <input type="hidden" name="page" value="sources" />
+                        <input type="hidden" name="id" value="${application.id}" />
+                        <input type="hidden" name="action" value="addAccessDemand" />
+                        <@formGroup labelFor='svn_username' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName}' mandatory=true>
+                            <@input type='text' id='svn_username' name='svn_username'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <br><br>
+                        <button class="btn btn-primary" type="submit">
+                            #i18n{appcenter.manage_sources.addSiteRepositoryButton}
+                        </button>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
