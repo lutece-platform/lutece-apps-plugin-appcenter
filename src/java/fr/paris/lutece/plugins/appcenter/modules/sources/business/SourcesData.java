@@ -43,6 +43,8 @@ import fr.paris.lutece.plugins.appcenter.service.ApplicationDataSubset;
 public class SourcesData implements ApplicationDataSubset
 {
     public static final String DATA_SUBSET_NAME = "sources";
+    public static final String DEMAND_TYPE_KEY = "sources";
+    
     private String _strSiteRepository;
     private List _listPluginRepositories = new ArrayList( );
 
