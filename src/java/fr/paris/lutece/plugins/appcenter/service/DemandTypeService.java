@@ -33,30 +33,15 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 public class DemandTypeService
 {
     private static final String ID_WORKFLOW_DEMAND_TYPE_PREFIX = "idWorkflow.demandType.";
     
-    public int getIdWorkflow ( String strDemandTypeKey )
+    public static int getIdWorkflow ( String strDemandTypeKey )
     {
-        String strIdWorkflow = AppPropertiesService.getProperty( ID_WORKFLOW_DEMAND_TYPE_PREFIX + strDemandTypeKey );
-        
-        if ( strIdWorkflow != null )
-        {
-            try
-            {
-                 int nIdWorkflow = Integer.parseInt( strIdWorkflow );
-                 return nIdWorkflow;
-            }
-            catch ( NumberFormatException e )
-            {
-                AppLogService.error( "Given demand type isn't associated to any numerical workflow id in properties file.", e);
-                return -1;
-            }
-        }
-        return -1;
+        int nIdWorkflow = AppPropertiesService.getPropertyInt( ID_WORKFLOW_DEMAND_TYPE_PREFIX + strDemandTypeKey, -1 );
+        return nIdWorkflow;
     }
 }
