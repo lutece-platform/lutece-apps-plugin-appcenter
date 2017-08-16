@@ -130,10 +130,11 @@ public class SourcesXPage extends AppCenterXPage
         Application application = getApplication(request);
         Demand demand = new Demand( );
         demand.setIdDemandType( DEMAND_TYPE );
+        demand.setDemandType( DEMAND_TYPE );
         demand.setIdApplication( application.getId( ) );
         DemandHome.create( demand );
 
-        int nIdResource = application.getId( );
+        int nIdResource = demand.getId( );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
         WorkflowService.getInstance( ).getState( nIdResource, WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
         WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
