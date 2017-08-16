@@ -35,6 +35,11 @@ package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
@@ -45,6 +50,8 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -186,6 +193,25 @@ public class ApplicationXPage extends MVCApplication
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, _application );
+
+        List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); //TODO filter on active state, not all demands ?
+        model.put( Constants.MARK_DEMANDS, listDemand );
+
+        Map<String, Object> mapStates = new HashMap<>();
+        Map<String, Object> mapHistories = new HashMap<>();
+        for (Demand demand: listDemand) {
+            String strWorkflowResourceType = DemandTypeService.getWorkflowResourceType( demand.getIdDemandType( ) );
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getIdDemandType( ) );
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), strWorkflowResourceType, nIdWorkflow, -1 );
+            mapStates.put( Integer.toString( demand.getId() ), state );
+
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
+                    demand.getId( ), strWorkflowResourceType, nIdWorkflow, request, request.getLocale( )
+            );
+            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
+        }
+        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
+        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
 
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
     }

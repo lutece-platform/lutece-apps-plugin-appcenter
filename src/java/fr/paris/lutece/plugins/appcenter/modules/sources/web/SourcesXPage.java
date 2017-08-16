@@ -72,8 +72,8 @@ public class SourcesXPage extends AppCenterXPage
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
 
-    private static final String WORKFLOW_RESOURCE_TYPE = "DEMANDCENTER_DEMAND_SOURCE";
-    private static final String DEMAND_TYPE = "sources";
+    public static final String WORKFLOW_RESOURCE_TYPE = "DEMANDCENTER_DEMAND_SOURCE";
+    public static final String DEMAND_TYPE = "sources";
 
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException
