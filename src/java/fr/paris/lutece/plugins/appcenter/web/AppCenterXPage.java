@@ -1,10 +1,9 @@
-package fr.paris.lutece.plugins.appcenter.modules.sources.web;
+package fr.paris.lutece.plugins.appcenter.web;
 
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
-import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
