@@ -47,11 +47,11 @@ import java.util.List;
 public final class DemandDAO implements IDemandDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application FROM appcenter_demand WHERE id_demand = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( status_text, id_demand_type,  demand_type, id_application ) VALUES ( ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content FROM appcenter_demand WHERE id_demand = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( status_text, id_demand_type,  demand_type, id_application, demand_content ) VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ? WHERE id_demand = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application FROM appcenter_demand";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ? WHERE id_demand = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content FROM appcenter_demand";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
     /**
@@ -62,13 +62,15 @@ public final class DemandDAO implements IDemandDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         int nIndex = 1;
-        
         daoUtil.setString( nIndex++ , demand.getStatusText( ) );
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
         daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-
+        daoUtil.setString( nIndex++ , demand.getDemandContent( ) );
+        
         daoUtil.executeUpdate( );
+        demand.setId( daoUtil.getGeneratedKeyInt( 1 ) );
+        
         daoUtil.free( );
     }
 
@@ -93,6 +95,7 @@ public final class DemandDAO implements IDemandDAO
             demand.setIdDemandType( daoUtil.getString( nIndex++ ) );       
             demand.setDemandType( daoUtil.getString( nIndex++ ) );
             demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            demand.setDemandContent( daoUtil.getString( nIndex++ ) );
         }
 
         daoUtil.free( );
@@ -125,6 +128,7 @@ public final class DemandDAO implements IDemandDAO
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
         daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandContent( ) );
         daoUtil.setInt( nIndex , demand.getId( ) );
 
         daoUtil.executeUpdate( );
@@ -151,6 +155,7 @@ public final class DemandDAO implements IDemandDAO
             demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
             demand.setDemandType( daoUtil.getString( nIndex++ ) );
             demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            demand.setDemandContent( daoUtil.getString( nIndex++ ) );
 
             demandList.add( demand );
         }
