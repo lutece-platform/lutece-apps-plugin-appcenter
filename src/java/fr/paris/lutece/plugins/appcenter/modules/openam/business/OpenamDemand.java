@@ -28,13 +28,6 @@ public class OpenamDemand extends Demand{
  private String _strPublicUrl;
  private String _strEnvironment;
  
- private String _strApplicationCodeLabelKey;
- private String _strWebappNameLabelKey;
- private String _strPublicUrlLabelKey;
- private String _strEnvironmentLabelKey;
- 
-
- 
  public String getApplicationCode() {
 	return _strApplicationCode;
 }
@@ -57,37 +50,6 @@ public void setPublicUrl(String strPublicUrl) {
 	_strPublicUrl = strPublicUrl;
 }
 
-public String getApplicationCodeLabelKey()
-{
-    return _strApplicationCodeLabelKey;
-}
-
-public void setApplicationCodeLabelKey( String strApplicationCodeLabelKey )
-{
-    _strApplicationCodeLabelKey = strApplicationCodeLabelKey;
-}
-
-public String getWebappNameLabelKey()
-{
-    return _strWebappNameLabelKey;
-}
-
-public void setWebappNameLabelKey( String strWebappNameLabelKey )
-{
-    _strWebappNameLabelKey = strWebappNameLabelKey;
-}
-
-public String getPublicUrlLabelKey()
-{
-    return _strPublicUrlLabelKey;
-}
-
-public void setPublicUrlLabelKey( String strPublicUrlLabelKey )
-{
-    _strPublicUrlLabelKey = strPublicUrlLabelKey;
-}
-
-
 public String getEnvironment()
 {
     return _strEnvironment;
@@ -96,16 +58,6 @@ public String getEnvironment()
 public void setEnvironment( String strEnvironment )
 {
     _strEnvironment = strEnvironment;
-}
-
-public String getEnvironmentLabelKey()
-{
-    return _strEnvironmentLabelKey;
-}
-
-public void setEnvironmentLabelKey( String strEnvironmentLabelKey )
-{
-    _strEnvironmentLabelKey = strEnvironmentLabelKey;
 }
  
 @Override

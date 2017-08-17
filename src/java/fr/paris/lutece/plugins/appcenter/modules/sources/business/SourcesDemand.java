@@ -44,30 +44,8 @@ public class SourcesDemand extends Demand
 {
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/sources/sources_demand_infos.html";
     
-    private String _strLabelKeyUserName;
     private String _strUserName;
-    
-    private String _strLabelKeyEmail;
     private String _strEmail;
-
-    /**
-     * Get the label Key User Name
-     * @return the label key for user name
-     */
-     @JsonProperty
-    public String getLabelKeyUserName()
-    {
-        return _strLabelKeyUserName;
-    }
-
-    /**
-     * Set the label key for user name
-     * @param strLabelKeyUserName the label key for username
-     */
-    public void setLabelKeyUserName( String strLabelKeyUserName )
-    {
-        _strLabelKeyUserName = strLabelKeyUserName;
-    }
 
     /**
      * get the user name
@@ -86,24 +64,6 @@ public class SourcesDemand extends Demand
     public void setUserName( String strUserName )
     {
         _strUserName = strUserName;
-    }
-
-    /**
-     * Get the label key for email
-     * @return the label key for email
-     */
-    public String getLabelKeyEmail()
-    {
-        return _strLabelKeyEmail;
-    }
-
-    /**
-     * Set the label key for email
-     * @param strLabelKeyEmail 
-     */
-    public void setLabelKeyEmail( String strLabelKeyEmail )
-    {
-        _strLabelKeyEmail = strLabelKeyEmail;
     }
 
     /**

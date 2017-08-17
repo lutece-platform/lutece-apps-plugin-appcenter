@@ -78,11 +78,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
     private static final String PARAMETER_PUBLIC_URL = "public_url";
     private static final String PARAMETER_ENVIRONMENT = "environment";
     
-    //MESSAGE KEYS
-    private static final String MESSAGE_KEY_APPLICATION_CODE = "appcenter.manage_openam_agents.applicationCode.label";
-    private static final String MESSAGE_KEY_WEBAPP_NAME = "appcenter.manage_openam_agents.webappName.label";
-    private static final String MESSAGE_KEY_PUBLIC_URL = "appcenter.manage_openam_agents.publicUrl.label";
-    private static final String MESSAGE_KEY_ENVIRONMENT = "appcenter.manage_openam_agents.environment.label";
     
     private static final String DEMAND_TYPE="openam";
     
@@ -118,11 +113,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
         demand.setIdDemandType( DEMAND_TYPE );
         demand.setDemandType( DEMAND_TYPE );
         demand.setIdApplication( application.getId( ) );
-        
-        demand.setApplicationCodeLabelKey( MESSAGE_KEY_APPLICATION_CODE );
-        demand.setWebappNameLabelKey( MESSAGE_KEY_WEBAPP_NAME );
-        demand.setPublicUrlLabelKey( MESSAGE_KEY_PUBLIC_URL );
-        demand.setEnvironmentLabelKey(MESSAGE_KEY_ENVIRONMENT );
         
         demand.setEnvironment( strEnvironment );
         demand.setApplicationCode( strApplicationCode );
