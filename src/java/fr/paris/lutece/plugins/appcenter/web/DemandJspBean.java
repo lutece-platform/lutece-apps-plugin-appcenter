@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.plugins.appcenter.web;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
@@ -43,11 +50,6 @@ import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage Demand features ( manage, create, modify, remove )
@@ -57,41 +59,45 @@ public class DemandJspBean extends ManageAppCenterJspBean
 {
     // Templates
     private static final String TEMPLATE_MANAGE_DEMANDS = "/admin/plugins/appcenter/manage_demands.html";
-    private static final String TEMPLATE_MODIFY_DEMAND = "/admin/plugins/appcenter/modify_demand.html";
+    private static final String TEMPLATE_TASK_FORM = "/admin/plugins/appcenter/task_form.html";
 
     // Parameters
     private static final String PARAMETER_ID_DEMAND = "id";
+    private static final String PARAMETER_ID_ACTION = "id_action";
+    
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_DEMANDS = "appcenter.manage_demands.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_MODIFY_DEMAND = "appcenter.modify_demand.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_TASK_FORM = "appcenter.task_form.pageTitle";
 
     // Markers
     private static final String MARK_DEMAND_LIST = "demand_list";
     private static final String MARK_DEMAND = "demand";
+    private static final String MARK_ID_ACTION = "id_action";
+    
+    private static final String MARK_TASK_FORM = "task_form";
+    
     private static final String MARK_APPLICATION_MAP = "applications";
     private static final String MARK_STATES_MAP = "states";
+    private static final String MARK_ACTIONS = "actions";
+    
     
 
     private static final String JSP_MANAGE_DEMANDS = "jsp/admin/plugins/appcenter/ManageDemands.jsp";
 
     // Properties
 
-    // Validations
-    private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.demand.attribute.";
-
+ 
     // Views
     private static final String VIEW_MANAGE_DEMANDS = "manageDemands";
-    private static final String VIEW_MODIFY_DEMAND = "modifyDemand";
+    private static final String VIEW_TASK_FORM = "taskForm";
+    
 
     // Actions
-    private static final String ACTION_MODIFY_DEMAND = "modifyDemand";
+    private static final String ACTION_PROCESS_ACTION= "processAction";
 
-    // Infos
-    private static final String INFO_DEMAND_UPDATED = "appcenter.info.demand.updated";
-    
-    // Session variable to store working values
-    private Demand _demand;
+ 
+
     
     /**
      * Build the Manage View
@@ -101,11 +107,14 @@ public class DemandJspBean extends ManageAppCenterJspBean
     @View( value = VIEW_MANAGE_DEMANDS, defaultView = true )
     public String getManageDemands( HttpServletRequest request )
     {
-        _demand = null;
+   
         List<Demand> listDemands = DemandHome.getDemandsList(  );
-        
+        int nIdWorkflow;
         Map<String,Application> mapApplications = new HashMap<>();
         Map<String,State> mapStates = new HashMap<>();
+        Map<String,Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>();
+        
+
         
         for ( Application app : ApplicationHome.getApplicationsList() )
         {
@@ -114,60 +123,80 @@ public class DemandJspBean extends ManageAppCenterJspBean
         
         for ( Demand demand : DemandHome.getDemandsList() )
         {
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, DemandTypeService.getIdWorkflow( demand.getDemandType() ), -1 );
+        	nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE,nIdWorkflow , -1 );
             mapStates.put( Integer.toString( demand.getId() ), state );
-        }
+            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),  Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
+                    getUser() );
+            mapActions.put(Integer.toString( demand.getId() ), listActions);
+       }
         
         Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );
+        model.put( MARK_ACTIONS, mapActions );
         
         
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_DEMANDS, TEMPLATE_MANAGE_DEMANDS, model );
     }
 
     /**
-     * Returns the form to update info about a demand
+     * Returns the task form associate to the workflow action
      *
      * @param request The Http request
-     * @return The HTML form to update info
+     * @return The HTML form the task form associate to the workflow action
      */
-    @View( VIEW_MODIFY_DEMAND )
-    public String getModifyDemand( HttpServletRequest request )
+    @View( VIEW_TASK_FORM )
+    public String getTaskForm( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) );
+    	
+    	Demand demand=null;
+        Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
+        Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
 
-        if ( _demand == null || ( _demand.getId(  ) != nId ))
+        if(nIdAction == null || nIdDemand == null)
         {
-            _demand = DemandHome.findByPrimaryKey( nId );
+        	return redirectView( request, VIEW_MANAGE_DEMANDS );
+        	
         }
-
+        
+        demand = DemandHome.findByPrimaryKey( nIdDemand );
+    
+       String strHtmlTasksForm = WorkflowService.getInstance( ).getDisplayTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, request,
+                getLocale( ) );
+        
         Map<String, Object> model = getModel(  );
-        model.put( MARK_DEMAND, _demand );
-
-        return getPage( PROPERTY_PAGE_TITLE_MODIFY_DEMAND, TEMPLATE_MODIFY_DEMAND, model );
+        model.put( MARK_DEMAND, demand );
+        model.put( MARK_ID_ACTION,nIdAction  );
+        
+        model.put( MARK_TASK_FORM, strHtmlTasksForm );
+        
+        return getPage( PROPERTY_PAGE_TITLE_TASK_FORM, TEMPLATE_TASK_FORM, model );
     }
-
+    
+   
     /**
-     * Process the change form of a demand
+     * Process workflow action
      *
      * @param request The Http request
      * @return The Jsp URL of the process result
      */
-    @Action( ACTION_MODIFY_DEMAND )
-    public String doModifyDemand( HttpServletRequest request )
+    @Action( ACTION_PROCESS_ACTION )
+    public String doProcessAction( HttpServletRequest request )
     {
-        populate( _demand, request );
+    	
+    	
+    	Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
+        Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
 
-        // Check constraints
-        if ( !validateBean( _demand, VALIDATION_ATTRIBUTES_PREFIX ) )
-        {
-            return redirect( request, VIEW_MODIFY_DEMAND, PARAMETER_ID_DEMAND, _demand.getId( ) );
-        }
+    	 if ( WorkflowService.getInstance( ).isDisplayTasksForm( nIdAction, getLocale( ) ) )
+         {
+             return redirect(request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction);
+         }
+    	 
 
-        DemandHome.update( _demand );
-        addInfo( INFO_DEMAND_UPDATED, getLocale(  ) );
-
+    	 WorkflowService.getInstance(  ).doProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale(), true ); 
+         
         return redirectView( request, VIEW_MANAGE_DEMANDS );
     }
 }

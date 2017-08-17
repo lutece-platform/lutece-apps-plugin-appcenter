@@ -1,0 +1,16 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demand" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.task_form.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${demand.id}"/>
+			<input type="hidden" id="id_action" name="id_action" value="${id_action}"/>
+		
+					${task_form}
+		<@actionButtons button1Name="action_processAction" button2Name="process_task_form"/>
+    </@tform>
+	</@boxBody>
+</@box>

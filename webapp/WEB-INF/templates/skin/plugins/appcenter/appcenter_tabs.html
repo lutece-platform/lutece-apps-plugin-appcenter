@@ -1,5 +1,8 @@
 <#macro tabs2 tab application >
-
+<a class="btn btn-xs btn-primary pull-right" href="jsp/site/Portal.jsp?page=application">
+    <span class="fa fa-back"></span>
+    Mes applications
+</a>
 <h1>${application.name}</h1>
 <h3><small>${application.description}</small></h3>
 <br>    
@@ -13,6 +16,9 @@
 	</li>
         <li <#if tab="openam">class="active"</#if>>
             <a href="jsp/site/Portal.jsp?page=openam&id=${application.id}">#i18n{appcenter.tabs.openam}</a>
+	</li>
+        <li <#if tab="moncompte_settings">class="active"</#if>>
+            <a href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">#i18n{appcenter.tabs.moncomptesettings}</a>
 	</li>
     </@listTabs>
 </@tabs>

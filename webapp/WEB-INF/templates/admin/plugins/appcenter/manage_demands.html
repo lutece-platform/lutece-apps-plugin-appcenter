@@ -37,9 +37,15 @@
                         ${demand.statusText!''}
                     </td>
                 <td>
-                    <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?view=modifyDemand&id=${demand.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
-
-                    <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=confirmRemoveDemand&id=${demand.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+                
+                
+                
+                 <#assign listActions = actions[demand.id?string] />
+                  <#if listActions??>
+           			<#list listActions  as action>
+           				<@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=processAction&id=${demand.id}&id_action=${action.id}' title='${action.name}' buttonIcon='pencil' showTitle=true />
+     				</#list>
+				 </#if>
                 </td>
                 </tr>
             </#list>
