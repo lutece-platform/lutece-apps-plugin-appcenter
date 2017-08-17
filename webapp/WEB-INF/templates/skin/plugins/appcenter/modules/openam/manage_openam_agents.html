@@ -66,14 +66,20 @@
                         <input type="hidden" name="page" value="openam" />
                         <input type="hidden" name="id" value="${application.id}" />
                         <input type="hidden" name="action" value="addAgent" />
-                        <@formGroup labelFor='application_code' labelKey='#i18n{appcenter.manage_sources.applicationCode.label}' mandatory=true class="row">
+                        <@formGroup labelFor='application_code' labelKey='#i18n{appcenter.manage_openam_agents.applicationCode.label}' mandatory=true class="row">
                             <@input type='text' id='application_code' name='application_code'  maxlength=250 tabIndex='0' />
                         </@formGroup>
-                        <@formGroup labelFor='webapp_name' labelKey='#i18n{appcenter.manage_sources.webappName.label}' mandatory=true class="row">
+                        <@formGroup labelFor='webapp_name' labelKey='#i18n{appcenter.manage_openam_agents.webappName.label}' mandatory=true class="row">
                             <@input type='text' id='webapp_name' name='webapp_name'  maxlength=250 tabIndex='0' />
                         </@formGroup>
-                        <@formGroup labelFor='public_url' labelKey='#i18n{appcenter.manage_sources.publicUrl.label}' mandatory=true class="row">
+                        <@formGroup labelFor='public_url' labelKey='#i18n{appcenter.manage_openam_agents.publicUrl.label}' mandatory=true class="row">
                             <@input type='text' id='public_url' name='public_url'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='environment' labelKey='#i18n{appcenter.manage_openam_agents.environment.label}' mandatory=true class="row">
+                            <select id="environment" name="environment">
+                                <option value="${envi_rec.prefix}" >#i18n{${envi_rec.labelKey}}</option>
+                                <option value="${envi_prod.prefix}" >#i18n{${envi_prod.labelKey}}</option>
+                            </select>
                         </@formGroup>
                         <br><br>
                         <button class="btn btn-primary" type="submit">

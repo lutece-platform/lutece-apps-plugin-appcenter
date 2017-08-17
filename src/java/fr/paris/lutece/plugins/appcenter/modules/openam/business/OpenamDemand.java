@@ -26,10 +26,12 @@ public class OpenamDemand extends Demand{
  @NotEmpty( message = "#i18n{appcenter.validation.openamagent.publicurl.notEmpty}" )
  @Size( max = 50, message = "#i18n{appcenter.validation.openamagent.publicurl.size}" )
  private String _strPublicUrl;
+ private String _strEnvironment;
  
  private String _strApplicationCodeLabelKey;
  private String _strWebappNameLabelKey;
  private String _strPublicUrlLabelKey;
+ private String _strEnvironmentLabelKey;
  
 
  
@@ -85,6 +87,27 @@ public void setPublicUrlLabelKey( String strPublicUrlLabelKey )
     _strPublicUrlLabelKey = strPublicUrlLabelKey;
 }
 
+
+public String getEnvironment()
+{
+    return _strEnvironment;
+}
+
+public void setEnvironment( String strEnvironment )
+{
+    _strEnvironment = strEnvironment;
+}
+
+public String getEnvironmentLabelKey()
+{
+    return _strEnvironmentLabelKey;
+}
+
+public void setEnvironmentLabelKey( String strEnvironmentLabelKey )
+{
+    _strEnvironmentLabelKey = strEnvironmentLabelKey;
+}
+ 
 @Override
 public String getComplementaryInfos ( )
 {
@@ -92,6 +115,5 @@ public String getComplementaryInfos ( )
     model.put( MARK_DEMAND, this );
     return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
 }
- 
  
 }

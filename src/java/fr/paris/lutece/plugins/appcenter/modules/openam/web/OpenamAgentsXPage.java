@@ -39,10 +39,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentsData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
-import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
-import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage.DEMAND_TYPE;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
@@ -63,6 +62,10 @@ public class OpenamAgentsXPage extends AppCenterXPage
     // Templates
     private static final String TEMPLATE_MANAGE_AGENTS = "/skin/plugins/appcenter/modules/openam/manage_openam_agents.html";
 
+    //Markers
+    private static final String MARK_ENVIRONMENT_REC = "envi_rec";
+    private static final String MARK_ENVIRONMENT_PROD = "envi_prod";
+    
     //VIEW
     private static final String VIEW_MANAGE_AGENTS = "manageagents";
     
@@ -73,11 +76,13 @@ public class OpenamAgentsXPage extends AppCenterXPage
     private static final String PARAMETER_APPLICATION_CODE = "application_code";
     private static final String PARAMETER_WEBAPP_NAME = "webapp_name";
     private static final String PARAMETER_PUBLIC_URL = "public_url";
+    private static final String PARAMETER_ENVIRONMENT = "environment";
     
     //MESSAGE KEYS
-    private static final String MESSAGE_KEY_APPLICATION_CODE = "appcenter.manage_sources.applicationCode.label";
-    private static final String MESSAGE_KEY_WEBAPP_NAME = "appcenter.manage_sources.webappName.label";
-    private static final String MESSAGE_KEY_PUBLIC_URL = "appcenter.manage_sources.publicUrl.label";
+    private static final String MESSAGE_KEY_APPLICATION_CODE = "appcenter.manage_openam_agents.applicationCode.label";
+    private static final String MESSAGE_KEY_WEBAPP_NAME = "appcenter.manage_openam_agents.webappName.label";
+    private static final String MESSAGE_KEY_PUBLIC_URL = "appcenter.manage_openam_agents.publicUrl.label";
+    private static final String MESSAGE_KEY_ENVIRONMENT = "appcenter.manage_openam_agents.environment.label";
     
     private static final String DEMAND_TYPE="openam";
     
@@ -92,7 +97,9 @@ public class OpenamAgentsXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        addListDemand( request, application, model, DEMAND_TYPE, OpenamDemand.class );
+        model.put( MARK_ENVIRONMENT_REC, Environment.getEnvironment( "rec" ) );
+        model.put( MARK_ENVIRONMENT_PROD, Environment.getEnvironment( "prod" ) );
+        addListDemand( request, application, model, DEMAND_TYPE );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );
     }
@@ -105,6 +112,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
         String strApplicationCode = request.getParameter( PARAMETER_APPLICATION_CODE );
         String strWebappName = request.getParameter( PARAMETER_WEBAPP_NAME );
         String strPublicUrl = request.getParameter( PARAMETER_PUBLIC_URL );
+        String strEnvironment = request.getParameter( PARAMETER_ENVIRONMENT );
         
         OpenamDemand demand = new OpenamDemand();
         demand.setIdDemandType( DEMAND_TYPE );
@@ -114,7 +122,9 @@ public class OpenamAgentsXPage extends AppCenterXPage
         demand.setApplicationCodeLabelKey( MESSAGE_KEY_APPLICATION_CODE );
         demand.setWebappNameLabelKey( MESSAGE_KEY_WEBAPP_NAME );
         demand.setPublicUrlLabelKey( MESSAGE_KEY_PUBLIC_URL );
+        demand.setEnvironmentLabelKey(MESSAGE_KEY_ENVIRONMENT );
         
+        demand.setEnvironment( strEnvironment );
         demand.setApplicationCode( strApplicationCode );
         demand.setWebappName( strWebappName );
         demand.setPublicUrl( strPublicUrl );
