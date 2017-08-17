@@ -38,6 +38,10 @@ import fr.paris.lutece.plugins.appcenter.business.Environment;
 import java.util.ArrayList;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * MonCompteSettingsDemand
@@ -49,6 +53,8 @@ public class MonCompteSettingDemand extends Demand
     private String _strFavoriteUrl;
     private String _strBackButtonName;
     private String _strBackButtonUrl;
+
+    private static final String TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_demand_infos.html";
 
     /**
      * Returns the Environment
@@ -153,5 +159,13 @@ public class MonCompteSettingDemand extends Demand
     public void setBackButtonUrl( String strBackButtonUrl )
     {
         _strBackButtonUrl = strBackButtonUrl;
+    }
+    
+    @Override
+    public String getComplementaryInfos ( )
+    {
+        Map<String,Object> model = new HashMap<String,Object>();
+        model.put( MARK_DEMAND, this );
+        return AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
     }
 }

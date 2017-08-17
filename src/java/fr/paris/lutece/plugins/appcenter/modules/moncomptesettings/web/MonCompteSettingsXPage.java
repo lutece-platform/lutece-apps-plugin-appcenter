@@ -36,8 +36,6 @@ package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
-import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingDemand;
 import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingsData;
@@ -50,7 +48,6 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ReferenceList;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,16 +62,11 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     public static final String DEMAND_TYPE_KEY = "moncompte_settings";
 
     private static final String MARK_ENVIRONMENT = "environment";
-    private static final String MARK_LIST_DEMANDS = "list_demands";
-    private static final String MARK_LIST_DEMANDS_DATA = "list_demands_data";
-    public static final String MARK_STATUS_TEXT_CREATED = "created";
 
     // Templates
     private static final String TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND = "/skin/plugins/appcenter/modules/moncompte_settings/manage_moncompte_settings_demand.html";
-    private static final String TEMPLATE_CREATE_MONCOMPTE_SETTINGS_DEMAND = "/skin/plugins/appcenter/modules/moncompte_settings/create_moncompte_settings_demand.html";
 
     private static final String VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND = "manageMoncompteSettingsDemand";
-    private static final String VIEW_CREATE_MONCOMPTE_SETTINGS_DEMAND = "createMoncompteSettingsDemand";
 
     private static final String ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND = "doCreateMonCompteSettingsDemand";
 
@@ -93,36 +85,14 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
         MonCompteSettingsData dataSubset = ApplicationService.loadApplicationDataSubset( application, MonCompteSettingsData.DATA_SUBSET_NAME, MonCompteSettingsData.class );
-        List listDemands = DemandHome.getDemandsListByApplicationAndType( nId, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
-        List listDemandsData = DemandService.getDemandsListByApplicationAndType( application, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        model.put( MARK_LIST_DEMANDS, listDemands );
-        model.put( MARK_LIST_DEMANDS_DATA, listDemandsData );
+        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
+        addListDemand( request, application, model, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );
-    }
-
-    /**
-     * Returns the form to create a MonCompteSettingsDemand
-     *
-     * @param request
-     *            The Http request
-     * @return the html code of the MonCompteSettingsDemand form
-     */
-    @View( value = VIEW_CREATE_MONCOMPTE_SETTINGS_DEMAND )
-    public XPage getCreateMoncompteSettingsDemands( HttpServletRequest request )
-    {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
-        Application application = ApplicationHome.findByPrimaryKey( nId );
-
-        Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values(  ) ), "prefix", "prefix", false ) );
-
-        return getXPage( TEMPLATE_CREATE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );
     }
 
     @Action( ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND )
@@ -136,11 +106,10 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         // Check constraints
         if ( !validateBean( _demand, getLocale( request ) ) )
         {
-            return redirectView( request, VIEW_CREATE_MONCOMPTE_SETTINGS_DEMAND );
+            return redirectView( request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND );
         }
         
         _demand.setIdApplication( nId );
-        _demand.setStatusText( MARK_STATUS_TEXT_CREATED );
         _demand.setDemandType( DEMAND_TYPE_KEY );
         _demand.setIdDemandType( DEMAND_TYPE_KEY );
         
