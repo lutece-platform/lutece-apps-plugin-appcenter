@@ -72,13 +72,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
    //ACTION
     private static final String ACTION_ADD_AGENT= "addAgent";
     
-    //PARAMETERS
-    private static final String PARAMETER_APPLICATION_CODE = "application_code";
-    private static final String PARAMETER_WEBAPP_NAME = "webapp_name";
-    private static final String PARAMETER_PUBLIC_URL = "public_url";
-    private static final String PARAMETER_ENVIRONMENT = "environment";
-    
-    
     private static final String DEMAND_TYPE="openam";
     
 
@@ -104,22 +97,21 @@ public class OpenamAgentsXPage extends AppCenterXPage
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);
-        String strApplicationCode = request.getParameter( PARAMETER_APPLICATION_CODE );
-        String strWebappName = request.getParameter( PARAMETER_WEBAPP_NAME );
-        String strPublicUrl = request.getParameter( PARAMETER_PUBLIC_URL );
-        String strEnvironment = request.getParameter( PARAMETER_ENVIRONMENT );
         
-        OpenamDemand demand = new OpenamDemand();
-        demand.setIdDemandType( DEMAND_TYPE );
-        demand.setDemandType( DEMAND_TYPE );
-        demand.setIdApplication( application.getId( ) );
+        OpenamDemand agentDemand = new OpenamDemand();
+        agentDemand.setIdDemandType( DEMAND_TYPE );
+        agentDemand.setDemandType( DEMAND_TYPE );
+        agentDemand.setIdApplication( application.getId( ) );
         
-        demand.setEnvironment( strEnvironment );
-        demand.setApplicationCode( strApplicationCode );
-        demand.setWebappName( strWebappName );
-        demand.setPublicUrl( strPublicUrl );
-        
-        DemandService.saveDemand( demand, application );
+        populate( agentDemand, request );
+
+        // Check constraints
+        if ( !validateBean( agentDemand, getLocale( request ) ) )
+        {
+            return redirectView( request, VIEW_MANAGE_AGENTS );
+        }
+       
+        DemandService.saveDemand( agentDemand, application );
         
         return redirect( request, VIEW_MANAGE_AGENTS, Constants.PARAMETER_ID_APPLICATION, nId );
     }

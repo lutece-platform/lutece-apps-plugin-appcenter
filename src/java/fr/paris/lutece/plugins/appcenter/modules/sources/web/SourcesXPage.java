@@ -62,8 +62,6 @@ public class SourcesXPage extends AppCenterXPage
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
 
     private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
-    private static final String PARAMETER_SVN_USERNAMES = "svn_usernames";
-    private static final String PARAMETER_SVN_EMAILS = "svn_emails";
     
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
@@ -114,11 +112,13 @@ public class SourcesXPage extends AppCenterXPage
         sourcesDemand.setDemandType( DEMAND_TYPE );
         sourcesDemand.setIdApplication( application.getId( ) );
         
-        String strSVNUserNames = request.getParameter( PARAMETER_SVN_USERNAMES );
-        String strSVNUserEmails = request.getParameter( PARAMETER_SVN_EMAILS );
-        
-        sourcesDemand.setUserName( strSVNUserNames );
-        sourcesDemand.setEmail( strSVNUserEmails );
+        populate( sourcesDemand, request );
+
+        // Check constraints
+        if ( !validateBean( sourcesDemand, getLocale( request ) ) )
+        {
+            return redirectView( request, VIEW_MANAGE_SOURCES );
+        }
         
         DemandService.saveDemand( sourcesDemand, application ) ;
 
