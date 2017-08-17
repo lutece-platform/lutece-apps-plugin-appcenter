@@ -37,6 +37,8 @@ package fr.paris.lutece.plugins.appcenter.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +64,15 @@ public final class DemandDAO implements IDemandDAO
     @Override
     public void insert( Demand demand, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
         daoUtil.setString( nIndex++ , demand.getStatusText( ) );
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
         daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
         daoUtil.setString( nIndex++ , demand.getDemandContent( ) );
-        
-        daoUtil.executeUpdate( );
+        daoUtil.executeUpdate();
+        daoUtil.nextGeneratedKey();
         demand.setId( daoUtil.getGeneratedKeyInt( 1 ) );
         
         daoUtil.free( );

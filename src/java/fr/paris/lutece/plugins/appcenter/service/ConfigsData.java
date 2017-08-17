@@ -39,6 +39,7 @@ import java.util.List;
 public class ConfigsData implements DataSubset
 {
 
+    
     public static final String DATA_SUBSET_NAME = "configs";
     
     private List<Config> _listConfigs;

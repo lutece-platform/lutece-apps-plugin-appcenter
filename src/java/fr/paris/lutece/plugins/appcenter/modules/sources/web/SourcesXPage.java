@@ -73,8 +73,8 @@ public class SourcesXPage extends AppCenterXPage
     private static final String PARAMETER_SVN_USERNAMES = "svn_usernames";
     private static final String PARAMETER_SVN_EMAILS = "svn_emails";
     
-    private static final String MESSAGE_KEY_SVN_USERNAME = "appcenter.manage_sources.labelSvnAccessDemandUserName";
-    private static final String MESSAGE_KEY_SVN_EMAIL = "appcenter.manage_sources.labelSvnAccessDemandEmail";
+    private static final String MESSAGE_KEY_SVN_USERNAME = "appcenter.manage_sources.labelSvnAccessDemandUserName.label";
+    private static final String MESSAGE_KEY_SVN_EMAIL = "appcenter.manage_sources.labelSvnAccessDemandUserEmail.label";
 
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";

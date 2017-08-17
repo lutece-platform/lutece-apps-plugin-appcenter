@@ -33,7 +33,10 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.service.ConfigsData;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is the business class for the object Demand
@@ -163,6 +166,13 @@ public class Demand implements Serializable
         _strDemandContent = strDemandContent;
     }
     
-    
+    /**
+     * Get configsData of the demand
+     * @return the configsdata
+     */
+    public ConfigsData getConfigsData( )
+    {
+        return DemandService.loadDemandDataSubset( this, "configs", ConfigsData.class );
+    }
     
 }

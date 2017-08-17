@@ -49,6 +49,7 @@ import java.util.logging.Logger;
 public class DemandService
 {
     private static ObjectMapper _mapper = new ObjectMapper( );
+    private static final String EMPTY_JSON_OBJ = "{}";
 
     /**
      * Save a data subset into the global JSON data of a demand
@@ -113,6 +114,10 @@ public class DemandService
     static String getDemandData( Demand demand, DataSubset dataSubset ) throws IOException
     {
         String strDemandJson = demand.getDemandContent( );
+        if ( strDemandJson == null )
+        {
+            strDemandJson = EMPTY_JSON_OBJ;
+        }
         JsonNode nodeDemand = _mapper.readTree( strDemandJson );
         JsonNode nodeData = nodeDemand.get( dataSubset.getName( ) );
         if ( nodeData != null )

@@ -33,11 +33,19 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Config
 {
     private String _strLabelKey;
     private String _strValue;
 
+    public Config()
+    {
+       _strLabelKey = StringUtils.EMPTY; 
+       _strValue = StringUtils.EMPTY; 
+    }
+    
     public Config ( String strLabelKey, String strValue )
     {
         _strLabelKey = strLabelKey;
