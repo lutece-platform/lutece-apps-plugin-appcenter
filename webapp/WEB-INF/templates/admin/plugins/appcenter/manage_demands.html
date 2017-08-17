@@ -37,13 +37,15 @@
                         ${demand.statusText!''}
                     </td>
                 <td>
-               <#if actions[demand.id?string])??>
-			        <#list actions[demand.id?string] as action>
-			       	 ${action.name}
-			        </#list>
-						               			
-               </#if>
-
+                
+                
+                
+                 <#assign listActions = actions[demand.id?string] />
+                  <#if listActions??>
+           			<#list listActions  as action>
+           				<@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=processAction&id=${demand.id}&id_action=${action.id}' title='${action.name}' buttonIcon='pencil' showTitle=true />
+     				</#list>
+				 </#if>
                 </td>
                 </tr>
             </#list>

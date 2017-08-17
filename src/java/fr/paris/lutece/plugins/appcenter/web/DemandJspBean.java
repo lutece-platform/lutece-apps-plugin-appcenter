@@ -73,6 +73,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Markers
     private static final String MARK_DEMAND_LIST = "demand_list";
     private static final String MARK_DEMAND = "demand";
+    private static final String MARK_ID_ACTION = "id_action";
+    
     private static final String MARK_TASK_FORM = "task_form";
     
     private static final String MARK_APPLICATION_MAP = "applications";
@@ -85,21 +87,16 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     // Properties
 
-    // Validations
-    private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.demand.attribute.";
-
+ 
     // Views
     private static final String VIEW_MANAGE_DEMANDS = "manageDemands";
-    private static final String VIEW_MODIFY_DEMAND = "modifyDemand";
     private static final String VIEW_TASK_FORM = "taskForm";
     
 
     // Actions
     private static final String ACTION_PROCESS_ACTION= "processAction";
 
-    // Infos
-    private static final String INFO_DEMAND_UPDATED = "appcenter.info.demand.updated";
-    
+ 
 
     
     /**
@@ -170,6 +167,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
         
         Map<String, Object> model = getModel(  );
         model.put( MARK_DEMAND, demand );
+        model.put( MARK_ID_ACTION,nIdAction  );
+        
         model.put( MARK_TASK_FORM, strHtmlTasksForm );
         
         return getPage( PROPERTY_PAGE_TITLE_TASK_FORM, TEMPLATE_TASK_FORM, model );
@@ -190,7 +189,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     	Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
         Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
 
-    	 if ( WorkflowService.getInstance( ).isDisplayTasksForm( nIdAction, getLocale( ) ) )
+    	 if ( !WorkflowService.getInstance( ).isDisplayTasksForm( nIdAction, getLocale( ) ) )
          {
              return redirect(request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction);
          }
