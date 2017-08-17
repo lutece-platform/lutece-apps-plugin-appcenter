@@ -57,6 +57,7 @@ public final class ApplicationDAO implements IApplicationDAO
             + " FROM appcenter_application a, appcenter_user_application b "
             + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
     private static final String SQL_QUERY_SELECT_AUTHORIZED = " SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
+    private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
             
     /**
      * Generates a new primary key
@@ -132,6 +133,12 @@ public final class ApplicationDAO implements IApplicationDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
+        daoUtil.setInt( 1, nKey );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+        
+        // Remove authorizations
+        daoUtil = new DAOUtil( SQL_QUERY_DELETE_AUTHORIZED, plugin );
         daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );

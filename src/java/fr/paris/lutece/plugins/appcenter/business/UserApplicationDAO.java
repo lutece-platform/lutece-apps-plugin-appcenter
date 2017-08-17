@@ -47,7 +47,6 @@ import java.util.List;
 public final class UserApplicationDAO implements IUserApplicationDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_user_application";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application ( id_application, user_id, user_role ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_application = ?  AND user_id = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_application = ?, user_id = ?, user_role = ? WHERE id_application = ?  AND user_id = ? ";
@@ -59,35 +58,12 @@ public final class UserApplicationDAO implements IUserApplicationDAO
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_user_application";
 
     /**
-     * Generates a new primary key
-     * 
-     * @param plugin
-     *            The Plugin
-     * @return The new primary key
-     */
-    public int newPrimaryKey( Plugin plugin )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery( );
-        int nKey = 1;
-
-        if ( daoUtil.next( ) )
-        {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        daoUtil.free( );
-        return nKey;
-    }
-
-    /**
      * {@inheritDoc }
      */
     @Override
     public void insert( UserApplication userApplication, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
-        userApplication.setId( newPrimaryKey( plugin ) );
         int nIndex = 1;
 
         daoUtil.setInt( nIndex++, userApplication.getId( ) );
