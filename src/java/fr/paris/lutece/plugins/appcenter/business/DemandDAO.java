@@ -70,7 +70,7 @@ public final class DemandDAO implements IDemandDAO
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
         daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandContent( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
         daoUtil.executeUpdate();
         daoUtil.nextGeneratedKey();
         demand.setId( daoUtil.getGeneratedKeyInt( 1 ) );
@@ -124,7 +124,7 @@ public final class DemandDAO implements IDemandDAO
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
         daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandContent( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
         daoUtil.setInt( nIndex , demand.getId( ) );
 
         daoUtil.executeUpdate( );
@@ -245,7 +245,7 @@ public final class DemandDAO implements IDemandDAO
         demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
         demand.setDemandType( daoUtil.getString( nIndex++ ) );
         demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-        demand.setDemandContent( daoUtil.getString( nIndex++ ) );
+        demand.setDemandData( daoUtil.getString( nIndex++ ) );
         return demand;
     }
 }

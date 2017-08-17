@@ -64,7 +64,7 @@ public class DemandService
         try
         {
             String strUpdatedJson = getDemandData( demand, dataSubset );
-            demand.setDemandContent( strUpdatedJson );
+            demand.setDemandData( strUpdatedJson );
             DemandHome.update( demand );
         }
         catch( IOException ex )
@@ -90,7 +90,7 @@ public class DemandService
     {
         try
         {
-            String strDemandJson = demand.getDemandContent();
+            String strDemandJson = demand.getDemandData();
             return getDataSubset( strDemandJson, strDataSubsetName, valueType );
         }
         catch( IOException ex )
@@ -113,7 +113,7 @@ public class DemandService
      */
     static String getDemandData( Demand demand, DataSubset dataSubset ) throws IOException
     {
-        String strDemandJson = demand.getDemandContent( );
+        String strDemandJson = demand.getDemandData();
         if ( strDemandJson == null )
         {
             strDemandJson = EMPTY_JSON_OBJ;

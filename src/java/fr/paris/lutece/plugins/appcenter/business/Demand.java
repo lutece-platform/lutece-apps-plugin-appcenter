@@ -56,7 +56,7 @@ public class Demand implements Serializable
     
     private int _nIdApplication;
     
-    private String _strDemandContent;
+    private String _strDemandData;
 
     /**
      * Returns the Id
@@ -152,18 +152,18 @@ public class Demand implements Serializable
      * Get the demandContent
      * @return 
      */
-    public String getDemandContent()
+    public String getDemandData()
     {
-        return _strDemandContent;
+        return _strDemandData;
     }
 
     /**
      * Set the demand content
-     * @param strDemandContent 
+     * @param strDemandData 
      */
-    public void setDemandContent( String strDemandContent )
+    public void setDemandData( String strDemandData )
     {
-        _strDemandContent = strDemandContent;
+        _strDemandData = strDemandData;
     }
     
     /**
