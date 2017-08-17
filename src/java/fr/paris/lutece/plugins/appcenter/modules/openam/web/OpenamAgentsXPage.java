@@ -94,7 +94,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
         model.put( Constants.MARK_DATA, dataSubset );
         model.put( MARK_ENVIRONMENT_REC, Environment.getEnvironment( "rec" ) );
         model.put( MARK_ENVIRONMENT_PROD, Environment.getEnvironment( "prod" ) );
-        addListDemand( request, application, model, DEMAND_TYPE );
+        addListDemand( request, application, model, DEMAND_TYPE, OpenamDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );
     }

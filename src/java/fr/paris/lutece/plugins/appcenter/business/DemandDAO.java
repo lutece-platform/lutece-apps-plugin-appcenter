@@ -34,14 +34,18 @@
 
 package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.sql.DAOUtil;
-import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
  * This class provides Data Access methods for Demand objects
@@ -57,6 +61,12 @@ public final class DemandDAO implements IDemandDAO
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? " ;
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
+
+    private static ObjectMapper _mapper = new ObjectMapper( );
+
+    static {
+        _mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     /**
      * {@inheritDoc }
@@ -91,6 +101,7 @@ public final class DemandDAO implements IDemandDAO
 
         if ( daoUtil.next( ) )
         {
+            //TODO use finally for free because this throws
             demand = getRow( daoUtil );
         }
 
@@ -143,6 +154,7 @@ public final class DemandDAO implements IDemandDAO
 
         while ( daoUtil.next(  ) )
         {
+            //TODO use finally for free because this throws
             Demand demand = getRow( daoUtil );
 
             demandList.add( demand );
@@ -166,6 +178,7 @@ public final class DemandDAO implements IDemandDAO
 
         while ( daoUtil.next(  ) )
         {
+            //TODO use finally for free because this throws
             Demand demand = getRow( daoUtil );
 
             demandList.add( demand );
@@ -179,9 +192,9 @@ public final class DemandDAO implements IDemandDAO
      * {@inheritDoc }
      */
     @Override
-    public List<Demand> selectDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Plugin plugin )
+    public <T extends Demand> List<T> selectDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Class<T> demandClass, Plugin plugin )
     {
-        List<Demand> demandList = new ArrayList<Demand>(  );
+        List<T> demandList = new ArrayList<T>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE, plugin );
         int nIndex = 1;
         daoUtil.setInt( nIndex++ , nIdApplication );
@@ -190,7 +203,8 @@ public final class DemandDAO implements IDemandDAO
 
         while ( daoUtil.next(  ) )
         {
-            Demand demand = getRow( daoUtil );
+            //TODO use finally for free because this throws
+            T demand = getRow( daoUtil, demandClass );
 
             demandList.add( demand );
         }
@@ -238,14 +252,26 @@ public final class DemandDAO implements IDemandDAO
     }
 
     private Demand getRow( DAOUtil daoUtil ) {
-        Demand demand = new Demand();
-        int nIndex = 1;
-        demand.setId( daoUtil.getInt( nIndex++ ) );
-        demand.setStatusText( daoUtil.getString( nIndex++ ) );
-        demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
-        demand.setDemandType( daoUtil.getString( nIndex++ ) );
-        demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
-        demand.setDemandData( daoUtil.getString( nIndex++ ) );
-        return demand;
+        return getRow( daoUtil, Demand.class );
+    }
+
+    private <T extends Demand> T getRow( DAOUtil daoUtil, Class<T> demandClass ) {
+        try
+        {
+            T demand = _mapper.readValue( daoUtil.getString( 6 ), demandClass ); 
+            int nIndex = 1;
+            demand.setId( daoUtil.getInt( nIndex++ ) );
+            demand.setStatusText( daoUtil.getString( nIndex++ ) );
+            demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
+            demand.setDemandType( daoUtil.getString( nIndex++ ) );
+            demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            demand.setDemandData( daoUtil.getString( nIndex++ ) );
+            return demand;
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( "Unable to convert demand data to obj " , e);
+            throw new RuntimeException(e);
+        }
     }
 }

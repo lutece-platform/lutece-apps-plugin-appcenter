@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
@@ -124,14 +123,14 @@ public class AppCenterXPage extends MVCApplication
      * @param strDemandType the demand type
      * @param demandClass The demand class
      */
-    protected void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, String strDemandType )
+    protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, String strDemandType, Class<T> demandClass )
     {
-        List<Demand> listDemand = DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType);
+        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType , demandClass);
         model.put( Constants.MARK_DEMANDS, listDemand );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( strDemandType );
         Map<String, Object> mapStates = new HashMap<>();
         Map<String, Object> mapHistories = new HashMap<>();
-        for (Demand demand: listDemand) {
+        for (T demand: listDemand) {
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
             mapStates.put( Integer.toString( demand.getId() ), state );
 

@@ -1,11 +1,15 @@
 <#include "appcenter_tabs.html" />
 <@tabs2 tab="general" application=application />
 
+<a class="btn btn-xs btn-danger pull-right" href='jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}'>
+    <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
+</a> 
+
 <@row>
 	<@columns>
 		<@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
 			<fieldset>
-				<legend>#i18n{appcenter.modify_application.title}</legend>
+				
 				<@messages errors=errors />
 				<input type="hidden" id="id" name="id" value="${application.id}"/>
 				

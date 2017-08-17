@@ -93,7 +93,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
         MonCompteSettingsData dataSubset = ApplicationService.loadApplicationDataSubset( application, MonCompteSettingsData.DATA_SUBSET_NAME, MonCompteSettingsData.class );
-        List listDemands = DemandHome.getDemandsListByApplicationAndType( nId, DEMAND_TYPE_KEY );
+        List listDemands = DemandHome.getDemandsListByApplicationAndType( nId, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
         List listDemandsData = DemandService.getDemandsListByApplicationAndType( application, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
 
         Map<String, Object> model = getModel( );
