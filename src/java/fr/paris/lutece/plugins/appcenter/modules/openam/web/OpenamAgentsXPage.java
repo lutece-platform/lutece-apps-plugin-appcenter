@@ -72,8 +72,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
    //ACTION
     private static final String ACTION_ADD_AGENT= "addAgent";
     
-    private static final String DEMAND_TYPE="openam";
-    
 
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
     public XPage getManageAgents( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
@@ -87,7 +85,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
         model.put( Constants.MARK_DATA, dataSubset );
         model.put( MARK_ENVIRONMENT_REC, Environment.getEnvironment( "rec" ) );
         model.put( MARK_ENVIRONMENT_PROD, Environment.getEnvironment( "prod" ) );
-        addListDemand( request, application, model, DEMAND_TYPE, OpenamDemand.class );
+        addListDemand( request, application, model, OpenamDemand.ID_DEMAND_TYPE, OpenamDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );
     }
@@ -99,8 +97,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
         Application application = getApplication(request);
         
         OpenamDemand agentDemand = new OpenamDemand();
-        agentDemand.setIdDemandType( DEMAND_TYPE );
-        agentDemand.setDemandType( DEMAND_TYPE );
         agentDemand.setIdApplication( application.getId( ) );
         
         populate( agentDemand, request );

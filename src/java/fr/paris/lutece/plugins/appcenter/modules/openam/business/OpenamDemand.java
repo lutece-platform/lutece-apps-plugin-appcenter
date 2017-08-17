@@ -1,5 +1,6 @@
 package fr.paris.lutece.plugins.appcenter.modules.openam.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,6 +17,9 @@ import java.util.Map;
  *
  */
 public class OpenamDemand extends Demand{
+    
+public static final String ID_DEMAND_TYPE = "openam";
+public static final String DEMAND_TYPE = "openam";
 
  private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/openam/openam_agents_demand_infos.html";
     
@@ -67,5 +71,28 @@ public String getComplementaryInfos ( )
     model.put( MARK_DEMAND, this );
     return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
 }
+
+        /**
+     * Get the demand type id
+     * @return the demand type id 
+     */
+    @JsonIgnore
+    @Override
+    public String getIdDemandType()
+    {
+        return ID_DEMAND_TYPE;
+    }
+    
+            /**
+     * Get the demand type id
+     * @return the demand type id 
+     */
+    @JsonIgnore
+    @Override
+    public String getDemandType()
+    {
+        return ID_DEMAND_TYPE;
+    }
+
  
 }
