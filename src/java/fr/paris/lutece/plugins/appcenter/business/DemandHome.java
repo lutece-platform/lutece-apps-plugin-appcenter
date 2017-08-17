@@ -122,11 +122,12 @@ public final class DemandHome
      * Load the data of all the demand objects and returns them as a list
      * @param nIdApplication the id of the application
      * @param strDemandType the type of the demand
+     * @param demandClass the class
      * @return the list which contains the data of all the demand objects
      */
-    public static List<Demand> getDemandsListByApplicationAndType( int nIdApplication, String strDemandType )
+    public static <T extends Demand> List<T> getDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Class<T> demandClass )
     {
-        return _dao.selectDemandsListByApplicationAndType( nIdApplication, strDemandType, _plugin );
+        return _dao.selectDemandsListByApplicationAndType( nIdApplication, strDemandType, demandClass, _plugin );
     }
     
     /**

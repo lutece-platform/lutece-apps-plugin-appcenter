@@ -84,7 +84,7 @@ public class SourcesXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        addListDemand( request, application, model, DEMAND_TYPE );
+        addListDemand( request, application, model, DEMAND_TYPE, SourcesDemand.class );
         
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );

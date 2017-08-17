@@ -65,23 +65,7 @@ public class DemandService
     
     public static <T extends Demand> List<T> getDemandsListByApplicationAndType( Application application, String strDemandType, Class<T> demandClass )
     {
-        List<Demand> listDemand = DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType );
-        //FIXME this is bugged, the common values of the Demand class are discarded.
-        //For example the id is always 0 in the objects returned by this method
-        //Rework this
-        List<T> listReturnDemand = new ArrayList<>();
-        for ( Demand demand : listDemand )
-        {
-            try
-            {
-               listReturnDemand.add( _mapper.readValue( demand.getDemandData(), demandClass ) ); 
-            }
-            catch ( IOException e )
-            {
-                AppLogService.error( "Unable to convert demand data to obj " , e);
-            }
-        }
-        return listReturnDemand;
+        return DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType, demandClass );
     }
     
     private static String getDemandAsString( Demand demand )
