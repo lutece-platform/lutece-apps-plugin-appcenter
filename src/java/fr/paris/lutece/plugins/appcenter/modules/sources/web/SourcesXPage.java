@@ -116,7 +116,6 @@ public class SourcesXPage extends AppCenterXPage
     @Action( ACTION_ADD_SITE_REPOSITORY )
     public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
         Application application = getApplication(request);
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
@@ -127,7 +126,7 @@ public class SourcesXPage extends AppCenterXPage
         dataSubset.setSiteRepository( strSiteDirectory );
         ApplicationService.saveApplicationData( application, dataSubset );
 
-        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, nId );
+        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, application.getId() );
     }
 
 
