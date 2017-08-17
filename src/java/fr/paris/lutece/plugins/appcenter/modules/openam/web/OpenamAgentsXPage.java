@@ -46,6 +46,7 @@ import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -74,7 +75,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
     private OpenamDemand _demand;
 
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
-    public XPage getManageAgents( HttpServletRequest request )  throws UserNotSignedException
+    public XPage getManageAgents( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
     {
        
     	Application application = getApplication(request);
@@ -107,7 +108,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
     }
 
     @Action( ACTION_ADD_AGENT )
-    public XPage doAddAgent( HttpServletRequest request )  throws UserNotSignedException
+    public XPage doAddAgent( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);
