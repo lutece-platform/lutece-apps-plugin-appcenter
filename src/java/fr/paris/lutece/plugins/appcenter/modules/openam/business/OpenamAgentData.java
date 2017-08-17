@@ -12,7 +12,7 @@ public class OpenamAgentData {
 	private String _strPassword;
 	private String _strServerUrl;
 	private String _strAgentUrl;
-	private Environment _environment;
+	private String _environmentCode;
 
 	/**
 	 * 
@@ -73,12 +73,12 @@ public class OpenamAgentData {
 		this._strAgentUrl = _strAgentUrl;
 	}
 
-	public Environment getEnvironment() {
-		return _environment;
+	public String getEnvironment() {
+		return _environmentCode;
 	}
 
-	public void setEnvironment(Environment _environment) {
-		this._environment = _environment;
+	public void setEnvironment(String _environment) {
+		this._environmentCode = _environment;
 	}
 	
 	

@@ -37,8 +37,7 @@ public class OpenamTask extends SimpleTask {
         OpenamAgentData openamAgentData = new OpenamAgentData();
         BeanUtil.populate ( openamAgentData, request );
 
-        openamAgentData.setEnvironment( Environment.REC ); //FIXME
-
+       
         //FIXME return real error message here
         if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty() )
         {
@@ -51,6 +50,10 @@ public class OpenamTask extends SimpleTask {
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication() );
 
         OpenamAgentsData openamAgentsData = ApplicationService.loadApplicationDataSubset ( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME, OpenamAgentsData.class );
+        if(openamAgentsData ==null)
+        {
+        	openamAgentsData=new OpenamAgentsData();
+        }
         openamAgentsData.addAgent( openamAgentData );
         ApplicationService.saveApplicationData ( application, openamAgentsData );
 

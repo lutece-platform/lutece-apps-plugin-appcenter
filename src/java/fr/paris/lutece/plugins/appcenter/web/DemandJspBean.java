@@ -46,6 +46,7 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -95,6 +96,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     // Actions
     private static final String ACTION_PROCESS_ACTION= "processAction";
+    private static final String ACTION_SAVE_TASK_FORM= "saveTaskForm";
+    
 
  
 
@@ -196,6 +199,50 @@ public class DemandJspBean extends ManageAppCenterJspBean
     	 
 
     	 WorkflowService.getInstance(  ).doProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale(), true ); 
+         
+        return redirectView( request, VIEW_MANAGE_DEMANDS );
+    }
+    
+    /**
+     * Process workflow action
+     *
+     * @param request The Http request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_SAVE_TASK_FORM)
+    public String doSaveTaskForm( HttpServletRequest request )
+    {
+    	
+    	
+    	Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
+        Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
+
+        
+        if ( WorkflowService.getInstance( ).canProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, false ) )
+        {
+	        try
+	        {
+	            String strError = WorkflowService.getInstance( ).doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1,
+	                    request, getLocale() );
+	
+	            if ( strError != null )
+	            {
+	                return strError;
+	            }
+	
+	          
+	        }
+	        catch( Exception e )
+	        {
+	             AppLogService.error( "Error processing action for demand '" + nIdDemand , e );
+	         
+	        }
+        }
+        else
+        {
+        	   return redirectView( request, VIEW_TASK_FORM );
+        }
+        
          
         return redirectView( request, VIEW_MANAGE_DEMANDS );
     }
