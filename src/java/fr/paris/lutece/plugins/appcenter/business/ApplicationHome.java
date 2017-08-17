@@ -147,5 +147,17 @@ public final class ApplicationHome
     {
         return _dao.isAuthorized( nApplicationId , strUserId , _plugin );
     }        
+    
+    /**
+     * Get the role of the user for a given application
+     * @param nApplicationId The application Id
+     * @param strUserId The user Id
+     * @return The role
+     */
+    public static int getUserRole( int nApplicationId, String strUserId )
+    {
+        return _dao.getUserRole(nApplicationId, strUserId, _plugin);
+    }
+
 
 }

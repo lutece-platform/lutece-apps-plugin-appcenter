@@ -56,9 +56,11 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data, b.user_role "
             + " FROM appcenter_application a, appcenter_user_application b "
             + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
-    private static final String SQL_QUERY_SELECT_AUTHORIZED = " SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
+    private static final String SQL_QUERY_SELECT_AUTHORIZED = "SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
-            
+    private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT user_role FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
+    
+    
     /**
      * Generates a new primary key
      * 
@@ -243,13 +245,36 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin)
+    public boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_AUTHORIZED );
+        daoUtil.setInt( 1 , nApplicationId );
         daoUtil.setString( 2 , strUserId );
         daoUtil.executeQuery( );
 
         return daoUtil.next( );
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getUserRole( int nApplicationId, String strUserId, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
+        daoUtil.setInt( 1 , nApplicationId );
+        daoUtil.setString( 2 , strUserId );
+        daoUtil.executeQuery( );
+
+        int nRole = 0;
+        if ( daoUtil.next( ) )
+        {
+            nRole = daoUtil.getInt( 1 ) ;
+        }
+
+        daoUtil.free( );
+        return nRole;
+        
     }
 
 }

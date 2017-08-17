@@ -56,5 +56,6 @@ public class Constants
     public static final String MARK_DEMANDS_STATES = "demands_states";
     public static final String MARK_DEMANDS_HISTORIES = "demands_histories";
     public static final String MARK_ENVIRONMENT = "environment";
+    public static final String MARK_ADMIN_ROLE = "admin_role";
 
 }

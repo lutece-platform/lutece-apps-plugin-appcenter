@@ -120,6 +120,15 @@ public interface IApplicationDAO
      * @param plugin The plugin
      * @return true if authorized
      */
-    
     boolean isAuthorized(int nApplicationId, String strUserId, Plugin plugin);
+    
+    /**
+     * Get the role of the user for a given application
+     * @param nApplicationId The application Id
+     * @param strUserId The user Id
+     * @param plugin The plugin 
+     * @return The role
+     */
+    int getUserRole( int nApplicationId, String strUserId, Plugin plugin );
+
 }

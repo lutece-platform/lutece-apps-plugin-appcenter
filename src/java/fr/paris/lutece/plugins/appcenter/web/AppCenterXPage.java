@@ -78,7 +78,7 @@ public class AppCenterXPage extends MVCApplication
      * @throws UserNotSignedException If the user is not signed
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException if an error occurs
      */
-    public Application getApplication(HttpServletRequest request) throws UserNotSignedException, SiteMessageException
+    protected Application getApplication(HttpServletRequest request) throws UserNotSignedException, SiteMessageException
     {
 
         Application application = null;
@@ -149,7 +149,7 @@ public class AppCenterXPage extends MVCApplication
      * @param strMessageKey The message key
      * @return The message
      */
-    private String getMessage( String strMessageKey )
+    protected String getMessage( String strMessageKey )
     {
          return I18nService.getLocalizedString( strMessageKey , LocaleService.getDefault() );
     }

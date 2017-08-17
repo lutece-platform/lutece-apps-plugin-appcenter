@@ -1,9 +1,11 @@
 <#include "appcenter_tabs.html" />
 <@tabs2 tab="general" application=application />
 
+<#if admin_role>
 <a class="btn btn-xs btn-danger pull-right" href='jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}'>
     <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
 </a> 
+</#if>
 
 <@row>
 	<@columns>

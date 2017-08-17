@@ -37,6 +37,7 @@ package fr.paris.lutece.plugins.appcenter.service;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * UserService
@@ -45,6 +46,10 @@ public class UserService
 {
     private static final String MOCK_USER = "john.doe@nowhere.com";
     
+    /**
+     * Get the list of available users
+     * @return The list
+     */
     public static ReferenceList getUserList()
     {
         if( SecurityService.isAuthenticationEnable() )
@@ -62,7 +67,30 @@ public class UserService
             return getMockUserList();
         }
     }
+    
+    /**
+     * Gets the Id of the current connected user
+     * @param request The HTTP request
+     * @return The user Id
+     */
+    public static String getCurrentUserId( HttpServletRequest request )
+    {
+        if( SecurityService.isAuthenticationEnable() )
+        {
+            LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
+            return user.getEmail();
+        }
+        else
+        {
+            return MOCK_USER;
+        }
+        
+    }
 
+    /**
+     * Mock list for dev and tests without MyLutece
+     * @return a mock list
+     */
     private static ReferenceList getMockUserList()
     {
         ReferenceList list = new ReferenceList();
