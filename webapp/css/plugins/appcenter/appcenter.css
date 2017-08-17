@@ -1,0 +1,18 @@
+.app-block {
+    text-decoration: none;
+   /* width: 200px; */
+    /*height: 272px;*/
+    background:lightgrey;
+    border: 0;
+    border-radius: 10px;
+    display: block;
+    padding: 20px;
+    margin: 5px;
+    
+}
+.app-block h3 {
+  color: black;
+}
+.app-block ul li {
+  text-decoration: underline;
+}

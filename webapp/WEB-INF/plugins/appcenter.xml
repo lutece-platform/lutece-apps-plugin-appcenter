@@ -19,6 +19,10 @@
         <max-core-version/>	
     </core-version-dependency>
 
+    <css-stylesheets>
+        <css-stylesheet>appcenter/appcenter.css</css-stylesheet>
+    </css-stylesheets>
+
     <!-- Admin features parameters -->
     <admin-features>
         <admin-feature>
