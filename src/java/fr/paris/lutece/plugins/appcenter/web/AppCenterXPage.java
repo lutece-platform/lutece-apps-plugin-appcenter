@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage.DEMAND_TYPE;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
@@ -66,7 +65,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
  */
 public class AppCenterXPage extends MVCApplication
 {
-    private static final String MARK_ERROR = "error";
     private static final String ERROR_APP_NOT_FOUND = "appcenter.error.applicationNotFound";
     private static final String ERROR_USER_NOT_AUTHORIZED = "appcenter.error.userNotAuthorized";
     private static final String ERROR_INVALID_APP_ID = "appcenter.error.invalidAppId";
@@ -117,7 +115,14 @@ public class AppCenterXPage extends MVCApplication
 
     }
     
-    
+    /**
+     * Add a demand
+     * @param <T> The object template
+     * @param request The HTTP request
+     * @param application The aapplication
+     * @param model The model
+     * @param demandClass The demand class
+     */
     protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, Class<T> demandClass )
     {
         List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, DEMAND_TYPE, demandClass);
