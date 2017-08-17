@@ -1,0 +1,65 @@
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="moncompte_settings" application=application />
+
+<@row>
+    <@columns>
+        <@tform action='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}&view=createMoncompteSettingsDemand'>
+            <@button type='submit' name='view_createSetting' class='pull-right' buttonIcon='plus' title='#i18n{appcenter.manage_moncompte_settings.buttonAdd}' />
+        </@tform>
+
+        <h1>#i18n{appcenter.manage_moncompte_settings.title}</h1>
+
+        <h2>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h2>
+
+        <@table>
+            <tr>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnStatusText}</th>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnDemandData}</th>
+            </tr>
+            <#list list_demands as demand >
+            <tr>
+                <td>
+                    ${demand.statusText}
+                </td>
+                <td>
+                    ${demand.demandData}
+                </td>
+            </tr>
+            </#list>
+        </@table>
+        
+        <h2>#i18n{appcenter.manage_moncompte_settings.list_config_title}</h2>
+        
+        <@table>
+            <tr>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnEnvironment}</th>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteName}</th>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteUrl}</th>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonName}</th>
+                <th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonUrl}</th>
+            </tr>
+            <#if data?has_content>
+            <#list data as config >
+            <tr>
+                <td>
+                    ${config.environment}
+                </td>
+                <td>
+                    ${config.favoriteName}
+                </td>
+                <td>
+                    ${config.favoriteUrl}
+                </td>
+                <td>
+                    ${config.backButtonName}
+                </td>
+                <td>
+                    ${config.backButtonUrl}
+                </td>
+            </tr>
+            </#list>
+            </#if>
+        </@table>
+    </@columns>
+</@row>
+
