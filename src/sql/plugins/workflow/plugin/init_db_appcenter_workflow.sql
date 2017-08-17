@@ -9,3 +9,7 @@ INSERT INTO workflow_state VALUES
 
 
 INSERT INTO workflow_action VALUES (100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,100,101,3,1,0,1,0);
+
+
+INSERT INTO `workflow_resource_workflow` VALUES (1,'DEMANDCENTER_DEMAND_SOURCE',101,100,-1,0);
+INSERT INTO `workflow_resource_history` VALUES (1,1,'DEMANDCENTER_DEMAND_SOURCE',100,100,'2017-08-17 12:24:13','auto');
