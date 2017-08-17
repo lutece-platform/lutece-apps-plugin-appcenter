@@ -34,126 +34,64 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Demand Service
  */
 public class DemandService
 {
     private static ObjectMapper _mapper = new ObjectMapper( );
-    private static final String EMPTY_JSON_OBJ = "{}";
+    
+    public static void saveDemand ( Demand demand, Application application )
+    {
+         demand.setDemandData( getDemandAsString( demand ) );
+         DemandHome.create( demand );
+          //Run the workflow
+        int nIdResource = application.getId( );
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+        WorkflowService.getInstance( ).getState( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+        WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
 
-    /**
-     * Save a data subset into the global JSON data of a demand
-     * 
-     * @param demand
-     *            The Demand
-     * @param dataSubset
-     *            The data subset
-     */
-    public static void saveDemandData( Demand demand, DataSubset dataSubset )
+    }
+    
+    public static <T extends Demand> List<T> getDemandsListByApplicationAndType( Application application, String strDemandType, Class<T> demandClass )
+    {
+        List<Demand> listDemand = DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType );
+        List<T> listReturnDemand = new ArrayList<>();
+        for ( Demand demand : listDemand )
+        {
+            try
+            {
+               listReturnDemand.add( _mapper.readValue( demand.getDemandData(), demandClass ) ); 
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( "Unable to convert demand data to obj " , e);
+            }
+        }
+        return listReturnDemand;
+    }
+    
+    private static String getDemandAsString( Demand demand )
     {
         try
         {
-            String strUpdatedJson = getDemandData( demand, dataSubset );
-            demand.setDemandData( strUpdatedJson );
-            DemandHome.update( demand );
+            return _mapper.writeValueAsString( demand );
         }
-        catch( IOException ex )
+        catch ( JsonProcessingException e )
         {
-            Logger.getLogger(DemandService.class.getName( ) ).log( Level.SEVERE, null, ex );
+            AppLogService.error( "Unable to convert demand obj to JSON", e);
         }
+        return null;    
     }
-
-    /**
-     * Load a datasubset from the global JSON
-     * 
-     * @param <T>
-     *            The datasubset type
-     * @param demand
-     *            The demand
-     * @param strDataSubsetName
-     *            The subset name
-     * @param valueType
-     *            The class of the data subset
-     * @return The data subset as an object
-     */
-    public static <T> T loadDemandDataSubset( Demand demand, String strDataSubsetName, Class<T> valueType )
-    {
-        try
-        {
-            String strDemandJson = demand.getDemandData();
-            return getDataSubset( strDemandJson, strDataSubsetName, valueType );
-        }
-        catch( IOException ex )
-        {
-            Logger.getLogger(DemandService.class.getName( ) ).log( Level.SEVERE, null, ex );
-        }
-        return null;
-    }
-
-    /**
-     * Build a global JSON data of an demand by adding or replacing a data subset
-     * 
-     * @param demand
-     *            The demand
-     * @param dataSubset
-     *            The data subset
-     * @return The JSON
-     * @throws IOException
-     *             if an error occurs
-     */
-    static String getDemandData( Demand demand, DataSubset dataSubset ) throws IOException
-    {
-        String strDemandJson = demand.getDemandData();
-        if ( strDemandJson == null )
-        {
-            strDemandJson = EMPTY_JSON_OBJ;
-        }
-        JsonNode nodeDemand = _mapper.readTree( strDemandJson );
-        JsonNode nodeData = nodeDemand.get( dataSubset.getName( ) );
-        if ( nodeData != null )
-        {
-            ( (ObjectNode) nodeDemand ).replace( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
-        }
-        else
-        {
-            ( (ObjectNode) nodeDemand ).set( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
-        }
-        return nodeDemand.toString( );
-    }
-
-    /**
-     * Load a datasubset from the global JSON
-     * 
-     * @param <T>
-     *            The datasubset type
-     * @param strDemandJson
-     *            The global JSON of the demand
-     * @param strDataSubsetName
-     *            The subset name
-     * @param valueType
-     *            The class of the data subset
-     * @return The data subset as an object
-     */
-    static <T> T getDataSubset( String strDemandJson, String strDataSubsetName, Class<T> valueType ) throws IOException
-    {
-        JsonNode nodeDemand = _mapper.readTree( strDemandJson );
-        JsonNode nodeData = nodeDemand.get( strDataSubsetName );
-        if ( nodeData != null )
-        {
-            return _mapper.treeToValue( nodeData, valueType );
-        }
-        return null;
-
-    }
-
+    
 }

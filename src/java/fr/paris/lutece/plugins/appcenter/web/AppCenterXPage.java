@@ -39,10 +39,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage.DEMAND_TYPE;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -94,5 +104,27 @@ public class AppCenterXPage extends MVCApplication
         return application;
 
     }
+    
+    
+    protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, Class<T> demandClass )
+    {
+        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, DEMAND_TYPE, demandClass);
+        model.put( Constants.MARK_DEMANDS, listDemand );
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( DEMAND_TYPE );
+        Map<String, Object> mapStates = new HashMap<>();
+        Map<String, Object> mapHistories = new HashMap<>();
+        for (T demand: listDemand) {
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+            mapStates.put( Integer.toString( demand.getId() ), state );
+
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
+                    demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
+            );
+            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
+        }
+        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
+        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
+    }
+            
 
 }

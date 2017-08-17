@@ -34,31 +34,22 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.sources.web;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.business.Config;
-import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
-import fr.paris.lutece.plugins.appcenter.service.ConfigsData;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
-import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
-import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
-import java.util.ArrayList;
 
 /**
  * SourcesXPage
@@ -80,7 +71,6 @@ public class SourcesXPage extends AppCenterXPage
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
 
-    public static final String WORKFLOW_RESOURCE_TYPE = "DEMANDCENTER_DEMAND_SOURCE";
     public static final String DEMAND_TYPE = "sources";
 
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
@@ -93,22 +83,8 @@ public class SourcesXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        List<Demand> listDemand = DemandHome.getDemandsListByApplicationAndType( application.getId(), DEMAND_TYPE );
-        model.put( Constants.MARK_DEMANDS, listDemand );
-        int nIdWorkflow = DemandTypeService.getIdWorkflow( DEMAND_TYPE );
-        Map<String, Object> mapStates = new HashMap<>();
-        Map<String, Object> mapHistories = new HashMap<>();
-        for (Demand demand: listDemand) {
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId() ), state );
-
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
-                    demand.getId( ), WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
-            );
-            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
-        }
-        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
-        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
+        addListDemand( request, application, model, SourcesDemand.class );
+        
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
@@ -135,28 +111,20 @@ public class SourcesXPage extends AppCenterXPage
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);
-        Demand demand = new Demand( );
-        demand.setIdDemandType( DEMAND_TYPE );
-        demand.setDemandType( DEMAND_TYPE );
-        demand.setIdApplication( application.getId( ) );
-        DemandHome.create( demand );
+        SourcesDemand sourcesDemand = new SourcesDemand( );
+        sourcesDemand.setIdDemandType( DEMAND_TYPE );
+        sourcesDemand.setDemandType( DEMAND_TYPE );
+        sourcesDemand.setIdApplication( application.getId( ) );
         
         String strSVNUserNames = request.getParameter( PARAMETER_SVN_USERNAMES );
         String strSVNUserEmails = request.getParameter( PARAMETER_SVN_EMAILS );
         
-        //Save the configs
-        List<Config> listConfig = new ArrayList<>();
-        listConfig.add( new Config( MESSAGE_KEY_SVN_USERNAME, strSVNUserNames ) );
-        listConfig.add( new Config( MESSAGE_KEY_SVN_EMAIL, strSVNUserEmails ) );
-        ConfigsData configDatas = new ConfigsData();
-        configDatas.setListConfigs( listConfig );
-        DemandService.saveDemandData( demand, configDatas );
+        sourcesDemand.setLabelKeyUserName( MESSAGE_KEY_SVN_USERNAME );
+        sourcesDemand.setLabelKeyEmail( MESSAGE_KEY_SVN_EMAIL );
+        sourcesDemand.setUserName( strSVNUserNames );
+        sourcesDemand.setEmail( strSVNUserEmails );
         
-        //Run the workflow
-        int nIdResource = application.getId( );
-        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
-        WorkflowService.getInstance( ).getState( nIdResource, WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-        WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+        DemandService.saveDemand( sourcesDemand, application ) ;
 
         return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, nId );
     }

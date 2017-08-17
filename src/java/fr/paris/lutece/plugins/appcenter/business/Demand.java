@@ -33,35 +33,43 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.plugins.appcenter.service.ConfigsData;
-import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mchange.lang.StringUtils;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * This is the business class for the object Demand
  */ 
 public class Demand implements Serializable
 {
+    public static final String WORKFLOW_RESOURCE_TYPE = "DEMANDCENTER_DEMAND_SOURCE";
+    protected static final String MARK_DEMAND = "demand";
     private static final long serialVersionUID = 1L;
 
     // Variables declarations 
+    @JsonIgnore
     private int _nId;
     
+    @JsonIgnore
     private String _strStatusText;
     
+    @JsonIgnore
     private String _strIdDemandType;
     
+    @JsonIgnore
     private String _strDemandType;
     
+    @JsonIgnore
     private int _nIdApplication;
     
+    @JsonIgnore
     private String _strDemandData;
 
     /**
      * Returns the Id
      * @return The Id
      */
+    @JsonIgnore
     public int getId( )
     {
         return _nId;
@@ -80,6 +88,7 @@ public class Demand implements Serializable
      * Returns the StatusText
      * @return The StatusText
      */
+    @JsonIgnore
     public String getStatusText( )
     {
         return _strStatusText;
@@ -98,6 +107,7 @@ public class Demand implements Serializable
      * Returns the DemandType
      * @return The DemandType
      */
+    @JsonIgnore
     public String getDemandType( )
     {
         return _strDemandType;
@@ -116,6 +126,7 @@ public class Demand implements Serializable
      * Returns the IdApplication
      * @return The IdApplication
      */
+    @JsonIgnore
     public int getIdApplication( )
     {
         return _nIdApplication;
@@ -134,6 +145,7 @@ public class Demand implements Serializable
      * Get the demand type id
      * @return the demand type id 
      */
+    @JsonIgnore
     public String getIdDemandType()
     {
         return _strIdDemandType;
@@ -152,6 +164,7 @@ public class Demand implements Serializable
      * Get the demandContent
      * @return 
      */
+    @JsonIgnore
     public String getDemandData()
     {
         return _strDemandData;
@@ -166,13 +179,9 @@ public class Demand implements Serializable
         _strDemandData = strDemandData;
     }
     
-    /**
-     * Get configsData of the demand
-     * @return the configsdata
-     */
-    public ConfigsData getConfigsData( )
+    @JsonIgnore
+    public String getComplementaryInfos ( )
     {
-        return DemandService.loadDemandDataSubset( this, "configs", ConfigsData.class );
-    }
-    
+        return "";
+    } 
 }
