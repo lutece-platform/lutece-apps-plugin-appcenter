@@ -3,9 +3,9 @@ INSERT INTO workflow_workflow VALUES
 
 
 INSERT INTO workflow_state VALUES 
-(1,'Initialisée','demande initialisée',1,1,0,NULL,1),
-(2,'En cours','Demande en cours',1,0,0,NULL,2),
-(3,'Close','Demande close',1,0,0,NULL,3);
+(100,'Initialisée','demande initialisée',100,1,0,NULL,1),
+(101,'En cours','Demande en cours',100,0,0,NULL,2),
+(102,'Close','Demande close',100,0,0,NULL,3);
 
 
-INSERT INTO workflow_action VALUES (1,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',1,1,2,3,1,0,1,0);
+INSERT INTO workflow_action VALUES (100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,1,2,3,1,0,1,0);
