@@ -1,15 +1,24 @@
 <#macro printDemands demands demands_states demands_histories>
     <#if 0 < demands?size>   
-        <ul>
+        <table>
             <#list demands as demand>
-            <li>
-                ${demand.statusText!'TODO STATUS TEXT'}
-                ${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}
-                ${(demands_states[demand.id?string].description)!'TODO DEMAND STATE DESCIPTION'}
-                ${demand.complementaryInfos}
-                ${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}
-            </li>
+                <tr>
+                    <td>
+                    <ul>
+                        <li>#i18n{appcenter.view_demands.columnStatusText} : ${demand.statusText!'TODO STATUS TEXT'}</li>
+                        <li>#i18n{appcenter.view_demands.columnStateName} : ${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</li>
+                        <li>#i18n{appcenter.view_demands.complementaryInfos}
+                            ${demand.complementaryInfos}
+                        </li>
+                    </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}
+                    </td>
+                </tr>
             </#list>
-        </ul>
+        </table>
     </#if>
 </#macro>

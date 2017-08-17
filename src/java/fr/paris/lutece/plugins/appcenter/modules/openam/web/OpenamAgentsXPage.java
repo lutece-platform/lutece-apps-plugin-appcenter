@@ -39,11 +39,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentsData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
-import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage.DEMAND_TYPE;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -60,19 +61,26 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 public class OpenamAgentsXPage extends AppCenterXPage
 {
     // Templates
-    private static final String TEMPLATE_MANAGE_AGENTS = "/skin/plugins/appcenter/modules/sources/manage_openam_agents.html";
-    private static final String TEMPLATE_CREATE_AGENT = "/skin/plugins/appcenter/modules/sources/create_openam_agent.html";
+    private static final String TEMPLATE_MANAGE_AGENTS = "/skin/plugins/appcenter/modules/openam/manage_openam_agents.html";
 
     //VIEW
     private static final String VIEW_MANAGE_AGENTS = "manageagents";
-    private static final String VIEW_ADD_AGENT = "addAgent";
+    
    //ACTION
     private static final String ACTION_ADD_AGENT= "addAgent";
-    //INFO
-    private static final String INFO_AGENT_CREATED= "appcenter.info.openamagent.created";
     
+    //PARAMETERS
+    private static final String PARAMETER_APPLICATION_CODE = "application_code";
+    private static final String PARAMETER_WEBAPP_NAME = "webapp_name";
+    private static final String PARAMETER_PUBLIC_URL = "public_url";
     
-    private OpenamDemand _demand;
+    //MESSAGE KEYS
+    private static final String MESSAGE_KEY_APPLICATION_CODE = "appcenter.manage_sources.applicationCode.label";
+    private static final String MESSAGE_KEY_WEBAPP_NAME = "appcenter.manage_sources.webappName.label";
+    private static final String MESSAGE_KEY_PUBLIC_URL = "appcenter.manage_sources.publicUrl.label";
+    
+    private static final String DEMAND_TYPE="openam";
+    
 
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
     public XPage getManageAgents( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
@@ -84,27 +92,9 @@ public class OpenamAgentsXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
+        addListDemand( request, application, model, DEMAND_TYPE, OpenamDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );
-    }
-    
-    
-    /**
-     * Returns the form to create a application
-     *
-     * @param request
-     *            The Http request
-     * @return the html code of the application form
-     */
-    @View( VIEW_ADD_AGENT )
-    public XPage getCreateAgent( HttpServletRequest request )
-    {
-    	_demand = ( _demand != null ) ? _demand : new OpenamDemand( );
-
-        Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_DEMAND, _demand );
-
-        return getXPage( TEMPLATE_CREATE_AGENT, request.getLocale( ), model );
     }
 
     @Action( ACTION_ADD_AGENT )
@@ -112,21 +102,26 @@ public class OpenamAgentsXPage extends AppCenterXPage
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);
-       
+        String strApplicationCode = request.getParameter( PARAMETER_APPLICATION_CODE );
+        String strWebappName = request.getParameter( PARAMETER_WEBAPP_NAME );
+        String strPublicUrl = request.getParameter( PARAMETER_PUBLIC_URL );
         
-        populate( _demand, request );
-
-        // Check constraints
-        if ( !validateBean( _demand, getLocale( request ) ) )
-        {
-            return redirectView( request, ACTION_ADD_AGENT );
-        }
-
-       
-        addInfo( INFO_AGENT_CREATED, getLocale( request ) );
-
+        OpenamDemand demand = new OpenamDemand();
+        demand.setIdDemandType( DEMAND_TYPE );
+        demand.setDemandType( DEMAND_TYPE );
+        demand.setIdApplication( application.getId( ) );
         
-       return redirect( request, VIEW_MANAGE_AGENTS, Constants.PARAMETER_ID_APPLICATION, nId );
+        demand.setApplicationCodeLabelKey( MESSAGE_KEY_APPLICATION_CODE );
+        demand.setWebappNameLabelKey( MESSAGE_KEY_WEBAPP_NAME );
+        demand.setPublicUrlLabelKey( MESSAGE_KEY_PUBLIC_URL );
+        
+        demand.setApplicationCode( strApplicationCode );
+        demand.setWebappName( strWebappName );
+        demand.setPublicUrl( strPublicUrl );
+        
+        DemandService.saveDemand( demand, application );
+        
+        return redirect( request, VIEW_MANAGE_AGENTS, Constants.PARAMETER_ID_APPLICATION, nId );
     }
 
 }

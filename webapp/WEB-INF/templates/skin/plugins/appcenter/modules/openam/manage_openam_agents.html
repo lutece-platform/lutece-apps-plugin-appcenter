@@ -1,0 +1,90 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="openam" application=application />
+
+ <div class="well">
+    <@messages infos=infos />
+    <@tform action='jsp/site/Portal.jsp?page=openam'>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalOpenAMAgentDemand">
+        #i18n{appcenter.manage_openam_agents.buttonAdd}
+    </button>
+    </@tform>
+
+    <h1>#i18n{appcenter.manage_openam_agents.title}</h1>
+
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_openam_agents.columnName}</th>
+            <th>#i18n{appcenter.manage_openam_agents.columnEnvironment}</th>
+            <th>#i18n{appcenter.manage_openam_agents.columnPassword}</th>
+            <th>#i18n{appcenter.manage_openam_agents.agentUrl}</th>
+            <th>#i18n{appcenter.manage_openam_agents.serverUrl}</th>
+        </tr>
+        <#if data??>
+            <#list data.openamAgents as openam_agent >
+            <tr>
+                <input type="hidden" id="id" name="id" />
+                <td>
+                    ${openam_agent.name}
+                    </td>
+                <td>
+                    ${openam_agent.environment.prefix}
+                    </td>  
+                <td>
+                    ${openam_agent.password}
+                    </td>
+                <td>
+                   ${openam_agent.agentUrl}
+                    </td>    
+                <td>
+                    ${openam_agent.serverUrl}
+                </td>    
+            </tr>
+            </#list>
+        </#if>
+    </@table>
+
+    <h1>#i18n{appcenter.manage_openam_agents.demands.title}</h1>
+    
+    <@printDemands demands demands_states demands_histories/>
+
+</div>
+    
+ <!-- Modal for demanding OpenAM agent -->
+    <div id="ModalOpenAMAgentDemand" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">#i18n{appcenter.manage_openam_agents.modalTitle.addOpenAMAgent}</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="jsp/site/Portal.jsp">
+                        <input type="hidden" name="page" value="openam" />
+                        <input type="hidden" name="id" value="${application.id}" />
+                        <input type="hidden" name="action" value="addAgent" />
+                        <@formGroup labelFor='application_code' labelKey='#i18n{appcenter.manage_sources.applicationCode.label}' mandatory=true class="row">
+                            <@input type='text' id='application_code' name='application_code'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='webapp_name' labelKey='#i18n{appcenter.manage_sources.webappName.label}' mandatory=true class="row">
+                            <@input type='text' id='webapp_name' name='webapp_name'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='public_url' labelKey='#i18n{appcenter.manage_sources.publicUrl.label}' mandatory=true class="row">
+                            <@input type='text' id='public_url' name='public_url'  maxlength=250 tabIndex='0' />
+                        </@formGroup>
+                        <br><br>
+                        <button class="btn btn-primary" type="submit">
+                            #i18n{appcenter.manage_openam_agents.addOpenAMAgent}
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
