@@ -141,10 +141,10 @@ public class DemandJspBean extends ManageAppCenterJspBean
     }
 
     /**
-     * Returns the form to update info about a demand
+     * Returns the task form associate to the workflow action
      *
      * @param request The Http request
-     * @return The HTML form to update info
+     * @return The HTML form the task form associate to the workflow action
      */
     @View( VIEW_TASK_FORM )
     public String getTaskForm( HttpServletRequest request )
@@ -176,7 +176,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     
    
     /**
-     * Process the change form of a demand
+     * Process workflow action
      *
      * @param request The Http request
      * @return The Jsp URL of the process result
@@ -189,7 +189,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     	Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
         Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
 
-    	 if ( !WorkflowService.getInstance( ).isDisplayTasksForm( nIdAction, getLocale( ) ) )
+    	 if ( WorkflowService.getInstance( ).isDisplayTasksForm( nIdAction, getLocale( ) ) )
          {
              return redirect(request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction);
          }
