@@ -1,5 +1,20 @@
-<input type="text" name="name"/>
-<input type="text" name="password"/>
-<input type="text" name="server_url"/>
-<input type="text" name="agent_url"/>
-<input type="text" name="environment"/>
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentName}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentName.help}' >
+	<@input type='text' name='name' value='' />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentPassword}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentPassword.help}' >
+	<@input type='text' name='password' value='' />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelServerUrl}' helpKey='#i18n{module.appcenter.openam.taskForm.labelServerUrl.help}' >
+	<@input type='text' name='server_url' value='' />
+</@formGroup>
+
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl.help}' >
+	<@input type='text' name='agent_url' value='' />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.openam.taskForm.taskForm.labelEnvironment.help}' >
+	<@input type='text' name='environment' value='' />
+</@formGroup>
+
+
+
+

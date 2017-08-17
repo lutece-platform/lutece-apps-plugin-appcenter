@@ -108,6 +108,8 @@ public final class DemandDAO implements IDemandDAO
         daoUtil.free( );
         return demand;
     }
+    
+    
 
     /**
      * {@inheritDoc }
