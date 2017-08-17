@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.Environment;
-import java.util.ArrayList;
-import java.util.List;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import static fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand.ID_DEMAND_TYPE;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import java.util.HashMap;
 import java.util.Locale;
@@ -54,6 +52,9 @@ public class MonCompteSettingDemand extends Demand
     private String _strBackButtonName;
     private String _strBackButtonUrl;
 
+    public static final String ID_DEMAND_TYPE = "moncompte_settings";
+    public static final String DEMAND_TYPE = "moncompte_settings";
+    
     private static final String TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_demand_infos.html";
 
     /**
@@ -69,7 +70,7 @@ public class MonCompteSettingDemand extends Demand
     /**
      * Sets the Environment
      *
-     * @param environment
+     * @param strEnvironment
      *            The Environment
      */
     public void setEnvironment( String strEnvironment )
@@ -167,5 +168,27 @@ public class MonCompteSettingDemand extends Demand
         Map<String,Object> model = new HashMap<String,Object>();
         model.put( MARK_DEMAND, this );
         return AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
+    }
+    
+    /**
+     * Get the demand type id
+     * @return the demand type id 
+     */
+    @JsonIgnore
+    @Override
+    public String getIdDemandType()
+    {
+        return ID_DEMAND_TYPE;
+    }
+    
+    /**
+     * Get the demand type id
+     * @return the demand type id 
+     */
+    @JsonIgnore
+    @Override
+    public String getDemandType()
+    {
+        return DEMAND_TYPE;
     }
 }

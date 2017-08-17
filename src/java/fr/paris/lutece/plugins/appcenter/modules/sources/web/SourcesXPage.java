@@ -67,7 +67,7 @@ public class SourcesXPage extends AppCenterXPage
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
 
-    public static final String DEMAND_TYPE = "sources";
+    
 
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
@@ -79,7 +79,7 @@ public class SourcesXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        addListDemand( request, application, model, DEMAND_TYPE, SourcesDemand.class );
+        addListDemand( request, application, model, SourcesDemand.ID_DEMAND_TYPE, SourcesDemand.class );
         
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
@@ -108,8 +108,6 @@ public class SourcesXPage extends AppCenterXPage
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);
         SourcesDemand sourcesDemand = new SourcesDemand( );
-        sourcesDemand.setIdDemandType( DEMAND_TYPE );
-        sourcesDemand.setDemandType( DEMAND_TYPE );
         sourcesDemand.setIdApplication( application.getId( ) );
         
         populate( sourcesDemand, request );

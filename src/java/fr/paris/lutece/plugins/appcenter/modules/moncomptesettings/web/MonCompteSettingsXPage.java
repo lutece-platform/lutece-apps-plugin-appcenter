@@ -59,7 +59,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( xpageName = "moncomptesettings", pageTitleI18nKey = "appcenter.xpage.moncompte_settings.pageTitle", pagePathI18nKey = "appcenter.xpage.moncompte_settings.pagePathLabel" )
 public class MonCompteSettingsXPage extends AppCenterXPage
 {
-    public static final String DEMAND_TYPE_KEY = "moncompte_settings";
 
     private static final String MARK_ENVIRONMENT = "environment";
 
@@ -90,7 +89,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
         model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
-        addListDemand( request, application, model, DEMAND_TYPE_KEY, MonCompteSettingDemand.class );
+        addListDemand( request, application, model, MonCompteSettingDemand.ID_DEMAND_TYPE, MonCompteSettingDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );
     }
@@ -110,8 +109,6 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         }
         
         _demand.setIdApplication( nId );
-        _demand.setDemandType( DEMAND_TYPE_KEY );
-        _demand.setIdDemandType( DEMAND_TYPE_KEY );
         
         DemandService.saveDemand( _demand, application );
 

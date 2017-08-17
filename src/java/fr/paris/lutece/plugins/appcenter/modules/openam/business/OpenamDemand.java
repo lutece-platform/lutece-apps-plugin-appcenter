@@ -72,27 +72,27 @@ public String getComplementaryInfos ( )
     return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
 }
 
+    /**
+ * Get the demand type id
+ * @return the demand type id 
+ */
+@JsonIgnore
+@Override
+public String getIdDemandType()
+{
+    return ID_DEMAND_TYPE;
+}
+
         /**
-     * Get the demand type id
-     * @return the demand type id 
-     */
-    @JsonIgnore
-    @Override
-    public String getIdDemandType()
-    {
-        return ID_DEMAND_TYPE;
-    }
-    
-            /**
-     * Get the demand type id
-     * @return the demand type id 
-     */
-    @JsonIgnore
-    @Override
-    public String getDemandType()
-    {
-        return ID_DEMAND_TYPE;
-    }
+ * Get the demand type id
+ * @return the demand type id 
+ */
+@JsonIgnore
+@Override
+public String getDemandType()
+{
+    return DEMAND_TYPE;
+}
 
  
 }

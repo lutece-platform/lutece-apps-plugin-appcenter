@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -43,6 +44,8 @@ import java.util.Map;
 public class SourcesDemand extends Demand
 {
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/sources/sources_demand_infos.html";
+    public static final String DEMAND_TYPE = "sources";
+    public static final String ID_DEMAND_TYPE = "sources";
     
     private String _strUserName;
     private String _strEmail;
@@ -91,4 +94,27 @@ public class SourcesDemand extends Demand
         model.put( MARK_DEMAND, this );
         return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
     }
+    
+    /**
+    * Get the demand type id
+    * @return the demand type id 
+    */
+   @JsonIgnore
+   @Override
+   public String getIdDemandType()
+   {
+       return ID_DEMAND_TYPE;
+   }
+
+           /**
+    * Get the demand type id
+    * @return the demand type id 
+    */
+   @JsonIgnore
+   @Override
+   public String getDemandType()
+   {
+       return DEMAND_TYPE;
+   }
+
 }

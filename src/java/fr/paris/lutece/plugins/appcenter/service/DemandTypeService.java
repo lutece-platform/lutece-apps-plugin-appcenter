@@ -34,7 +34,7 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 public class DemandTypeService
@@ -50,7 +50,7 @@ public class DemandTypeService
     public static String getWorkflowResourceType ( String strDemandTypeKey )
     {
         switch( strDemandTypeKey ) {
-            case SourcesXPage.DEMAND_TYPE:  return Demand.WORKFLOW_RESOURCE_TYPE;
+            case SourcesDemand.DEMAND_TYPE:  return Demand.WORKFLOW_RESOURCE_TYPE;
         }
         return null;
     }
