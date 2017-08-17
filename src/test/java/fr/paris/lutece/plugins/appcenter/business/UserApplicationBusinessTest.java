@@ -39,7 +39,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class UserApplicationBusinessTest extends LuteceTestCase
 {
     private final static String USERID1 = "UserId1";
-    private final static String USERID2 = "UserId2";
     private final static int USERROLE1 = 1;
     private final static int USERROLE2 = 2;
 
@@ -52,15 +51,14 @@ public class UserApplicationBusinessTest extends LuteceTestCase
 
         // Create test
         UserApplicationHome.create( userApplication );
-        UserApplication userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ) );
+        UserApplication userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ), USERID1 );
         assertEquals( userApplicationStored.getUserId( ), userApplication.getUserId( ) );
         assertEquals( userApplicationStored.getUserRole( ), userApplication.getUserRole( ) );
 
         // Update test
-        userApplication.setUserId( USERID2 );
         userApplication.setUserRole( USERROLE2 );
         UserApplicationHome.update( userApplication );
-        userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ) );
+        userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ), USERID1 );
         assertEquals( userApplicationStored.getUserId( ), userApplication.getUserId( ) );
         assertEquals( userApplicationStored.getUserRole( ), userApplication.getUserRole( ) );
 
@@ -68,8 +66,8 @@ public class UserApplicationBusinessTest extends LuteceTestCase
         UserApplicationHome.getUserApplicationsList( );
 
         // Delete test
-        UserApplicationHome.remove( userApplication.getId( ) );
-        userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ) );
+        UserApplicationHome.remove( userApplication.getId( ), USERID1 );
+        userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ), USERID1 );
         assertNull( userApplicationStored );
 
     }

@@ -45,6 +45,8 @@ import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -74,7 +76,7 @@ public class SourcesXPage extends AppCenterXPage
     public static final String DEMAND_TYPE = "sources";
 
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException
+    public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
     {
        
     	Application application = getApplication(request);
@@ -90,7 +92,7 @@ public class SourcesXPage extends AppCenterXPage
     }
 
     @Action( ACTION_ADD_SITE_REPOSITORY )
-    public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException
+    public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
     {
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
         Application application = getApplication(request);
@@ -107,7 +109,7 @@ public class SourcesXPage extends AppCenterXPage
 
 
     @Action( ACTION_ADD_ACCESS_DEMAND )
-    public XPage doAddAccessDemand( HttpServletRequest request )  throws UserNotSignedException
+    public XPage doAddAccessDemand( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         Application application = getApplication(request);

@@ -45,6 +45,10 @@ import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.SiteMessage;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -53,6 +57,7 @@ import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 
 /**
  *
@@ -61,23 +66,33 @@ import java.util.Map;
  */
 public class AppCenterXPage extends MVCApplication
 {
-
+    private static final String MARK_ERROR = "error";
+    private static final String ERROR_APP_NOT_FOUND = "appcenter.error.applicationNotFound";
+    private static final String ERROR_USER_NOT_AUTHORIZED = "appcenter.error.userNotAuthorized";
+    private static final String ERROR_INVALID_APP_ID = "appcenter.error.invalidAppId";
+    
+    
     private static final long serialVersionUID = -490960650523760757L;
-
-    public Application getApplication(HttpServletRequest request) throws UserNotSignedException
+    
+    /**
+     * Get the current application
+     * @param request The HTTP request
+     * @return The application
+     * @throws UserNotSignedException If the user is not signed
+     * @throws fr.paris.lutece.portal.service.message.SiteMessageException if an error occurs
+     */
+    public Application getApplication(HttpServletRequest request) throws UserNotSignedException, SiteMessageException
     {
 
-        Application application;
+        Application application = null;
         LuteceUser user = null;
         if (SecurityService.isAuthenticationEnable())
         {
-
             user = SecurityService.getInstance().getRemoteUser(request);
             if (user == null)
             {
                 throw new UserNotSignedException();
             }
-
         }
 
         try
@@ -86,19 +101,16 @@ public class AppCenterXPage extends MVCApplication
             application = ApplicationHome.findByPrimaryKey(nId);
             if( application == null )
             {
-                addError( "Application not found" );
-                return null;
+                SiteMessageService.setMessage(request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
             }
             if( user != null && !ApplicationHome.isAuthorized( nId, user.getEmail()) )
             {
-                addError( "User not authorized" );
-                return null;
+                SiteMessageService.setMessage(request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
             }
         }
         catch( NumberFormatException e )
         {
-            addError( "Invalid application ID" );
-            return null;
+            SiteMessageService.setMessage(request, ERROR_INVALID_APP_ID, SiteMessage.TYPE_ERROR );
         }
 
         return application;
@@ -126,5 +138,15 @@ public class AppCenterXPage extends MVCApplication
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
             
+    /**
+     * Get a message from message bundle files
+     * 
+     * @param strMessageKey The message key
+     * @return The message
+     */
+    private String getMessage( String strMessageKey )
+    {
+         return I18nService.getLocalizedString( strMessageKey , LocaleService.getDefault() );
+    }
 
 }

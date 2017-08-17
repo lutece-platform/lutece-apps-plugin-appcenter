@@ -42,13 +42,13 @@ import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.web.xpages.XPage;
-import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
  * This class provides the user interface to manage Application xpages ( manage, create, modify, remove )
  */
 @Controller( xpageName = "application", pageTitleI18nKey = "appcenter.xpage.application.pageTitle", pagePathI18nKey = "appcenter.xpage.application.pagePathLabel" )
-public class ApplicationXPage extends MVCApplication
+public class ApplicationXPage extends AppCenterXPage
 {
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -184,12 +184,12 @@ public class ApplicationXPage extends MVCApplication
      * @param request
      *            The Http request
      * @return The HTML form to update info
+     * @throws UserNotSignedException If user not connected
      */
     @View( VIEW_MODIFY_APPLICATION )
-    public XPage getModifyApplication( HttpServletRequest request )
+    public XPage getModifyApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
-        _application = ApplicationHome.findByPrimaryKey( nId );
+        _application = getApplication( request );
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, _application );
