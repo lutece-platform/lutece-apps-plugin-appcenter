@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mchange.lang.StringUtils;
 import java.io.Serializable;
 
 /**

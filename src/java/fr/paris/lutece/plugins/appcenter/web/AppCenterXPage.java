@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import static fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesXPage.DEMAND_TYPE;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
@@ -121,13 +120,14 @@ public class AppCenterXPage extends MVCApplication
      * @param request The HTTP request
      * @param application The aapplication
      * @param model The model
+     * @param strDemandType the demand type
      * @param demandClass The demand class
      */
-    protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, Class<T> demandClass )
+    protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, String strDemandType, Class<T> demandClass )
     {
-        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, DEMAND_TYPE, demandClass);
+        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType , demandClass);
         model.put( Constants.MARK_DEMANDS, listDemand );
-        int nIdWorkflow = DemandTypeService.getIdWorkflow( DEMAND_TYPE );
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( strDemandType );
         Map<String, Object> mapStates = new HashMap<>();
         Map<String, Object> mapHistories = new HashMap<>();
         for (T demand: listDemand) {

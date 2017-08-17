@@ -56,7 +56,7 @@ public class DemandService
          demand.setDemandData( getDemandAsString( demand ) );
          DemandHome.create( demand );
           //Run the workflow
-        int nIdResource = application.getId( );
+        int nIdResource = demand.getId( );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
         WorkflowService.getInstance( ).getState( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
         WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );

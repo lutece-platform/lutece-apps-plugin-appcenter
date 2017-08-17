@@ -1,0 +1,51 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demand" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_demand.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_demand' action='jsp/admin/plugins/appcenter/ManageDemands.jsp'>
+			<@button type='submit' name='view_createDemand' buttonIcon='plus' title='#i18n{appcenter.manage_demand.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>    
+            <th>#i18n{appcenter.manage_demands.columnDemandType}</th>
+            <th>#i18n{appcenter.manage_demands.columnApplicationName}</th>
+            <th>#i18n{appcenter.manage_demands.columnWorkflowStatus}</th>
+            <th>#i18n{appcenter.manage_demands.columnStatusText}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list demand_list as demand >
+                <tr>
+                    <input type="hidden" id="id" name="id"/>
+                    <td>
+                        ${demand.demandType!''}
+                    </td>
+                    <td>
+                        ${(applications[demand.idApplication?string].name)!''}
+                    </td>
+                    <td>
+                        ${(states[demand.id?string].name)!''}
+                    </td>
+                    <td>
+                        ${demand.statusText!''}
+                    </td>
+                <td>
+                    <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?view=modifyDemand&id=${demand.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+
+                    <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=confirmRemoveDemand&id=${demand.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+                </td>
+                </tr>
+            </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

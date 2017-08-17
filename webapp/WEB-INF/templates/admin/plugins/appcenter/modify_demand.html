@@ -1,0 +1,29 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demand" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_demand.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_demand" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${demand.id}"/>
+			
+				<@formGroup labelKey='#i18n{appcenter.modify_demand.labelStatusText}' helpKey='#i18n{appcenter.modify_demand.labelStatusText.help}' >
+					<@input type='text' name='statustext' value='${demand.statusText}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demand.labelDemandType}' helpKey='#i18n{appcenter.modify_demand.labelDemandType.help}' mandatory=true>
+					<@input type='text' name='demandtype' value='${demand.demandType}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demand.labelIdApplication}' helpKey='#i18n{appcenter.modify_demand.labelIdApplication.help}' mandatory=true>
+					<@input type='text' name='idapplication' value='${demand.idApplication}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demand.labelDemandData}' helpKey='#i18n{appcenter.modify_demand.labelDemandData.help}' >
+					<@input type='text' name='demand_data' value='${demand.demandData}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demand.labelIdDemandType}' helpKey='#i18n{appcenter.modify_demand.labelIdDemandType.help}' >
+					<@input type='text' name='id_demand_type' value='${demand.idDemandType}' />
+				</@formGroup>
+        <@actionButtons button1Name="action_modifyDemand" button2Name="view_manageDemand"/>
+    </@tform>
+	</@boxBody>
+</@box>
