@@ -8,4 +8,4 @@ INSERT INTO workflow_state VALUES
 (102,'Close','Demande close',100,0,0,NULL,3);
 
 
-INSERT INTO workflow_action VALUES (100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,1,2,3,1,0,1,0);
+INSERT INTO workflow_action VALUES (100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,100,101,3,1,0,1,0);
