@@ -85,6 +85,22 @@ public final class ApplicationHome
     }
 
     /**
+     * Update of the application data 
+     * 
+     * @param nApplicationId
+     *          The application ID
+     * 
+     *            The instance of the Application which contains the data to store
+     * @param strData
+     *          The data
+     */
+    public static void updateData( int nApplicationId , String strData )
+    {
+        _dao.storeData( nApplicationId, strData , _plugin );
+
+    }
+
+    /**
      * Remove the application whose identifier is specified in parameter
      * 
      * @param nKey

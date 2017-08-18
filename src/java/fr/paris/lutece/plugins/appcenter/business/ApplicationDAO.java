@@ -51,7 +51,8 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_SELECT = "SELECT id_application, name, description, application_data FROM appcenter_application WHERE id_application = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data ) VALUES ( ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET id_application = ?, name = ?, description = ?, application_data = ? WHERE id_application = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? WHERE id_application = ?";
+    private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data FROM appcenter_application";
     private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data, b.user_role "
             + " FROM appcenter_application a, appcenter_user_application b "
@@ -155,11 +156,25 @@ public final class ApplicationDAO implements IApplicationDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
 
-        daoUtil.setInt( nIndex++, application.getId( ) );
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
-        daoUtil.setString( nIndex++, application.getApplicationData( ) );
         daoUtil.setInt( nIndex, application.getId( ) );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void storeData( int nApplicationId, String strData, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATA, plugin );
+        int nIndex = 1;
+
+        daoUtil.setString( nIndex++, strData );
+        daoUtil.setInt( nIndex, nApplicationId );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );

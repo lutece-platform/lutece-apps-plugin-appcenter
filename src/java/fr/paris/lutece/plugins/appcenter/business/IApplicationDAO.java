@@ -131,4 +131,18 @@ public interface IApplicationDAO
      */
     int getUserRole( int nApplicationId, String strUserId, Plugin plugin );
 
+    /**
+     * Update of the application data 
+     * 
+     * @param nApplicationId
+     *          The application ID
+     * 
+     *            The instance of the Application which contains the data to store
+     * @param strData
+     *          The data
+     * @param plugin
+     *          The plugin
+     */
+    void storeData(int nApplicationId, String strData, Plugin plugin);
+
 }
