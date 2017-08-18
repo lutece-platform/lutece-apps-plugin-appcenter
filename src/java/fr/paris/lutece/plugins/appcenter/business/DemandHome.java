@@ -98,6 +98,17 @@ public final class DemandHome
     {
         return _dao.load( nKey, _plugin);
     }
+    
+    
+    /**
+     * Returns an instance of a demand whose identifier is specified in parameter
+     * @param nKey The demand primary key
+     * @return an instance of Demand
+     */
+    public static <T extends Demand> T  findByPrimaryKey( int nKey,Class<T> demandClass)
+    {
+        return _dao.load(nKey, demandClass, _plugin);
+    }
 
     /**
      * Load the data of all the demand objects and returns them as a list

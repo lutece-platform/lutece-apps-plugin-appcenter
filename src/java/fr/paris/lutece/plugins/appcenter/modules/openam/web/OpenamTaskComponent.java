@@ -16,6 +16,8 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentData;
+import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
+import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.plugins.workflow.web.task.NoConfigTaskComponent;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
@@ -37,7 +39,9 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
 
     // MARKS
-    private static final String MARK_HISTORY_LIST = "listHistory";
+ 
+    
+    
 
     @Inject
     private IResourceHistoryService _resourceHistoryService;
@@ -50,7 +54,16 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
         Locale locale, ITask task )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-
+        
+        OpenamDemand demand= DemandHome.findByPrimaryKey(nIdResource, OpenamDemand.class);
+        if(demand!=null)
+        {
+            model.put(Constants.MARK_DEMAND, demand);
+            Application application=ApplicationHome.findByPrimaryKey(demand.getIdApplication());
+            model.put(Constants.MARK_APPLICATION, application);
+        	
+        }
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_TASK_FORM, locale, model );
 
         return template.getHtml(  );

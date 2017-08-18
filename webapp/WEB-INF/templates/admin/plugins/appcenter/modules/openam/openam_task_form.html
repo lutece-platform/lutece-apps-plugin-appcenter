@@ -1,3 +1,32 @@
+<div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{module.appcenter.openam.taskForm.tabHeader.applicationCode}</th>
+            <th>#i18n{module.appcenter.openam.taskForm.tabHeader.applicationWebappName}</th>
+            <th>#i18n{module.appcenter.openam.taskForm.tabHeader.publicUrl}</th>
+            <th>#i18n{module.appcenter.openam.taskForm.tabHeader.environment}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+           <tr>
+	            <input type="hidden" id="id" name="id"/>
+	            <td>
+	               ${demand.applicationCode}
+	            </td>
+	            <td>
+	               ${demand.webappName}
+	            </td>
+	            <td>
+	                ${demand.publicUrl}
+	            </td>
+	   
+	            <td>
+	               ${demand.environment}
+	            </td>
+	        </tr>
+	     
+    </@table>
+
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentName}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentName.help}' >
 	<@input type='text' name='name' value='' />
 </@formGroup>

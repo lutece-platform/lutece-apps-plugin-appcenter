@@ -74,6 +74,15 @@ public interface IDemandDAO
      * @return The instance of the demand
      */
     Demand load( int nKey, Plugin plugin );
+    
+    /**
+     * Load the data from the table
+     * @param nKey The identifier of the demand
+     * @param demandClass demand class
+     * @param plugin the Plugin
+     * @return The instance of the demand
+     */
+    <T extends Demand> T load( int nKey, Class<T> demandClass,Plugin plugin );
 
     /**
      * Load the data of all the demand objects and returns them as a list

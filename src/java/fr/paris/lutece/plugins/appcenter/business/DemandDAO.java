@@ -109,6 +109,29 @@ public final class DemandDAO implements IDemandDAO
         return demand;
     }
     
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public <T extends Demand> T load( int nKey, Class<T> demandClass,Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
+        daoUtil.setInt( 1 , nKey );
+        daoUtil.executeQuery( );
+        T demand = null;
+
+        if ( daoUtil.next( ) )
+        {
+            //TODO use finally for free because this throws
+            demand = getRow( daoUtil,demandClass);
+        }
+
+        daoUtil.free( );
+        return demand;
+    }
+    
+    
+    
     
 
     /**
