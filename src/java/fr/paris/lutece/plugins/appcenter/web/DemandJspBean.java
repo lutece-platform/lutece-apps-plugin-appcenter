@@ -75,6 +75,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String MARK_DEMAND_LIST = "demand_list";
     private static final String MARK_DEMAND = "demand";
     private static final String MARK_ID_ACTION = "id_action";
+    private static final String MARK_APPLICATION = "application";
     
     private static final String MARK_TASK_FORM = "task_form";
     
@@ -152,7 +153,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     @View( VIEW_TASK_FORM )
     public String getTaskForm( HttpServletRequest request )
     {
-    	
+        //Demand
     	Demand demand=null;
         Integer nIdDemand =  request.getParameter( PARAMETER_ID_DEMAND )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ):null;
         Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION )!=null?Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ):null;
@@ -164,12 +165,16 @@ public class DemandJspBean extends ManageAppCenterJspBean
         }
         
         demand = DemandHome.findByPrimaryKey( nIdDemand );
+        
+        //Aplication
+        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication() );
     
        String strHtmlTasksForm = WorkflowService.getInstance( ).getDisplayTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, request,
                 getLocale( ) );
         
         Map<String, Object> model = getModel(  );
         model.put( MARK_DEMAND, demand );
+        model.put( MARK_APPLICATION, application );
         model.put( MARK_ID_ACTION,nIdAction  );
         
         model.put( MARK_TASK_FORM, strHtmlTasksForm );

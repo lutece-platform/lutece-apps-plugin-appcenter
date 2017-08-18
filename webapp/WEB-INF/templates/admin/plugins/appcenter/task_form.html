@@ -4,11 +4,15 @@
 <@box>
 	<@boxHeader title='#i18n{appcenter.task_form.title}' />
 	<@boxBody>
-    <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
+                <!-- Display info about application -->
+                <h4>#i18n{appcenter.task_form.application.name} : ${application.name}</h4>
+                <h5>#i18n{appcenter.task_form.application.description} : ${application.description}</h5>
+                </br>
+                <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
 			<@messages errors=errors />
 			<input type="hidden" id="id" name="id" value="${demand.id}"/>
 			<input type="hidden" id="id_action" name="id_action" value="${id_action}"/>
-		
+                        
 					${task_form}
 		<@actionButtons button1Name="action_saveTaskForm" button2Name="process_task_form"/>
     </@tform>
