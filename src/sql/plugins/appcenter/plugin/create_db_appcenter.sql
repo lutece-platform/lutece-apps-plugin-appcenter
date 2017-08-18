@@ -36,6 +36,7 @@ id_demand_type varchar(255) NOT NULL,
 demand_type long varchar NOT NULL,
 id_application int(11) default '0' NOT NULL,
 demand_content TEXT,
+creation_date datetime NOT NULL,
 PRIMARY KEY (id_demand) 
 );
 

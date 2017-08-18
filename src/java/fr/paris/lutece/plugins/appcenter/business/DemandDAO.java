@@ -53,12 +53,13 @@ import fr.paris.lutece.util.sql.DAOUtil;
 public final class DemandDAO implements IDemandDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content FROM appcenter_demand WHERE id_demand = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( status_text, id_demand_type,  demand_type, id_application, demand_content ) VALUES ( ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date FROM appcenter_demand WHERE id_demand = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( status_text, id_demand_type,  demand_type, id_application, demand_content,creation_date ) VALUES ( ?, ?, ?, ?, ? , ?) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ? WHERE id_demand = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content FROM appcenter_demand";
-    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? ";
+
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ?, creation_date = ? WHERE id_demand = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date FROM appcenter_demand";
+    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? " ;
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
@@ -77,13 +78,16 @@ public final class DemandDAO implements IDemandDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
-        daoUtil.setString( nIndex++, demand.getStatusText( ) );
-        daoUtil.setString( nIndex++, demand.getIdDemandType( ) );
-        daoUtil.setString( nIndex++, demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++, demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++, demand.getDemandData( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.nextGeneratedKey( );
+
+        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
+        daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
+        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
+        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
+        daoUtil.setTimestamp( nIndex++ , demand.getCreationDate() );
+        daoUtil.executeUpdate();
+        daoUtil.nextGeneratedKey();
+        
         demand.setId( daoUtil.getGeneratedKeyInt( 1 ) );
 
         daoUtil.free( );
@@ -152,13 +156,16 @@ public final class DemandDAO implements IDemandDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
 
-        daoUtil.setInt( nIndex++, demand.getId( ) );
-        daoUtil.setString( nIndex++, demand.getStatusText( ) );
-        daoUtil.setString( nIndex++, demand.getIdDemandType( ) );
-        daoUtil.setString( nIndex++, demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++, demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++, demand.getDemandData( ) );
-        daoUtil.setInt( nIndex, demand.getId( ) );
+        
+        daoUtil.setInt( nIndex++ , demand.getId( ) );
+        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
+        daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
+        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
+        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
+        daoUtil.setTimestamp( nIndex++ , demand.getCreationDate() );
+        
+        daoUtil.setInt( nIndex , demand.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -290,6 +297,7 @@ public final class DemandDAO implements IDemandDAO
             demand.setDemandType( daoUtil.getString( nIndex++ ) );
             demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
             demand.setDemandData( daoUtil.getString( nIndex++ ) );
+            demand.setCreationDate( daoUtil.getTimestamp( nIndex++  ) );
             return demand;
         }
         catch( IOException e )

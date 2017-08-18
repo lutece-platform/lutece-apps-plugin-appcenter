@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.sql.Timestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This is the business class for the object Demand
@@ -63,8 +65,13 @@ public class Demand implements Serializable
 
     @JsonIgnore
     private String _strDemandData;
+   
+    @JsonIgnore
+    private Timestamp _creationDate;
 
-    /**
+  
+
+	/**
      * Returns the Id
      * 
      * @return The Id
@@ -198,5 +205,16 @@ public class Demand implements Serializable
     public String getComplementaryInfos( )
     {
         return "";
+
     }
+    
+    @JsonIgnore
+    public Timestamp getCreationDate() {
+  		return _creationDate;
+  	}
+
+  	public void setCreationDate(Timestamp _creationTimestamp) {
+  		this._creationDate = _creationTimestamp;
+  	}
+
 }

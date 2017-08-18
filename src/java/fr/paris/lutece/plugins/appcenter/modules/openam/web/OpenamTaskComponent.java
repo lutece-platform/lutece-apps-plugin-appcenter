@@ -1,15 +1,15 @@
 package fr.paris.lutece.plugins.appcenter.modules.openam.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
@@ -74,10 +74,21 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
         OpenamAgentData openamAgentData = new OpenamAgentData( );
         BeanUtil.populate( openamAgentData, request );
 
-        // FIXME return real error message here
-        if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty( ) )
+
+        //FIXME return real error message here
+        
+        Set<ConstraintViolation<OpenamAgentData>> errors = BeanValidationUtil.validate( openamAgentData );
+        if ( !errors.isEmpty() )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, AdminMessage.TYPE_STOP );
+        
+        	for ( ConstraintViolation<OpenamAgentData> constraint : errors )
+            {
+        	
+        		
+        		return constraint.getMessage();
+            }
+        	
+           
         }
 
         return null;

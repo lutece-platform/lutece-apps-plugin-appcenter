@@ -80,8 +80,9 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     private static final String MARK_APPLICATION_MAP = "applications";
     private static final String MARK_STATES_MAP = "states";
-    private static final String MARK_ACTIONS = "actions";
 
+    private static final String MARK_ACTIONS_MAP = "actions";
+    private static final String MARK_HISTORIES_MAP = "histories";
     private static final String JSP_MANAGE_DEMANDS = "jsp/admin/plugins/appcenter/ManageDemands.jsp";
 
     // Properties
@@ -107,9 +108,12 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
         List<Demand> listDemands = DemandHome.getDemandsList( );
         int nIdWorkflow;
-        Map<String, Application> mapApplications = new HashMap<>( );
-        Map<String, State> mapStates = new HashMap<>( );
-        Map<String, Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>( );
+
+        Map<String,Application> mapApplications = new HashMap<>();
+        Map<String,State> mapStates = new HashMap<>();
+        Map<String,String> mapHistories = new HashMap<>();
+        
+        Map<String,Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>();
 
         for ( Application app : ApplicationHome.getApplicationsList( ) )
         {
@@ -118,19 +122,27 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
         for ( Demand demand : DemandHome.getDemandsList( ) )
         {
-            nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId( ) ), state );
-            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),
-                    Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, getUser( ) );
-            mapActions.put( Integer.toString( demand.getId( ) ), listActions );
-        }
 
+        	nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE,nIdWorkflow , -1 );
+            mapStates.put( Integer.toString( demand.getId() ), state );
+            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),  Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
+                    getUser() );
+            mapActions.put(Integer.toString( demand.getId() ), listActions);
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
+                    demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
+            		);
+            mapHistories.put(Integer.toString( demand.getId() ), strHistoryHtml);
+            
+       }
+        
         Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );
-        model.put( MARK_ACTIONS, mapActions );
-
+        model.put( MARK_ACTIONS_MAP, mapActions );
+        model.put( MARK_HISTORIES_MAP, mapHistories );
+        
+        
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_DEMANDS, TEMPLATE_MANAGE_DEMANDS, model );
     }
 
@@ -213,22 +225,24 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
         if ( WorkflowService.getInstance( ).canProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, false ) )
         {
-            try
-            {
-                String strError = WorkflowService.getInstance( )
-                        .doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ) );
 
-                if ( strError != null )
-                {
-                    return strError;
-                }
+	        try
+	        {
+	            String strError = WorkflowService.getInstance( ).doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1,
+	                    request, getLocale() );
+	            if(strError!=null)
+	            {
+	            	addError(strError);
+	            	return redirect(request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction);
+	            }
+	          
+	        }
+	        catch( Exception e )
+	        {
+	             AppLogService.error( "Error processing action for demand '" + nIdDemand , e );
+	         
+	        }
 
-            }
-            catch( Exception e )
-            {
-                AppLogService.error( "Error processing action for demand '" + nIdDemand, e );
-
-            }
         }
         else
         {

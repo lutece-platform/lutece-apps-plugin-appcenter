@@ -18,6 +18,7 @@
             <th>#i18n{appcenter.manage_demands.columnApplicationName}</th>
             <th>#i18n{appcenter.manage_demands.columnWorkflowStatus}</th>
             <th>#i18n{appcenter.manage_demands.columnStatusText}</th>
+            <th>#i18n{appcenter.manage_demands.columnCreationDate}</th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
         <@tableHeadBodySeparator />
@@ -36,17 +37,16 @@
                     <td>
                         ${demand.statusText!''}
                     </td>
-                <td>
-                
-                
-                
-                 <#assign listActions = actions[demand.id?string] />
-                  <#if listActions??>
-           			<#list listActions  as action>
-           				<@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=processAction&id=${demand.id}&id_action=${action.id}' title='${action.name}' buttonIcon='pencil' showTitle=true />
-     				</#list>
-				 </#if>
-                </td>
+                    <td>
+                    	 ${demand.creationDate}
+	                <td>
+		                  <#assign listActions = actions[demand.id?string] />
+		                  <#if listActions??>
+		           			<#list listActions  as action>
+		           				<@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=processAction&id=${demand.id}&id_action=${action.id}' title='${action.name}' buttonIcon='pencil' showTitle=true />
+		     				</#list>
+						 </#if>
+	                </td>
                 </tr>
             </#list>
     </@table>
