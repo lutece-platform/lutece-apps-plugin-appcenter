@@ -40,6 +40,8 @@
                     <td>
                     	 ${demand.creationDate}
 	                <td>
+	                		<@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?view=demandHistory&id=${demand.id}' title='#i18n{appcenter.manage_demands.action_viewHistory}' buttonIcon='pencil' showTitle=false />
+				
 		                  <#assign listActions = actions[demand.id?string] />
 		                  <#if listActions??>
 		           			<#list listActions  as action>

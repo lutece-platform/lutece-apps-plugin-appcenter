@@ -61,6 +61,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Templates
     private static final String TEMPLATE_MANAGE_DEMANDS = "/admin/plugins/appcenter/manage_demands.html";
     private static final String TEMPLATE_TASK_FORM = "/admin/plugins/appcenter/task_form.html";
+    private static final String TEMPLATE_DEMAND_HISTORY = "/admin/plugins/appcenter/demand_history.html";
+    
 
     // Parameters
     private static final String PARAMETER_ID_DEMAND = "id";
@@ -69,6 +71,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_DEMANDS = "appcenter.manage_demands.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_TASK_FORM = "appcenter.task_form.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_DEMAND_HISTORY = "appcenter.demand_history.pageTitle";
+    
 
     // Markers
     private static final String MARK_DEMAND_LIST = "demand_list";
@@ -82,7 +86,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String MARK_STATES_MAP = "states";
 
     private static final String MARK_ACTIONS_MAP = "actions";
-    private static final String MARK_HISTORIES_MAP = "histories";
+    private static final String MARK_HISTORY = "history";
     private static final String JSP_MANAGE_DEMANDS = "jsp/admin/plugins/appcenter/ManageDemands.jsp";
 
     // Properties
@@ -90,6 +94,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Views
     private static final String VIEW_MANAGE_DEMANDS = "manageDemands";
     private static final String VIEW_TASK_FORM = "taskForm";
+    private static final String VIEW_HISTORY = "demandHistory";
+    
 
     // Actions
     private static final String ACTION_PROCESS_ACTION = "processAction";
@@ -129,10 +135,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
             Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),  Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
                     getUser() );
             mapActions.put(Integer.toString( demand.getId() ), listActions);
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
-                    demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
-            		);
-            mapHistories.put(Integer.toString( demand.getId() ), strHistoryHtml);
+         
             
        }
         
@@ -140,7 +143,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );
         model.put( MARK_ACTIONS_MAP, mapActions );
-        model.put( MARK_HISTORIES_MAP, mapHistories );
+ 
         
         
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_DEMANDS, TEMPLATE_MANAGE_DEMANDS, model );
@@ -183,6 +186,41 @@ public class DemandJspBean extends ManageAppCenterJspBean
         model.put( MARK_TASK_FORM, strHtmlTasksForm );
 
         return getPage( PROPERTY_PAGE_TITLE_TASK_FORM, TEMPLATE_TASK_FORM, model );
+    }
+    /**
+     * Returns the task form associate to the workflow action
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form the task form associate to the workflow action
+     */
+    @View( VIEW_HISTORY )
+    public String getViewHistory(HttpServletRequest request )
+    {
+        // Demand
+        Demand demand = null;
+        Integer nIdDemand = request.getParameter( PARAMETER_ID_DEMAND ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ) : null;
+       
+       
+        demand = DemandHome.findByPrimaryKey( nIdDemand );
+        int  nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
+        
+        String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
+                demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
+        		);
+  
+        // Aplication
+        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
+
+       
+        Map<String, Object> model = getModel( );
+        model.put( MARK_DEMAND, demand );
+        model.put( MARK_APPLICATION, application );
+        model.put( MARK_HISTORY, strHistoryHtml );
+
+   
+
+        return getPage( PROPERTY_PAGE_TITLE_DEMAND_HISTORY, TEMPLATE_DEMAND_HISTORY, model );
     }
 
     /**

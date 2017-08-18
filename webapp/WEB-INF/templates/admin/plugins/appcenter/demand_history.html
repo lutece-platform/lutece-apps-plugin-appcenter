@@ -1,0 +1,21 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demand" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.demand_history.title}' />
+	<@boxBody>
+	
+	     <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
+	
+                <!-- Display info about application -->
+                <h4>#i18n{appcenter.demand_history.application.name} : ${application.name}</h4>
+                <h5>#i18n{appcenter.demand_history.application.description} : ${application.description}</h5>
+                 <h4>#i18n{appcenter.demand_history.application.name} : ${application.name}</h4>
+               
+                 
+                </br>
+             		${history}
+        	      <@actionButtons  button1Name="view_manageDemands"/>
+    	</@tform>  		
+	</@boxBody>
+</@box>
