@@ -1,3 +1,14 @@
+<#if demand.environment=='rec' >
+  <#assign defaultAgentName = "${demand.applicationCode}.rec.apps.paris.mdp" />
+  <#assign defaultAgentPassword = "${demand.applicationCode}.rec.apps.paris.mdp" />
+  <#assign defaultServerUrl= "http://v69.rec.apps.paris.mdp:80/v69" />
+  <#assign defaultAgentUrl= "http://${demand.applicationCode}.rec.apps.paris.mdp:80/agent4v69" />
+<#else>
+	<#assign defaultAgentName = "${demand.applicationCode}.apps.paris.mdp" />
+ 	<#assign defaultServerUrl= "http://v69.apps.paris.mdp:80/v69" />
+  	<#assign defaultAgentUrl= "http://${demand.applicationCode}.apps.paris.mdp:80/agent4v69" />
+</#if>
+  
 <div class="clearfix"></div>
     <@table>
         <tr>
@@ -28,22 +39,18 @@
     </@table>
 
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentName}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentName.help}' >
-	<@input type='text' name='name' value='' />
+	<@input type='text' name='name' value="${defaultAgentName!''}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentPassword}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentPassword.help}' >
-	<@input type='text' name='password' value='' />
+	<@input type='text' name='password' value="${defaultAgentPassword!''}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelServerUrl}' helpKey='#i18n{module.appcenter.openam.taskForm.labelServerUrl.help}' >
-	<@input type='text' name='server_url' value='' />
+	<@input type='text' name='server_url' value="${defaultServerUrl!''}" />
 </@formGroup>
 
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl.help}' >
-	<@input type='text' name='agent_url' value='' />
+	<@input type='text' name='agent_url' value="${defaultAgentUrl!''}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.openam.taskForm.taskForm.labelEnvironment.help}' >
-	<@input type='text' name='environment' value='' />
+	<@input type='text' name='environment' value='${demand.environment}' readonly=true />
 </@formGroup>
-
-
-
-
