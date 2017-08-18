@@ -43,8 +43,8 @@ import java.util.ArrayList;
 public class MonCompteSettingsData implements DataSubset
 {
     public static final String DATA_SUBSET_NAME = "moncompte_settings";
-    
-    private List<MonCompteSettingData> _listSettings = new ArrayList<MonCompteSettingData>(  );
+
+    private List<MonCompteSettingData> _listSettings = new ArrayList<MonCompteSettingData>( );
 
     /**
      * {@inheritDoc }

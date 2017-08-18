@@ -92,7 +92,7 @@ public final class UserApplicationHome
      * @param strUserId
      *            The user ID
      */
-    public static void remove( int nKey , String strUserId )
+    public static void remove( int nKey, String strUserId )
     {
         _dao.delete( nKey, strUserId, _plugin );
     }
@@ -106,9 +106,9 @@ public final class UserApplicationHome
      *            The user ID
      * @return an instance of UserApplication
      */
-    public static UserApplication findByPrimaryKey( int nKey , String strUserId )
+    public static UserApplication findByPrimaryKey( int nKey, String strUserId )
     {
-        return _dao.load( nKey, strUserId , _plugin );
+        return _dao.load( nKey, strUserId, _plugin );
     }
 
     /**

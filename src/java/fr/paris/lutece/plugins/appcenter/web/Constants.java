@@ -59,5 +59,4 @@ public class Constants
     public static final String MARK_ADMIN_ROLE = "admin_role";
     public static final String MARK_HISTORY_LIST = "listHistory";
 
-
 }

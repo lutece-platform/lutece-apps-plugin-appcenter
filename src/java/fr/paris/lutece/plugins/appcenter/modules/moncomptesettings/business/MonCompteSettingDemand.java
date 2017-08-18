@@ -54,7 +54,7 @@ public class MonCompteSettingDemand extends Demand
 
     public static final String ID_DEMAND_TYPE = "moncompte_settings";
     public static final String DEMAND_TYPE = "moncompte_settings";
-    
+
     private static final String TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_demand_infos.html";
 
     /**
@@ -161,33 +161,35 @@ public class MonCompteSettingDemand extends Demand
     {
         _strBackButtonUrl = strBackButtonUrl;
     }
-    
+
     @Override
-    public String getComplementaryInfos ( )
+    public String getComplementaryInfos( )
     {
-        Map<String,Object> model = new HashMap<String,Object>();
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DEMAND, this );
-        return AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
+        return AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
     }
-    
+
     /**
      * Get the demand type id
-     * @return the demand type id 
+     * 
+     * @return the demand type id
      */
     @JsonIgnore
     @Override
-    public String getIdDemandType()
+    public String getIdDemandType( )
     {
         return ID_DEMAND_TYPE;
     }
-    
+
     /**
      * Get the demand type id
-     * @return the demand type id 
+     * 
+     * @return the demand type id
      */
     @JsonIgnore
     @Override
-    public String getDemandType()
+    public String getDemandType( )
     {
         return DEMAND_TYPE;
     }

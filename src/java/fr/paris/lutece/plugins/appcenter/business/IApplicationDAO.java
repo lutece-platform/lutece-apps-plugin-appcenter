@@ -98,11 +98,14 @@ public interface IApplicationDAO
 
     /**
      * Get authorized app for a given user
-     * @param strUserId The user ID
-     * @param plugin The plugin
+     * 
+     * @param strUserId
+     *            The user ID
+     * @param plugin
+     *            The plugin
      * @return The list of apps
      */
-    List<AuthorizedApp> selectByUserId( String strUserId , Plugin plugin);
+    List<AuthorizedApp> selectByUserId( String strUserId, Plugin plugin );
 
     /**
      * Load the data of all the application objects and returns them as a referenceList
@@ -112,37 +115,45 @@ public interface IApplicationDAO
      * @return The referenceList which contains the data of all the application objects
      */
     ReferenceList selectApplicationsReferenceList( Plugin plugin );
-    
+
     /**
      * Checks if an application is authorized for a given user
-     * @param nApplicationId The application Id
-     * @param strUserId The user Id
-     * @param plugin The plugin
+     * 
+     * @param nApplicationId
+     *            The application Id
+     * @param strUserId
+     *            The user Id
+     * @param plugin
+     *            The plugin
      * @return true if authorized
      */
-    boolean isAuthorized(int nApplicationId, String strUserId, Plugin plugin);
-    
+    boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin );
+
     /**
      * Get the role of the user for a given application
-     * @param nApplicationId The application Id
-     * @param strUserId The user Id
-     * @param plugin The plugin 
+     * 
+     * @param nApplicationId
+     *            The application Id
+     * @param strUserId
+     *            The user Id
+     * @param plugin
+     *            The plugin
      * @return The role
      */
     int getUserRole( int nApplicationId, String strUserId, Plugin plugin );
 
     /**
-     * Update of the application data 
+     * Update of the application data
      * 
      * @param nApplicationId
-     *          The application ID
+     *            The application ID
      * 
      *            The instance of the Application which contains the data to store
      * @param strData
-     *          The data
+     *            The data
      * @param plugin
-     *          The plugin
+     *            The plugin
      */
-    void storeData(int nApplicationId, String strData, Plugin plugin);
+    void storeData( int nApplicationId, String strData, Plugin plugin );
 
 }

@@ -62,9 +62,9 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , resourceHistory.getIdWorkflowHistory( ) );
-        daoUtil.setInt( nIndex++ , resourceHistory.getIdUserFront( ) );
+
+        daoUtil.setInt( nIndex++, resourceHistory.getIdWorkflowHistory( ) );
+        daoUtil.setInt( nIndex++, resourceHistory.getIdUserFront( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -77,15 +77,15 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     public DemandHistory load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         DemandHistory resourceHistory = null;
 
         if ( daoUtil.next( ) )
         {
-            resourceHistory = new DemandHistory();
+            resourceHistory = new DemandHistory( );
             int nIndex = 1;
-            
+
             resourceHistory.setIdWorkflowHistory( daoUtil.getInt( nIndex++ ) );
             resourceHistory.setIdUserFront( daoUtil.getInt( nIndex++ ) );
         }
@@ -101,7 +101,7 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -114,10 +114,10 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , resourceHistory.getIdWorkflowHistory( ));
-        daoUtil.setInt( nIndex++ , resourceHistory.getIdUserFront( ) );
-        daoUtil.setInt( nIndex , resourceHistory.getIdWorkflowHistory( ) );
+
+        daoUtil.setInt( nIndex++, resourceHistory.getIdWorkflowHistory( ) );
+        daoUtil.setInt( nIndex++, resourceHistory.getIdUserFront( ) );
+        daoUtil.setInt( nIndex, resourceHistory.getIdWorkflowHistory( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -129,15 +129,15 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     @Override
     public List<DemandHistory> selectDemandHistorysList( Plugin plugin )
     {
-        List<DemandHistory> resourceHistoryList = new ArrayList<DemandHistory>(  );
+        List<DemandHistory> resourceHistoryList = new ArrayList<DemandHistory>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            DemandHistory resourceHistory = new DemandHistory(  );
+            DemandHistory resourceHistory = new DemandHistory( );
             int nIndex = 1;
-            
+
             resourceHistory.setIdWorkflowHistory( daoUtil.getInt( nIndex++ ) );
             resourceHistory.setIdUserFront( daoUtil.getInt( nIndex++ ) );
 
@@ -147,7 +147,7 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
         daoUtil.free( );
         return resourceHistoryList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -156,9 +156,9 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
     {
         List<Integer> resourceHistoryList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             resourceHistoryList.add( daoUtil.getInt( 1 ) );
         }
@@ -166,20 +166,20 @@ public final class DemandHistoryDAO implements IDemandHistoryDAO
         daoUtil.free( );
         return resourceHistoryList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
     public ReferenceList selectDemandHistorysReferenceList( Plugin plugin )
     {
-        ReferenceList resourceHistoryList = new ReferenceList();
+        ReferenceList resourceHistoryList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            resourceHistoryList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+            resourceHistoryList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
         daoUtil.free( );

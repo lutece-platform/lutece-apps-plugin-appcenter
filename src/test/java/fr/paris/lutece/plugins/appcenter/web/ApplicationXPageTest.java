@@ -13,7 +13,8 @@ import fr.paris.lutece.test.LuteceTestCase;
  */
 public class ApplicationXPageTest extends LuteceTestCase
 {
-    public void testGetPage() throws SiteMessageException, UserNotSignedException    {
+    public void testGetPage( ) throws SiteMessageException, UserNotSignedException
+    {
         System.out.println( "getPage" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -25,11 +26,12 @@ public class ApplicationXPageTest extends LuteceTestCase
         XPage result = instance.getPage( request, nMode, plugin );
     }
 
-    public void testGetCreateApplication() throws SiteMessageException, UserNotSignedException    {
+    public void testGetCreateApplication( ) throws SiteMessageException, UserNotSignedException
+    {
         System.out.println( "getPage" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter("view", "createApplication");
+        request.addParameter( "view", "createApplication" );
 
         int nMode = 0;
         Plugin plugin = null;
@@ -38,12 +40,13 @@ public class ApplicationXPageTest extends LuteceTestCase
         XPage result = instance.getPage( request, nMode, plugin );
     }
 
-    public void testGetModifyApplication() throws SiteMessageException, UserNotSignedException    {
+    public void testGetModifyApplication( ) throws SiteMessageException, UserNotSignedException
+    {
         System.out.println( "getPage" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter("view", "modifyApplication");
-        request.addParameter("id", "1");
+        request.addParameter( "view", "modifyApplication" );
+        request.addParameter( "id", "1" );
 
         int nMode = 0;
         Plugin plugin = null;

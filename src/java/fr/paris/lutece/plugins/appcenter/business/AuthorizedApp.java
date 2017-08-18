@@ -39,7 +39,6 @@ package fr.paris.lutece.plugins.appcenter.business;
 public class AuthorizedApp extends Application
 {
     private int _nUserRole;
-    
 
     /**
      * Returns the UserRole
@@ -61,5 +60,5 @@ public class AuthorizedApp extends Application
     {
         _nUserRole = nUserRole;
     }
-    
+
 }

@@ -88,9 +88,8 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String INFO_APPLICATION_CREATED = "appcenter.info.application.created";
     private static final String INFO_APPLICATION_UPDATED = "appcenter.info.application.updated";
     private static final String INFO_APPLICATION_REMOVED = "appcenter.info.application.removed";
-    
+
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
-    
 
     // Session variable to store working values
     private Application _application;
@@ -142,12 +141,12 @@ public class ApplicationXPage extends AppCenterXPage
         }
 
         ApplicationHome.create( _application );
-        UserApplication authorization = new UserApplication();
-        authorization.setId( _application.getId() );
-        authorization.setUserId( UserService.getCurrentUserId(request));
+        UserApplication authorization = new UserApplication( );
+        authorization.setId( _application.getId( ) );
+        authorization.setUserId( UserService.getCurrentUserId( request ) );
         authorization.setUserRole( RoleService.ROLE_OWNER );
         UserApplicationHome.create( authorization );
-        
+
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
@@ -167,12 +166,12 @@ public class ApplicationXPage extends AppCenterXPage
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
         String strUserId = UserService.getCurrentUserId( request );
         int nRole = ApplicationHome.getUserRole( nId, strUserId );
-        if( nRole != RoleService.ROLE_ADMIN && nRole != RoleService.ROLE_OWNER )
+        if ( nRole != RoleService.ROLE_ADMIN && nRole != RoleService.ROLE_OWNER )
         {
-            addError(  getMessage( MESSAGE_INVALID_ROLE_LEVEL ));
-            return redirect(request, VIEW_MODIFY_APPLICATION, Constants.PARAMETER_ID_APPLICATION , nId );
+            addError( getMessage( MESSAGE_INVALID_ROLE_LEVEL ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION, Constants.PARAMETER_ID_APPLICATION, nId );
         }
-        
+
         UrlItem url = new UrlItem( Constants.JSP_PAGE_PORTAL );
         url.addParameter( Constants.PARAM_PAGE, Constants.MARK_APPLICATION );
         url.addParameter( Constants.PARAM_ACTION, ACTION_REMOVE_APPLICATION );
@@ -205,7 +204,8 @@ public class ApplicationXPage extends AppCenterXPage
      * @param request
      *            The Http request
      * @return The HTML form to update info
-     * @throws UserNotSignedException If user not connected
+     * @throws UserNotSignedException
+     *             If user not connected
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      */
     @View( VIEW_MODIFY_APPLICATION )
@@ -216,26 +216,26 @@ public class ApplicationXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, _application );
 
-        List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); //TODO filter on active state, not all demands ?
+        List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
         model.put( Constants.MARK_DEMANDS, listDemand );
 
-        Map<String, Object> mapStates = new HashMap<>();
-        Map<String, Object> mapHistories = new HashMap<>();
-        for (Demand demand: listDemand) {
+        Map<String, Object> mapStates = new HashMap<>( );
+        Map<String, Object> mapHistories = new HashMap<>( );
+        for ( Demand demand : listDemand )
+        {
             String strWorkflowResourceType = DemandTypeService.getWorkflowResourceType( demand.getIdDemandType( ) );
             int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getIdDemandType( ) );
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), strWorkflowResourceType, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId() ), state );
+            mapStates.put( Integer.toString( demand.getId( ) ), state );
 
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
-                    demand.getId( ), strWorkflowResourceType, nIdWorkflow, request, request.getLocale( )
-            );
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), strWorkflowResourceType, nIdWorkflow, request,
+                    request.getLocale( ) );
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
-        
+
         String strUserId = UserService.getCurrentUserId( request );
-        int nRole = ApplicationHome.getUserRole( _application.getId(), strUserId );
-        boolean bAdminRole = (nRole == RoleService.ROLE_ADMIN) || (nRole == RoleService.ROLE_OWNER);
+        int nRole = ApplicationHome.getUserRole( _application.getId( ), strUserId );
+        boolean bAdminRole = ( nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
         model.put( Constants.MARK_ADMIN_ROLE, bAdminRole );

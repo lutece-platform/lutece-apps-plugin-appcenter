@@ -33,52 +33,54 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-
 public enum Environment
 {
-    DEV( "dev","appcenter.environment.dev" ),
-    FORMATION( "formation", "appcenter.environment.formation"),
-    INTEG( "integ","appcenter.environment.integ"  ),
-    PREREC( "prerec","appcenter.environment.prerec"  ),
-    REC( "rec","appcenter.environment.rec" ),
-    PREPROD( "preprod","appcenter.environment.preprod" ),
-    PROD( "prod", "appcenter.environment.prod" );
-    
+    DEV( "dev", "appcenter.environment.dev" ), FORMATION( "formation", "appcenter.environment.formation" ), INTEG( "integ", "appcenter.environment.integ" ), PREREC(
+            "prerec", "appcenter.environment.prerec" ), REC( "rec", "appcenter.environment.rec" ), PREPROD( "preprod", "appcenter.environment.preprod" ), PROD(
+            "prod", "appcenter.environment.prod" );
+
     private final String _strPrefix;
     private final String _strLabelKey;
 
     /**
-     * Constructor for environment 
-     * @param strPrefix the prefix for environment
-     * @param strLabelKey the i18nk for the environment 
+     * Constructor for environment
+     * 
+     * @param strPrefix
+     *            the prefix for environment
+     * @param strLabelKey
+     *            the i18nk for the environment
      */
     private Environment( String strPrefix, String strLabelKey )
     {
         _strPrefix = strPrefix;
         _strLabelKey = strLabelKey;
     }
-    
+
     /**
      * Get the prefix of the environment
+     * 
      * @return the prefix for the environment
      */
-    public String getPrefix()
+    public String getPrefix( )
     {
         return _strPrefix;
     }
 
     /**
      * Get the I18nk of the environment
-     * @return 
+     * 
+     * @return
      */
-    public String getLabelKey()
+    public String getLabelKey( )
     {
         return _strLabelKey;
     }
 
     /**
      * Get the environment with given prefix
-     * @param strPrefix the prefix 
+     * 
+     * @param strPrefix
+     *            the prefix
      * @return the environment with given prefix
      */
     public static Environment getEnvironment( String strPrefix )
@@ -92,6 +94,5 @@ public enum Environment
         }
         return null;
     }
-    
-    
+
 }

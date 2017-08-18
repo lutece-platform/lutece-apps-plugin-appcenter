@@ -63,7 +63,7 @@ public class ApplicationService
         try
         {
             String strUpdatedJson = getApplicationData( application, dataSubset );
-            ApplicationHome.updateData( application.getId() , strUpdatedJson );
+            ApplicationHome.updateData( application.getId( ), strUpdatedJson );
         }
         catch( IOException ex )
         {

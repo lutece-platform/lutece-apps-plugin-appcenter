@@ -133,9 +133,9 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
-        model.put( MARK_APPLICATION_LIST , ApplicationHome.getApplicationsReferenceList() );
-        model.put( MARK_USERS_LIST, UserService.getUserList() );
-        model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
+        model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsReferenceList( ) );
+        model.put( MARK_USERS_LIST, UserService.getUserList( ) );
+        model.put( MARK_ROLES_LIST, RoleService.getRolesList( ) );
         return getPage( PROPERTY_PAGE_TITLE_CREATE_USERAPPLICATION, TEMPLATE_CREATE_USERAPPLICATION, model );
     }
 
@@ -197,7 +197,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_USERAPPLICATION ) );
         String strUserId = request.getParameter( PARAMETER_USER_ID );
-        UserApplicationHome.remove( nId , strUserId );
+        UserApplicationHome.remove( nId, strUserId );
         addInfo( INFO_USERAPPLICATION_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_USERAPPLICATIONS );
@@ -218,12 +218,12 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
 
         if ( _userapplication == null || ( _userapplication.getId( ) != nId ) )
         {
-            _userapplication = UserApplicationHome.findByPrimaryKey( nId , strUserId );
+            _userapplication = UserApplicationHome.findByPrimaryKey( nId, strUserId );
         }
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
-        model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
+        model.put( MARK_ROLES_LIST, RoleService.getRolesList( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_USERAPPLICATION, TEMPLATE_MODIFY_USERAPPLICATION, model );
     }

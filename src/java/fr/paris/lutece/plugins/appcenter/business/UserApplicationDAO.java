@@ -51,10 +51,9 @@ public final class UserApplicationDAO implements IUserApplicationDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application WHERE id_application = ?  AND user_id = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application SET id_application = ?, user_id = ?, user_role = ? WHERE id_application = ?  AND user_id = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT a.id_application, a.user_id, user_role, b.name "
-            + " FROM appcenter_user_application a , appcenter_application b "
-            + " WHERE a.id_application = b.id_application ";
-    private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECTALL  + " AND a.id_application = ? AND a.user_id = ?";
-   
+            + " FROM appcenter_user_application a , appcenter_application b " + " WHERE a.id_application = b.id_application ";
+    private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECTALL + " AND a.id_application = ? AND a.user_id = ?";
+
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_user_application";
 
     /**

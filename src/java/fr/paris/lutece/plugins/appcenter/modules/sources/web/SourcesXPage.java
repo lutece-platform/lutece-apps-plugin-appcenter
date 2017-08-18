@@ -62,34 +62,31 @@ public class SourcesXPage extends AppCenterXPage
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
 
     private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
-    
+
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
 
-    
-
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
+    public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-       
-    	Application application = getApplication(request);
+
+        Application application = getApplication( request );
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
         addListDemand( request, application, model, SourcesDemand.ID_DEMAND_TYPE, SourcesDemand.class );
-        
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
 
     @Action( ACTION_ADD_SITE_REPOSITORY )
-    public XPage doAddSiteRepository( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
+    public XPage doAddSiteRepository( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
-        Application application = getApplication(request);
+        Application application = getApplication( request );
         SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
         if ( dataSubset == null )
         {
@@ -98,18 +95,17 @@ public class SourcesXPage extends AppCenterXPage
         dataSubset.setSiteRepository( strSiteDirectory );
         ApplicationService.saveApplicationData( application, dataSubset );
 
-        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, application.getId() );
+        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, application.getId( ) );
     }
 
-
     @Action( ACTION_ADD_ACCESS_DEMAND )
-    public XPage doAddAccessDemand( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
+    public XPage doAddAccessDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
-        Application application = getApplication(request);
+        Application application = getApplication( request );
         SourcesDemand sourcesDemand = new SourcesDemand( );
         sourcesDemand.setIdApplication( application.getId( ) );
-        
+
         populate( sourcesDemand, request );
 
         // Check constraints
@@ -117,8 +113,8 @@ public class SourcesXPage extends AppCenterXPage
         {
             return redirectView( request, VIEW_MANAGE_SOURCES );
         }
-        
-        DemandService.saveDemand( sourcesDemand, application ) ;
+
+        DemandService.saveDemand( sourcesDemand, application );
 
         return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, nId );
     }

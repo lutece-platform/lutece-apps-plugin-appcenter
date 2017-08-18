@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class DemandHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DemandHome(  )
+    private DemandHome( )
     {
     }
 
     /**
      * Create an instance of the demand class
-     * @param demand The instance of the Demand which contains the informations to store
-     * @return The  instance of demand which has been created with its primary key.
+     * 
+     * @param demand
+     *            The instance of the Demand which contains the informations to store
+     * @return The instance of demand which has been created with its primary key.
      */
     public static Demand create( Demand demand )
     {
@@ -70,8 +72,10 @@ public final class DemandHome
 
     /**
      * Update of the demand which is specified in parameter
-     * @param demand The instance of the Demand which contains the data to store
-     * @return The instance of the  demand which has been updated
+     * 
+     * @param demand
+     *            The instance of the Demand which contains the data to store
+     * @return The instance of the demand which has been updated
      */
     public static Demand update( Demand demand )
     {
@@ -82,7 +86,9 @@ public final class DemandHome
 
     /**
      * Remove the demand whose identifier is specified in parameter
-     * @param nKey The demand Id
+     * 
+     * @param nKey
+     *            The demand Id
      */
     public static void remove( int nKey )
     {
@@ -91,27 +97,31 @@ public final class DemandHome
 
     /**
      * Returns an instance of a demand whose identifier is specified in parameter
-     * @param nKey The demand primary key
+     * 
+     * @param nKey
+     *            The demand primary key
      * @return an instance of Demand
      */
     public static Demand findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
-    
-    
+
     /**
      * Returns an instance of a demand whose identifier is specified in parameter
-     * @param nKey The demand primary key
+     * 
+     * @param nKey
+     *            The demand primary key
      * @return an instance of Demand
      */
-    public static <T extends Demand> T  findByPrimaryKey( int nKey,Class<T> demandClass)
+    public static <T extends Demand> T findByPrimaryKey( int nKey, Class<T> demandClass )
     {
-        return _dao.load(nKey, demandClass, _plugin);
+        return _dao.load( nKey, demandClass, _plugin );
     }
 
     /**
      * Load the data of all the demand objects and returns them as a list
+     * 
      * @return the list which contains the data of all the demand objects
      */
     public static List<Demand> getDemandsList( )
@@ -121,7 +131,9 @@ public final class DemandHome
 
     /**
      * Load the data of all the demand objects and returns them as a list
-     * @param nIdApplication the id of the application
+     * 
+     * @param nIdApplication
+     *            the id of the application
      * @return the list which contains the data of all the demand objects
      */
     public static List<Demand> getDemandsListByApplication( int nIdApplication )
@@ -131,32 +143,37 @@ public final class DemandHome
 
     /**
      * Load the data of all the demand objects and returns them as a list
-     * @param nIdApplication the id of the application
-     * @param strDemandType the type of the demand
-     * @param demandClass the class
+     * 
+     * @param nIdApplication
+     *            the id of the application
+     * @param strDemandType
+     *            the type of the demand
+     * @param demandClass
+     *            the class
      * @return the list which contains the data of all the demand objects
      */
     public static <T extends Demand> List<T> getDemandsListByApplicationAndType( int nIdApplication, String strDemandType, Class<T> demandClass )
     {
         return _dao.selectDemandsListByApplicationAndType( nIdApplication, strDemandType, demandClass, _plugin );
     }
-    
+
     /**
      * Load the id of all the demand objects and returns them as a list
+     * 
      * @return the list which contains the id of all the demand objects
      */
     public static List<Integer> getIdDemandsList( )
     {
         return _dao.selectIdDemandsList( _plugin );
     }
-    
+
     /**
      * Load the data of all the demand objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the demand objects
      */
     public static ReferenceList getDemandsReferenceList( )
     {
-        return _dao.selectDemandsReferenceList(_plugin );
+        return _dao.selectDemandsReferenceList( _plugin );
     }
 }
-

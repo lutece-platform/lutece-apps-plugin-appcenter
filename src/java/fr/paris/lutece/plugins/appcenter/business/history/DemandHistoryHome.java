@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business.history;
+package fr.paris.lutece.plugins.appcenter.business.history;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class DemandHistoryHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DemandHistoryHome(  )
+    private DemandHistoryHome( )
     {
     }
 
     /**
      * Create an instance of the resourceHistory class
-     * @param resourceHistory The instance of the DemandHistory which contains the informations to store
-     * @return The  instance of resourceHistory which has been created with its primary key.
+     * 
+     * @param resourceHistory
+     *            The instance of the DemandHistory which contains the informations to store
+     * @return The instance of resourceHistory which has been created with its primary key.
      */
     public static DemandHistory create( DemandHistory resourceHistory )
     {
@@ -70,8 +72,10 @@ public final class DemandHistoryHome
 
     /**
      * Update of the resourceHistory which is specified in parameter
-     * @param resourceHistory The instance of the DemandHistory which contains the data to store
-     * @return The instance of the  resourceHistory which has been updated
+     * 
+     * @param resourceHistory
+     *            The instance of the DemandHistory which contains the data to store
+     * @return The instance of the resourceHistory which has been updated
      */
     public static DemandHistory update( DemandHistory resourceHistory )
     {
@@ -82,7 +86,9 @@ public final class DemandHistoryHome
 
     /**
      * Remove the resourceHistory whose identifier is specified in parameter
-     * @param nKey The resourceHistory Id
+     * 
+     * @param nKey
+     *            The resourceHistory Id
      */
     public static void remove( int nKey )
     {
@@ -91,39 +97,43 @@ public final class DemandHistoryHome
 
     /**
      * Returns an instance of a resourceHistory whose identifier is specified in parameter
-     * @param nKey The resourceHistory primary key
+     * 
+     * @param nKey
+     *            The resourceHistory primary key
      * @return an instance of DemandHistory
      */
     public static DemandHistory findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
 
     /**
      * Load the data of all the resourceHistory objects and returns them as a list
+     * 
      * @return the list which contains the data of all the resourceHistory objects
      */
     public static List<DemandHistory> getDemandHistorysList( )
     {
         return _dao.selectDemandHistorysList( _plugin );
     }
-    
+
     /**
      * Load the id of all the resourceHistory objects and returns them as a list
+     * 
      * @return the list which contains the id of all the resourceHistory objects
      */
     public static List<Integer> getIdDemandHistorysList( )
     {
         return _dao.selectIdDemandHistorysList( _plugin );
     }
-    
+
     /**
      * Load the data of all the resourceHistory objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the resourceHistory objects
      */
     public static ReferenceList getDemandHistorysReferenceList( )
     {
-        return _dao.selectDemandHistorysReferenceList(_plugin );
+        return _dao.selectDemandHistorysReferenceList( _plugin );
     }
 }
-

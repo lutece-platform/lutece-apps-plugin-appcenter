@@ -30,21 +30,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business.history;
 
 import java.io.Serializable;
 
 /**
  * This is the business class for the object ResourceHistory
- */ 
+ */
 public class DemandHistory implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nIdWorkflowResourceHistory;
-    
+
     private int _nIdUserFront;
 
     /**
@@ -66,9 +66,10 @@ public class DemandHistory implements Serializable
     {
         _nIdWorkflowResourceHistory = nIdWorkflowResourceHistory;
     }
-    
+
     /**
      * Returns the IdUserFront
+     * 
      * @return The IdUserFront
      */
     public int getIdUserFront( )
@@ -78,8 +79,10 @@ public class DemandHistory implements Serializable
 
     /**
      * Sets the IdUserFront
-     * @param nIdUserFront The IdUserFront
-     */ 
+     * 
+     * @param nIdUserFront
+     *            The IdUserFront
+     */
     public void setIdUserFront( int nIdUserFront )
     {
         _nIdUserFront = nIdUserFront;

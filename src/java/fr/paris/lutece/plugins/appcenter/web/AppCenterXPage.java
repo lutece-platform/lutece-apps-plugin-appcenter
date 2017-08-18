@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.appcenter.web;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,91 +66,103 @@ public class AppCenterXPage extends MVCApplication
     private static final String ERROR_APP_NOT_FOUND = "appcenter.error.applicationNotFound";
     private static final String ERROR_USER_NOT_AUTHORIZED = "appcenter.error.userNotAuthorized";
     private static final String ERROR_INVALID_APP_ID = "appcenter.error.invalidAppId";
-    
-    
+
     private static final long serialVersionUID = -490960650523760757L;
-    
+
     /**
      * Get the current application
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The application
-     * @throws UserNotSignedException If the user is not signed
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException if an error occurs
+     * @throws UserNotSignedException
+     *             If the user is not signed
+     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
+     *             if an error occurs
      */
-    protected Application getApplication(HttpServletRequest request) throws UserNotSignedException, SiteMessageException
+    protected Application getApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
 
         Application application = null;
         LuteceUser user = null;
-        if (SecurityService.isAuthenticationEnable())
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            user = SecurityService.getInstance().getRemoteUser(request);
-            if (user == null)
+            user = SecurityService.getInstance( ).getRemoteUser( request );
+            if ( user == null )
             {
-                throw new UserNotSignedException();
+                throw new UserNotSignedException( );
             }
         }
 
         try
         {
-            int nId = Integer.parseInt(request.getParameter(Constants.PARAMETER_ID_APPLICATION));
-            application = ApplicationHome.findByPrimaryKey(nId);
-            if( application == null )
+            int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+            application = ApplicationHome.findByPrimaryKey( nId );
+            if ( application == null )
             {
-                SiteMessageService.setMessage(request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
+                SiteMessageService.setMessage( request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
             }
-            if( user != null && !ApplicationHome.isAuthorized( nId, user.getEmail()) )
+            if ( user != null && !ApplicationHome.isAuthorized( nId, user.getEmail( ) ) )
             {
-                SiteMessageService.setMessage(request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
+                SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
             }
         }
         catch( NumberFormatException e )
         {
-            SiteMessageService.setMessage(request, ERROR_INVALID_APP_ID, SiteMessage.TYPE_ERROR );
+            SiteMessageService.setMessage( request, ERROR_INVALID_APP_ID, SiteMessage.TYPE_ERROR );
         }
 
         return application;
 
     }
-    
+
     /**
      * Add a demand
-     * @param <T> The object template
-     * @param request The HTTP request
-     * @param application The aapplication
-     * @param model The model
-     * @param strDemandType the demand type
-     * @param demandClass The demand class
+     * 
+     * @param <T>
+     *            The object template
+     * @param request
+     *            The HTTP request
+     * @param application
+     *            The aapplication
+     * @param model
+     *            The model
+     * @param strDemandType
+     *            the demand type
+     * @param demandClass
+     *            The demand class
      */
-    protected <T extends Demand> void addListDemand ( HttpServletRequest request, Application application,  Map<String, Object> model, String strDemandType, Class<T> demandClass )
+    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model, String strDemandType,
+            Class<T> demandClass )
     {
-        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType , demandClass);
+        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType, demandClass );
         model.put( Constants.MARK_DEMANDS, listDemand );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( strDemandType );
-        Map<String, Object> mapStates = new HashMap<>();
-        Map<String, Object> mapHistories = new HashMap<>();
-        for (T demand: listDemand) {
+        Map<String, Object> mapStates = new HashMap<>( );
+        Map<String, Object> mapHistories = new HashMap<>( );
+        for ( T demand : listDemand )
+        {
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId() ), state );
+            mapStates.put( Integer.toString( demand.getId( ) ), state );
 
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
-                    demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
-            );
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
+                    request, request.getLocale( ) );
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
-            
+
     /**
      * Get a message from message bundle files
      * 
-     * @param strMessageKey The message key
+     * @param strMessageKey
+     *            The message key
      * @return The message
      */
     protected String getMessage( String strMessageKey )
     {
-         return I18nService.getLocalizedString( strMessageKey , LocaleService.getDefault() );
+        return I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault( ) );
     }
 
 }

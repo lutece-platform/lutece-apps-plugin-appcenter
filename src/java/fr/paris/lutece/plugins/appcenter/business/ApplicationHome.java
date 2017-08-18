@@ -85,18 +85,18 @@ public final class ApplicationHome
     }
 
     /**
-     * Update of the application data 
+     * Update of the application data
      * 
      * @param nApplicationId
-     *          The application ID
+     *            The application ID
      * 
      *            The instance of the Application which contains the data to store
      * @param strData
-     *          The data
+     *            The data
      */
-    public static void updateData( int nApplicationId , String strData )
+    public static void updateData( int nApplicationId, String strData )
     {
-        _dao.storeData( nApplicationId, strData , _plugin );
+        _dao.storeData( nApplicationId, strData, _plugin );
 
     }
 
@@ -133,7 +133,7 @@ public final class ApplicationHome
         return _dao.selectApplicationsList( _plugin );
     }
 
-   /**
+    /**
      * Load the data of all the application objects and returns them as a referenceList
      * 
      * @return the referenceList which contains the data of all the application objects
@@ -142,38 +142,45 @@ public final class ApplicationHome
     {
         return _dao.selectApplicationsReferenceList( _plugin );
     }
-    
+
     /**
      * Get authorized app for a given user
-     * @param strUserId The user ID
+     * 
+     * @param strUserId
+     *            The user ID
      * @return The list of apps
      */
     public static List<AuthorizedApp> getApplicationsByUser( String strUserId )
     {
         return _dao.selectByUserId( strUserId, _plugin );
     }
-    
+
     /**
      * Checks if an application is authorized for a given user
-     * @param nApplicationId The application Id
-     * @param strUserId The user Id
+     * 
+     * @param nApplicationId
+     *            The application Id
+     * @param strUserId
+     *            The user Id
      * @return true if authorized
      */
-    public static boolean isAuthorized( int nApplicationId , String strUserId )
+    public static boolean isAuthorized( int nApplicationId, String strUserId )
     {
-        return _dao.isAuthorized( nApplicationId , strUserId , _plugin );
-    }        
-    
+        return _dao.isAuthorized( nApplicationId, strUserId, _plugin );
+    }
+
     /**
      * Get the role of the user for a given application
-     * @param nApplicationId The application Id
-     * @param strUserId The user Id
+     * 
+     * @param nApplicationId
+     *            The application Id
+     * @param strUserId
+     *            The user Id
      * @return The role
      */
     public static int getUserRole( int nApplicationId, String strUserId )
     {
-        return _dao.getUserRole(nApplicationId, strUserId, _plugin);
+        return _dao.getUserRole( nApplicationId, strUserId, _plugin );
     }
-
 
 }

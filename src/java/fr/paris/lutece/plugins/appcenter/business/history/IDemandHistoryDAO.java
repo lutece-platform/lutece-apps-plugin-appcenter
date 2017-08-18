@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business.history;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -45,53 +45,71 @@ public interface IDemandHistoryDAO
 {
     /**
      * Insert a new record in the table.
-     * @param resourceHistory instance of the DemandHistory object to insert
-     * @param plugin the Plugin
+     * 
+     * @param resourceHistory
+     *            instance of the DemandHistory object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( DemandHistory resourceHistory, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param resourceHistory the reference of the DemandHistory
-     * @param plugin the Plugin
+     * 
+     * @param resourceHistory
+     *            the reference of the DemandHistory
+     * @param plugin
+     *            the Plugin
      */
     void store( DemandHistory resourceHistory, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the DemandHistory to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the DemandHistory to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the resourceHistory
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the resourceHistory
+     * @param plugin
+     *            the Plugin
      * @return The instance of the resourceHistory
      */
     DemandHistory load( int nKey, Plugin plugin );
 
     /**
      * Load the data of all the resourceHistory objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the resourceHistory objects
      */
     List<DemandHistory> selectDemandHistorysList( Plugin plugin );
-    
+
     /**
      * Load the id of all the resourceHistory objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the id of all the resourceHistory objects
      */
     List<Integer> selectIdDemandHistorysList( Plugin plugin );
-    
+
     /**
      * Load the data of all the resourceHistory objects and returns them as a referenceList
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The referenceList which contains the data of all the resourceHistory objects
      */
     ReferenceList selectDemandHistorysReferenceList( Plugin plugin );

@@ -44,7 +44,7 @@ public class SourcesData implements DataSubset
 {
     public static final String DATA_SUBSET_NAME = "sources";
     public static final String DEMAND_TYPE_KEY = "sources";
-    
+
     private String _strSiteRepository;
     private List _listPluginRepositories = new ArrayList( );
 

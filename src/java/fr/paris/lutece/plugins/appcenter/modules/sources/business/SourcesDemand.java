@@ -46,23 +46,26 @@ public class SourcesDemand extends Demand
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/sources/sources_demand_infos.html";
     public static final String DEMAND_TYPE = "sources";
     public static final String ID_DEMAND_TYPE = "sources";
-    
+
     private String _strUserName;
     private String _strEmail;
 
     /**
      * get the user name
+     * 
      * @return the user name
      */
-     @JsonProperty
-    public String getUserName()
+    @JsonProperty
+    public String getUserName( )
     {
         return _strUserName;
     }
 
     /**
      * Set the user name
-     * @param strUserName the username 
+     * 
+     * @param strUserName
+     *            the username
      */
     public void setUserName( String strUserName )
     {
@@ -71,50 +74,54 @@ public class SourcesDemand extends Demand
 
     /**
      * Get the email
+     * 
      * @return the email
      */
-    public String getEmail()
+    public String getEmail( )
     {
         return _strEmail;
     }
 
     /**
      * Set the email
-     * @param strEmail 
+     * 
+     * @param strEmail
      */
     public void setEmail( String strEmail )
     {
         _strEmail = strEmail;
     }
- 
-    @Override
-    public String getComplementaryInfos ( )
-    {
-        Map<String,Object> model = new HashMap<String,Object>();
-        model.put( MARK_DEMAND, this );
-        return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH , model ).getHtml();
-    }
-    
-    /**
-    * Get the demand type id
-    * @return the demand type id 
-    */
-   @JsonIgnore
-   @Override
-   public String getIdDemandType()
-   {
-       return ID_DEMAND_TYPE;
-   }
 
-           /**
-    * Get the demand type id
-    * @return the demand type id 
-    */
-   @JsonIgnore
-   @Override
-   public String getDemandType()
-   {
-       return DEMAND_TYPE;
-   }
+    @Override
+    public String getComplementaryInfos( )
+    {
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_DEMAND, this );
+        return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
+    }
+
+    /**
+     * Get the demand type id
+     * 
+     * @return the demand type id
+     */
+    @JsonIgnore
+    @Override
+    public String getIdDemandType( )
+    {
+        return ID_DEMAND_TYPE;
+    }
+
+    /**
+     * Get the demand type id
+     * 
+     * @return the demand type id
+     */
+    @JsonIgnore
+    @Override
+    public String getDemandType( )
+    {
+        return DEMAND_TYPE;
+    }
 
 }

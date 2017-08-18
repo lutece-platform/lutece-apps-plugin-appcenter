@@ -19,45 +19,48 @@ import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
-public class OpenamTask extends SimpleTask {
+public class OpenamTask extends SimpleTask
+{
 
     // SERVICES
     @Inject
     private IResourceHistoryService _resourceHistoryService;
 
     @Override
-    public String getTitle(Locale locale) {
-        //TODO
+    public String getTitle( Locale locale )
+    {
+        // TODO
         return "Openam Task";
     }
 
     @Override
-    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale ) {
+    public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
+    {
 
-        OpenamAgentData openamAgentData = new OpenamAgentData();
-        BeanUtil.populate ( openamAgentData, request );
+        OpenamAgentData openamAgentData = new OpenamAgentData( );
+        BeanUtil.populate( openamAgentData, request );
 
-       
-        //FIXME return real error message here
-        if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty() )
+        // FIXME return real error message here
+        if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty( ) )
         {
-            throw new RuntimeException("Should not happen after validateTask");
+            throw new RuntimeException( "Should not happen after validateTask" );
         }
 
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource() );
+        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
 
-        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication() );
+        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
 
-        OpenamAgentsData openamAgentsData = ApplicationService.loadApplicationDataSubset ( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME, OpenamAgentsData.class );
-        if(openamAgentsData ==null)
+        OpenamAgentsData openamAgentsData = ApplicationService.loadApplicationDataSubset( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME,
+                OpenamAgentsData.class );
+        if ( openamAgentsData == null )
         {
-        	openamAgentsData=new OpenamAgentsData();
+            openamAgentsData = new OpenamAgentsData( );
         }
         openamAgentsData.addAgent( openamAgentData );
-        ApplicationService.saveApplicationData ( application, openamAgentsData );
+        ApplicationService.saveApplicationData( application, openamAgentsData );
 
-        //TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation
+        // TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation
     }
 
 }

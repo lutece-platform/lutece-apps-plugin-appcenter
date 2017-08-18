@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,34 +38,35 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object Demand
- */ 
+ */
 public class Demand implements Serializable
 {
     public static final String WORKFLOW_RESOURCE_TYPE = "DEMANDCENTER_DEMAND_SOURCE";
     protected static final String MARK_DEMAND = "demand";
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     @JsonIgnore
     private int _nId;
-    
+
     @JsonIgnore
     private String _strStatusText;
-    
+
     @JsonIgnore
     private String _strIdDemandType;
-    
+
     @JsonIgnore
     private String _strDemandType;
-    
+
     @JsonIgnore
     private int _nIdApplication;
-    
+
     @JsonIgnore
     private String _strDemandData;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     @JsonIgnore
@@ -76,15 +77,18 @@ public class Demand implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the StatusText
+     * 
      * @return The StatusText
      */
     @JsonIgnore
@@ -95,15 +99,18 @@ public class Demand implements Serializable
 
     /**
      * Sets the StatusText
-     * @param strStatusText The StatusText
-     */ 
+     * 
+     * @param strStatusText
+     *            The StatusText
+     */
     public void setStatusText( String strStatusText )
     {
         _strStatusText = strStatusText;
     }
-    
+
     /**
      * Returns the DemandType
+     * 
      * @return The DemandType
      */
     @JsonIgnore
@@ -114,15 +121,18 @@ public class Demand implements Serializable
 
     /**
      * Sets the DemandType
-     * @param strDemandType The DemandType
-     */ 
+     * 
+     * @param strDemandType
+     *            The DemandType
+     */
     public void setDemandType( String strDemandType )
     {
         _strDemandType = strDemandType;
     }
-    
+
     /**
      * Returns the IdApplication
+     * 
      * @return The IdApplication
      */
     @JsonIgnore
@@ -133,8 +143,10 @@ public class Demand implements Serializable
 
     /**
      * Sets the IdApplication
-     * @param nIdApplication The IdApplication
-     */ 
+     * 
+     * @param nIdApplication
+     *            The IdApplication
+     */
     public void setIdApplication( int nIdApplication )
     {
         _nIdApplication = nIdApplication;
@@ -142,17 +154,19 @@ public class Demand implements Serializable
 
     /**
      * Get the demand type id
-     * @return the demand type id 
+     * 
+     * @return the demand type id
      */
     @JsonIgnore
-    public String getIdDemandType()
+    public String getIdDemandType( )
     {
         return _strIdDemandType;
     }
 
     /**
      * Set the demand type id of the demand
-     * @param strIdDemandType 
+     * 
+     * @param strIdDemandType
      */
     public void setIdDemandType( String strIdDemandType )
     {
@@ -161,26 +175,28 @@ public class Demand implements Serializable
 
     /**
      * Get the demandContent
-     * @return 
+     * 
+     * @return
      */
     @JsonIgnore
-    public String getDemandData()
+    public String getDemandData( )
     {
         return _strDemandData;
     }
 
     /**
      * Set the demand content
-     * @param strDemandData 
+     * 
+     * @param strDemandData
      */
     public void setDemandData( String strDemandData )
     {
         _strDemandData = strDemandData;
     }
-    
+
     @JsonIgnore
-    public String getComplementaryInfos ( )
+    public String getComplementaryInfos( )
     {
         return "";
-    } 
+    }
 }

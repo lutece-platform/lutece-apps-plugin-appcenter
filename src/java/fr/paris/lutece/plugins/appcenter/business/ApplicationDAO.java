@@ -55,13 +55,11 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data FROM appcenter_application";
     private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data, b.user_role "
-            + " FROM appcenter_application a, appcenter_user_application b "
-            + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
+            + " FROM appcenter_application a, appcenter_user_application b " + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
     private static final String SQL_QUERY_SELECT_AUTHORIZED = "SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
     private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT user_role FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
-    
-    
+
     /**
      * Generates a new primary key
      * 
@@ -139,7 +137,7 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
-        
+
         // Remove authorizations
         daoUtil = new DAOUtil( SQL_QUERY_DELETE_AUTHORIZED, plugin );
         daoUtil.setInt( 1, nKey );
@@ -207,7 +205,6 @@ public final class ApplicationDAO implements IApplicationDAO
         return applicationList;
     }
 
-    
     /**
      * {@inheritDoc }
      */
@@ -226,16 +223,16 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.free( );
         return applicationList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
-    public List<AuthorizedApp> selectByUserId(String strUserId, Plugin plugin)
+    public List<AuthorizedApp> selectByUserId( String strUserId, Plugin plugin )
     {
         List<AuthorizedApp> applicationList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_USER, plugin );
-        daoUtil.setString( 1 , strUserId );
+        daoUtil.setString( 1, strUserId );
         daoUtil.executeQuery( );
 
         while ( daoUtil.next( ) )
@@ -263,13 +260,13 @@ public final class ApplicationDAO implements IApplicationDAO
     public boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_AUTHORIZED );
-        daoUtil.setInt( 1 , nApplicationId );
-        daoUtil.setString( 2 , strUserId );
+        daoUtil.setInt( 1, nApplicationId );
+        daoUtil.setString( 2, strUserId );
         daoUtil.executeQuery( );
 
         return daoUtil.next( );
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -277,19 +274,19 @@ public final class ApplicationDAO implements IApplicationDAO
     public int getUserRole( int nApplicationId, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
-        daoUtil.setInt( 1 , nApplicationId );
-        daoUtil.setString( 2 , strUserId );
+        daoUtil.setInt( 1, nApplicationId );
+        daoUtil.setString( 2, strUserId );
         daoUtil.executeQuery( );
 
         int nRole = 0;
         if ( daoUtil.next( ) )
         {
-            nRole = daoUtil.getInt( 1 ) ;
+            nRole = daoUtil.getInt( 1 );
         }
 
         daoUtil.free( );
         return nRole;
-        
+
     }
 
 }

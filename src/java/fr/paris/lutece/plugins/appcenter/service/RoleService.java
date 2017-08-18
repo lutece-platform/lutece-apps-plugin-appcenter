@@ -41,42 +41,48 @@ import fr.paris.lutece.util.ReferenceList;
 /**
  * RoleService
  */
-public class RoleService 
+public class RoleService
 {
     public static final int ROLE_NONE = 0;
     public static final int ROLE_ADMIN = 1;
     public static final int ROLE_OWNER = 2;
     public static final int ROLE_VIEW = 3;
     public static final int ROLE_MODIFY = 4;
-    
+
     private static final String KEY_PREFIX = "appcenter.role.";
-    private static final String[] ROLES_KEYS = { "none" , "admin" , "owner", "view" , "modify" };
-    private static final int[] ROLES_VALUES = { ROLE_NONE , ROLE_ADMIN, ROLE_OWNER, ROLE_VIEW, ROLE_MODIFY };
-    
-    
+    private static final String [ ] ROLES_KEYS = {
+            "none", "admin", "owner", "view", "modify"
+    };
+    private static final int [ ] ROLES_VALUES = {
+            ROLE_NONE, ROLE_ADMIN, ROLE_OWNER, ROLE_VIEW, ROLE_MODIFY
+    };
+
     /**
      * Get the list of roles
+     * 
      * @return The list
      */
-    public static ReferenceList getRolesList()
+    public static ReferenceList getRolesList( )
     {
-        ReferenceList list = new ReferenceList();
-        for( int i = 0 ; i < ROLES_KEYS.length ; i++ )
-        { 
+        ReferenceList list = new ReferenceList( );
+        for ( int i = 0; i < ROLES_KEYS.length; i++ )
+        {
             String strRole = getRoleName( i );
-            list.addItem( ROLES_VALUES[i] , strRole );
+            list.addItem( ROLES_VALUES [i], strRole );
         }
         return list;
     }
-    
+
     /**
      * Get a role name from its ID
-     * @param nRoleId The role ID
+     * 
+     * @param nRoleId
+     *            The role ID
      * @return The role name
      */
     public static String getRoleName( int nRoleId )
     {
-        return I18nService.getLocalizedString( KEY_PREFIX + ROLES_KEYS[nRoleId] , LocaleService.getDefault() );
+        return I18nService.getLocalizedString( KEY_PREFIX + ROLES_KEYS [nRoleId], LocaleService.getDefault( ) );
     }
-    
+
 }

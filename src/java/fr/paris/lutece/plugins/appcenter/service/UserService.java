@@ -42,61 +42,64 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * UserService
  */
-public class UserService 
+public class UserService
 {
     private static final String MOCK_USER = "john.doe@nowhere.com";
-    
+
     /**
      * Get the list of available users
+     * 
      * @return The list
      */
-    public static ReferenceList getUserList()
+    public static ReferenceList getUserList( )
     {
-        if( SecurityService.isAuthenticationEnable() )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            ReferenceList list = new ReferenceList();
-            for( LuteceUser user : SecurityService.getInstance().getUsers())
+            ReferenceList list = new ReferenceList( );
+            for ( LuteceUser user : SecurityService.getInstance( ).getUsers( ) )
             {
-                list.addItem( user.getEmail() , user.getEmail()  );
+                list.addItem( user.getEmail( ), user.getEmail( ) );
             }
             return list;
-            
+
         }
         else
         {
-            return getMockUserList();
+            return getMockUserList( );
         }
     }
-    
+
     /**
      * Gets the Id of the current connected user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The user Id
      */
     public static String getCurrentUserId( HttpServletRequest request )
     {
-        if( SecurityService.isAuthenticationEnable() )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
-            return user.getEmail();
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+            return user.getEmail( );
         }
         else
         {
             return MOCK_USER;
         }
-        
+
     }
 
     /**
      * Mock list for dev and tests without MyLutece
+     * 
      * @return a mock list
      */
-    private static ReferenceList getMockUserList()
+    private static ReferenceList getMockUserList( )
     {
-        ReferenceList list = new ReferenceList();
-        list.addItem( MOCK_USER , MOCK_USER );
+        ReferenceList list = new ReferenceList( );
+        list.addItem( MOCK_USER, MOCK_USER );
         return list;
     }
-
 
 }

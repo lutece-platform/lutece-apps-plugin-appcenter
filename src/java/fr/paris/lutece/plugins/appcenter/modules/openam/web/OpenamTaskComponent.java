@@ -39,9 +39,6 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
 
     // MARKS
- 
-    
-    
 
     @Inject
     private IResourceHistoryService _resourceHistoryService;
@@ -50,37 +47,35 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
      * {@inheritDoc}
      */
     @Override
-    public String getDisplayTaskForm( int nIdResource, String strResourceType, HttpServletRequest request,
-        Locale locale, ITask task )
+    public String getDisplayTaskForm( int nIdResource, String strResourceType, HttpServletRequest request, Locale locale, ITask task )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        
-        OpenamDemand demand= DemandHome.findByPrimaryKey(nIdResource, OpenamDemand.class);
-        if(demand!=null)
+        Map<String, Object> model = new HashMap<String, Object>( );
+
+        OpenamDemand demand = DemandHome.findByPrimaryKey( nIdResource, OpenamDemand.class );
+        if ( demand != null )
         {
-            model.put(Constants.MARK_DEMAND, demand);
-            Application application=ApplicationHome.findByPrimaryKey(demand.getIdApplication());
-            model.put(Constants.MARK_APPLICATION, application);
-        	
+            model.put( Constants.MARK_DEMAND, demand );
+            Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
+            model.put( Constants.MARK_APPLICATION, application );
+
         }
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_TASK_FORM, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String doValidateTask( int nIdResource, String strResourceType, HttpServletRequest request, Locale locale,
-        ITask task )
+    public String doValidateTask( int nIdResource, String strResourceType, HttpServletRequest request, Locale locale, ITask task )
     {
-        OpenamAgentData openamAgentData = new OpenamAgentData();
-        BeanUtil.populate ( openamAgentData, request );
+        OpenamAgentData openamAgentData = new OpenamAgentData( );
+        BeanUtil.populate( openamAgentData, request );
 
-        //FIXME return real error message here
-        if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty() )
+        // FIXME return real error message here
+        if ( !BeanValidationUtil.validate( openamAgentData ).isEmpty( ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, AdminMessage.TYPE_STOP );
         }
@@ -95,14 +90,13 @@ public class OpenamTaskComponent extends NoConfigTaskComponent
     public String getDisplayTaskInformation( int nIdHistory, HttpServletRequest request, Locale locale, ITask task )
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdHistory );
-        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource() );
-        //FIXME Load datasubset associated with this demand
+        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
+        // FIXME Load datasubset associated with this demand
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        //model.put( MARK_HISTORY_LIST, listHistory );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_DISPLAY_HISTORY,
-                locale, model );
-        return template.getHtml(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        // model.put( MARK_HISTORY_LIST, listHistory );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_DISPLAY_HISTORY, locale, model );
+        return template.getHtml( );
     }
 
     /**

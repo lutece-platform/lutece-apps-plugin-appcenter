@@ -62,23 +62,23 @@ public class OpenamAgentsXPage extends AppCenterXPage
     // Templates
     private static final String TEMPLATE_MANAGE_AGENTS = "/skin/plugins/appcenter/modules/openam/manage_openam_agents.html";
 
-    //Markers
+    // Markers
     private static final String MARK_ENVIRONMENT_REC = "envi_rec";
     private static final String MARK_ENVIRONMENT_PROD = "envi_prod";
-    
-    //VIEW
+
+    // VIEW
     private static final String VIEW_MANAGE_AGENTS = "manageagents";
-    
-   //ACTION
-    private static final String ACTION_ADD_AGENT= "addAgent";
-    
+
+    // ACTION
+    private static final String ACTION_ADD_AGENT = "addAgent";
 
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
-    public XPage getManageAgents( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
+    public XPage getManageAgents( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-       
-    	Application application = getApplication(request);
-        OpenamAgentsData dataSubset = ApplicationService.loadApplicationDataSubset( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME, OpenamAgentsData.class );
+
+        Application application = getApplication( request );
+        OpenamAgentsData dataSubset = ApplicationService.loadApplicationDataSubset( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME,
+                OpenamAgentsData.class );
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
@@ -91,14 +91,14 @@ public class OpenamAgentsXPage extends AppCenterXPage
     }
 
     @Action( ACTION_ADD_AGENT )
-    public XPage doAddAgent( HttpServletRequest request )  throws UserNotSignedException, SiteMessageException
+    public XPage doAddAgent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
-        Application application = getApplication(request);
-        
-        OpenamDemand agentDemand = new OpenamDemand();
+        Application application = getApplication( request );
+
+        OpenamDemand agentDemand = new OpenamDemand( );
         agentDemand.setIdApplication( application.getId( ) );
-        
+
         populate( agentDemand, request );
 
         // Check constraints
@@ -106,9 +106,9 @@ public class OpenamAgentsXPage extends AppCenterXPage
         {
             return redirectView( request, VIEW_MANAGE_AGENTS );
         }
-       
+
         DemandService.saveDemand( agentDemand, application );
-        
+
         return redirect( request, VIEW_MANAGE_AGENTS, Constants.PARAMETER_ID_APPLICATION, nId );
     }
 

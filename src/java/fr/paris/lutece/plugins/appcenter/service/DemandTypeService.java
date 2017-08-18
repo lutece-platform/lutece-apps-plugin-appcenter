@@ -39,14 +39,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 public class DemandTypeService
 {
     private static final String ID_WORKFLOW_DEMAND_TYPE_PREFIX = "idWorkflow.demandType.";
-    
-    public static int getIdWorkflow ( String strDemandTypeKey )
+
+    public static int getIdWorkflow( String strDemandTypeKey )
     {
         int nIdWorkflow = AppPropertiesService.getPropertyInt( ID_WORKFLOW_DEMAND_TYPE_PREFIX + strDemandTypeKey, -1 );
         return nIdWorkflow;
     }
 
-    public static String getWorkflowResourceType ( String strDemandTypeKey )
+    public static String getWorkflowResourceType( String strDemandTypeKey )
     {
         return Demand.WORKFLOW_RESOURCE_TYPE;
     }

@@ -44,7 +44,7 @@ public class OpenamAgentsData implements DataSubset
 {
     public static final String DATA_OPENAM_AGENTS_NAME = "openamagents";
     public static final String DEMAND_TYPE_KEY = "openamagent";
-    
+
     private List<OpenamAgentData> _listOpenamAgents = new ArrayList<OpenamAgentData>( );
 
     /**
@@ -72,13 +72,11 @@ public class OpenamAgentsData implements DataSubset
      * Sets the OpenamAgentData
      *
      * @param agent
-     *          
+     * 
      */
     public void addAgent( OpenamAgentData agent )
     {
-    	_listOpenamAgents.add( agent );
+        _listOpenamAgents.add( agent );
     }
-
-   
 
 }
