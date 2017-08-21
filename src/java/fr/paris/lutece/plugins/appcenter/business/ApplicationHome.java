@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -166,7 +167,8 @@ public final class ApplicationHome
      */
     public static boolean isAuthorized( int nApplicationId, String strUserId )
     {
-        return _dao.isAuthorized( nApplicationId, strUserId, _plugin );
+        int nRole =  _dao.getUserRole( nApplicationId, strUserId, RoleService.ROLE_NONE, _plugin );
+        return nRole != RoleService.ROLE_NONE;
     }
 
     /**
@@ -180,7 +182,7 @@ public final class ApplicationHome
      */
     public static int getUserRole( int nApplicationId, String strUserId )
     {
-        return _dao.getUserRole( nApplicationId, strUserId, _plugin );
+        return _dao.getUserRole( nApplicationId, strUserId, RoleService.ROLE_NONE, _plugin );
     }
 
 }

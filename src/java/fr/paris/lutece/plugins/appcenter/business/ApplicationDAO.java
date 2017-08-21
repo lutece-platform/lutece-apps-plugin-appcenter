@@ -257,28 +257,14 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_AUTHORIZED );
-        daoUtil.setInt( 1, nApplicationId );
-        daoUtil.setString( 2, strUserId );
-        daoUtil.executeQuery( );
-
-        return daoUtil.next( );
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getUserRole( int nApplicationId, String strUserId, Plugin plugin )
+    public int getUserRole( int nApplicationId, String strUserId, int nDefaultRole,  Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
         daoUtil.setInt( 1, nApplicationId );
         daoUtil.setString( 2, strUserId );
         daoUtil.executeQuery( );
 
-        int nRole = 0;
+        int nRole = nDefaultRole;
         if ( daoUtil.next( ) )
         {
             nRole = daoUtil.getInt( 1 );

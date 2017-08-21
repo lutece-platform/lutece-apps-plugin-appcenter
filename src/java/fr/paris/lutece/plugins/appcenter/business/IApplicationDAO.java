@@ -117,19 +117,6 @@ public interface IApplicationDAO
     ReferenceList selectApplicationsReferenceList( Plugin plugin );
 
     /**
-     * Checks if an application is authorized for a given user
-     * 
-     * @param nApplicationId
-     *            The application Id
-     * @param strUserId
-     *            The user Id
-     * @param plugin
-     *            The plugin
-     * @return true if authorized
-     */
-    boolean isAuthorized( int nApplicationId, String strUserId, Plugin plugin );
-
-    /**
      * Get the role of the user for a given application
      * 
      * @param nApplicationId
@@ -138,9 +125,11 @@ public interface IApplicationDAO
      *            The user Id
      * @param plugin
      *            The plugin
+     * @param nDefaultRole 
+     *            The default role
      * @return The role
      */
-    int getUserRole( int nApplicationId, String strUserId, Plugin plugin );
+    int getUserRole( int nApplicationId, String strUserId, int nDefaultRole, Plugin plugin );
 
     /**
      * Update of the application data
