@@ -96,7 +96,7 @@ public class AppCenterXPage extends MVCApplication
 
         try
         {
-            int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+            int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
             application = ApplicationHome.findByPrimaryKey( nId );
             if ( application == null )
             {

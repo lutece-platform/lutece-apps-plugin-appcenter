@@ -81,7 +81,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, defaultView = true )
     public XPage getManageMoncompteSettingsDemands( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
         MonCompteSettingsData dataSubset = ApplicationService.loadApplicationDataSubset( application, MonCompteSettingsData.DATA_SUBSET_NAME,
                 MonCompteSettingsData.class );
@@ -98,7 +98,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     @Action( ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND )
     public XPage doCreateMonCompteSettingsDemand( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
 
         populate( _demand, request );
@@ -113,6 +113,6 @@ public class MonCompteSettingsXPage extends AppCenterXPage
 
         DemandService.saveDemand( _demand, application );
 
-        return redirect( request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, Constants.PARAMETER_ID_APPLICATION, nId );
+        return redirect(request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, Constants.PARAM_ID_APPLICATION, nId );
     }
 }

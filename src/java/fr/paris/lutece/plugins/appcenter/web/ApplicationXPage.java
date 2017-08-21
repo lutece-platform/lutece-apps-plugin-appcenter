@@ -83,13 +83,16 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String ACTION_MODIFY_APPLICATION = "modifyApplication";
     private static final String ACTION_REMOVE_APPLICATION = "removeApplication";
     private static final String ACTION_CONFIRM_REMOVE_APPLICATION = "confirmRemoveApplication";
+    private static final String ACTION_ADD_USER = "addUser";
 
     // Infos
     private static final String INFO_APPLICATION_CREATED = "appcenter.info.application.created";
     private static final String INFO_APPLICATION_UPDATED = "appcenter.info.application.updated";
     private static final String INFO_APPLICATION_REMOVED = "appcenter.info.application.removed";
+    private static final String INFO_USER_ADDED = "appcenter.info.user.added";
 
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
+    
 
     // Session variable to store working values
     private Application _application;
@@ -163,19 +166,19 @@ public class ApplicationXPage extends AppCenterXPage
     @Action( ACTION_CONFIRM_REMOVE_APPLICATION )
     public XPage getConfirmRemoveApplication( HttpServletRequest request ) throws SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         String strUserId = UserService.getCurrentUserId( request );
         int nRole = ApplicationHome.getUserRole( nId, strUserId );
         if ( nRole != RoleService.ROLE_ADMIN && nRole != RoleService.ROLE_OWNER )
         {
             addError( getMessage( MESSAGE_INVALID_ROLE_LEVEL ) );
-            return redirect( request, VIEW_MODIFY_APPLICATION, Constants.PARAMETER_ID_APPLICATION, nId );
+            return redirect(request, VIEW_MODIFY_APPLICATION, Constants.PARAM_ID_APPLICATION, nId );
         }
 
         UrlItem url = new UrlItem( Constants.JSP_PAGE_PORTAL );
         url.addParameter( Constants.PARAM_PAGE, Constants.MARK_APPLICATION );
         url.addParameter( Constants.PARAM_ACTION, ACTION_REMOVE_APPLICATION );
-        url.addParameter( Constants.PARAMETER_ID_APPLICATION, nId );
+        url.addParameter(Constants.PARAM_ID_APPLICATION, nId );
 
         SiteMessageService.setMessage( request, MESSAGE_CONFIRM_REMOVE_APPLICATION, SiteMessage.TYPE_CONFIRMATION, url.getUrl( ) );
         return null;
@@ -191,7 +194,7 @@ public class ApplicationXPage extends AppCenterXPage
     @Action( ACTION_REMOVE_APPLICATION )
     public XPage doRemoveApplication( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         ApplicationHome.remove( nId );
         addInfo( INFO_APPLICATION_REMOVED, getLocale( request ) );
 
@@ -218,6 +221,8 @@ public class ApplicationXPage extends AppCenterXPage
 
         List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
         model.put( Constants.MARK_DEMANDS, listDemand );
+        model.put( Constants.MARK_ROLES_LIST , RoleService.getRolesList() );
+        model.put( Constants.MARK_DEFAULT_ROLE , RoleService.getRolesList().get( 0 ).getCode() );
 
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
@@ -258,12 +263,49 @@ public class ApplicationXPage extends AppCenterXPage
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
-            return redirect( request, VIEW_MODIFY_APPLICATION, Constants.PARAMETER_ID_APPLICATION, _application.getId( ) );
+            return redirect(request, VIEW_MODIFY_APPLICATION, Constants.PARAM_ID_APPLICATION, _application.getId( ) );
         }
 
         ApplicationHome.update( _application );
         addInfo( INFO_APPLICATION_UPDATED, getLocale( request ) );
 
-        return redirectView( request, VIEW_MANAGE_APPLICATIONS );
+        return redirect( request, VIEW_MODIFY_APPLICATION , Constants.PARAM_ID_APPLICATION , _application.getId() );
     }
+    
+    /**
+     * Process the change form of a application
+     *
+     * @param request
+     *            The Http request
+     * @return The Jsp URL of the process result
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
+     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
+     */
+    @Action( ACTION_ADD_USER )
+    public XPage doAddUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    {
+        Application application = getApplication( request );
+        String strUserEmail = request.getParameter( Constants.PARAM_USER_EMAIL );
+        String strUserRole = request.getParameter( Constants.PARAM_USER_ROLE );
+        int nRole = RoleService.ROLE_NONE;
+
+        // Check constraints TODO
+        try {
+            nRole = Integer.parseInt( strUserRole );
+        }
+        catch( NumberFormatException e )
+        {
+            
+        }
+        UserApplication authorization = new UserApplication();
+        authorization.setId( application.getId() );
+        authorization.setUserId( strUserEmail );
+        authorization.setUserRole( nRole );
+        UserApplicationHome.create( authorization );
+        
+        addInfo( INFO_USER_ADDED, getLocale( request ) );
+
+        return redirect( request, VIEW_MODIFY_APPLICATION , Constants.PARAM_ID_APPLICATION , _application.getId() );
+    }
+    
 }

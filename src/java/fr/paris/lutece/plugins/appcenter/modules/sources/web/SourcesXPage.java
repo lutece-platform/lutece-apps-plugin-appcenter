@@ -95,13 +95,13 @@ public class SourcesXPage extends AppCenterXPage
         dataSubset.setSiteRepository( strSiteDirectory );
         ApplicationService.saveApplicationData( application, dataSubset );
 
-        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, application.getId( ) );
+        return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, application.getId( ) );
     }
 
     @Action( ACTION_ADD_ACCESS_DEMAND )
     public XPage doAddAccessDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
         SourcesDemand sourcesDemand = new SourcesDemand( );
         sourcesDemand.setIdApplication( application.getId( ) );
@@ -116,6 +116,6 @@ public class SourcesXPage extends AppCenterXPage
 
         DemandService.saveDemand( sourcesDemand, application );
 
-        return redirect( request, VIEW_MANAGE_SOURCES, Constants.PARAMETER_ID_APPLICATION, nId );
+        return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, nId );
     }
 }

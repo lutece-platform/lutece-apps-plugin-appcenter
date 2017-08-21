@@ -93,7 +93,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
     @Action( ACTION_ADD_AGENT )
     public XPage doAddAgent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAMETER_ID_APPLICATION ) );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
 
         OpenamDemand agentDemand = new OpenamDemand( );
@@ -109,7 +109,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
 
         DemandService.saveDemand( agentDemand, application );
 
-        return redirect( request, VIEW_MANAGE_AGENTS, Constants.PARAMETER_ID_APPLICATION, nId );
+        return redirect(request, VIEW_MANAGE_AGENTS, Constants.PARAM_ID_APPLICATION, nId );
     }
 
 }

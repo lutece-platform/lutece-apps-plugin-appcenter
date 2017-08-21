@@ -43,9 +43,11 @@ public class Constants
     public static final String JSP_PAGE_PORTAL = "jsp/site/Portal.jsp";
 
     // Parameters
-    public static final String PARAMETER_ID_APPLICATION = "id";
+    public static final String PARAM_ID_APPLICATION = "id";
     public static final String PARAM_ACTION = "action";
     public static final String PARAM_PAGE = "page";
+    public static final String PARAM_USER_ROLE = "user_role";
+    public static final String PARAM_USER_EMAIL = "user_email";
 
     // Markers
     public static final String MARK_APPLICATION_LIST = "application_list";
@@ -58,5 +60,7 @@ public class Constants
     public static final String MARK_ENVIRONMENT = "environment";
     public static final String MARK_ADMIN_ROLE = "admin_role";
     public static final String MARK_HISTORY_LIST = "listHistory";
+    public static final String MARK_ROLES_LIST = "roles_list";
+    public static final String MARK_DEFAULT_ROLE = "default_role";
 
 }
