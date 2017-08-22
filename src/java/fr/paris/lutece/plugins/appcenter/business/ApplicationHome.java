@@ -121,7 +121,12 @@ public final class ApplicationHome
      */
     public static Application findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin );
+        Application application = _dao.load( nKey, _plugin );
+        if( application != null )
+        {
+            application.setAuthorizations( UserApplicationHome.findByApplication( application.getId() ));
+        }
+        return application;
     }
 
     /**

@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.appcenter.business;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is the business class for the object Application
@@ -56,6 +57,8 @@ public class Application implements Serializable
     private String _strDescription;
 
     private String _strApplicationData;
+    
+    private List<UserApplication> _listAuthorizations;
 
     /**
      * Returns the Id
@@ -139,5 +142,23 @@ public class Application implements Serializable
     public void setApplicationData( String strApplicationData )
     {
         _strApplicationData = strApplicationData;
+    }
+    
+    /**
+     * Set authorizations
+     * @param listAuthorizations The authorization list 
+     */
+    public void setAuthorizations( List<UserApplication> listAuthorizations )
+    {
+        _listAuthorizations = listAuthorizations;
+    }
+    
+    /**
+     * Get authorizations
+     * @return The authorization list 
+     */
+    public List<UserApplication> getAuthorizations( )
+    {
+        return _listAuthorizations;
     }
 }
