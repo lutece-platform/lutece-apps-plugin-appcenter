@@ -44,8 +44,10 @@ import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentsDat
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -85,6 +87,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
         model.put( Constants.MARK_DATA, dataSubset );
         model.put( MARK_ENVIRONMENT_REC, Environment.getEnvironment( "rec" ) );
         model.put( MARK_ENVIRONMENT_PROD, Environment.getEnvironment( "prod" ) );
+        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
         addListDemand( request, application, model, OpenamDemand.ID_DEMAND_TYPE, OpenamDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );

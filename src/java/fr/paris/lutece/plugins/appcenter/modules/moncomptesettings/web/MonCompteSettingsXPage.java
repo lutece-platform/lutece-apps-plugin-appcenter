@@ -41,15 +41,16 @@ import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonC
 import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingsData;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -90,6 +91,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
         model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
+        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
         addListDemand( request, application, model, MonCompteSettingDemand.ID_DEMAND_TYPE, MonCompteSettingDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );

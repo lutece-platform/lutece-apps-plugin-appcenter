@@ -242,12 +242,9 @@ public class ApplicationXPage extends AppCenterXPage
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
 
-        String strUserId = UserService.getCurrentUserId( request );
-        int nRole = ApplicationHome.getUserRole( _application.getId( ), strUserId );
-        boolean bAdminRole = ( nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
-        model.put( MARK_ADMIN_ROLE, bAdminRole );
+        model.put( MARK_USER, UserService.getCurrentUser( request, _application.getId( ) ));
 
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
     }

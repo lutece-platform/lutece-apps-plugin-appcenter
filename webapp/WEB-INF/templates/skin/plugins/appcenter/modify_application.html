@@ -1,40 +1,9 @@
 <#include "appcenter_tabs.html" />
-<@tabs2 tab="general" application=application errors=errors infos=infos />
-
-<#if admin_role>
-</#if>
+<@tabs2 tab="general" application=application errors=errors infos=infos user=user />
 
 <@row>
 <@columns>
 <br>
-
-
-
-<#-- Authorized users -->
-<div class="pull-right">
-    <br>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddUser">
-        <span class="fa fa-user-plus"></span>&nbsp;
-        #i18n{appcenter.modify_application.buttonAddUser}
-    </button>
-</div>
-
-<div>
-    <h2><span class="fa fa-user"></span>&nbsp; #i18n{appcenter.modify_application.titleAuthorizedUsers}</h2>
-    <ul>
-    <#list users_list as user>
-        <li>
-            ${user.userId} (${user.userRoleName})
-        <#if admin_role>
-        <a class="btn btn-xs btn-danger" href='jsp/site/Portal.jsp?page=application&action=removeUser&id=${application.id}&user_email=${user.userId}'>
-            <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
-        </a> 
-        </#if>    
-        </li>
-    </#list>
-    </ul>
-</div>
-
 
 <#-- Demands -->
 

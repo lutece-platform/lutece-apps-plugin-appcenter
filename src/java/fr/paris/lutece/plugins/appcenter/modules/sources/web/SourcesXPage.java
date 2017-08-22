@@ -43,8 +43,10 @@ import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -77,6 +79,7 @@ public class SourcesXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
+        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
         addListDemand( request, application, model, SourcesDemand.ID_DEMAND_TYPE, SourcesDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );

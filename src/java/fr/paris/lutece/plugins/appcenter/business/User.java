@@ -32,36 +32,52 @@
  * License 1.0
  */
 
-package fr.paris.lutece.plugins.appcenter.web;
+
+package fr.paris.lutece.plugins.appcenter.business;
 
 /**
- * Constants
- */
-public class Constants
+ * This is the business class for the object User
+ */ 
+public class User
 {
-    // JSP
-    public static final String JSP_PAGE_PORTAL = "jsp/site/Portal.jsp";
-
-    // Parameters
-    public static final String PARAM_ID_APPLICATION = "id";
-    public static final String PARAM_ACTION = "action";
-    public static final String PARAM_PAGE = "page";
-    public static final String PARAM_USER_ROLE = "user_role";
-    public static final String PARAM_USER_EMAIL = "user_email";
-
-    // Markers
-    public static final String MARK_APPLICATION_LIST = "application_list";
-    public static final String MARK_APPLICATION = "application";
-    public static final String MARK_DEMAND = "demand";
-    public static final String MARK_DATA = "data";
-    public static final String MARK_DEMANDS = "demands";
-    public static final String MARK_DEMANDS_STATES = "demands_states";
-    public static final String MARK_DEMANDS_HISTORIES = "demands_histories";
-    public static final String MARK_ENVIRONMENT = "environment";
-    public static final String MARK_HISTORY_LIST = "listHistory";
-    public static final String MARK_ROLES_LIST = "roles_list";
-    public static final String MARK_DEFAULT_ROLE = "default_role";
-    public static final String MARK_USERS_LIST = "users_list";
-    public static final String MARK_USER = "user";
-
+   // Variables declarations 
+    private String _strId;
+    private boolean _bAdmin;
+    
+    
+       /**
+        * Returns the Id
+        * @return The Id
+        */ 
+    public String getId()
+    {
+        return _strId;
+    }
+    
+       /**
+        * Sets the Id
+        * @param strId The Id
+        */ 
+    public void setId( String strId )
+    {
+        _strId = strId;
+    }
+    
+       /**
+        * Returns the Admin
+        * @return The Admin
+        */ 
+    public boolean isAdmin()
+    {
+        return _bAdmin;
+    }
+    
+       /**
+        * Sets the Admin
+        * @param Admin The Admin
+        */ 
+    public void setAdmin( boolean Admin )
+    {
+        _bAdmin = Admin;
+    }
 }

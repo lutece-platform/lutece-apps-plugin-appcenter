@@ -34,6 +34,8 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
@@ -89,6 +91,38 @@ public class UserService
         }
 
     }
+    
+    /**
+     * Gets the current connected user
+     * 
+     * @param request
+     *            The HTTP request
+     * @param nApplicationId The applcation Id
+     * @return The user Id
+     */
+    public static User getCurrentUser( HttpServletRequest request , int nApplicationId )
+    {
+        User user = new User();
+        if ( SecurityService.isAuthenticationEnable( ) )
+        {
+            LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
+            if( luteceUser != null )
+            {
+                user.setId( luteceUser.getEmail( ) );
+                int nRole = ApplicationHome.getUserRole( nApplicationId, luteceUser.getEmail( ) );
+                user.setAdmin(  (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER ));
+            }
+        }
+        else
+        {
+            user.setId( MOCK_USER );
+            user.setAdmin( true );
+        }
+        return user;
+
+    }
+
+  
 
     /**
      * Mock list for dev and tests without MyLutece

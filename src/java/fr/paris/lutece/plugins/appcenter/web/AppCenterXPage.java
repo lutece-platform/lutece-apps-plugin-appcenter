@@ -82,7 +82,6 @@ public class AppCenterXPage extends MVCApplication
      */
     protected Application getApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
         Application application = null;
         LuteceUser user = null;
         if ( SecurityService.isAuthenticationEnable( ) )
