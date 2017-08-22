@@ -1,19 +1,21 @@
 <#macro tabs2 tab application errors infos >
-<a class="btn btn-xs btn-primary pull-right" href="jsp/site/Portal.jsp?page=application">
-    <span class="fa fa-home"></span>&nbsp;
-    Mes applications
-</a>
-<button type="button" class="btn btn-xs btn-primary  pull-right" data-toggle="modal" data-target="#ModalModify">
-    <span class="fa fa-edit"></span>&nbsp;
-    #i18n{appcenter.modify_application.buttonModifyAppDescription}
-</button>
-    
-<a class="btn btn-xs btn-danger pull-right" href='jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}'>
-    <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
-</a> 
 
-<h1>${application.name}</h1>
-<h3><small>${application.description}</small></h3>
+<div class="jumbotron">
+	<h1 class="display-3">${application.name}</h1>
+	<p class="lead">${application.description}</p>
+	<hr class="my-4">
+	<p class="lead">
+		<a class="btn btn-lg btn-primary pull-right" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
+				<span class="fa fa-home"></span>   
+		</a>
+		<button type="button" class="btn btn-lg btn-primary pull-right" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
+				<span class="fa fa-edit"></span>
+		</button>
+		<a class="btn btn-lg btn-danger pull-right" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
+				<span class="fa fa-trash"></span>
+		</a>
+	</p>
+</div>
 <br>    
 <@messages errors=errors />
 <@messages infos=infos />
