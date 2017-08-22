@@ -50,7 +50,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class provides the user interface to manage UserApplication features ( manage, create, modify, remove )
+ * This class provides the user interface to manage UserApplication features ( manage, createOrModify, modify, remove )
  */
 @Controller( controllerJsp = "ManageUserApplications.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_MANAGEMENT" )
 public class UserApplicationJspBean extends ManageAppCenterJspBean
@@ -120,7 +120,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     }
 
     /**
-     * Returns the form to create a userapplication
+     * Returns the form to createOrModify a userapplication
      *
      * @param request
      *            The Http request
@@ -157,7 +157,7 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
             return redirectView( request, VIEW_CREATE_USERAPPLICATION );
         }
 
-        UserApplicationHome.create( _userapplication );
+        UserApplicationHome.createOrModify( _userapplication );
         addInfo( INFO_USERAPPLICATION_CREATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_USERAPPLICATIONS );

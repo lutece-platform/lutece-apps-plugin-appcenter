@@ -117,4 +117,21 @@ public interface IUserApplicationDAO
      * @return The referenceList which contains the data of all the userApplication objects
      */
     ReferenceList selectUserApplicationsReferenceList( Plugin plugin );
+
+    /**
+     * Check if an authorization already exists
+     * @param nApplicationId The application ID
+     * @param strUserId The user ID
+     * @param plugin The plugin
+     * @return True if exists
+     */
+    boolean exists( int nApplicationId, String strUserId, Plugin plugin );
+
+    /**
+     * List all authorizations for a given application
+     * @param nApplicationId The application ID
+     * @param plugin The plugin
+     * @return The list
+     */
+    List<UserApplication> selectByApplication( int nApplicationId, Plugin plugin );
 }

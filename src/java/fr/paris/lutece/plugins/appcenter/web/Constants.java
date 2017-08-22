@@ -62,5 +62,6 @@ public class Constants
     public static final String MARK_HISTORY_LIST = "listHistory";
     public static final String MARK_ROLES_LIST = "roles_list";
     public static final String MARK_DEFAULT_ROLE = "default_role";
+    public static final String MARK_USERS_LIST = "users_list";
 
 }

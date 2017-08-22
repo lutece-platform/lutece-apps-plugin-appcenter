@@ -53,7 +53,7 @@ public final class UserApplicationDAO implements IUserApplicationDAO
     private static final String SQL_QUERY_SELECTALL = "SELECT a.id_application, a.user_id, user_role, b.name "
             + " FROM appcenter_user_application a , appcenter_application b " + " WHERE a.id_application = b.id_application ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECTALL + " AND a.id_application = ? AND a.user_id = ?";
-
+    private static final String SQL_QUERY_SELECT_BY_APPLICATION = SQL_QUERY_SELECTALL + " AND a.id_application = ?" ;
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_application FROM appcenter_user_application";
 
     /**
@@ -195,5 +195,46 @@ public final class UserApplicationDAO implements IUserApplicationDAO
 
         daoUtil.free( );
         return userApplicationList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean exists( int nApplicationId, String strUserId, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
+        daoUtil.setInt( 1, nApplicationId );
+        daoUtil.setString( 2, strUserId );
+        daoUtil.executeQuery( );
+        boolean bExists = daoUtil.next( );
+        daoUtil.free( );
+        return bExists;
+     }
+
+    @Override
+    public List<UserApplication> selectByApplication( int nApplicationId, Plugin plugin )
+    {
+        List<UserApplication> userApplicationList = new ArrayList<>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_APPLICATION, plugin );
+        daoUtil.setInt( 1 , nApplicationId );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            UserApplication userApplication = new UserApplication( );
+            int nIndex = 1;
+
+            userApplication.setId( daoUtil.getInt( nIndex++ ) );
+            userApplication.setUserId( daoUtil.getString( nIndex++ ) );
+            userApplication.setUserRole( daoUtil.getInt( nIndex++ ) );
+            userApplication.setApplicationName( daoUtil.getString( nIndex++ ) );
+
+            userApplicationList.add( userApplication );
+        }
+
+        daoUtil.free( );
+        return userApplicationList;
+  
     }
 }

@@ -50,7 +50,7 @@ public class UserApplicationBusinessTest extends LuteceTestCase
         userApplication.setUserRole( USERROLE1 );
 
         // Create test
-        UserApplicationHome.create( userApplication );
+        UserApplicationHome.createOrModify( userApplication );
         UserApplication userApplicationStored = UserApplicationHome.findByPrimaryKey( userApplication.getId( ), USERID1 );
         assertEquals( userApplicationStored.getUserId( ), userApplication.getUserId( ) );
         assertEquals( userApplicationStored.getUserRole( ), userApplication.getUserRole( ) );

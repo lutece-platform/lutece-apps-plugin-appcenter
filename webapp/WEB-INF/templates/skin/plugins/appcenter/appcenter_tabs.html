@@ -1,11 +1,23 @@
-<#macro tabs2 tab application >
+<#macro tabs2 tab application errors infos >
 <a class="btn btn-xs btn-primary pull-right" href="jsp/site/Portal.jsp?page=application">
-    <span class="fa fa-back"></span>
+    <span class="fa fa-home"></span>&nbsp;
     Mes applications
 </a>
+<button type="button" class="btn btn-xs btn-primary  pull-right" data-toggle="modal" data-target="#ModalModify">
+    <span class="fa fa-edit"></span>&nbsp;
+    #i18n{appcenter.modify_application.buttonModifyAppDescription}
+</button>
+    
+<a class="btn btn-xs btn-danger pull-right" href='jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}'>
+    <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
+</a> 
+
 <h1>${application.name}</h1>
 <h3><small>${application.description}</small></h3>
 <br>    
+<@messages errors=errors />
+<@messages infos=infos />
+
 <@tabs>
     <@listTabs>
         <li <#if tab="general">class="active"</#if>>
@@ -23,3 +35,77 @@
     </@listTabs>
 </@tabs>
 </#macro>
+
+
+    <!-- Modal -->
+    <div id="ModalModify" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h4>
+                </div>
+                <div class="modal-body">
+                    <@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
+                    <fieldset>
+                        <input type="hidden" id="id" name="id" value="${application.id}"/>
+
+                        <@formGroup labelFor='name' labelKey='#i18n{appcenter.modify_application.labelName}' mandatory=true>
+                            <@input type='text' id='name' name='name'  maxlength=50 value='${application.name}' tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='description' labelKey='#i18n{appcenter.modify_application.labelDescription}' mandatory=true>
+                            <@input type='text' id='description' name='description'  maxlength=255 value='${application.description}' tabIndex='1' />
+                        </@formGroup>
+
+                        <@formGroup>
+                            <@button name='action_modifyApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelModify}' buttonIcon='edit' />
+                        </@formGroup>
+                    </fieldset>
+                    </@tform>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Modal -->
+    <div id="ModalAddUser" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">#i18n{appcenter.modify_application.modalTitleAddUser}</h4>
+                </div>
+                <div class="modal-body">
+                    <@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
+                    <fieldset>
+
+                        <input type="hidden" id="id" name="id" value="${application.id}"/>
+
+                        <@formGroup labelFor='user_email' labelKey='#i18n{appcenter.modify_application.labelUserEmail}' mandatory=true>
+                            <@input type='text' id='user_email' name='user_email'  maxlength=50 value='' tabIndex='0' />
+                        </@formGroup>
+                        <@formGroup labelFor='user_role' labelKey='#i18n{appcenter.modify_application.labelRole}' mandatory=true>
+                            <@select id='user_role' name='user_role' items=roles_list default_value=default_role />
+                        </@formGroup>
+
+                        <@formGroup>
+                            <@button name='action_addUser' type='submit' tabIndex='3' title='#i18n{appcenter.modify_application.buttonAdd}' buttonIcon='plus' />
+                        </@formGroup>
+                    </fieldset>
+                    </@tform>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    

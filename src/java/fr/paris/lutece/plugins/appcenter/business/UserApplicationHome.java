@@ -41,7 +41,7 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 
 /**
- * This class provides instances management methods (create, find, ...) for UserApplication objects
+ * This class provides instances management methods (createOrModify, find, ...) for UserApplication objects
  */
 public final class UserApplicationHome
 {
@@ -63,9 +63,16 @@ public final class UserApplicationHome
      *            The instance of the UserApplication which contains the informations to store
      * @return The instance of userApplication which has been created with its primary key.
      */
-    public static UserApplication create( UserApplication userApplication )
+    public static UserApplication createOrModify( UserApplication userApplication )
     {
-        _dao.insert( userApplication, _plugin );
+        if( ! _dao.exists( userApplication.getId() , userApplication.getUserId() , _plugin ))
+        {
+            _dao.insert( userApplication, _plugin );
+        }
+        else
+        {
+            _dao.store( userApplication, _plugin );
+        }
 
         return userApplication;
     }
@@ -110,6 +117,19 @@ public final class UserApplicationHome
     {
         return _dao.load( nKey, strUserId, _plugin );
     }
+    
+    /**
+     * Load the data of all the userApplication objects and returns them as a list
+     * 
+     * @param nApplicationId
+     * @return the list which contains the data of all the userApplication objects
+     */
+    public static List<UserApplication> findByApplication( int nApplicationId )
+    {
+        return _dao.selectByApplication( nApplicationId , _plugin );
+    }
+
+    
 
     /**
      * Load the data of all the userApplication objects and returns them as a list
