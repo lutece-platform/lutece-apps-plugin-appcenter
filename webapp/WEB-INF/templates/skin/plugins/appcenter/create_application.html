@@ -1,21 +1,32 @@
 <@row>
-    <@columns>
-    <@tform class='form-horizontal' action='jsp/site/Portal.jsp?page=application'>
+	<@columns sm=12>
+		<h1>#i18n{appcenter.create_application.title}</h1>
+    <@tform action='jsp/site/Portal.jsp?page=application'>
     <fieldset>
-        <legend>#i18n{appcenter.create_application.title}</legend>
-        <@messages errors=errors />
-        <@formGroup labelFor='name' labelKey='#i18n{appcenter.create_application.labelName}' helpKey='#i18n{appcenter.create_application.labelName.help}' mandatory=true>
-            <@input type='text' id='name' name='name' value='${application.name!""}'  maxlength=50 tabIndex='0' />
-        </@formGroup>
-        <@formGroup labelFor='description' labelKey='#i18n{appcenter.create_application.labelDescription}' helpKey='#i18n{appcenter.create_application.labelDescription.help}' mandatory=true>
-            <@input type='text' id='description' name='description' value='${application.description!""}'  maxlength=255 tabIndex='1' />
-        </@formGroup>
-        <@formGroup>
-            <@button name='action_createApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />
-            <@button name='view_manageApplications' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='btn-secondary' />
-        </@formGroup>
+			<legend class="sr-only">#i18n{appcenter.create_application.title}</legend>
+			<@messages errors=errors />
+			<div class="form-group row">
+				<label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelName} <@icon style='asterisk' /></label>
+				<div class="col-sm-12 col-md-6">
+					<input type="text" id="name" name="name" value="${application.name!""}" maxlength="50" class="form-control" aria-describedby="nameHelpBlock" required />
+					<small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelName.help}</small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="description" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelDescription} <@icon style='asterisk' /></label>
+				<div class="col-sm-12 col-md-6">
+					<textarea id="description" name="description" maxlength="255" class="form-control" aria-describedBy="descriptionHelpBlock" required>${application.description!""}</textarea>
+					<small id="descriptionHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelDescription.help}</small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 col-md-10 ml-auto">
+					<@button name='action_createApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />
+					<@button name='view_manageApplications' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' cancel=true />
+				</div>
+			</div>
     </fieldset>
     </@tform>
-    </@columns>
+	</@columns>
 </@row>
 
