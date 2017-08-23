@@ -22,4 +22,17 @@
     <bean id="appcenter.OpenamTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.openam.web.OpenamTaskComponent"
      p:taskType-ref="appcenter.taskTypeOpenam"
      />
+
+    <bean id="appcenter.taskTypeMonCompteSettings" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskMonCompteSettings"
+            p:titleI18nKey="module.appcenter.moncomptesettings.task_title"
+            p:beanName="appcenter.taskMonCompteSettings"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+
+    <bean id="appcenter.taskMonCompteSettings" class="fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.service.MonCompteSettingsTask" scope="prototype" />
+    <bean id="appcenter.MonCompteSettingsTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web.MonCompteSettingsTaskComponent"
+     p:taskType-ref="appcenter.taskTypeMonCompteSettings"
+     />
 </beans>

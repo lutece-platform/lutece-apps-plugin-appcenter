@@ -35,6 +35,7 @@ INSERT INTO workflow_action VALUES
 
 INSERT INTO workflow_task VALUES
 (1,'taskOpenam',201,1);
+(2,'taskMonCompteSettings',301,1);
 
 INSERT INTO workflow_resource_workflow VALUES 
 (1,'DEMANDCENTER_DEMAND_SOURCE',101,100,-1,0);

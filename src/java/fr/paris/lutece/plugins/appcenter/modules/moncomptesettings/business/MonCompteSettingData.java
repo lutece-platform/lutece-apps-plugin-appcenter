@@ -38,16 +38,22 @@ import fr.paris.lutece.plugins.appcenter.business.Environment;
 import java.util.ArrayList;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * MonCompteSettingsDemand
  */
 public class MonCompteSettingData
 {
+    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.environment.notEmpty}" )
     private String _strEnvironment;
+    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.favoriteName.notEmpty}" )
     private String _strFavoriteName;
+    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.favoriteUrl.notEmpty}" )
     private String _strFavoriteUrl;
+    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.backButtonName.notEmpty}" )
     private String _strBackButtonName;
+    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.backButtonUrl.notEmpty}" )
     private String _strBackButtonUrl;
 
     /**
