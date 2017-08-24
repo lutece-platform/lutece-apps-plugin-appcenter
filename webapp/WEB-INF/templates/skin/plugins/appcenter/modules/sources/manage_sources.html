@@ -3,98 +3,108 @@
 <@tabs2 tab="sources" application=application errors=errors infos=infos user=user />
 
 
-<h1>#i18n{appcenter.manage_sources.title}</h1>
+<div class="col-12 col-sm-12">
+	<h2>#i18n{appcenter.manage_sources.title}</h2>
+</div>
 
-    <div class="well">
-        <h3>#i18n{appcenter.manage_sources.labelSiteRepository} </h3> 
-            <#if data?? && data.siteRepository ??>
-            <a href="${data.siteRepository}" target="_blank">${data.siteRepository}</a> 
-                    <br><br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand">
-                        #i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}
-                    </button>
-                    <br><br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository">
-                        #i18n{appcenter.manage_sources.modifySiteRepositoryButton}
-                    </button>
-                    <@printDemands demands demands_states demands_histories/> 
-            <#else>   
-                <form action="jsp/site/Portal.jsp">
-                    <input type="hidden" name="page" value="sources" />
-                    <input type="hidden" name="id" value="${application.id}" />
-                    <input type="hidden" name="action" value="addSiteRepository" />
-                    <@formGroup labelFor='site_repository' labelKey='#i18n{appcenter.manage_sources.labelSiteRepository}' mandatory=true>
-                        <@input type='text' id='site_repository' name='site_repository'  maxlength=250 tabIndex='0' />
-                    </@formGroup>
-                    <br><br>
-                    <button class="btn btn-primary" type="submit">
-                        #i18n{appcenter.manage_sources.addSiteRepositoryButton}
-                    </button>
-                </form>
-            </#if>
-    </div>
+<div class="well">
+	<div class="col-12 col-sm-12">
+		<#if data?? && data.siteRepository ??>
+			<div class="pull-right">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand" title="#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}">
+				<@icon style="plus" />
+			</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository" title="#i18n{appcenter.manage_sources.modifySiteRepositoryButton}">
+				<@icon style="edit" />
+			</button>
+			</div>
+		</#if>
+		<h3>#i18n{appcenter.manage_sources.labelSiteRepository}</h3> 
+		<#if data?? && data.siteRepository ??>
+			<p class="siteUrl">
+				<a href="${data.siteRepository}" target="_blank">${data.siteRepository}</a>
+			</p>
+			<@printDemands demands demands_states demands_histories/> 
+		<#else>   
+			<form action="jsp/site/Portal.jsp">
+				<input type="hidden" name="page" value="sources" />
+				<input type="hidden" name="id" value="${application.id}" />
+				<input type="hidden" name="action" value="addSiteRepository" />
+				<@formGroup labelFor='site_repository' labelKey='#i18n{appcenter.manage_sources.labelSiteRepository}' mandatory=true>
+					<@input type='text' id='site_repository' name='site_repository'  maxlength=250 tabIndex='0' />
+				</@formGroup>
+				<br><br>
+				<button class="btn btn-primary" type="submit">
+						#i18n{appcenter.manage_sources.addSiteRepositoryButton}
+				</button>
+			</form>
+		</#if>
+	</div>
+	
 
-    <!-- Modal -->
-    <div id="ModalAccessDemand" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+	<!-- Modal -->
+	<div id="ModalAccessDemand" class="modal fade" role="dialog" aria-labelledby="X">
+		<div class="modal-dialog" role="document">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">#i18n{appcenter.manage_sources.modalTitle.requestSiteRepositoryAccess}</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="jsp/site/Portal.jsp">
-                        <input type="hidden" name="page" value="sources" />
-                        <input type="hidden" name="id" value="${application.id}" />
-                        <input type="hidden" name="action" value="addAccessDemand" />
-                        <@formGroup labelFor='user_name' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName.label}' mandatory=true class="row">
-                            <@input type='text' id='user_name' name='user_name'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelFor='email' labelKey='#i18n{appcenter.manage_sources.labelSvnAccessDemandUserEmail.label}' mandatory=true class="row">
-                            <@input type='text' id='email' name='email'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <br><br>
-                        <button class="btn btn-primary" type="submit">
-                            #i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}
-                        </button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="X">#i18n{appcenter.manage_sources.modalTitle.requestSiteRepositoryAccess}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+				</div>
+				<form action="jsp/site/Portal.jsp">
+					<div class="modal-body">
+							<input type="hidden" name="page" value="sources" />
+							<input type="hidden" name="id" value="${application.id}" />
+							<input type="hidden" name="action" value="addAccessDemand" />
+							
+							<div class="form-group">
+								<label for="user_name" class="col-form-label">#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="user_name" name="user_name" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-form-label">#i18n{appcenter.manage_sources.labelSvnAccessDemandUserEmail.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="email" name="email" maxlength="250" class="form-control" required />
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">
+								#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}
+						</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
     
     
-    <!-- Modal -->log">
-        <div class="modal-dialog">
-    <div id="ModalModifySiteRepository" class="modal fade" role="dia
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">#i18n{appcenter.manage_sources.modalTitle.modifySiteRepository}</h4>
-                </div>
-                <div class="modal-body">
-                <form action="jsp/site/Portal.jsp">
-                    <input type="hidden" name="page" value="sources" />
-                    <input type="hidden" name="id" value="${application.id}" />
-                    <input type="hidden" name="action" value="addSiteRepository" />
-                    <input type="text" name="site_repository" />
-                    <br><br>
-                    <button class="btn btn-primary" type="submit">
-                        #i18n{appcenter.manage_sources.modifySiteRepositoryButton}
-                    </button>
-                </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-                </div>
-            </div>
-
-        </div>
-    </div>    
+	<!-- Modal -->
+	<div id="ModalModifySiteRepository" class="modal fade" role="dialog" aria-labelledby="Y">
+		<div class="modal-dialog" role="document">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">#i18n{appcenter.manage_sources.modalTitle.modifySiteRepository}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+				</div>
+				<form action="jsp/site/Portal.jsp">
+					<div class="modal-body">
+						<input type="hidden" name="page" value="sources" />
+						<input type="hidden" name="id" value="${application.id}" />
+						<input type="hidden" name="action" value="addSiteRepository" />
+						<input type="text" name="site_repository" class="form-control" value="${data.siteRepository!}" />
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="submit">
+								#i18n{appcenter.manage_sources.modifySiteRepositoryButton}
+						</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>    
+</div>
