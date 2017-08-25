@@ -2,47 +2,48 @@
 <#include "../../appcenter_tabs.html" />
 <@tabs2 tab="openam" application=application  errors=errors infos=infos  user=user/>
 
- <div class="well">
+<div class="well">
+	<div class="col-sm-12">
     <@messages infos=infos />
     <@tform action='jsp/site/Portal.jsp?page=openam'>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalOpenAMAgentDemand">
-        #i18n{appcenter.manage_openam_agents.buttonAdd}
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalOpenAMAgentDemand" title="#i18n{appcenter.manage_openam_agents.buttonAdd}">
+			<@icon style="plus" />
     </button>
     </@tform>
 
     <h1>#i18n{appcenter.manage_openam_agents.title}</h1>
 
     <@table>
-        <tr>
-            <input type="hidden" id="id" name="id"/>
-            <th>#i18n{appcenter.manage_openam_agents.columnName}</th>
-            <th>#i18n{appcenter.manage_openam_agents.columnEnvironment}</th>
-            <th>#i18n{appcenter.manage_openam_agents.columnPassword}</th>
-            <th>#i18n{appcenter.manage_openam_agents.agentUrl}</th>
-            <th>#i18n{appcenter.manage_openam_agents.serverUrl}</th>
-        </tr>
-        <#if data??>
-            <#list data.openamAgents as openam_agent >
-            <tr>
-                <input type="hidden" id="id" name="id" />
-                <td>
-                    ${openam_agent.name}
-                    </td>
-                <td>
-                    ${openam_agent.environment}
-                    </td>  
-                <td>
-                    ${openam_agent.password}
-                    </td>
-                <td>
-                   ${openam_agent.agentUrl}
-                    </td>    
-                <td>
-                    ${openam_agent.serverUrl}
-                </td>    
-            </tr>
-            </#list>
-        </#if>
+			<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{appcenter.manage_openam_agents.columnName}</th>
+				<th>#i18n{appcenter.manage_openam_agents.columnEnvironment}</th>
+				<th>#i18n{appcenter.manage_openam_agents.columnPassword}</th>
+				<th>#i18n{appcenter.manage_openam_agents.agentUrl}</th>
+				<th>#i18n{appcenter.manage_openam_agents.serverUrl}</th>
+			</tr>
+			<#if data??>
+				<#list data.openamAgents as openam_agent >
+				<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${openam_agent.name}
+							</td>
+					<td>
+							${openam_agent.environment}
+							</td>  
+					<td>
+							${openam_agent.password}
+							</td>
+					<td>
+						 ${openam_agent.agentUrl}
+							</td>    
+					<td>
+							${openam_agent.serverUrl}
+					</td>    
+				</tr>
+				</#list>
+			</#if>
     </@table>
 
     <h1>#i18n{appcenter.manage_openam_agents.demands.title}</h1>
@@ -50,47 +51,62 @@
     <@printDemands demands demands_states demands_histories/>
 
 </div>
+</div>
     
  <!-- Modal for demanding OpenAM agent -->
-    <div id="ModalOpenAMAgentDemand" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+	<div id="ModalOpenAMAgentDemand" class="modal fade" role="dialog" aria-labelledby="addOpenAMAgent">
+		<div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">#i18n{appcenter.manage_openam_agents.modalTitle.addOpenAMAgent}</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="jsp/site/Portal.jsp">
-                        <input type="hidden" name="page" value="openam" />
-                        <input type="hidden" name="id" value="${application.id}" />
-                        <input type="hidden" name="action" value="addAgent" />
-                        <@formGroup labelFor='application_code' labelKey='#i18n{appcenter.manage_openam_agents.applicationCode.label}' mandatory=true class="row">
-                            <@input type='text' id='application_code' name='application_code'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelFor='webapp_name' labelKey='#i18n{appcenter.manage_openam_agents.webappName.label}' mandatory=true class="row">
-                            <@input type='text' id='webapp_name' name='webapp_name'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelFor='public_url' labelKey='#i18n{appcenter.manage_openam_agents.publicUrl.label}' mandatory=true class="row">
-                            <@input type='text' id='public_url' name='public_url'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelFor='environment' labelKey='#i18n{appcenter.manage_openam_agents.environment.label}' mandatory=true class="row">
-                            <select id="environment" name="environment">
-                                <option value="${envi_rec.prefix}" >#i18n{${envi_rec.labelKey}}</option>
-                                <option value="${envi_prod.prefix}" >#i18n{${envi_prod.labelKey}}</option>
-                            </select>
-                        </@formGroup>
-                        <br><br>
-                        <button class="btn btn-primary" type="submit">
-                            #i18n{appcenter.manage_openam_agents.addOpenAMAgent}
-                        </button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<h4 class="modal-title" id="addOpenAMAgent">#i18n{appcenter.manage_openam_agents.modalTitle.addOpenAMAgent}</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+				</div>
+				<form action="jsp/site/Portal.jsp">
+					<fieldset>
+						<input type="hidden" name="page" value="openam" />
+						<input type="hidden" name="id" value="${application.id}" />
+						<input type="hidden" name="action" value="addAgent" />
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="application_code" class="col-form-label">
+									#i18n{appcenter.manage_openam_agents.applicationCode.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="webapp_name" class="col-form-label">
+									#i18n{appcenter.manage_openam_agents.webappName.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="webapp_name" name="webapp_name" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="public_url" class="col-form-label">
+									#i18n{appcenter.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="public_url" name="public_url" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="environment" class="col-form-label">
+									#i18n{appcenter.manage_openam_agents.environment.label} <@icon style="asterisk" />
+								</label>
+								<select id="environment" name="environment" class="form-control" required>
+									<option value="${envi_rec.prefix}" >#i18n{${envi_rec.labelKey}}</option>
+									<option value="${envi_prod.prefix}" >#i18n{${envi_prod.labelKey}}</option>
+								</select>
+							</div>
+							<br><br>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" type="submit">
+									#i18n{appcenter.manage_openam_agents.addOpenAMAgent}
+							</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
 

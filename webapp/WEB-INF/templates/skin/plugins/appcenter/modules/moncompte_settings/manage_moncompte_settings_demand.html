@@ -54,41 +54,44 @@
 </div>
     
  <!-- Modal for demanding OpenAM agent -->
-    <div id="ModalMonCompteSettingDemand" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+	<div id="ModalMonCompteSettingDemand" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">#i18n{appcenter.create_moncompte_settings.title}</h4>
-                </div>
-                <div class="modal-body">
-                    <@tform action='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}&action=doCreateMonCompteSettingsDemand'>
-                        <@formGroup labelKey='#i18n{appcenter.create_moncompte_settings.labelEnvironment}' labelFor='environment'>
-                            <@select name='environment' id='environment' items=environment default_value='' />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{appcenter.create_moncompte_settings.labelFavoriteName}' labelFor='name_favorite'>
-                            <@input type='text' id='favoriteName' name='favoriteName'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{appcenter.create_moncompte_settings.labelFavoriteUrl}' labelFor='url_favorite'>
-                            <@input type='text' id='favoriteUrl' name='favoriteUrl'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{appcenter.create_moncompte_settings.labelBackButtonName}' labelFor='name_back_button'>
-                            <@input type='text' id='backButtonName' name='backButtonName'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{appcenter.create_moncompte_settings.labelBackButtonUrl}' labelFor='url_back_button'>
-                            <@input type='text' id='backButtonUrl' name='backButtonUrl'  maxlength=250 tabIndex='0' />
-                        </@formGroup>
-                        <@formGroup>
-                            <@button type='submit' name='action_createSetting' title='#i18n{appcenter.create_moncompte_settings.buttonCreate}' />
-                        </@formGroup>
-                    </@tform>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<h4 class="modal-title" id="create_moncompte_settings.title">#i18n{appcenter.create_moncompte_settings.title}</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_moncompte_settings.title" aria-label="Close">&times;</button>
+				</div>
+				<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}&action=doCreateMonCompteSettingsDemand">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="environment" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelEnvironment}</label>
+							<@select name='environment' id='environment' items=environment default_value='' />
+						</div>
+						<div class="form-group">
+							<label for="name_favorite" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelFavoriteName}</label>
+							<input type="text" id="favoriteName" name="favoriteName" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="url_favorite" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelFavoriteUrl}</label>
+							<input type="text" id="favoriteUrl" name="favoriteUrl" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="name_back_button" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelBackButtonName}</label>
+							<input type="text" id="backButtonName" name="backButtonName" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="url_back_button" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelBackButtonUrl}</label>
+							<input type="text" id="backButtonUrl" name="backButtonUrl" maxlength="250" class="form-control" />
+						</div>
+					</div>
+					<div class="modal-footer">
+							<button type="submit" name="action_createSetting" class="btn btn-primary">#i18n{appcenter.create_moncompte_settings.buttonCreate}</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
