@@ -2,22 +2,19 @@
   /* width: 200px; */
 	/*height: 272px;*/
 	display: block;
-	background: rgba(9,159,191,0.7);
-	border-radius: 10px;
+	background: rgba(23,189,243,0.7);
+	/* border-radius: 10px; */
 	padding: 20px;
 	margin: 5px;
 	color: #000;
 }
 
 .app-block:hover {
-	background: rgba(9,159,191,1);
+	background: rgba(169,117,252,1);
 	color: #fff;
 	text-decoration:none;
 }
 
-.app-block h3 {
-
-}
 .app-block ul li {
   text-decoration: underline;
 }

@@ -1,57 +1,60 @@
 <#include "../commons.html" />
 <#include "../../appcenter_tabs.html" />
-<@tabs2 tab="moncompte_settings" application=application errors=errors infos=infos  user=user/>
+<@tabs2 tab="moncompte_settings" application=application errors=errors infos=infos  user=user>
+<div class="well">
+	<div class="col-12 col-sm-12">
+	<h1>#i18n{appcenter.manage_moncompte_settings.title}</h1>
+	<@messages infos=infos />
 
-<h1>#i18n{appcenter.manage_moncompte_settings.title}</h1>
+	<div class="pull-right">
+		<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMonCompteSettingDemand" title="#i18n{appcenter.manage_moncompte_settings.buttonAdd}">
+				<@icon style="plus" />
+			</button>
+		</form>
+	</div>
+	<h2>#i18n{appcenter.manage_moncompte_settings.list_setting_title}</h2>
 
- <div class="well">
-    <@messages infos=infos />
-    <@tform action='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}'>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMonCompteSettingDemand">
-        #i18n{appcenter.manage_moncompte_settings.buttonAdd}
-    </button>
-    </@tform>
+	<@table>
+		<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{appcenter.manage_moncompte_settings.columnEnvironment}</th>
+				<th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteName}</th>
+				<th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteUrl}</th>
+				<th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonName}</th>
+				<th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonUrl}</th>
+		</tr>
+		<#if data??>
+			<#list data.settings as setting >
+			<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${setting.environment}
+					</td>
+					<td>
+							${setting.favoriteName}
+					</td>
+					<td>
+							${setting.favoriteUrl}
+					</td>
+					<td>
+							${setting.backButtonName}
+					</td>
+					<td>
+							${setting.backButtonUrl}
+					</td>
+			</tr>
+			</#list>
+		</#if>
+	</@table>
 
-    <h2>#i18n{appcenter.manage_moncompte_settings.list_setting_title}</h2>
+	<h2>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h2>
+	
+	<@printDemands demands demands_states demands_histories/>
 
-    <@table>
-        <tr>
-            <input type="hidden" id="id" name="id"/>
-            <th>#i18n{appcenter.manage_moncompte_settings.columnEnvironment}</th>
-            <th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteName}</th>
-            <th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteUrl}</th>
-            <th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonName}</th>
-            <th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonUrl}</th>
-        </tr>
-        <#if data??>
-            <#list data.settings as setting >
-            <tr>
-                <input type="hidden" id="id" name="id" />
-                <td>
-                    ${setting.environment}
-                </td>
-                <td>
-                    ${setting.favoriteName}
-                </td>
-                <td>
-                    ${setting.favoriteUrl}
-                </td>
-                <td>
-                    ${setting.backButtonName}
-                </td>
-                <td>
-                    ${setting.backButtonUrl}
-                </td>
-            </tr>
-            </#list>
-        </#if>
-    </@table>
-
-    <h2>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h2>
-    
-    <@printDemands demands demands_states demands_histories/>
-
+	</div>
 </div>
+</@tabs2>
     
  <!-- Modal for demanding OpenAM agent -->
 	<div id="ModalMonCompteSettingDemand" class="modal fade" role="dialog">

@@ -1,21 +1,40 @@
 <#macro printDemands demands demands_states demands_histories>
-	<#if 0 < demands?size>   
+	<#if 0 < demands?size>
+		<div id="accordion" role="tablist">
+		<#assign cpt = 0 />
 		<#list demands as demand>
-			<table>
-				<tr>
-					<th>#i18n{appcenter.view_demands.columnStatusText}</th>
-					<td>${demand.statusText!'TODO STATUS TEXT'}</td>
-				</tr>
-				<tr>
-					<th>#i18n{appcenter.view_demands.columnStateName}</th>
-					<td>${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</td>
-				</tr>
-				<tr>
-					<th>#i18n{appcenter.view_demands.complementaryInfos}</th>
-					<td>${demand.complementaryInfos}</td>
-				</tr>
-			</table>
-			${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}
+		
+			<div class="card">
+				<div class="card-header" role="tab" id="heading${cpt}">
+					<h5 class="mb-0">
+						<a data-toggle="collapse" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
+							Demande #${demand.id}
+						</a>
+					</h5>
+				</div>
+
+				<div id="collapse${cpt}" class="collapse" role="tabpanel" aria-labelledby="heading${cpt}" data-parent="#accordion">
+					<div class="card-body">
+						<table class="table table-responsive">
+							<tr>
+								<th>#i18n{appcenter.view_demands.columnStatusText}</th>
+								<td>${demand.statusText!'TODO STATUS TEXT'}</td>
+							</tr>
+							<tr>
+								<th>#i18n{appcenter.view_demands.columnStateName}</th>
+								<td>${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</td>
+							</tr>
+							<tr>
+								<th>#i18n{appcenter.view_demands.complementaryInfos}</th>
+								<td>${demand.complementaryInfos}</td>
+							</tr>
+						</table>
+						${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}
+					</div>
+				</div>
+				<#assign cpt++ />
+			</div>
 		</#list>
+		</div>
 	</#if>
 </#macro>

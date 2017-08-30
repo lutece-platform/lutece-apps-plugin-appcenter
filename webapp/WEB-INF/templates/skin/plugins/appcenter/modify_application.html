@@ -1,10 +1,10 @@
 <#include "appcenter_tabs.html" />
-<@tabs2 tab="general" application=application errors=errors infos=infos user=user />
+<@tabs2 tab="general" application=application errors=errors infos=infos user=user>
 
 <@row>
 	<@columns sm=12>
-		<br>
-
+		<div class="well">
+			<@columns sm=12>
 		<#-- Demands -->
 
 		<h2><span class="fa fa-gears"></span> #i18n{appcenter.modify_application.labelCurrentDemands}</h2>
@@ -15,11 +15,11 @@
 			<#list demands as demand>
 			<div class="card">
 				<div class="card-header" role="tab" id="heading${cpt}">
-					<h5 class="mb-0">
+					<h3 class="mb-0">
 						<a data-toggle="collapse" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
 							${demand.statusText!'TODO STATUS TEXT'}
 						</a>
-					</h5>
+					</h3>
 				</div>
 
 				<div id="collapse${cpt}" class="collapse" role="tabpanel" aria-labelledby="heading${cpt}" data-parent="#accordion">
@@ -35,7 +35,11 @@
 			</#list>
 		</div>
 		</#if>
+		</@columns>
+		</div>
 	</@columns>
 </@row>
+
+</@tabs2>
 
 

@@ -1,6 +1,6 @@
 <#include "../commons.html" />
 <#include "../../appcenter_tabs.html" />
-<@tabs2 tab="openam" application=application  errors=errors infos=infos  user=user/>
+<@tabs2 tab="openam" application=application  errors=errors infos=infos  user=user>
 
 <div class="well">
 	<div class="col-sm-12">
@@ -11,7 +11,7 @@
     </button>
     </@tform>
 
-    <h1>#i18n{appcenter.manage_openam_agents.title}</h1>
+    <h2>#i18n{appcenter.manage_openam_agents.title}</h2>
 
     <@table>
 			<tr>
@@ -46,12 +46,14 @@
 			</#if>
     </@table>
 
-    <h1>#i18n{appcenter.manage_openam_agents.demands.title}</h1>
+    <h2>#i18n{appcenter.manage_openam_agents.demands.title}</h2>
     
     <@printDemands demands demands_states demands_histories/>
 
 </div>
 </div>
+
+</@tabs2>
     
  <!-- Modal for demanding OpenAM agent -->
 	<div id="ModalOpenAMAgentDemand" class="modal fade" role="dialog" aria-labelledby="addOpenAMAgent">

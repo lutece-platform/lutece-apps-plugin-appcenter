@@ -1,5 +1,4 @@
 <#macro tabs2 tab application errors infos user >
-
 <div class="jumbotron">
 	<h1 class="display-3">${application.name}</h1>
 	<p class="lead">${application.description}</p>
@@ -25,7 +24,7 @@
 <@messages errors=errors />
 <@messages infos=infos />
 
-<ul class="nav nav-tabs">
+<!-- <ul class="nav nav-tabs">
   <li class="nav-item">
 		<a class="nav-link<#if tab="general"> active</#if>" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">#i18n{appcenter.tabs.general}</a>
 	</li>
@@ -38,7 +37,25 @@
   <li class="nav-item">
 		<a class="nav-link<#if tab="moncompte_settings"> active</#if>" href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">#i18n{appcenter.tabs.moncomptesettings}</a>
 	</li>
-</ul>
+</ul> -->
+
+<div class="row">
+	<div class="col-3">
+		<div class="nav flex-column nav-pills" id="navTabs" role="tablist">
+			<a class="nav-link<#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}" role="tab" aria-expanded="true">#i18n{appcenter.tabs.general}</a>
+			<a class="nav-link<#if tab="sources"> active</#if>" id="sourcesTab" href="jsp/site/Portal.jsp?page=sources&id=${application.id}" role="tab" aria-expanded="true">#i18n{appcenter.tabs.sources}</a>
+			<a class="nav-link<#if tab="openam"> active</#if>" id="openAmTab" href="jsp/site/Portal.jsp?page=openam&id=${application.id}" role="tab" aria-expanded="true">#i18n{appcenter.tabs.openam}</a>
+			<a class="nav-link<#if tab="moncompte_settings"> active</#if>" id="myAccountTab" href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}" role="tab" aria-expanded="true">#i18n{appcenter.tabs.moncomptesettings}</a>
+		</div>
+	</div>
+	<div class="col-9">
+		<div class="tab-content" id="tabContent">
+			<div class="tab-pane fade show active" id="" role="tabpanel" aria-labelledby="">
+				<#nested>
+			</div>
+		</div>
+	</div>
+</div>
 </#macro>
 
 
@@ -48,7 +65,7 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="modalTitleModifyAppDescription">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h4>
+				<h2 class="modal-title" id="modalTitleModifyAppDescription">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h2>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 			</div>
 			<form action="jsp/site/Portal.jsp?page=application">
@@ -74,15 +91,13 @@
 			</form>
 		</div>
 	</div>
-</div>
-    
 <!-- Modal -->
 <div id="ModalAddUser" class="modal fade" role="dialog" aria-labelledby="modalTitleAddUser">
 	<div class="modal-dialog" role="document">
 		<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="modalTitleAddUser">#i18n{appcenter.modify_application.modalTitleAddUser}</h4>
+					<h2 class="modal-title" id="modalTitleAddUser">#i18n{appcenter.modify_application.modalTitleAddUser}</h2>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				</div>
 				<form action="jsp/site/Portal.jsp?page=application">
@@ -135,4 +150,6 @@
 		</div>
 	</div>
 </div>
+</div>
+    
     
