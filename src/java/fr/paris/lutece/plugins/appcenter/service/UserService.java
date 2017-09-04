@@ -110,13 +110,19 @@ public class UserService
             {
                 user.setId( luteceUser.getEmail( ) );
                 int nRole = ApplicationHome.getUserRole( nApplicationId, luteceUser.getEmail( ) );
-                user.setAdmin(  (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER ));
+                boolean bAdmin = (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
+                user.setAdmin( bAdmin );
+                if( bAdmin )
+                {
+                    user.setDelegateRoles( RoleService.getRolesList() );
+                }
             }
         }
         else
         {
             user.setId( MOCK_USER );
             user.setAdmin( true );
+            user.setDelegateRoles( RoleService.getRolesList() );
         }
         return user;
 

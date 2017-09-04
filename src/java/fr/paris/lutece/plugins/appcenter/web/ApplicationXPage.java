@@ -224,8 +224,6 @@ public class ApplicationXPage extends AppCenterXPage
 
         List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
         model.put( MARK_DEMANDS, listDemand );
-        model.put( MARK_ROLES_LIST , RoleService.getRolesList() );
-        model.put( MARK_DEFAULT_ROLE , RoleService.getRolesList().get( 0 ).getCode() );
         model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
 
         Map<String, Object> mapStates = new HashMap<>( );

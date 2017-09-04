@@ -129,13 +129,9 @@
 							<label for="user_role" class="col-form-label">#i18n{appcenter.modify_application.labelRole} <@icon style="asterisk" />
 							</label>
 							<select id="user_role" name="user_role" class="form-control">
-								<#if roles_list?has_content>
-								<#list roles_list as item>
-									<#if default_role="${item.code}">
-									<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-									<#else>
-									<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-									</#if>
+								<#if user.delegateRoles?has_content>
+								<#list user.delegateRoles as item>
+        								<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
 								</#list>
 								</#if>
 							</select>
