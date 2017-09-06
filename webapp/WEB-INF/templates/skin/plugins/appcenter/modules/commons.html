@@ -1,20 +1,20 @@
 <#macro printDemands demands demands_states demands_histories>
 	<#if 0 < demands?size>
-		<div id="accordion" role="tablist">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<#assign cpt = 0 />
 		<#list demands as demand>
 		
-			<div class="card">
-				<div class="card-header" role="tab" id="heading${cpt}">
-					<h5 class="mb-0">
-						<a data-toggle="collapse" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
+			<div class="panel">
+				<div class="panel-heading" role="tab" id="heading${cpt}">
+					<h3 class="panel-title">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
 							Demande #${demand.id}
 						</a>
-					</h5>
+					</h3>
 				</div>
 
-				<div id="collapse${cpt}" class="collapse" role="tabpanel" aria-labelledby="heading${cpt}" data-parent="#accordion">
-					<div class="card-body">
+				<div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
+					<div class="panel-body">
 						<table class="table table-responsive">
 							<tr>
 								<th>#i18n{appcenter.view_demands.columnStatusText}</th>

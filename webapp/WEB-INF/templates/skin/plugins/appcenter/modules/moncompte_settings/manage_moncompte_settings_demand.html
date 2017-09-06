@@ -3,7 +3,7 @@
 <@tabs2 tab="moncompte_settings" application=application errors=errors infos=infos  user=user>
 <div class="well">
 	<div class="col-12 col-sm-12">
-	<h1>#i18n{appcenter.manage_moncompte_settings.title}</h1>
+	<h2>#i18n{appcenter.manage_moncompte_settings.title}</h2>
 	<@messages infos=infos />
 
 	<div class="pull-right">
@@ -13,7 +13,7 @@
 			</button>
 		</form>
 	</div>
-	<h2>#i18n{appcenter.manage_moncompte_settings.list_setting_title}</h2>
+	<h3>#i18n{appcenter.manage_moncompte_settings.list_setting_title}</h3>
 
 	<@table>
 		<tr>
@@ -48,11 +48,12 @@
 		</#if>
 	</@table>
 
-	<h2>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h2>
+	<h3>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
 
 	</div>
+	&#160;
 </div>
 </@tabs2>
     
@@ -63,8 +64,8 @@
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-						<h4 class="modal-title" id="create_moncompte_settings.title">#i18n{appcenter.create_moncompte_settings.title}</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_moncompte_settings.title" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="create_moncompte_settings.title">#i18n{appcenter.create_moncompte_settings.title}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}&action=doCreateMonCompteSettingsDemand">
 					<div class="modal-body">
