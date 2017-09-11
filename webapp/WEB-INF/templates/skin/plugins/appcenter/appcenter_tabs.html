@@ -53,7 +53,8 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				<h2 class="modal-title" id="modalTitleModifyAppDescription">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h2>
 			</div>
-			<form action="jsp/site/Portal.jsp?page=application">
+                        <form action="jsp/site/Portal.jsp">
+                            <input type="hidden" name="page" value="application" />
 				<fieldset>
 					<div class="modal-body">
 						<input type="hidden" id="id" name="id" value="${application.id}"/>
@@ -86,7 +87,8 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 					<h2 class="modal-title" id="modalTitleAddUser">#i18n{appcenter.modify_application.modalTitleAddUser}</h2>
 				</div>
-				<form action="jsp/site/Portal.jsp?page=application">
+				<form action="jsp/site/Portal.jsp">
+                                    <input type="hidden" name="page" value="application" />
 					<input type="hidden" id="id" name="id" value="${application.id}"/>
 					<fieldset>
 					<div class="modal-body">
