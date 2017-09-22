@@ -70,8 +70,6 @@ public class MonCompteSettingsXPage extends AppCenterXPage
 
     private static final String ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND = "doCreateMonCompteSettingsDemand";
 
-    private MonCompteSettingDemand _demand = new MonCompteSettingDemand( );
-
     /**
      * Returns the form to manage the MonCompteSettingsDemands
      *
@@ -103,17 +101,18 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
 
-        populate( _demand, request );
+        MonCompteSettingDemand demand = new MonCompteSettingDemand( );
+        demand.setIdApplication( application.getId( ) );
+        
+        populate( demand, request );
 
         // Check constraints
-        if ( !validateBean( _demand, getLocale( request ) ) )
+        if ( !validateBean( demand, getLocale( request ) ) )
         {
             return redirectView( request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND );
         }
 
-        _demand.setIdApplication( nId );
-
-        DemandService.saveDemand( _demand, application );
+        DemandService.saveDemand( demand, application );
 
         return redirect(request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, Constants.PARAM_ID_APPLICATION, nId );
     }

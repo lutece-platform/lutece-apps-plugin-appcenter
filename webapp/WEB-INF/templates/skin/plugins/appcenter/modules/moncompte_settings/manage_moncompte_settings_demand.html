@@ -67,8 +67,11 @@
 						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_moncompte_settings.title" aria-label="Close">&times;</button>
 						<h3 class="modal-title" id="create_moncompte_settings.title">#i18n{appcenter.create_moncompte_settings.title}</h3>
 				</div>
-				<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}&action=doCreateMonCompteSettingsDemand">
-					<div class="modal-body">
+				<form action="jsp/site/Portal.jsp" method="post">
+					<input type="hidden" name="page" value="moncomptesettings" />
+                                        <input type="hidden" name="id" value="${application.id}" />
+                                        <input type="hidden" name="action" value="doCreateMonCompteSettingsDemand" />
+                                            <div class="modal-body">
 						<div class="form-group">
 							<label for="environment" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelEnvironment}</label>
 							<@select name='environment' id='environment' items=environment default_value='' />
@@ -91,7 +94,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-							<button type="submit" name="action_createSetting" class="btn btn-primary">#i18n{appcenter.create_moncompte_settings.buttonCreate}</button>
+							<button type="submit" class="btn btn-primary">#i18n{appcenter.create_moncompte_settings.buttonCreate}</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</form>
