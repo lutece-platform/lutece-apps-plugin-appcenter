@@ -34,8 +34,9 @@ INSERT INTO workflow_action VALUES
 (401,'Traiter la demande de paramétrage NotifyGRU','Traiter la demande de paramétrage NotifyGRU',400,401,402,3,0,0,2,0);
 
 INSERT INTO workflow_task VALUES
-(1,'taskOpenam',201,1);
-(2,'taskMonCompteSettings',301,1);
+(1,'taskSources',101,1),
+(2,'taskOpenam',201,1),
+(3,'taskMonCompteSettings',301,1);
 
 INSERT INTO workflow_resource_workflow VALUES 
 (1,'DEMANDCENTER_DEMAND_SOURCE',101,100,-1,0);

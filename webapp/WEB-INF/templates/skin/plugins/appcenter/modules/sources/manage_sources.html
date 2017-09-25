@@ -7,7 +7,7 @@
 		<h2>#i18n{appcenter.manage_sources.title}</h2>
 	</div>
 	<div class="col-sm-12">
-		<#if data?? && data.siteRepository ??>
+		<#if data?? && (data.siteRepository) ??>
 		<div class="pull-right">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand" title="#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}">
 				<@icon style="plus" />
@@ -22,6 +22,32 @@
 		<p class="siteUrl">
 			<a href="${data.siteRepository}" target="_blank">${data.siteRepository}</a>
 		</p>
+                <h3>#i18n{appcenter.manage_sources.list_datas_title}</h3>
+                <@table>
+                    <tr>
+                        <input type="hidden" id="id" name="id"/>
+                        <th>#i18n{appcenter.manage_sources.columnSiteRepository}</th>
+                        <th>#i18n{appcenter.manage_sources.columnUsername}</th>
+                        <th>#i18n{appcenter.manage_sources.columnEmail}</th>
+                    </tr>
+                    <#if data??>
+                        <#list data.sourcesDatas as sourceData >
+                            <tr>
+                                <input type="hidden" id="id" name="id" />
+                                <td>
+                                    ${sourceData.siteRepository}
+                                </td>
+                                <td>
+                                    ${sourceData.username}
+                                </td>
+                                <td>
+                                    ${sourceData.email}
+                                </td>
+                            </tr>
+                        </#list>
+                    </#if>
+                </@table>
+
 		<@printDemands demands demands_states demands_histories/> 
 		<#else>   
 		<form action="jsp/site/Portal.jsp">
@@ -94,7 +120,7 @@
 						<input type="hidden" name="page" value="sources" />
 						<input type="hidden" name="id" value="${application.id}" />
 						<input type="hidden" name="action" value="addSiteRepository" />
-						<input type="text" name="site_repository" class="form-control" value="${data.siteRepository!}" />
+						<input type="text" name="site_repository" class="form-control" value="${(data.siteRepository)!}" />
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-primary" type="submit">

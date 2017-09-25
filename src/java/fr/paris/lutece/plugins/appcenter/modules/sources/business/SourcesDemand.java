@@ -49,6 +49,7 @@ public class SourcesDemand extends Demand
 
     private String _strUserName;
     private String _strEmail;
+    private String _strSiteRepository;
 
     /**
      * get the user name
@@ -92,6 +93,28 @@ public class SourcesDemand extends Demand
         _strEmail = strEmail;
     }
 
+    /**
+     * Get the SiteRepository
+     * @return the site repository
+     */
+    public String getSiteRepository()
+    {
+        return _strSiteRepository;
+    }
+
+    /**
+     * Set the SiteRepository
+     * @param strSiteRepository the SiteRepository 
+     */
+    public void setSiteRepository( String strSiteRepository )
+    {
+        _strSiteRepository = strSiteRepository;
+    }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getComplementaryInfos( )
     {

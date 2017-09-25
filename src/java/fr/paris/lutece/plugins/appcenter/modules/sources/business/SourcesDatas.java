@@ -33,67 +33,69 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
+import java.util.ArrayList;
+import java.util.List;
+import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+
 /**
  * Sources Data Subset
  */
-public class SourcesData
+public class SourcesDatas implements DataSubset
 {
-    private String _strUsername;
-    private String _strEmail;
+    public static final String DATA_SOURCES_NAME = "sources";
+    public static final String DEMAND_TYPE_KEY = "source";
+
     private String _strSiteRepository;
+    private List<SourcesData> _listSourcesDatas = new ArrayList<SourcesData>( );
 
     /**
-     * Get the username
-     * @return the username
+     * {@inheritDoc }
+     * 
+     * @return
      */
-    public String getUsername()
+    @Override
+    public String getName( )
     {
-        return _strUsername;
+        return DATA_SOURCES_NAME;
     }
 
     /**
-     * Set the username
-     * @param strUsername 
-     */
-    public void setUsername( String strUsername )
-    {
-        _strUsername = strUsername;
-    }
-
-    /**
-     * Get the email
-     * @return the email
-     */
-    public String getEmail()
-    {
-        return _strEmail;
-    }
-
-    /**
-     * Set the email
-     * @param strEmail the email 
-     */
-    public void setEmail( String strEmail )
-    {
-        _strEmail = strEmail;
-    }
-
-    /**
-     * Get the site repo
-     * @return 
+     * Get the site repository
+     * @return the site repository
      */
     public String getSiteRepository()
     {
         return _strSiteRepository;
     }
-    
+
     /**
-     * Set the site repo
-     * @param strSiteRepository 
+     * Set the site repository
+     * @param strSiteRepository the site repository 
      */
     public void setSiteRepository( String strSiteRepository )
     {
         _strSiteRepository = strSiteRepository;
+    }    
+
+    /**
+     * Returns the SourcesDatas
+     *
+     * @return The SourcesDatas
+     */
+    public List<SourcesData> getSourcesDatas( )
+    {
+        return _listSourcesDatas;
+    }
+
+    /**
+     * Sets the SourcesData
+     *
+     * @param sourcesData
+     * 
+     */
+    public void addSourceData( SourcesData sourcesData )
+    {
+        _listSourcesDatas.add( sourcesData );
     }
 
 }

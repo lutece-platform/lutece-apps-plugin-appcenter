@@ -35,4 +35,18 @@
     <bean id="appcenter.MonCompteSettingsTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web.MonCompteSettingsTaskComponent"
      p:taskType-ref="appcenter.taskTypeMonCompteSettings"
      />
+    
+    <bean id="appcenter.taskTypeSources" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskSources"
+            p:titleI18nKey="module.appcenter.sources.task_title"
+            p:beanName="appcenter.taskSources"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+
+    <bean id="appcenter.taskSources" class="fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesTask" scope="prototype" />
+    <bean id="appcenter.SourcesTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesTaskComponent"
+     p:taskType-ref="appcenter.taskTypeSources"
+     />
+    
 </beans>

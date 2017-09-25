@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
@@ -69,38 +70,59 @@ public class SourcesXPage extends AppCenterXPage
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
 
+    /**
+     * Maganage sources view
+     * @param request The HttpServletRequest
+     * @return the view for managing sources
+     * @throws UserNotSignedException
+     * @throws SiteMessageException 
+     */
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
 
         Application application = getApplication( request );
-        SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
+        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
 
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, dataSubset );
+        model.put( Constants.MARK_DATA, sourcesData );
         model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
         addListDemand( request, application, model, SourcesDemand.ID_DEMAND_TYPE, SourcesDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
 
+    /**
+     * Action add site repository
+     * @param request The HttpServletRequest
+     * @return the manage view after processing action
+     * @throws UserNotSignedException
+     * @throws SiteMessageException 
+     */
     @Action( ACTION_ADD_SITE_REPOSITORY )
     public XPage doAddSiteRepository( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
         Application application = getApplication( request );
-        SourcesData dataSubset = ApplicationService.loadApplicationDataSubset( application, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
-        if ( dataSubset == null )
+        SourcesDatas sourceDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
+        if ( sourceDatas == null )
         {
-            dataSubset = new SourcesData( );
+            sourceDatas = new SourcesDatas( );
         }
-        dataSubset.setSiteRepository( strSiteDirectory );
-        ApplicationService.saveApplicationData( application, dataSubset );
+        sourceDatas.setSiteRepository( strSiteDirectory );
+        ApplicationService.saveApplicationData( application, sourceDatas );
 
         return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, application.getId( ) );
     }
 
+    /**
+     * Action : add access demand
+     * @param request the HttpServletRequest
+     * @return the manage view, after processing action
+     * @throws UserNotSignedException
+     * @throws SiteMessageException 
+     */
     @Action( ACTION_ADD_ACCESS_DEMAND )
     public XPage doAddAccessDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
@@ -110,7 +132,11 @@ public class SourcesXPage extends AppCenterXPage
         sourcesDemand.setIdApplication( application.getId( ) );
 
         populate( sourcesDemand, request );
-
+        
+        //Get the source repository from dataSubset
+        SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
+        sourcesDemand.setSiteRepository( sourcesDatas.getSiteRepository( ) );
+        
         // Check constraints
         if ( !validateBean( sourcesDemand, getLocale( request ) ) )
         {
