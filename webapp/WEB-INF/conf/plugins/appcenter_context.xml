@@ -5,11 +5,25 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        xmlns:p="http://www.springframework.org/schema/p" >
 
+
+    <!-- DAO -->
     <bean id="appcenter.applicationDAO" class="fr.paris.lutece.plugins.appcenter.business.ApplicationDAO" />
     <bean id="appcenter.userApplicationDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationDAO" />
     <bean id="appcenter.demandDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandDAO" />
+    <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
 
-
+    <!-- Services -->
+    
+    <bean id="appcenter.taskCustomDemandStatusConfigService"
+        class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
+        p:taskConfigDAO-ref="appcenter.customDemandStatusDAO" />
+    
+    <!-- Task Config -->
+        <bean id="appcenter.customDemandStatusTaskConfig"
+        class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfig"
+        scope="prototype" />  
+    
+    <!-- Tasks -->
     <bean id="appcenter.taskTypeOpenam" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
             p:key="taskOpenam"
             p:titleI18nKey="module.appcenter.openam.task_title"
@@ -38,7 +52,7 @@
     
     <bean id="appcenter.taskTypeSources" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
             p:key="taskSources"
-            p:titleI18nKey="module.appcenter.sources.task_title"
+            p:titleI18nKey="appcenter.sources.task_title"
             p:beanName="appcenter.taskSources"
             p:configRequired="false"
             p:formTaskRequired="true"
@@ -48,5 +62,19 @@
     <bean id="appcenter.SourcesTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesTaskComponent"
      p:taskType-ref="appcenter.taskTypeSources"
      />
+    
+    <bean id="appcenter.taskTypeCustomDemandStatus" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskCustomDemandStatus"
+            p:titleI18nKey="appcenter.customDemandStatus.task_title"
+            p:beanName="appcenter.taskCustomDemandStatus"
+            p:configBeanName="appcenter.customDemandStatusTaskConfig"
+            p:configRequired="true"
+            p:formTaskRequired="false"
+            p:taskForAutomaticAction="true" />
+    <bean id="appcenter.taskCustomDemandStatus" class="fr.paris.lutece.plugins.appcenter.service.task.TaskCustomDemandStatus" scope="prototype" />
+    <bean id="appcenter.taskCustomDemandStatusComponent" class="fr.paris.lutece.plugins.appcenter.service.web.task.TaskCustomDemandStatusComponent"
+     p:taskType-ref="appcenter.taskTypeCustomDemandStatus"
+     p:taskConfigService-ref="appcenter.taskCustomDemandStatusConfigService"
+    />
     
 </beans>

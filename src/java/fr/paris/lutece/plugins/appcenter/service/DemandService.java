@@ -53,10 +53,10 @@ public class DemandService
     
     public static void saveDemand ( Demand demand, Application application )
     {
-    	 demand.setCreationDate(new java.sql.Timestamp( ( new java.util.Date( ) ).getTime( ) ));
-         demand.setDemandData( getDemandAsString( demand ) );
-         DemandHome.create( demand );
-          //Run the workflow
+    	demand.setCreationDate(new java.sql.Timestamp( ( new java.util.Date( ) ).getTime( ) ));
+        demand.setDemandData( getDemandAsString( demand ) );
+        DemandHome.create( demand );
+        //Run the workflow
         int nIdResource = demand.getId( );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
         WorkflowService.getInstance( ).getState( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );

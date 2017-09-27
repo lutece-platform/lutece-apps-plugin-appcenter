@@ -50,3 +50,14 @@ id_history int(6) NOT NULL,
 id_user_front int(11) default '0',
 PRIMARY KEY ( id_history )
 );
+
+--
+-- Structure for table appcenter_workflow_resource_history_demand
+--
+
+DROP TABLE IF EXISTS appcenter_task_custom_demand_status_config;
+CREATE TABLE appcenter_task_custom_demand_status_config (
+id_task int(6) NOT NULL,
+custom_demand_status varchar(1000) default '' NOT NULL,
+PRIMARY KEY ( id_task )
+);
