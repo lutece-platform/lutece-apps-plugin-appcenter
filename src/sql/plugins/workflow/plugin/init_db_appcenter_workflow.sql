@@ -36,7 +36,22 @@ INSERT INTO workflow_action VALUES
 INSERT INTO workflow_task VALUES
 (1,'taskSources',101,1),
 (2,'taskOpenam',201,1),
-(3,'taskMonCompteSettings',301,1);
+(3,'taskMonCompteSettings',301,1),
+(4,'taskCustomDemandStatus',100,2),
+(5,'taskCustomDemandStatus',200,2),
+(6,'taskCustomDemandStatus',300,2),
+(8,'taskCustomDemandStatus',101,2),
+(9,'taskCustomDemandStatus',201,2),
+(10,'taskCustomDemandStatus',301,2);
+
+INSERT INTO appcenter_task_custom_demand_status_config VALUES
+(4,'Demande d\'autorisation d\'accès SVN en cours de traitement'),
+(5,'Demande de création d\'agent OpenAM en cours de traitement'),
+(6,'Demande de paramètrage MonCompte en cours de traitement'),
+(7,'Les autorisations d\'accès SVN ont été effectuées'),
+(8,'L\'agent OpenAM demandé a été créé'),
+(9,'Le paramétrage MonCompte souhaité a été effectué');
+
 
 INSERT INTO workflow_resource_workflow VALUES 
 (1,'DEMANDCENTER_DEMAND_SOURCE',101,100,-1,0);
