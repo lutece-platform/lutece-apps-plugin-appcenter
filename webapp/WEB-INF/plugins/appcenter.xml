@@ -53,6 +53,10 @@
             <application-id>moncomptesettings</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web.MonCompteSettingsXPage</application-class>
         </application>
+        <application>
+            <application-id>identitystore</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.modules.identitystore.web.IdentitystoreXPage</application-class>
+        </application>
     </applications>
 
     <!-- Portlet parameters -->

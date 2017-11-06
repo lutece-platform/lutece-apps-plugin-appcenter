@@ -88,7 +88,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, dataSubset );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
+        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
         addListDemand( request, application, model, MonCompteSettingDemand.ID_DEMAND_TYPE, MonCompteSettingDemand.class );
 

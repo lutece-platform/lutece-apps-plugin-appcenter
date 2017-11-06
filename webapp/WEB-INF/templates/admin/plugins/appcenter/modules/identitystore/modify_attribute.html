@@ -1,0 +1,23 @@
+<#include "../../manageappcenter_tabs.html" />
+<@tabs2 tab="attribute" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_attribute.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_attribute" action="jsp/admin/plugins/appcenter/ManageAttributes.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${attribute.id}"/>
+			
+				<@formGroup labelKey='#i18n{appcenter.modify_attribute.labelKey}' helpKey='#i18n{appcenter.modify_attribute.labelKey.help}' mandatory=true>
+					<@input type='text' name='key' value='${attribute.key}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_attribute.labelLabel}' helpKey='#i18n{appcenter.modify_attribute.labelLabel.help}' mandatory=true>
+					<@input type='text' name='label' value='${attribute.label}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_attribute.labelDescription}' helpKey='#i18n{appcenter.modify_attribute.labelDescription.help}' >
+					<@input type='text' name='description' value='${attribute.description}' />
+				</@formGroup>
+        <@actionButtons button1Name="action_modifyAttribute" button2Name="view_manageAttribute"/>
+    </@tform>
+	</@boxBody>
+</@box>

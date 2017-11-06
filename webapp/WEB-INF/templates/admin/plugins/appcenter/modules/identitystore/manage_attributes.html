@@ -1,0 +1,48 @@
+<#include "../../manageappcenter_tabs.html" />
+<@tabs2 tab="attribute" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_attribute.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_attribute' action='jsp/admin/plugins/appcenter/ManageAttributes.jsp'>
+			<@button type='submit' name='view_createAttribute' buttonIcon='plus' title='#i18n{appcenter.manage_attributes.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_attributes.columnKey}</th>
+            <th>#i18n{appcenter.manage_attributes.columnLabel}</th>
+            <th>#i18n{appcenter.manage_attributes.columnDescription}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list attribute_list as attribute >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${attribute.key}
+            </td>
+            <td>
+                ${attribute.label}
+            </td>
+            <td>
+                ${attribute.description}
+            </td>
+        <td>
+			<@aButton href='jsp/admin/plugins/appcenter/ManageAttributes.jsp?view=modifyAttribute&id=${attribute.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+						
+			<@aButton href='jsp/admin/plugins/appcenter/ManageAttributes.jsp?action=confirmRemoveAttribute&id=${attribute.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

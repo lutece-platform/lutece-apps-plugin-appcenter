@@ -61,3 +61,17 @@ id_task int(6) NOT NULL,
 custom_demand_status varchar(1000) default '' NOT NULL,
 PRIMARY KEY ( id_task )
 );
+
+
+--
+-- Structure for table appcenter_attribute
+--
+
+DROP TABLE IF EXISTS appcenter_attribute;
+CREATE TABLE appcenter_attribute (
+id_attribute int AUTO_INCREMENT,
+key_name varchar(255) default '' NOT NULL,
+label varchar(255) default '' NOT NULL,
+description varchar(255) default '',
+PRIMARY KEY (id_attribute)
+);
