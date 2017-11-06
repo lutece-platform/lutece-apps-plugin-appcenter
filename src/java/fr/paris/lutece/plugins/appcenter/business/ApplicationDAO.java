@@ -48,13 +48,13 @@ public final class ApplicationDAO implements IApplicationDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_application";
-    private static final String SQL_QUERY_SELECT = "SELECT id_application, name, description, application_data FROM appcenter_application WHERE id_application = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data ) VALUES ( ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_application, name, description, application_data,code FROM appcenter_application WHERE id_application = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data,code ) VALUES ( ?, ?, ?, ? , ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? WHERE id_application = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , code = ?  WHERE id_application = ?";
     private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data FROM appcenter_application";
-    private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data, b.user_role "
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data, code FROM appcenter_application";
+    private static final String SQL_QUERY_SELECT_BY_USER = "SELECT a.id_application, a.name, a.description, a.application_data,a.code, b.user_role "
             + " FROM appcenter_application a, appcenter_user_application b " + " WHERE a.id_application = b.id_application AND b.user_id = ? ";
     private static final String SQL_QUERY_SELECT_AUTHORIZED = "SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
@@ -96,7 +96,8 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
         daoUtil.setString( nIndex++, application.getApplicationData( ) );
-
+        daoUtil.setString( nIndex++, application.getCode() );
+        
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -121,6 +122,8 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
+            
         }
 
         daoUtil.free( );
@@ -156,6 +159,8 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
+        daoUtil.setString( nIndex++, application.getCode() );
+        
         daoUtil.setInt( nIndex, application.getId( ) );
 
         daoUtil.executeUpdate( );
@@ -197,6 +202,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
 
             applicationList.add( application );
         }
@@ -244,6 +250,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
             application.setUserRole( daoUtil.getInt( nIndex++ ) );
 
             applicationList.add( application );

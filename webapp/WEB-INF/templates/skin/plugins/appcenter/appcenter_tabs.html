@@ -1,6 +1,6 @@
 <#macro tabs2 tab application errors infos user >
 <div class="jumbotron">
-	<h1 class="display-3">${application.name}</h1>
+	<h1 class="display-3">${application.code!}-${application.name}</h1>
 	<p class="lead">${application.description}</p>
 	<hr class="my-4">
 	<p class="lead">
@@ -59,6 +59,12 @@
 				<fieldset>
 					<div class="modal-body">
 						<input type="hidden" id="id" name="id" value="${application.id}"/>
+						
+						<div class="form-group">
+							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelCode}
+							</label>
+							<input type="text" id="code" name="code" maxlength="50" value="${application.code!}" class="form-control"/>
+						</div>
 						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelName} <@icon style="asterisk" />
 							</label>
