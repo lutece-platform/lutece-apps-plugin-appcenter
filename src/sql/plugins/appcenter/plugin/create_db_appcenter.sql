@@ -6,6 +6,7 @@
 DROP TABLE IF EXISTS appcenter_application;
 CREATE TABLE appcenter_application (
 id_application int(6) NOT NULL,
+code varchar(50) default NULL,
 name varchar(50) default '' NOT NULL,
 description varchar(255) default '',
 application_data long varchar,

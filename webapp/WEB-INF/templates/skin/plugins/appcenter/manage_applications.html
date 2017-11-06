@@ -9,6 +9,7 @@
 
 		<#list application_list as application >
 		<a class="app-block" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}" title="#i18n{portal.util.labelModify}">
+			<h2>${application.code!}</h3>
 			<h2>${application.name}</h3>
 			<p>
 				${application.description}
