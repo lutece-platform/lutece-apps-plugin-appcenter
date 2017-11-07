@@ -71,7 +71,7 @@ public class SourcesXPage extends AppCenterXPage
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
-    public static final String  DATA_PREFIX_FAST_DEPLOY_SERVICES = "appcenter.fastdeployServices.";
+    
 
 
     /**
@@ -89,7 +89,6 @@ public class SourcesXPage extends AppCenterXPage
         SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
 
         
-        ReferenceList refServices=DatastoreService.getDataByPrefix( DATA_PREFIX_FAST_DEPLOY_SERVICES );
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, sourcesData );

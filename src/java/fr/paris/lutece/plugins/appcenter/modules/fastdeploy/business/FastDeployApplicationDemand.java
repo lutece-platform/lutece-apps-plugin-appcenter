@@ -19,8 +19,8 @@ import java.util.Map;
 public class FastDeployApplicationDemand extends Demand
 {
 
-    public static final String ID_DEMAND_TYPE = "fastdeploy_application";
-    public static final String DEMAND_TYPE = "fastdeploy_application";
+    public static final String ID_DEMAND_TYPE = "fastdeployapplication";
+    public static final String DEMAND_TYPE = "fastdeployapplication";
 
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/fastdeploy/application_demand_infos.html";
     @NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationCode.notEmpty}" )

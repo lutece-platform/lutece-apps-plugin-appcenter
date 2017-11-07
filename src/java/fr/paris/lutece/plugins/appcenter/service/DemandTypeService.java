@@ -60,7 +60,7 @@ public class DemandTypeService
     
     public static Class getClassByDemandTypeId( String strDemandTypeId )
     {
-        Class classObj = null;
+        Class classObj = Demand.class;
         
          switch (strDemandTypeId) 
          {
@@ -73,7 +73,7 @@ public class DemandTypeService
             case "openam":  
                 classObj = OpenamDemand.class;
                      break;
-            case "fastdeploy":
+            case "fastdeployapplication":
                 classObj = FastDeployApplicationDemand.class;
                      break;
             case "jobs":
