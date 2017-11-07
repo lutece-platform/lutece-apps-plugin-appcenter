@@ -1,7 +1,7 @@
 INSERT INTO workflow_workflow VALUES 
 (100,'Workflow des demandes d\'accès au site SVN','Workflow des demandes d\'accès au site SVN','2017-08-16 12:38:32',1,'all'),
 (200,'Workflow des demandes d\'agents OpenAM','Workflow des demandes d\'agents OpenAM','2017-08-16 12:38:32',1,'all'),
-(300,'Workflow des demandes de paramétrages MonCompte','Workflow des demandes de paramétrage Mon Compte','2017-08-16 12:38:32',1,'all'),
+(300,'Workflow des demandes d\'ajout de liens MonCompte','Workflow des demandes d'ajout de liens MonCompte','2017-08-16 12:38:32',1,'all'),
 (400,'Workflow des demandes de paramétrages NotifyGRU','Workflow des demandes de paramétrages NotifyGRU','2017-08-16 12:38:32',1,'all'),
 (500,'Workflow des demandes de configuration IdentityStore','Workflow des demandes de paramétrages IdentityStore','2017-08-16 12:38:32',1,'all'),
 (600,'Workflow des demandes d\'ajout d\'application FastDeploy','Workflow des demandes d\'ajout d\'application FastDeploy','2017-08-16 12:38:32',1,'all'),
@@ -40,7 +40,7 @@ INSERT INTO workflow_state VALUES
 INSERT INTO workflow_action VALUES 
 (100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,100,101,3,1,0,1,0),
 (200,'Creation de la demande d\'agent OpenAM','Creation de la demande d\'agent OpenAM',200,200,201,3,1,0,1,0),
-(300,'Creation de la demande de paramétrage MonCompte','Creation de la demande de paramétrage MonCompte',300,300,301,3,1,0,1,0),
+(300,'Creation de la demande d\'ajout de liens MonCompte','Creation de la demande d\'ajouts de liens MonCompte',300,300,301,3,1,0,1,0),
 (400,'Creation de la demande de paramétrage NotifyGRU','Creation de la demande de paramétrage NotifyGRU',400,400,401,3,1,0,1,0),
 (500,'Creation de la demande de paramétrage Identitystore','Creation de la demande de paramétrage Identitystore',500,500,501,3,1,0,1,0),
 (600,'Creation de la demande d\'application FastDeploy','Creation de la demande d\'application FastDeploy',600,600,601,3,1,0,1,0),
@@ -48,7 +48,7 @@ INSERT INTO workflow_action VALUES
 
 (101,'Traiter la demande d\'accès au SVN','Traiter la demande d\'accès au SVN',100,101,102,3,0,0,2,0),
 (201,'Traiter la demande d\'agent OpenAM','Traiter la demande d\'agent OpenAM',200,201,202,3,0,0,2,0),
-(301,'Traiter la demande de paramétrage MonCompte','Traiter la demande de paramétrage MonCompte',300,301,302,3,0,0,2,0),
+(301,'Traiter la demande d\'ajout de liens MonCompte','Traiter la demande d\'ajout de liens MonCompte',300,301,302,3,0,0,2,0),
 (401,'Traiter la demande de paramétrage NotifyGRU','Traiter la demande de paramétrage NotifyGRU',400,401,402,3,0,0,2,0),
 (501,'Traiter la demande de paramétrage IdentityStore','Traiter la demande de paramétrage IdentityStore',500,501,502,3,0,0,2,0),
 (601,'Traiter la demande de creation d\'une application FastDeploy','Traiter la demande de creation d\'une application FastDeploy',600,601,602,3,0,0,2,0),
@@ -77,10 +77,10 @@ INSERT INTO workflow_task VALUES
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (4,'Demande d\'autorisation d\'accès SVN en cours de traitement'),
 (5,'Demande de création d\'agent OpenAM en cours de traitement'),
-(6,'Demande de paramètrage MonCompte en cours de traitement'),
+(6,'Demande d'ajout de liens MonCompte en cours de traitement'),
 (8,'Les autorisations d\'accès SVN ont été effectuées'),
 (9,'L\'agent OpenAM demandé a été créé'),
-(10,'Le paramétrage MonCompte souhaité a été effectué'),
+(10,'La demande d\'ajout de liens MonCompte a été traitée'),
 (12,'Demande de configuration de la notification GRU en cours de traitement'),
 (13,'La configuration de la notification GRU a été effecuée'),
 (14,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
