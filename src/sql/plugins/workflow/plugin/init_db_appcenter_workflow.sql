@@ -82,7 +82,7 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (9,'L\'agent OpenAM demandé a été créé'),
 (10,'Le paramétrage MonCompte souhaité a été effectué'),
 (12,'Demande de configuration de la notification GRU en cours de traitement'),
-(13,'La configuration de la notification GRU a été effecuée');
+(13,'La configuration de la notification GRU a été effecuée'),
 (14,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
 (15,'La demande de configuration de votre application dans le référentiel d\'identité a bien été traitée');
 
