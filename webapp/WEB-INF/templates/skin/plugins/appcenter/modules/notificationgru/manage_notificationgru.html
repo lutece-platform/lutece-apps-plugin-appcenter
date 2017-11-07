@@ -23,6 +23,8 @@
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApplicationCode}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnGruDemandType}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnCategoryGruDemandType}</th>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApiManagerKey}</th>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
 		</tr>
 		<#if data??>
 			<#list data.notificationGruDatas as notificationGruData >
@@ -39,6 +41,12 @@
 					</td>
 					<td>
 							${notificationGruData.categoryGruDemandType}
+					</td>
+					<td>
+							${notificationGruData.apiManagerKey}
+					</td>
+					<td>
+							${notificationGruData.idGruDemandType}
 					</td>
 			</tr>
 			</#list>

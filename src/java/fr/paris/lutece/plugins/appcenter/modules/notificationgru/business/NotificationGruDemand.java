@@ -51,6 +51,8 @@ public class NotificationGruDemand extends Demand
     private String _strApplicationCode;
     private String _strGruDemandType;
     private String _strCategoryGruDemandType;
+    private String _strApiManagerKey;
+    private String _strIdGruDemandType;
 
     /**
      * Returns the Environment
@@ -122,6 +124,42 @@ public class NotificationGruDemand extends Demand
     public void setCategoryGruDemandType( String strCategoryGruDemandType )
     {
         _strCategoryGruDemandType = strCategoryGruDemandType;
+    }
+
+    /**
+     * Get the API Manager Notify key
+     * @return the API Manager Notify key
+     */
+    public String getApiManagerKey()
+    {
+        return _strApiManagerKey;
+    }
+
+    /**
+     * Set the API Manager Notify key
+     * @param strApiManagerKey 
+     */
+    public void setApiManagerKey( String strApiManagerKey )
+    {
+        _strApiManagerKey = strApiManagerKey;
+    }
+
+    /**
+     * Get the id of gru demand type
+     * @return the id of gru demand type
+     */
+    public String getIdGruDemandType()
+    {
+        return _strIdGruDemandType;
+    }
+
+    /**
+     * Set the id of gru demand type
+     * @param strIdGruDemandType 
+     */
+    public void setIdGruDemandType( String strIdGruDemandType )
+    {
+        _strIdGruDemandType = strIdGruDemandType;
     }
     
     
