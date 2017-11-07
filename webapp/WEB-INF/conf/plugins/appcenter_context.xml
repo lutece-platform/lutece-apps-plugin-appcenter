@@ -93,4 +93,16 @@
      p:taskConfigService-ref="appcenter.taskCustomDemandStatusConfigService"
     />
     
+    <bean id="appcenter.taskTypeNotificationGru" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskNotificationGru"
+            p:titleI18nKey="module.appcenter.notificationgru.notificationGru.task_title"
+            p:beanName="appcenter.taskNotificationGru"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskNotificationGru" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.service.NotificationGruTask" scope="prototype" />
+    <bean id="appcenter.NotificationGruTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.web.NotificationGruTaskComponent"
+     p:taskType-ref="appcenter.taskTypeNotificationGru"
+    />
+    
 </beans>

@@ -50,9 +50,12 @@ INSERT INTO workflow_task VALUES
 (8,'taskCustomDemandStatus',101,2),
 (9,'taskCustomDemandStatus',201,2),
 (10,'taskCustomDemandStatus',301,2),
-(11,'taskCustomDemandStatus',500,1),
-(12,'taskCustomDemandStatus',501,2),
-(13,'taskIdentitystore',501,1);
+(11,'taskNotificationGru',401,1),
+(12,'taskCustomDemandStatus',400,2),
+(13,'taskCustomDemandStatus',401,2),
+(14,'taskCustomDemandStatus',500,1),
+(15,'taskCustomDemandStatus',501,2),
+(16,'taskIdentitystore',501,1);
 
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (4,'Demande d\'autorisation d\'accès SVN en cours de traitement'),
@@ -61,8 +64,10 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (8,'Les autorisations d\'accès SVN ont été effectuées'),
 (9,'L\'agent OpenAM demandé a été créé'),
 (10,'Le paramétrage MonCompte souhaité a été effectué'),
-(11,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
-(12,'La demande de configuration de votre application dans le référentiel d\'identité a bien été traitée');
+(12,'Demande de configuration de la notification GRU en cours de traitement'),
+(13,'La configuration de la notification GRU a été effecuée');
+(14,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
+(15,'La demande de configuration de votre application dans le référentiel d\'identité a bien été traitée');
 
 
 INSERT INTO workflow_resource_workflow VALUES 
