@@ -1,0 +1,26 @@
+<div class="clearfix"></div>
+
+<@messages errors=errors />
+<@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment.help}' >
+	<@input type='text' name='environment' value="${demand.environment!''}" readonly=true />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationCode.help}' >
+	<@input type='text' name='applicationCode' value="${demand.applicationCode!''}" />
+</@formGroup>
+<@table>
+    <tr><td><strong>#i18n{module.appcenter.identitystore.taskForm.columnAttribute}</strong></td>
+    <td><strong>#i18n{module.appcenter.identitystore.taskForm.columnReadable}</strong></td>
+    <td><strong>#i18n{module.appcenter.identitystore.taskForm.columnWritable}</strong></td>
+    <td><strong>#i18n{module.appcenter.identitystore.taskForm.columnCertifiable}</strong></tr>
+    <#list attributes as attribute>
+        <tr>
+            <td>${attribute.label}</td>
+            <td><input type="checkbox" <#if demand.attributeRights[attribute.key]?? && demand.attributeRights[attribute.key].isReadable()>checked="checked"</#if> id="${attribute.key}_readable" name="${attribute.key}_readable" value="true"/></td>
+            <td><input type="checkbox" <#if demand.attributeRights[attribute.key]?? && demand.attributeRights[attribute.key].isWritable()>checked="checked"</#if> id="${attribute.key}_writable" name="${attribute.key}_writable" value="true"/></td>
+            <td><input type="checkbox" <#if demand.attributeRights[attribute.key]?? && demand.attributeRights[attribute.key].isCertifiable()>checked="checked"</#if> id="${attribute.key}_certifiable" name="${attribute.key}_certifiable" value="true"/></td>
+        </tr>
+    </#list>
+</@table>
+        <@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelApiManagerSecurityKey}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelApiManagerSecurityKey.help}' >
+	<@input type='text' name='apiManagerSecurityKey' value="" />
+</@formGroup>

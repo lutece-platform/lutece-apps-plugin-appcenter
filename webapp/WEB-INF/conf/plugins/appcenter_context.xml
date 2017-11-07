@@ -11,12 +11,15 @@
     <bean id="appcenter.userApplicationDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationDAO" />
     <bean id="appcenter.demandDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandDAO" />
     <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
-
+    <bean id="appcenter.attributeDAO" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.business.AttributeDAO" />
     <!-- Services -->
     
     <bean id="appcenter.taskCustomDemandStatusConfigService"
         class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
         p:taskConfigDAO-ref="appcenter.customDemandStatusDAO" />
+    
+    <!-- Provider -->
+    <bean id="appcenter.attributesProvider" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.service.LocalAttributesProvider" />    
     
     <!-- Task Config -->
         <bean id="appcenter.customDemandStatusTaskConfig"
@@ -63,6 +66,19 @@
      p:taskType-ref="appcenter.taskTypeSources"
      />
     
+    <bean id="appcenter.taskTypeIdentitystore" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskIdentitystore"
+            p:titleI18nKey="module.appcenter.identitystore.task_title"
+            p:beanName="appcenter.taskIdentitystore"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+
+    <bean id="appcenter.taskIdentitystore" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.service.IdentitystoreTask" scope="prototype" />
+    <bean id="appcenter.IdentitystoreTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.web.IdentitystoreTaskComponent"
+     p:taskType-ref="appcenter.taskTypeIdentitystore"
+     />
+    
     <bean id="appcenter.taskTypeCustomDemandStatus" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
             p:key="taskCustomDemandStatus"
             p:titleI18nKey="appcenter.customDemandStatus.task_title"
@@ -75,6 +91,18 @@
     <bean id="appcenter.taskCustomDemandStatusComponent" class="fr.paris.lutece.plugins.appcenter.service.web.task.TaskCustomDemandStatusComponent"
      p:taskType-ref="appcenter.taskTypeCustomDemandStatus"
      p:taskConfigService-ref="appcenter.taskCustomDemandStatusConfigService"
+    />
+    
+    <bean id="appcenter.taskTypeNotificationGru" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskNotificationGru"
+            p:titleI18nKey="module.appcenter.notificationgru.notificationGru.task_title"
+            p:beanName="appcenter.taskNotificationGru"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskNotificationGru" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.service.NotificationGruTask" scope="prototype" />
+    <bean id="appcenter.NotificationGruTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.web.NotificationGruTaskComponent"
+     p:taskType-ref="appcenter.taskTypeNotificationGru"
     />
     
 </beans>

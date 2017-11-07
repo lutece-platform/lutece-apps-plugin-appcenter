@@ -1,6 +1,6 @@
 <#macro tabs2 tab application errors infos user >
 <div class="jumbotron">
-	<h1 class="display-3">${application.name}</h1>
+	<h1 class="display-3">${application.code!}-${application.name}</h1>
 	<p class="lead">${application.description}</p>
 	<hr class="my-4">
 	<p class="lead">
@@ -32,6 +32,8 @@
 			<li class="<#if tab="openam"> active</#if>" id="openAmTab"><a href="jsp/site/Portal.jsp?page=openam&id=${application.id}">#i18n{appcenter.tabs.openam}</a></li>
 			<li class="<#if tab="moncompte_settings"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">#i18n{appcenter.tabs.moncomptesettings}</a></li>
                         <li class="<#if tab="jobs"> active</#if>" id="jobsTab"><a href="jsp/site/Portal.jsp?page=jobs&id=${application.id}">#i18n{appcenter.tabs.jobs}</a></li>
+			<li class="<#if tab="notification_gru"> active</#if>" id="notificationGruTab"><a href="jsp/site/Portal.jsp?page=notificationgru&id=${application.id}">#i18n{module.appcenter.notificationgru.tabs.notificationgru}</a></li>
+			<li class="<#if tab="identitystore"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=identitystore&id=${application.id}">#i18n{appcenter.tabs.identitystore}</a></li>
 		</ul>
 	</div>
 	<div class="col-sm-9">
@@ -59,6 +61,12 @@
 				<fieldset>
 					<div class="modal-body">
 						<input type="hidden" id="id" name="id" value="${application.id}"/>
+						
+						<div class="form-group">
+							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelCode}
+							</label>
+							<input type="text" id="code" name="code" maxlength="50" value="${application.code!}" class="form-control"/>
+						</div>
 						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelName} <@icon style="asterisk" />
 							</label>

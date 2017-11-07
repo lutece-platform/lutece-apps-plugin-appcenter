@@ -52,6 +52,8 @@ public class Application implements Serializable
     @NotEmpty( message = "#i18n{appcenter.validation.application.Name.notEmpty}" )
     @Size( max = 50, message = "#i18n{appcenter.validation.application.Name.size}" )
     private String _strName;
+    private String _strCode;
+    
 
     @Size( max = 255, message = "#i18n{appcenter.validation.application.Description.size}" )
     private String _strDescription;
@@ -160,5 +162,23 @@ public class Application implements Serializable
     public List<UserApplication> getAuthorizations( )
     {
         return _listAuthorizations;
+    }
+
+    /**
+     * Get application Code
+     * @return  the application code
+     */
+    public String getCode( )
+    {
+        return _strCode;
+    }
+
+    /**
+     * 
+     * @param _strCode the application code
+     */
+    public void setCode( String _strCode )
+    {
+        this._strCode = _strCode;
     }
 }

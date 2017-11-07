@@ -1,0 +1,31 @@
+<span>#i18n{module.appcenter.identitystore.manage_identitystore.columnEnvironment} : ${(demand.environment)!''}</span><br/>
+<span>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationCode} : ${demand.applicationCode!''}</span><br/>
+<ul>
+		<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeReadable}</li>
+		<ul>
+		<#list demand.attributeRights?keys as attribute>
+			<#assign right = demand.attributeRights[attribute]>
+			<#if right.readable>
+			<li>${mapAttributes[attribute].label}</li>
+		  	</#if>	
+		</#list>
+		</ul>
+		<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeWritable}</li>
+		<ul>
+		<#list demand.attributeRights?keys as attribute>
+			<#assign right = demand.attributeRights[attribute]>
+			<#if right.writable>
+			<li>${mapAttributes[attribute].label}</li>
+		  	</#if>	
+		</#list>
+		</ul>
+		<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeCertifiable}</li>
+		<ul>
+		<#list demand.attributeRights?keys as attribute>
+			<#assign right = demand.attributeRights[attribute]>
+			<#if right.certifiable>
+			<li>${mapAttributes[attribute].label}</li>
+		  	</#if>	
+		</#list>
+		</ul>
+</ul>	

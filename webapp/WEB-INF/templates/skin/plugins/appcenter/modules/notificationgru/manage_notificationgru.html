@@ -1,0 +1,97 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="notification_gru" application=application errors=errors infos=infos user=user>
+
+<div class="well">
+	<div class="col-12 col-sm-12">
+	<h2>#i18n{module.appcenter.notificationgru.manage_notification_gru.title}</h2>
+	<@messages infos=infos />
+
+	<div class="pull-right">
+		<form action="jsp/site/Portal.jsp?page=notificationgru&id=${application.id}">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalNotificationGruDemand" title="#i18n{module.appcenter.notificationgru.manage_notification_gru.buttonAdd}">
+				<@icon style="plus" />
+			</button>
+		</form>
+	</div>
+	<h3>#i18n{module.appcenter.notificationgru.manage_notification_gru.list_setting_title}</h3>
+
+	<@table>
+		<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnEnvironment}</th>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApplicationCode}</th>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnGruDemandType}</th>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnCategoryGruDemandType}</th>
+		</tr>
+		<#if data??>
+			<#list data.notificationGruDatas as notificationGruData >
+			<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${notificationGruData.environment}
+					</td>
+					<td>
+							${notificationGruData.applicationCode}
+					</td>
+					<td>
+							${notificationGruData.gruDemandType}
+					</td>
+					<td>
+							${notificationGruData.categoryGruDemandType}
+					</td>
+			</tr>
+			</#list>
+		</#if>
+	</@table>
+
+	<h3>#i18n{module.appcenter.notificationgru.manage_notification_gru.list_demand_title}</h3>
+	
+	<@printDemands demands demands_states demands_histories/>
+
+	</div>
+	&#160;
+</div>
+</@tabs2>
+    
+ <!-- Modal for demanding  Notification Gru setting -->
+	<div id="ModalNotificationGruDemand" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_notification_gru.title" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="create_notification_gru.title">#i18n{module.appcenter.notificationgru.create_notification_gru.title}</h3>
+				</div>
+				<form action="jsp/site/Portal.jsp" method="post">
+					<input type="hidden" name="page" value="notificationgru" />
+                                        <input type="hidden" name="id" value="${application.id}" />
+                                        <input type="hidden" name="action" value="doCreateNotificationGruDemand" />
+                                            <div class="modal-body">
+						<div class="form-group">
+							<label for="environment" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelEnvironment}</label>
+							<@select name='environment' id='environment' items=environment default_value='' />
+						</div>
+						<div class="form-group">
+							<label for="application_code" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelApplicationCode}</label>
+							<input type="text" id="application_code" name="application_code" maxlength="50" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="gru_demand_type" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelGruDemandType}</label>
+							<input type="text" id="gru_demand_type" name="gru_demand_type" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="category_gru_demand_type" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelCategoryGruDemandType}</label>
+                                                            <input type="text" id="category_gru_demand_type" name="category_gru_demand_type" maxlength="250" class="form-control" />
+						</div>
+					</div>
+					<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.notificationgru.create_notification_gru.buttonCreate}</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
