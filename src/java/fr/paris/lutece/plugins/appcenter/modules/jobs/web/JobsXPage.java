@@ -72,7 +72,7 @@ public class JobsXPage extends AppCenterXPage
     private static final String ACTION_ADD_JOB = "addJob";
 
     @View( value = VIEW_MANAGE_JOBS, defaultView = true )
-    public XPage getManageJobss( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage getManageJobs( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
 
         Application application = getApplication( request );
@@ -98,13 +98,17 @@ public class JobsXPage extends AppCenterXPage
         jobDemand.setIdApplication( application.getId( ) );
 
         populate( jobDemand, request );
-
+        
         // Check constraints
         if ( !validateBean( jobDemand, getLocale( request ) ) )
         {
             return redirectView( request, VIEW_MANAGE_JOBS );
         }
 
+        // get the name of the plugin (last term of the URL)
+        jobDemand.setPluginName( jobDemand.getPluginUrl( ).substring( jobDemand.getPluginUrl( ).lastIndexOf( "/" ) + 1 ));
+
+        
         DemandService.saveDemand( jobDemand, application );
 
         return redirect(request, VIEW_MANAGE_JOBS, Constants.PARAM_ID_APPLICATION, nId );

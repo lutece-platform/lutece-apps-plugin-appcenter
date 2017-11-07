@@ -24,28 +24,9 @@ public class JobDemand extends Demand
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/jobs/job_demand_infos.html";
 
     private String _strApplicationCode;
-    @NotEmpty( message = "#i18n{appcenter.validation.jobs.pluginName.notEmpty}" )
-    private String _strName;
-    @NotEmpty( message = "#i18n{appcenter.validation.jobs.name.notEmpty}" )
-    private String _strPluginName;
     @NotEmpty( message = "#i18n{appcenter.validation.jobs.pluginUrl.notEmpty}" )
     private String _strPluginUrl;
-
-    /**
-     * 
-     * @return 
-     */
-    public String getName() {
-        return _strName;
-    }
-
-    /**
-     * 
-     * @param _strName 
-     */
-    public void setName(String _strName) {
-        this._strName = _strName;
-    }
+    private String _strPluginName;
 
     /**
      * 
@@ -63,24 +44,6 @@ public class JobDemand extends Demand
     public void setApplicationCode( String strApplicationCode )
     {
         _strApplicationCode = strApplicationCode;
-    }
-
-    /**
-     * get Plugin Name
-     * @return PluginName
-     */
-    public String getPluginName( )
-    {
-        return _strPluginName ;
-    }
-
-    /**
-     * set Plugin Name 
-     * @param strPluginName 
-     */
-    public void setPluginName( String strPluginName )
-    {
-        _strPluginName = strPluginName;
     }
 
     /**
@@ -102,6 +65,24 @@ public class JobDemand extends Demand
         _strPluginUrl = strPluginUrl;
     }
 
+    /**
+     * get plugin name
+     * @return 
+     */
+    public String getPluginName() {
+        return _strPluginName;
+    }
+
+    /**
+     * set plugin name
+     * @param _strPluginName 
+     */
+    public void setPluginName(String _strPluginName) {
+        this._strPluginName = _strPluginName;
+    }
+
+    
+    
     /**
      * {@inheritDoc}
      */

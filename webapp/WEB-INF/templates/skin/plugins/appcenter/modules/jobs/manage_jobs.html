@@ -16,18 +16,18 @@
     <@table>
 			<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{appcenter.manage_jobs.columnName}</th>
-				<th>#i18n{appcenter.manage_jobs.columnPluginName}</th>
+				<th>#i18n{appcenter.manage_jobs.columnDeployJobName}</th>
+				<th>#i18n{appcenter.manage_jobs.columnDocQAJobName}</th>
 				<th>#i18n{appcenter.manage_jobs.columnPluginUrl}</th>
 			</tr>
 			<#if data??>
-				<#list data.jobs as job >
+				<#list data.jobDatas as job >
 				<tr>
 					<td>
-                                            ${job.name}
-                                        </td>
+                                            ${job.deployJobName}
+                                        </td>  
 					<td>
-                                            ${job.pluginName}
+                                            ${job.docQAJobName}
                                         </td>  
 					<td>
                                             ${job.pluginUrl}
@@ -67,20 +67,9 @@
 								<label for="application_code" class="col-form-label">
 									#i18n{appcenter.manage_jobs.applicationCode.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required />
+								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required value="${application.code}" />
 							</div>
-							<div class="form-group">
-								<label for="webapp_name" class="col-form-label">
-									#i18n{appcenter.manage_jobs.name.label} <@icon style="asterisk" />
-								</label>
-								<input type="text" id="name" name="name" maxlength="250" class="form-control" required />
-							</div>
-							<div class="form-group">
-								<label for="plugin_name" class="col-form-label">
-									#i18n{appcenter.manage_jobs.pluginName.label} <@icon style="asterisk" />
-								</label>
-								<input type="text" id="plugin_name" name="plugin_name" maxlength="250" class="form-control" required />
-							</div>
+
 							<div class="form-group">
 								<label for="plugin_url" class="col-form-label">
 									#i18n{appcenter.manage_jobs.pluginUrl.label} <@icon style="asterisk" />

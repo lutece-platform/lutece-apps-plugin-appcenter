@@ -104,6 +104,18 @@
     <bean id="appcenter.NotificationGruTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.web.NotificationGruTaskComponent"
      p:taskType-ref="appcenter.taskTypeNotificationGru"
     />
+
+    <bean id="appcenter.taskTypeJob" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskJob"
+            p:titleI18nKey="module.appcenter.jobs.task_title"
+            p:beanName="appcenter.taskJob"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskJob" class="fr.paris.lutece.plugins.appcenter.modules.jobs.service.JobTask" scope="prototype" />
+    <bean id="appcenter.JobTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.jobs.web.JobTaskComponent"
+     p:taskType-ref="appcenter.taskTypeJob"
+    />
     
     <bean id="appcenter.taskCloseDemandType" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
         p:key="taskCloseDemand"

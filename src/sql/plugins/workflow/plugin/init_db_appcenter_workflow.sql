@@ -89,7 +89,10 @@ INSERT INTO workflow_task VALUES
 (25,'taskCloseDemand',801,3),
 (26,'taskGuichetPro',801,1),
 (27,'taskCustomDemandStatus',800,2),
-(28,'taskCustomDemandStatus',801,2);
+(28,'taskCustomDemandStatus',801,2),
+(29, 'taskCustomDemandStatus', 700, 1),
+(30, 'taskJob', 701, 1),
+(31, 'taskCustomDemandStatus', 701, 2);
 
 
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
@@ -104,7 +107,9 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (14,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
 (15,'La demande de configuration de votre application dans le référentiel d\'identité a bien été traitée'),
 (27,'La demande de configuration de la notification vers le guichet professionnel est en cours de traitement'),
-(28,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée');
+(28,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée'),
+(29, 'Demande de tâche d\'intégration continue en cours de traitement'),
+(31, 'Les tâches d\'intégration continue ont été créées');
 
 
 INSERT INTO workflow_resource_workflow VALUES 
