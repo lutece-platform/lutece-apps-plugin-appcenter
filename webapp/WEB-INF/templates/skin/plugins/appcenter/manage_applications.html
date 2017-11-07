@@ -1,21 +1,27 @@
-<@row>
-	<@columns sm=12>
+<div class="row">
+	<div class="col-xs-12 col-sm-12">
 		<@messages infos=infos />
 		<@tform action='jsp/site/Portal.jsp?page=application'>
 		<@button type='submit' name='view_createApplication' class='pull-right' buttonIcon='plus' title='#i18n{appcenter.manage_applications.buttonAdd}' />
 		</@tform>
-
-		<h1>#i18n{appcenter.manage_applications.title}</h1>
-
-		<#list application_list as application >
-		<a class="app-block" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}" title="#i18n{portal.util.labelModify}">
-			<h2>${application.code!}</h3>
-			<h2>${application.name}</h3>
-			<p>
-				${application.description}
-			</p>
-		</a>
-		</#list>
-	</@columns>
-</@row>
-
+		<div class="page-header">
+			<h1>#i18n{appcenter.manage_applications.title}</h1>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<#list application_list as application >
+		<div class="col-xs-12 col-sm-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">${application.code!}</div>
+				<div class="panel-body">
+					<a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}" title="#i18n{portal.util.labelModify}">
+						<h2>${application.name}</h3>
+						<p>${application.description}</p>
+					</a>	
+				</div>	
+			</div>	
+		</div>	
+	</#list>
+	</div>
+</div>

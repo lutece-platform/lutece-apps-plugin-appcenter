@@ -1,11 +1,11 @@
 <#macro tabs2 tab application errors infos user >
 <div class="jumbotron">
-	<h1 class="display-3">${application.code!}-${application.name}</h1>
+	<h1>${application.code!}-${application.name}</h1>
 	<p class="lead">${application.description}</p>
-	<hr class="my-4">
+	<hr>
 	<p class="lead">
 		<a class="btn btn-primary pull-right" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
-				<span class="fa fa-home"></span>   
+			<span class="fa fa-home"></span>   
 		</a>
 		<#if user.admin>
 		<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
@@ -23,21 +23,62 @@
 <br>    
 <@messages errors=errors />
 <@messages infos=infos />
+<#if tab="general">
+	<#assign collapseAccordion=0>
+<#elseif tab="sources"  || tab="jobs"  || tab="fastdeploy">
+	<#assign collapseAccordion=1>
+<#else>	
+	<#assign collapseAccordion=2>
+</#if>
 
 <div class="row">
-	<div class="col-sm-3">
-		<ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
-			<li class="<#if tab="general"> active</#if>" id="generalTab"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">#i18n{appcenter.tabs.general}</a></li>
-			<li class="<#if tab="sources"> active</#if>" id="sourcesTab"><a href="jsp/site/Portal.jsp?page=sources&id=${application.id}">#i18n{appcenter.tabs.sources}</a></li>
-			<li class="<#if tab="openam"> active</#if>" id="openAmTab"><a href="jsp/site/Portal.jsp?page=openam&id=${application.id}">#i18n{appcenter.tabs.openam}</a></li>
-			<li class="<#if tab="moncompte_settings"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">#i18n{appcenter.tabs.moncomptesettings}</a></li>
-                        <li class="<#if tab="jobs"> active</#if>" id="jobsTab"><a href="jsp/site/Portal.jsp?page=jobs&id=${application.id}">#i18n{appcenter.tabs.jobs}</a></li>
-			<li class="<#if tab="notification_gru"> active</#if>" id="notificationGruTab"><a href="jsp/site/Portal.jsp?page=notificationgru&id=${application.id}">#i18n{module.appcenter.notificationgru.tabs.notificationgru}</a></li>
-			<li class="<#if tab="identitystore"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=identitystore&id=${application.id}">#i18n{appcenter.tabs.identitystore}</a></li>
-			<li class="<#if tab="fastdeploy"> active</#if>" id="fastdeployTab"><a href="jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}">Fast de ploy</a></li>
-		</ul>
+	<div class="col-xs-12 col-sm-3">
+		<div class="list-group">
+			<a class="list-group-item<#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">
+				Demandes en cours
+			</a>
+		</div>
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+				  <h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					  Applications
+					</a>
+				  </h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse <#if collapseAccordion=1>in</#if>" role="tabpanel" aria-labelledby="headingOne">
+				  <div class="panel-body">
+					<ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
+						<li class="<#if tab="sources"> active</#if>" id="sourcesTab"><a href="jsp/site/Portal.jsp?page=sources&id=${application.id}">#i18n{appcenter.tabs.sources}</a></li>
+						<li class="<#if tab="jobs"> active</#if>" id="jobsTab"><a href="jsp/site/Portal.jsp?page=jobs&id=${application.id}">#i18n{appcenter.tabs.jobs}</a></li>
+						<li class="<#if tab="fastdeploy"> active</#if>" id="fastdeployTab"><a href="jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}">Fast de ploy</a></li>
+					</ul>
+				  </div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+				  <h4 class="panel-title">
+					<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					  GRU
+					</a>
+				  </h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse <#if collapseAccordion=2>in</#if>" role="tabpanel" aria-labelledby="headingTwo">
+				  <div class="panel-body">
+					<ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
+						<li class="<#if tab="openam"> active</#if>" id="openAmTab"><a href="jsp/site/Portal.jsp?page=openam&id=${application.id}">#i18n{appcenter.tabs.openam}</a></li>
+						<li class="<#if tab="moncompte_settings"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">#i18n{appcenter.tabs.moncomptesettings}</a></li>
+						<li class="<#if tab="notification_gru"> active</#if>" id="notificationGruTab"><a href="jsp/site/Portal.jsp?page=notificationgru&id=${application.id}">#i18n{module.appcenter.notificationgru.tabs.notificationgru}</a></li>
+						<li class="<#if tab="identitystore"> active</#if>" id="myAccountTab"><a href="jsp/site/Portal.jsp?page=identitystore&id=${application.id}">#i18n{appcenter.tabs.identitystore}</a></li>
+					</ul>
+				  </div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="col-sm-9">
+	<div class="col-xs-12 col-sm-9">
 		<div class="tab-content" id="tabContent">
 			<div class="tab-pane fade in active" id="" role="tabpanel" aria-labelledby="">
 				<#nested>
@@ -57,26 +98,25 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				<h2 class="modal-title" id="modalTitleModifyAppDescription">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h2>
 			</div>
-                        <form action="jsp/site/Portal.jsp">
-                            <input type="hidden" name="page" value="application" />
+            <form action="jsp/site/Portal.jsp">
+                <input type="hidden" name="page" value="application">
 				<fieldset>
 					<div class="modal-body">
-						<input type="hidden" id="id" name="id" value="${application.id}"/>
-						
+						<input type="hidden" id="id" name="id" value="${application.id}">
 						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelCode}
 							</label>
-							<input type="text" id="code" name="code" maxlength="50" value="${application.code!}" class="form-control"/>
+							<input type="text" id="code" name="code" maxlength="50" value="${application.code!}" class="form-control">
 						</div>
 						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelName} <@icon style="asterisk" />
 							</label>
-							<input type="text" id="name" name="name" maxlength="50" value="${application.name}" class="form-control" required />
+							<input type="text" id="name" name="name" maxlength="50" value="${application.name}" class="form-control" required >
 						</div>
 						<div class="form-group">
 							<label for="description" class="col-form-label">#i18n{appcenter.modify_application.labelDescription} <@icon style="asterisk" />
 							</label>
-							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required />
+							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required >
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -88,6 +128,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Modal -->
 <div id="ModalAddUser" class="modal fade" role="dialog" aria-labelledby="modalTitleAddUser">
 	<div class="modal-dialog" role="document">
