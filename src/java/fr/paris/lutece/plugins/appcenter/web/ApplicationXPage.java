@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
+import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -223,7 +224,12 @@ public class ApplicationXPage extends AppCenterXPage
         model.put( MARK_APPLICATION, _application );
 
         List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
-        model.put( MARK_DEMANDS, listDemand );
+        List<? extends Demand> listFullDemands = new ArrayList<>();
+        for (Demand demand : listDemand )
+        {
+            listFullDemands.add( DemandHome.getFullDemand( demand) );
+        }
+        model.put( MARK_DEMANDS, listFullDemands );
         model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
 
         Map<String, Object> mapStates = new HashMap<>( );

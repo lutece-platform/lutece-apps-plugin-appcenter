@@ -126,7 +126,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
             mapApplications.put( Integer.toString( app.getId( ) ), app );
         }
 
-        for ( Demand demand : DemandHome.getDemandsList( ) )
+        for ( Demand demand : listDemands)
         {
 
         	nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());

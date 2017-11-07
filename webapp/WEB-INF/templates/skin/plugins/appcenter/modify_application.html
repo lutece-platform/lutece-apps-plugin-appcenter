@@ -35,6 +35,8 @@
 				<div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
 					<div class="panel-body">
 						<p>${demand.statusText!''}</p>
+                                                <p>#i18n{appcenter.view_demands.complementaryInfos}</p>
+                                                <p>${(demand.complementaryInfos)!''}</p>
 						<p>${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}</p>
 					</div>
 				</div>

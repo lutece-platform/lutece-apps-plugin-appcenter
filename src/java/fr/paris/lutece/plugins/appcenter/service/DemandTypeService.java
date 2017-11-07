@@ -34,6 +34,13 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationDemand;
+import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
+import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
+import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingDemand;
+import fr.paris.lutece.plugins.appcenter.modules.notificationgru.business.NotificationGruDemand;
+import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 public class DemandTypeService
@@ -50,4 +57,35 @@ public class DemandTypeService
     {
         return Demand.WORKFLOW_RESOURCE_TYPE;
     }
+    
+    public static Class getClassByDemandTypeId( String strDemandTypeId )
+    {
+        Class classObj = null;
+        
+         switch (strDemandTypeId) 
+         {
+            case "sources":  
+                classObj = SourcesDemand.class;
+                     break;
+            case "identitystore":  
+                classObj = IdentitystoreDemand.class;
+                     break;
+            case "openam":  
+                classObj = OpenamDemand.class;
+                     break;
+            case "fastdeploy":
+                classObj = FastDeployApplicationDemand.class;
+                     break;
+            case "jobs":
+                classObj = JobDemand.class;
+                     break;
+            case "moncomptesettings":
+                classObj = MonCompteSettingDemand.class;
+                     break;
+            case "notificationgru":
+                classObj = NotificationGruDemand.class;
+        }
+        return classObj;
+    }
+    
 }

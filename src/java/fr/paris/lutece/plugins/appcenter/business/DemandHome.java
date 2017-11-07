@@ -33,10 +33,15 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -48,7 +53,12 @@ public final class DemandHome
     // Static variable pointed at the DAO instance
     private static IDemandDAO _dao = SpringContextService.getBean( "appcenter.demandDAO" );
     private static Plugin _plugin = PluginService.getPlugin( "appcenter" );
+    private static ObjectMapper _mapper = new ObjectMapper( );
 
+    static
+    {
+        _mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
+    }
     /**
      * Private constructor - this class need not be instantiated
      */
@@ -175,5 +185,35 @@ public final class DemandHome
     public static ReferenceList getDemandsReferenceList( )
     {
         return _dao.selectDemandsReferenceList( _plugin );
+    }
+    
+    /**
+     * Get full demand from demand
+     * @param <T> the return type
+     * @param demand the demand
+     * @return the full demand
+     */
+    public static <T extends Demand> T getFullDemand ( Demand demand )
+    {
+        try
+        {
+            T demandFromJson = (T)_mapper.readValue( demand.getDemandData( ), DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType() ) );
+            demandFromJson.setId( demand.getId( ) );
+            demandFromJson.setStatusText( demand.getStatusText( ) );
+            demandFromJson.setIdDemandType( demand.getIdDemandType( ) );
+            demandFromJson.setDemandType( demand.getDemandType( ) );
+            demandFromJson.setIdApplication( demand.getIdApplication( ) );
+            demandFromJson.setDemandData( demand.getDemandData( ) );
+            demandFromJson.setCreationDate( demand.getCreationDate( ) );
+            demandFromJson.setIsClosed( demand.isClosed( ) );
+            return demandFromJson;
+        }
+        catch ( IOException e )
+        {
+            AppLogService.debug( "Unable to deserealize demand json", e );
+            return (T)demand;
+        }
+                
+        
     }
 }
