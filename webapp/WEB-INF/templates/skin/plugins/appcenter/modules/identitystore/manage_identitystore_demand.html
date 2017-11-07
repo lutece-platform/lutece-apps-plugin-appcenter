@@ -68,11 +68,17 @@
                                     </ul>	
                                    </#if>
                                 </td>
-                                <td class="text-center"><button type="button" class="button_apiManagerSecurityKey"><i class="fa fa-eye"></i></button>
+                                <td class="text-center">
+									<button type="button" class="btn btn-default button_apiManagerSecurityKey">
+										<i class="fa fa-eye"></i>
+									</button>
                                     <div class="apiManagerSecurityKey">${setting.apiManagerSecurityKey!''}</div>
                                 </td>
-                                <td class="text-center"><button type="button" class="button_beanSpring"><i class="fa fa-eye"></i></button>
-                                    <div class="beanSpring"><@beanSpring setting.environment setting.apiManagerSecurityKey!'' /></div>
+                                <td class="text-center">
+								<button type="button" class="btn btn-default" id="beanSpring" data-toggle="popover" >
+									<i class="fa fa-eye"></i>
+								</button>
+                                 <div class="beanSpring"><pre><@beanSpring setting.environment setting.apiManagerSecurityKey!'' /></pre></div>
                                 </td>
                             </tr>
 			</#list>
@@ -137,27 +143,18 @@
 		</div>
 	</div>
 <script>
-    $(".apiManagerSecurityKey").hide();
-    $(function(){ $(".button_apiManagerSecurityKey").popover(
-        { 
-          html: true, 
-          animation:false,
-          content: function() {
-                    return $(this).next().html();
-                    }
+$(function(){ 
+	$(".apiManagerSecurityKey").hide();
+	$(".button_apiManagerSecurityKey").popover(
+       { 
+		placement:'auto bottom', 
+        html: true, 
+        content: function() {
+            return $(this).next().html();
         }
-      )
     });
-        
-    $(".beanSpring").hide();
-    $(function(){ $(".button_beanSpring").popover(
-        { 
-          html: true, 
-          animation:false,
-          content: function() {
-                    return $(this).next().html();
-                    }
-        }
-      )
-    });
+    
+	$(".beanSpring").hide();
+	$("#beanSpring").popover({ placement:'auto bottom', html: true, content: function() {return $(this).next().html();}	});
+});
 </script>
