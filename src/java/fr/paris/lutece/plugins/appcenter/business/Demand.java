@@ -37,6 +37,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.service.resource.ResourceHistoryService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
  * This is the business class for the object Demand
@@ -236,6 +240,25 @@ public class Demand implements Serializable
     public void setIsClosed( boolean bIsClosed )
     {
         _bIsClosed = bIsClosed;
+    }
+    
+    /**
+     * Get the last update of the demand, base on workflow actions
+     * @return the date of the last workflow update
+     */
+    public Timestamp getLastUpdate( )
+    {
+        ResourceHistoryService resourceHistoryService = SpringContextService.getBean( "workflow.resourceHistoryService") ;
+        if ( resourceHistoryService != null )
+        {
+            ResourceHistory resourceHistory = resourceHistoryService.getLastHistoryResource( getId( ), Demand.WORKFLOW_RESOURCE_TYPE, DemandTypeService.getIdWorkflow( getDemandType( ) ) );
+            if ( resourceHistory != null )
+            {
+                return resourceHistory.getCreationDate( );
+            }
+            return getCreationDate();
+        }
+        return getCreationDate( );
     }
 
     
