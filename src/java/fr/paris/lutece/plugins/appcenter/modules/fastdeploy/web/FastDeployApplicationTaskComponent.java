@@ -15,6 +15,8 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationData;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationDemand;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
@@ -22,9 +24,11 @@ import fr.paris.lutece.plugins.workflow.web.task.NoConfigTaskComponent;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -32,14 +36,14 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
 {
     // TEMPLATES
-    private static final String TEMPLATE_OPENAM_TASK_FORM = "admin/plugins/appcenter/modules/openam/openam_task_form.html";
-    private static final String TEMPLATE_OPENAM_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/openam/openam_task_history.html";
+    private static final String TEMPLATE_FASTDEPLOY_TASK_FORM = "admin/plugins/appcenter/modules/fastdeploy/fastdeploy_task_form.html";
+    private static final String TEMPLATE_FAST_DEPLOY_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/fastdeploy/fastdeploy_task_history.html";
 
     // MESSAGES
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
 
     // MARKS
-
+    private static final String MARK_SERVICES = "services";
     @Inject
     private IResourceHistoryService _resourceHistoryService;
 
@@ -51,16 +55,17 @@ public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
     {
         Map<String, Object> model = new HashMap<String, Object>( );
 
-        OpenamDemand demand = DemandHome.findByPrimaryKey( nIdResource, OpenamDemand.class );
+        FastDeployApplicationDemand demand = DemandHome.findByPrimaryKey( nIdResource, FastDeployApplicationDemand.class );
         if ( demand != null )
         {
             model.put( Constants.MARK_DEMAND, demand );
             Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
             model.put( Constants.MARK_APPLICATION, application );
-
+            ReferenceList refServices=DatastoreService.getDataByPrefix( FastDeployApplicationsXPage.DATA_PREFIX_FAST_DEPLOY_SERVICES );
+             model.put( MARK_SERVICES, refServices);
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_TASK_FORM, locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FASTDEPLOY_TASK_FORM, locale, model );
 
         return template.getHtml( );
     }
@@ -71,17 +76,17 @@ public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
     @Override
     public String doValidateTask( int nIdResource, String strResourceType, HttpServletRequest request, Locale locale, ITask task )
     {
-        OpenamAgentData openamAgentData = new OpenamAgentData( );
-        BeanUtil.populate( openamAgentData, request );
+        FastDeployApplicationData fastDeployData = new FastDeployApplicationData( );
+        BeanUtil.populate( fastDeployData, request );
 
 
         //FIXME return real error message here
         
-        Set<ConstraintViolation<OpenamAgentData>> errors = BeanValidationUtil.validate( openamAgentData );
+        Set<ConstraintViolation<FastDeployApplicationData>> errors = BeanValidationUtil.validate( fastDeployData );
         if ( !errors.isEmpty() )
         {
         
-        	for ( ConstraintViolation<OpenamAgentData> constraint : errors )
+        	for ( ConstraintViolation<FastDeployApplicationData> constraint : errors )
             {
         	
         		
@@ -106,7 +111,7 @@ public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
 
         Map<String, Object> model = new HashMap<String, Object>( );
         // model.put( MARK_HISTORY_LIST, listHistory );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_OPENAM_DISPLAY_HISTORY, locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FAST_DEPLOY_DISPLAY_HISTORY, locale, model );
         return template.getHtml( );
     }
 

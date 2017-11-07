@@ -17,8 +17,8 @@ public class FastDeployApplicationData {
 	private String _strWebApp;
 	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationSiteUrl.notEmpty}" )
     private String _strUrlSite;
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationWorkgroup.notEmpty}" )
-    private String _strWorkgroup;
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationService.notEmpty}" )
+    private String _strService;
     
 	/**
 	 * 
@@ -67,14 +67,14 @@ public class FastDeployApplicationData {
         this._strUrlSite = _strUrlSite;
     }
 
-    public String getWorkgroup( )
+    public String getService( )
     {
-        return _strWorkgroup;
+        return _strService;
     }
 
-    public void setWorkgroup( String _strWorkgroup )
+    public void setService( String _strService )
     {
-        this._strWorkgroup = _strWorkgroup;
+        this._strService= _strService;
     }
 	
 

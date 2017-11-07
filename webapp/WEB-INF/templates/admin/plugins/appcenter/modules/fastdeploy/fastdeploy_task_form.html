@@ -1,0 +1,73 @@
+
+  
+<div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationCode}</th>
+            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationName}</th>
+            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationWebapp}</th>
+            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationUrlSite}</th>
+            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationService}</th>
+            
+        </tr>
+        <@tableHeadBodySeparator />
+           <tr>
+	            <input type="hidden" id="id" name="id"/>
+	            <td>
+	               ${demand.code}
+	            </td>
+	            <td>
+	               ${demand.name}
+	            </td>
+	            <td>
+	                ${demand.webApp}
+	            </td>
+	   
+	            <td>
+	               ${demand.urlSite}
+	            </td>
+	            <td>
+	               ${demand.service}
+	            </td>
+	        </tr>
+	     
+    </@table>
+
+<@messages errors=errors />
+<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationCode.help}' >
+	<@input type='text' name='code' value="${demand.code}" />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationName}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationName.help}' >
+	<@input type='text' name='name' value="${demand.name}" />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationWebapp}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationWebapp.help}' >
+	<@input type='text' name='webApp' value="${demand.webApp}" />
+</@formGroup>
+
+<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationUrlSite}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationUrlSite.help}' >
+	<@input type='text' name='urlSite' value=" ${demand.urlSite}" />
+</@formGroup>
+
+
+
+
+ <div class="form-group">
+		<label class="col-xs-12 col-sm-3 control-label" for="">
+				#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationService}
+		</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
+			<select id="service" name="service"  >
+			   <option value="" ></option>
+				<#list services as item>
+				      <#if item.name="${demand.service!}">
+						 <option value="${item.name}"  selected="selected"> ${item.name}</option>
+					  <#else>
+		
+					 <option value="${item.name}"> ${item.name}</option>
+					</#if> 
+				 </#list>
+			</select>
+			<span class="help-block">#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationService.help}</span>
+		</div>
+	</div>
