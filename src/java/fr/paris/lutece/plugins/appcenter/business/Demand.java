@@ -68,6 +68,9 @@ public class Demand implements Serializable
    
     @JsonIgnore
     private Timestamp _creationDate;
+    
+    @JsonIgnore
+    private boolean _bIsClosed;
 
   
 
@@ -217,4 +220,23 @@ public class Demand implements Serializable
   		this._creationDate = _creationTimestamp;
   	}
 
+    /**
+     * Return the is closed boolean
+     * @return the is closed boolean
+     */
+    public boolean isClosed()
+    {
+        return _bIsClosed;
+    }
+
+    /**
+     * Set the Is Closed boolean
+     * @param bIsClosed 
+     */
+    public void setIsClosed( boolean bIsClosed )
+    {
+        _bIsClosed = bIsClosed;
+    }
+
+    
 }

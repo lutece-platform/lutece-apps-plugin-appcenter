@@ -38,6 +38,7 @@ demand_type long varchar NOT NULL,
 id_application int(11) default '0' NOT NULL,
 demand_content TEXT,
 creation_date datetime NOT NULL,
+is_closed SMALLINT NOT NULL DEFAULT '0',
 PRIMARY KEY (id_demand) 
 );
 

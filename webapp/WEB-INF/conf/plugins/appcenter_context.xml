@@ -105,4 +105,12 @@
      p:taskType-ref="appcenter.taskTypeNotificationGru"
     />
     
+    <bean id="appcenter.taskCloseDemandType" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+        p:key="taskCloseDemand"
+        p:titleI18nKey="appcenter.taskCloseDemand.title"
+        p:beanName="appcenter.taskCloseDemand"
+        p:configRequired="false"
+        p:formTaskRequired="true"
+        p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskCloseDemand" class="fr.paris.lutece.plugins.appcenter.service.task.TaskCloseDemand" scope="prototype" />
 </beans>

@@ -71,7 +71,15 @@ INSERT INTO workflow_task VALUES
 (14,'taskCustomDemandStatus',500,1),
 (15,'taskCustomDemandStatus',501,2),
 (16,'taskIdentitystore',501,1),
-(17,'taskCustomDemandStatus',600,1);
+(17,'taskCustomDemandStatus',600,1),
+(18,'taskCloseDemand',101,3),
+(19,'taskCloseDemand',201,3),
+(20,'taskCloseDemand',301,3),
+(21,'taskCloseDemand',401,3),
+(22,'taskCloseDemand',501,3),
+(23,'taskCloseDemand',601,3),
+(24,'taskCloseDemand',701,3),
+(25,'taskCloseDemand',801,3);
 
 
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
