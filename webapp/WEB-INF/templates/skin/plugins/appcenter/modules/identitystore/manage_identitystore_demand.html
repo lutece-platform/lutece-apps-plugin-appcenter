@@ -1,5 +1,6 @@
 <#include "../commons.html" />
 <#include "../../appcenter_tabs.html" />
+<#include "bean_spring.html"/>
 <@tabs2 tab="identitystore" application=application errors=errors infos=infos  user=user>
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -21,6 +22,8 @@
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnEnvironment}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationCode}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationRights}</th>
+				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApiManagerSecurityKey}</th>
+				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnBeanSpring}</th>
 		</tr>
 		<#if data??>
 			<#list data.settings as setting >
@@ -64,6 +67,12 @@
                                                     </ul>
                                     </ul>	
                                    </#if>
+                                </td>
+                                <td class="text-center"><button type="button" class="button_apiManagerSecurityKey"><i class="fa fa-eye"></i></button>
+                                    <div class="apiManagerSecurityKey">${setting.apiManagerSecurityKey!''}</div>
+                                </td>
+                                <td class="text-center"><button type="button" class="button_beanSpring"><i class="fa fa-eye"></i></button>
+                                    <div class="beanSpring"><@beanSpring setting.environment setting.apiManagerSecurityKey!'' /></div>
                                 </td>
                             </tr>
 			</#list>
@@ -127,4 +136,28 @@
 			</div>
 		</div>
 	</div>
-
+<script>
+    $(".apiManagerSecurityKey").hide();
+    $(function(){ $(".button_apiManagerSecurityKey").popover(
+        { 
+          html: true, 
+          animation:false,
+          content: function() {
+                    return $(this).next().html();
+                    }
+        }
+      )
+    });
+        
+    $(".beanSpring").hide();
+    $(function(){ $(".button_beanSpring").popover(
+        { 
+          html: true, 
+          animation:false,
+          content: function() {
+                    return $(this).next().html();
+                    }
+        }
+      )
+    });
+</script>

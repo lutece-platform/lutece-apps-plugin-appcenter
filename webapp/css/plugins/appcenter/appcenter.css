@@ -18,3 +18,5 @@
 .app-block ul li {
   text-decoration: underline;
 }
+
+.popover{max-width:700px;}

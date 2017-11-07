@@ -1,0 +1,37 @@
+<#macro beanSpring environment='rec' key=''>
+    <div class="div_bean_spring">
+    <#if environment == 'prod' >
+        &lt;!-- IDENTITYSTORE BEAN --&gt;
+    &lt;bean id="monApplication.identitystore.apiManagerTransport" class="fr.paris.lutece.plugins.identitystore.web.rs.service.IdentityTransportApiManagerRest"&gt;
+      &lt;property name="identityStoreEndPoint"&gt;
+        &lt;value&gt;https://g93-gru-identity-api.apps.paris.mdp/identity/v1&lt;/value&gt;
+      &lt;/property&gt;
+      &lt;property name="apiManagerEndPoint"&gt;
+        &lt;value&gt;https://g93-gru-identity-api.apps.paris.mdp/token&lt;/value&gt;
+      &lt;/property&gt;
+      &lt;property name="apiManagerCredentials"&gt;
+        &lt;value&gt;${key}&lt;/value&gt;
+      &lt;/property&gt;
+    &lt;/bean&gt;
+    &lt;bean id="monApplication.identitystore.identityService" class="fr.paris.lutece.plugins.identitystore.web.service.IdentityService"&gt;
+      &lt;constructor-arg ref="monApplication.identitystore.apiManagerTransport"/&gt;
+    &lt;/bean&gt;
+    <#else>
+    &lt;!-- IDENTITYSTORE BEAN --&gt;
+    &lt;bean id="monApplication.identitystore.apiManagerTransport" class="fr.paris.lutece.plugins.identitystore.web.rs.service.IdentityTransportApiManagerRest"&gt;
+      &lt;property name="identityStoreEndPoint"&gt;
+        &lt;value&gt;https://g93-gru-identity-api.rec.apps.paris.mdp/identity/v1&lt;/value&gt;
+      &lt;/property&gt;
+      &lt;property name="apiManagerEndPoint"&gt;
+    &lt;value&gt;https://g93-gru-identity-api.rec.apps.paris.mdp/token&lt;/value&gt;
+      &lt;/property&gt;
+      &lt;property name="apiManagerCredentials"&gt;
+        &lt;value&gt;${key}&lt;/value&gt;
+      &lt;/property&gt;
+    &lt;/bean&gt;
+    &lt;bean id="monApplication.identitystore.identityService" class="fr.paris.lutece.plugins.identitystore.web.service.IdentityService"&gt;
+      &lt;constructor-arg ref="monApplication.identitystore.apiManagerTransport"/&gt;
+    &lt;/bean&gt;
+    </#if>
+    </div>
+</#macro>

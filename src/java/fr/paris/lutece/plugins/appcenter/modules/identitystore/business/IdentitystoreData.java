@@ -46,6 +46,7 @@ public class IdentitystoreData
     @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.favoriteName.notEmpty}" )
     private String _strApplicationCode;
     private Map<String,AttributeRight> _mapAttributeRights;
+    private String _strApiManagerSecurityKey;
 
 
     /**
@@ -103,6 +104,24 @@ public class IdentitystoreData
     public void setAttributeRights( Map<String,AttributeRight> mapAttributeRights )
     {
         _mapAttributeRights = mapAttributeRights;
+    }
+
+    /**
+     * Get the API Manager security key 
+     * @return the API Manager security key
+     */
+    public String getApiManagerSecurityKey()
+    {
+        return _strApiManagerSecurityKey;
+    }
+
+    /**
+     * Set the api manager security key
+     * @param strApiManagerSecurityKey 
+     */
+    public void setApiManagerSecurityKey( String strApiManagerSecurityKey )
+    {
+        _strApiManagerSecurityKey = strApiManagerSecurityKey;
     }
 
     
