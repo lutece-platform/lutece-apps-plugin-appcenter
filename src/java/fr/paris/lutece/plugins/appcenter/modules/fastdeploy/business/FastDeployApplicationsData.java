@@ -31,39 +31,52 @@
  *
  * License 1.0
  */
+package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business;
 
-package fr.paris.lutece.plugins.appcenter.web;
+import java.util.ArrayList;
+import java.util.List;
+import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
- * Constants
+ * OpenamAgentsData Data Subset
  */
-public class Constants
+public class FastDeployApplicationsData implements DataSubset
 {
-    // JSP
-    public static final String JSP_PAGE_PORTAL = "jsp/site/Portal.jsp";
+    public static final String DATA_FASTDEPLOY_APPLICATIONS_NAME = "fastdeployapplications";
+    public static final String DEMAND_TYPE_KEY = "fastdeployapplication";
 
-    // Parameters
-    public static final String PARAM_ID_APPLICATION = "id";
-    public static final String PARAM_ACTION = "action";
-    public static final String PARAM_PAGE = "page";
-    public static final String PARAM_USER_ROLE = "user_role";
-    public static final String PARAM_USER_EMAIL = "user_email";
+    private List<FastDeployApplicationData> _listFastDeployApplications = new ArrayList<FastDeployApplicationData>( );
 
-    // Markers
-    public static final String MARK_APPLICATION_LIST = "application_list";
-    public static final String MARK_APPLICATION = "application";
-    public static final String MARK_DEMAND = "demand";
-    public static final String MARK_DATA = "data";
-    public static final String MARK_DEMANDS = "demands";
-    public static final String MARK_DEMANDS_STATES = "demands_states";
-    public static final String MARK_DEMANDS_HISTORIES = "demands_histories";
-    public static final String MARK_ENVIRONMENT = "environment";
-    public static final String MARK_HISTORY_LIST = "listHistory";
-    public static final String MARK_ROLES_LIST = "roles_list";
-    public static final String MARK_DEFAULT_ROLE = "default_role";
-    public static final String MARK_USERS_LIST = "users_list";
-    public static final String MARK_USER = "user";
-  
-    
-    
+    /**
+     * {@inheritDoc }
+     * 
+     * @return
+     */
+    @Override
+    public String getName( )
+    {
+        return DATA_FASTDEPLOY_APPLICATIONS_NAME;
+    }
+
+    /**
+     * Returns the OpenamAgentData
+     *
+     * @return The OpenamAgentData
+     */
+    public List<FastDeployApplicationData> getApplications( )
+    {
+        return _listFastDeployApplications;
+    }
+
+    /**
+     * Sets the OpenamAgentData
+     *
+     * @param agent
+     * 
+     */
+    public void addApplication( FastDeployApplicationData agent )
+    {
+        _listFastDeployApplications.add( agent );
+    }
+
 }

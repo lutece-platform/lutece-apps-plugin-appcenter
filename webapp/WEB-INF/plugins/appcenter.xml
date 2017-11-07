@@ -53,6 +53,7 @@
             <application-id>moncomptesettings</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web.MonCompteSettingsXPage</application-class>
         </application>
+
         <application>
             <application-id>jobs</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.jobs.web.JobsXPage</application-class>
@@ -64,6 +65,10 @@
         <application>
             <application-id>notificationgru</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.notificationgru.web.NotificationGruXPage</application-class>
+         </application>
+          <application>
+            <application-id>fastdeploy</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.modules.fastdeploy.web.FastDeployApplicationsXPage</application-class>
         </application>
     </applications>
 

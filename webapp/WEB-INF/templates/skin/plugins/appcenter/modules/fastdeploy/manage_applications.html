@@ -1,0 +1,124 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="fastdeploy" application=application  errors=errors infos=infos  user=user>
+
+<div class="well">
+	<div class="col-sm-12">
+    <@messages infos=infos />
+    <@tform action='jsp/site/Portal.jsp?page=fastdeploy'>
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalFastDeployApplicationDemand" title="#i18n{appcenter.manage_openam_agents.buttonAdd}">
+			<@icon style="plus" />
+    </button>
+    </@tform>
+
+    <h2>#i18n{module.appcenter.fastdeploy.manage_applications.title}</h2>
+
+    <@table>
+			<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationCode}</th>
+				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationName}</th>
+				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationWebApp}</th>
+				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationService}</th>
+				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationUrlSite}</th>
+			</tr>
+			<#if data??>
+				<#list data.applications as application >
+				<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${application.code}
+							</td>
+					<td>
+								${application.name}
+							</td>  
+					<td>
+								${application.webApp}
+							</td>
+					<td>
+							 ${application.service}
+							</td>    
+					<td>
+							${application.urlSite}
+					</td>    
+				</tr>
+				</#list>
+			</#if>
+    </@table>
+
+    <h2>#i18n{module.appcenter.fastdeploy.manage_applications.demands.title}</h2>
+    
+    <@printDemands demands demands_states demands_histories/>
+
+</div>
+&#160;
+</div>
+
+</@tabs2>
+    
+ <!-- Modal for demanding Fast deploy application -->
+	<div id="ModalFastDeployApplicationDemand" class="modal fade" role="dialog" aria-labelledby="addApplication">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="addApplication">#i18n{module.appcenter.fastdeploy.manage_applications.modalTitle.addApplication}</h3>
+				</div>
+				<form action="jsp/site/Portal.jsp">
+					<fieldset>
+						<input type="hidden" name="page" value="fastdeploy" />
+						<input type="hidden" name="id" value="${application.id}" />
+						<input type="hidden" name="action" value="addApplication" />
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="code" class="col-form-label">
+									#i18n{module.appcenter.fastdeploy.manage_applications.applicationCode.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="code" name="code" maxlength="250" class="form-control" required  value="${application.code}"/>
+							</div>
+							<div class="form-group">
+								<label for="name" class="col-form-label">
+									#i18n{module.appcenter.fastdeploy.manage_applications.applicationName.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="name" name="name" maxlength="250" class="form-control" required  value="${application.name}"/>
+							</div>
+							<div class="form-group">
+								<label for="web_app" class="col-form-label">
+									#i18n{module.appcenter.fastdeploy.manage_applications.applicationWebapp.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="web_app" name="web_app" maxlength="250" class="form-control" required/>
+							</div>
+							<div class="form-group">
+								<label for="url_site" class="col-form-label">
+									#i18n{module.appcenter.fastdeploy.manage_applications.applicationUrlSite.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="url_site" name="url_site" maxlength="250" class="form-control" required value="${default_url_site!}" />
+							</div>
+							
+							<div class="form-group">
+								<label for="service" class="col-form-label">
+									#i18n{module.appcenter.fastdeploy.manage_applications.service.label} <@icon style="asterisk" />
+								</label>
+								
+								<select id="service" name="service"  >
+								   <option value="" ></option>
+									<#list services as item>
+											<option value="${item.name}" >${item.name}</option>
+									 </#list>
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" type="submit">
+									#i18n{module.appcenter.fastdeploy.manage_applications.addApplication}
+							</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+

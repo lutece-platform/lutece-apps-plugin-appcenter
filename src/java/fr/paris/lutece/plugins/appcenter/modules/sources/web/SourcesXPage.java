@@ -48,12 +48,15 @@ import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
+
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * SourcesXPage
@@ -63,12 +66,13 @@ public class SourcesXPage extends AppCenterXPage
 {
     // Templates
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
-
     private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
 
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
+    public static final String  DATA_PREFIX_FAST_DEPLOY_SERVICES = "appcenter.fastdeployServices.";
+
 
     /**
      * Maganage sources view
@@ -84,6 +88,8 @@ public class SourcesXPage extends AppCenterXPage
         Application application = getApplication( request );
         SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
 
+        
+        ReferenceList refServices=DatastoreService.getDataByPrefix( DATA_PREFIX_FAST_DEPLOY_SERVICES );
         Map<String, Object> model = getModel( );
         model.put( Constants.MARK_APPLICATION, application );
         model.put( Constants.MARK_DATA, sourcesData );
