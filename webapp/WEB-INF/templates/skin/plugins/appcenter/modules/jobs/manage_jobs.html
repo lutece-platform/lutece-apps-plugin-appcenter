@@ -1,0 +1,103 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="jobs" application=application  errors=errors infos=infos  user=user>
+
+<div class="well">
+	<div class="col-sm-12">
+    <@messages infos=infos />
+    <@tform action='jsp/site/Portal.jsp?page=jobs'>
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalJobDemand" title="#i18n{appcenter.manage_jobs.buttonAdd}">
+			<@icon style="plus" />
+    </button>
+    </@tform>
+
+    <h2>#i18n{appcenter.manage_jobs.title}</h2>
+
+    <@table>
+			<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{appcenter.manage_jobs.columnName}</th>
+				<th>#i18n{appcenter.manage_jobs.columnPluginName}</th>
+				<th>#i18n{appcenter.manage_jobs.columnPluginUrl}</th>
+			</tr>
+			<#if data??>
+				<#list data.jobs as job >
+				<tr>
+					<td>
+                                            ${job.name}
+                                        </td>
+					<td>
+                                            ${job.pluginName}
+                                        </td>  
+					<td>
+                                            ${job.pluginUrl}
+                                        </td>					
+				</tr>
+				</#list>
+			</#if>
+    </@table>
+
+    <h2>#i18n{appcenter.jobs.demands.title}</h2>
+    
+    <@printDemands demands demands_states demands_histories/>
+
+</div>
+&#160;
+</div>
+
+</@tabs2>
+    
+ <!-- Job demand Modal -->
+	<div id="ModalJobDemand" class="modal fade" role="dialog" aria-labelledby="addJob">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="addJob">#i18n{appcenter.manage_jobs.modalTitle.addJob}</h3>
+				</div>
+				<form action="jsp/site/Portal.jsp">
+					<fieldset>
+						<input type="hidden" name="page" value="jobs" />
+						<input type="hidden" name="id" value="${application.id}" />
+						<input type="hidden" name="action" value="addJob" />
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="application_code" class="col-form-label">
+									#i18n{appcenter.manage_jobs.applicationCode.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="webapp_name" class="col-form-label">
+									#i18n{appcenter.manage_jobs.name.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="name" name="name" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="plugin_name" class="col-form-label">
+									#i18n{appcenter.manage_jobs.pluginName.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="plugin_name" name="plugin_name" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="plugin_url" class="col-form-label">
+									#i18n{appcenter.manage_jobs.pluginUrl.label} <@icon style="asterisk" />
+								</label>
+								<input type="text" id="plugin_url" name="plugin_url" maxlength="250" class="form-control" required />
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" type="submit">
+									#i18n{appcenter.manage_jobs.addJob}
+							</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+
