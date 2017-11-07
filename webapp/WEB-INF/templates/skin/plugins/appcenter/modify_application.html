@@ -9,7 +9,7 @@
 
 		<h2><span class="fa fa-gears"></span> #i18n{appcenter.modify_application.labelCurrentDemands}</h2>
 		
-		<#if 0 < demands?size>
+		<#if 0 lt demands?size>
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 			<#assign cpt = 0 />
 			<#list demands as demand>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 			</div>
-			<#assign cpt++ />
+			<#assign cpt=cpt+1 />
 			</#list>
 		</div>
 		</#if>
