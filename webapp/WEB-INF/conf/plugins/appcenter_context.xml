@@ -126,5 +126,17 @@
     <bean id="appcenter.fastDeployApplicationTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.fastdeploy.web.FastDeployApplicationTaskComponent"
      p:taskType-ref="appcenter.taskTypeFastDeployApplication"
      />
+
+    <bean id="appcenter.taskTypeGuichetPro" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskGuichetPro"
+            p:titleI18nKey="module.appcenter.guichetpro.task_title"
+            p:beanName="appcenter.taskGuichetPro"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskGuichetPro" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.service.GuichetProTask" scope="prototype" />
+    <bean id="appcenter.GuichetProTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.web.GuichetProTaskComponent"
+     p:taskType-ref="appcenter.taskTypeGuichetPro"
+    />
     
 </beans>

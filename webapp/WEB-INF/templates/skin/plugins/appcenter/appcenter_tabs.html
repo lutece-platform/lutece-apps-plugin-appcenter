@@ -76,6 +76,22 @@
 				  </div>
 				</div>
 			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingThree">
+				  <h4 class="panel-title">
+					<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					  Guichet Professionnel
+					</a>
+				  </h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse <#if collapseAccordion=3>in</#if>" role="tabpanel" aria-labelledby="headingThree">
+				  <div class="panel-body">
+					<ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
+                                                <li class="<#if tab="guichet_pro"> active</#if>" id="guichetProTab"><a href="jsp/site/Portal.jsp?page=guichetpro&id=${application.id}">#i18n{module.appcenter.guichetpro.tabs.guichetpro}</a></li>
+					</ul>
+				  </div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-9">

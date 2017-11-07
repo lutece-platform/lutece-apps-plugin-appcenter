@@ -1,0 +1,101 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="guichet_pro" application=application errors=errors infos=infos user=user>
+
+<div class="well">
+	<div class="col-12 col-sm-12">
+	<h2>#i18n{module.appcenter.guichetpro.manage_guichet_pro.title}</h2>
+	<@messages infos=infos />
+
+	<div class="pull-right">
+		<form action="jsp/site/Portal.jsp?page=guichetpro&id=${application.id}">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalGuichetProDemand" title="#i18n{module.appcenter.guichetpro.manage_guichet_pro.buttonAdd}">
+				<@icon style="plus" />
+			</button>
+		</form>
+	</div>
+	<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_setting_title}</h3>
+
+	<@table>
+		<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnEnvironment}</th>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnApplicationCode}</th>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
+		</tr>
+		<#if data??>
+			<#list data.guichetProDatas as guichetProData >
+			<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${guichetProData.environment}
+					</td>
+					<td>
+							${guichetProData.applicationCode}
+					</td>
+					<td>
+							${guichetProData.guichetProDemandType}
+					</td>
+					<td>
+							${guichetProData.categoryGuichetProDemandType}
+					</td>
+					<td>
+							${guichetProData.idGuichetProDemandType}
+					</td>
+			</tr>
+			</#list>
+		</#if>
+	</@table>
+
+	<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_demand_title}</h3>
+	
+	<@printDemands demands demands_states demands_histories/>
+
+	</div>
+	&#160;
+</div>
+</@tabs2>
+    
+ <!-- Modal for demanding  Notification GuichetPro setting -->
+	<div id="ModalGuichetProDemand" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_guichet_pro.title" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="create_guichet_pro.title">#i18n{module.appcenter.guichetpro.create_guichet_pro.title}</h3>
+				</div>
+				<form action="jsp/site/Portal.jsp" method="post">
+					<input type="hidden" name="page" value="guichetpro" />
+                                        <input type="hidden" name="id" value="${application.id}" />
+                                        <input type="hidden" name="action" value="doCreateGuichetProDemand" />
+                                            <div class="modal-body">
+						<div class="form-group">
+							<label for="environment" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelEnvironment}</label>
+							<@select name='environment' id='environment' items=environment default_value='' />
+						</div>
+						<div class="form-group">
+							<label for="application_code" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelApplicationCode}</label>
+							<input type="text" id="application_code" name="application_code" maxlength="50" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType}</label>
+							<input type="text" id="guichet_pro_demand_type" name="guichet_pro_demand_type" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType}</label>
+                                                            <input type="text" id="category_guichet_pro_demand_type" name="category_guichet_pro_demand_type" maxlength="250" class="form-control" />
+						</div>
+					</div>
+					<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.guichetpro.create_guichet_pro.buttonCreate}</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
