@@ -61,7 +61,7 @@ import fr.paris.lutece.util.ReferenceList;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "sources", pageTitleI18nKey = "appcenter.xpage.sources.pageTitle", pagePathI18nKey = "appcenter.xpage.sources.pagePathLabel" )
+@Controller( xpageName = "sources", pageTitleI18nKey = "module.appcenter.sources.xpage.sources.pageTitle", pagePathI18nKey = "module.appcenter.sources.xpage.sources.pagePathLabel" )
 public class SourcesXPage extends AppCenterXPage
 {
     // Templates
