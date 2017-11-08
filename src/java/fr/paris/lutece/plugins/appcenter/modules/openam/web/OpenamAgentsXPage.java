@@ -58,7 +58,7 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "openam", pageTitleI18nKey = "appcenter.xpage.openam.pageTitle", pagePathI18nKey = "appcenter.xpage.openam.pagePathLabel" )
+@Controller( xpageName = "openam", pageTitleI18nKey = "module.appcenter.openam.xpage.openam.pageTitle", pagePathI18nKey = "module.appcenter.openam.xpage.openam.pagePathLabel" )
 public class OpenamAgentsXPage extends AppCenterXPage
 {
     // Templates

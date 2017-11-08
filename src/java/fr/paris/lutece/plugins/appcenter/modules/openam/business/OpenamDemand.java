@@ -25,11 +25,11 @@ public class OpenamDemand extends Demand
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/openam/openam_agents_demand_infos.html";
 
     private String _strApplicationCode;
-    @NotEmpty( message = "#i18n{appcenter.validation.openamagent.webapp.notEmpty}" )
-    @Size( max = 50, message = "#i18n{appcenter.validation.openamagent.webapp.size}" )
+    @NotEmpty( message = "#i18n{module.appcenter.openam.validation.openamagent.webapp.notEmpty}" )
+    @Size( max = 50, message = "#i18n{module.appcenter.openam.validation.openamagent.webapp.size}" )
     private String _strWebAppName;
-    @NotEmpty( message = "#i18n{appcenter.validation.openamagent.publicurl.notEmpty}" )
-    @Size( max = 50, message = "#i18n{appcenter.validation.openamagent.publicurl.size}" )
+    @NotEmpty( message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.notEmpty}" )
+    @Size( max = 50, message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.size}" )
     private String _strPublicUrl;
     private String _strEnvironment;
 

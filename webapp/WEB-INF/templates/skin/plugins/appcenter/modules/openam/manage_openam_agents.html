@@ -6,21 +6,21 @@
 	<div class="col-sm-12">
     <@messages infos=infos />
     <@tform action='jsp/site/Portal.jsp?page=openam'>
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalOpenAMAgentDemand" title="#i18n{appcenter.manage_openam_agents.buttonAdd}">
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalOpenAMAgentDemand" title="#i18n{module.appcenter.openam.manage_openam_agents.buttonAdd}">
 			<@icon style="plus" />
     </button>
     </@tform>
 
-    <h2>#i18n{appcenter.manage_openam_agents.title}</h2>
+    <h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
 
     <@table>
 			<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{appcenter.manage_openam_agents.columnName}</th>
-				<th>#i18n{appcenter.manage_openam_agents.columnEnvironment}</th>
-				<th>#i18n{appcenter.manage_openam_agents.columnPassword}</th>
-				<th>#i18n{appcenter.manage_openam_agents.agentUrl}</th>
-				<th>#i18n{appcenter.manage_openam_agents.serverUrl}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnName}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnEnvironment}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
 			</tr>
 			<#if data??>
 				<#list data.openamAgents as openam_agent >
@@ -46,7 +46,7 @@
 			</#if>
     </@table>
 
-    <h2>#i18n{appcenter.manage_openam_agents.demands.title}</h2>
+    <h2>#i18n{module.appcenter.openam.manage_openam_agents.demands.title}</h2>
     
     <@printDemands demands demands_states demands_histories/>
 
@@ -64,7 +64,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-						<h3 class="modal-title" id="addOpenAMAgent">#i18n{appcenter.manage_openam_agents.modalTitle.addOpenAMAgent}</h3>
+						<h3 class="modal-title" id="addOpenAMAgent">#i18n{module.appcenter.openam.manage_openam_agents.modalTitle.addOpenAMAgent}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<fieldset>
@@ -74,25 +74,25 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<label for="application_code" class="col-form-label">
-									#i18n{appcenter.manage_openam_agents.applicationCode.label} <@icon style="asterisk" />
+									#i18n{module.appcenter.openam.manage_openam_agents.applicationCode.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required value="${application.code}"/>
 							</div>
 							<div class="form-group">
 								<label for="webapp_name" class="col-form-label">
-									#i18n{appcenter.manage_openam_agents.webappName.label} <@icon style="asterisk" />
+									#i18n{module.appcenter.openam.manage_openam_agents.webappName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="webapp_name" name="webapp_name" maxlength="250" class="form-control" required />
 							</div>
 							<div class="form-group">
 								<label for="public_url" class="col-form-label">
-									#i18n{appcenter.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
+									#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="public_url" name="public_url" maxlength="250" class="form-control" required />
 							</div>
 							<div class="form-group">
 								<label for="environment" class="col-form-label">
-									#i18n{appcenter.manage_openam_agents.environment.label} <@icon style="asterisk" />
+									#i18n{module.appcenter.openam.manage_openam_agents.environment.label} <@icon style="asterisk" />
 								</label>
 								<select id="environment" name="environment" class="form-control" required>
 									<option value="${envi_rec.prefix}" >#i18n{${envi_rec.labelKey}}</option>
@@ -102,7 +102,7 @@
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary" type="submit">
-									#i18n{appcenter.manage_openam_agents.addOpenAMAgent}
+									#i18n{module.appcenter.openam.manage_openam_agents.addOpenAMAgent}
 							</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 						</div>
