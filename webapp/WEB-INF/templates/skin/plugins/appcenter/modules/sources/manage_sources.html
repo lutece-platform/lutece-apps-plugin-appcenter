@@ -4,31 +4,31 @@
 
 <div class="well">
 	<div class="col-12 col-sm-12">
-            <h2>#i18n{appcenter.manage_sources.title}</h2>
+            <h2>#i18n{module.appcenter.sources.manage_sources.title}</h2>
             <@messages infos=infos />
 
             <#if data?? && (data.siteRepository) ??>
             <div class="pull-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand" title="#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand" title="#i18n{module.appcenter.sources.manage_sources.requestSiteRepositoryAccessButton}">
                             <@icon style="plus" />
                     </button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository" title="#i18n{appcenter.manage_sources.modifySiteRepositoryButton}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository" title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
                             <@icon style="edit" />
                     </button>
             </div>
             </#if>
-            <h3>#i18n{appcenter.manage_sources.labelSiteRepository}</h3> 
+            <h3>#i18n{module.appcenter.sources.manage_sources.labelSiteRepository}</h3> 
             <#if data?? && data.siteRepository ??>
             <p class="siteUrl">
                     <a href="${data.siteRepository}" target="_blank">${data.siteRepository}</a>
             </p>
-            <h3>#i18n{appcenter.manage_sources.list_datas_title}</h3>
+            <h3>#i18n{module.appcenter.sources.manage_sources.list_datas_title}</h3>
             <@table>
                 <tr>
                     <input type="hidden" id="id" name="id"/>
-                    <th>#i18n{appcenter.manage_sources.columnSiteRepository}</th>
-                    <th>#i18n{appcenter.manage_sources.columnUsername}</th>
-                    <th>#i18n{appcenter.manage_sources.columnEmail}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnSiteRepository}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnUsername}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnEmail}</th>
                 </tr>
                 <#if data??>
                     <#list data.sourcesDatas as sourceData >
@@ -48,7 +48,7 @@
                 </#if>
             </@table>
 
-            <h3>#i18n{appcenter.manage_sources.list_demand_title}</h3>
+            <h3>#i18n{module.appcenter.sources.manage_sources.list_demand_title}</h3>
 
             <@printDemands demands demands_states demands_histories/> 
             <#else>   
@@ -56,12 +56,12 @@
                     <input type="hidden" name="page" value="sources" />
                     <input type="hidden" name="id" value="${application.id}" />
                     <input type="hidden" name="action" value="addSiteRepository" />
-                    <@formGroup labelFor='site_repository' labelKey='#i18n{appcenter.manage_sources.labelSiteRepository}' mandatory=true>
+                    <@formGroup labelFor='site_repository' labelKey='#i18n{module.appcenter.sources.manage_sources.labelSiteRepository}' mandatory=true>
                             <@input type='text' id='site_repository' name='site_repository'  maxlength=250 tabIndex='0' />
                     </@formGroup>
                     <br><br>
                     <button class="btn btn-primary" type="submit">
-                            #i18n{appcenter.manage_sources.addSiteRepositoryButton}
+                            #i18n{module.appcenter.sources.manage_sources.addSiteRepositoryButton}
                     </button>
             </form>
             </#if>
@@ -78,7 +78,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-					<h3 class="modal-title" id="X">#i18n{appcenter.manage_sources.modalTitle.requestSiteRepositoryAccess}</h3>
+					<h3 class="modal-title" id="X">#i18n{module.appcenter.sources.manage_sources.modalTitle.requestSiteRepositoryAccess}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<div class="modal-body">
@@ -87,19 +87,19 @@
 							<input type="hidden" name="action" value="addAccessDemand" />
 							
 							<div class="form-group">
-								<label for="user_name" class="col-form-label">#i18n{appcenter.manage_sources.labelSvnAccessDemandUserName.label} <@icon style="asterisk" />
+								<label for="user_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelSvnAccessDemandUserName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="user_name" name="user_name" maxlength="250" class="form-control" required />
 							</div>
 							<div class="form-group">
-								<label for="email" class="col-form-label">#i18n{appcenter.manage_sources.labelSvnAccessDemandUserEmail.label} <@icon style="asterisk" />
+								<label for="email" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelSvnAccessDemandUserEmail.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="email" name="email" maxlength="250" class="form-control" required />
 							</div>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-primary" type="submit">
-								#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}
+								#i18n{module.appcenter.sources.manage_sources.requestSiteRepositoryAccessButton}
 						</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
@@ -116,7 +116,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-					<h3 class="modal-title">#i18n{appcenter.manage_sources.modalTitle.modifySiteRepository}</h3>
+					<h3 class="modal-title">#i18n{module.appcenter.sources.manage_sources.modalTitle.modifySiteRepository}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<div class="modal-body">
@@ -127,7 +127,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-primary" type="submit">
-								#i18n{appcenter.manage_sources.modifySiteRepositoryButton}
+								#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}
 						</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
