@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "moncomptesettings", pageTitleI18nKey = "appcenter.xpage.moncompte_settings.pageTitle", pagePathI18nKey = "appcenter.xpage.moncompte_settings.pagePathLabel" )
+@Controller( xpageName = "moncomptesettings", pageTitleI18nKey = "module.appcenter.moncomptesettings.xpage.moncompte_settings.pageTitle", pagePathI18nKey = "module.appcenter.moncomptesettings.xpage.moncompte_settings.pagePathLabel" )
 public class MonCompteSettingsXPage extends AppCenterXPage
 {
 

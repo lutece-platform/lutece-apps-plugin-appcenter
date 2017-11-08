@@ -3,26 +3,26 @@
 <@tabs2 tab="moncompte_settings" application=application errors=errors infos=infos  user=user>
 <div class="well">
 	<div class="col-12 col-sm-12">
-	<h2>#i18n{appcenter.manage_moncompte_settings.title}</h2>
+	<h2>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.title}</h2>
 	<@messages infos=infos />
 
 	<div class="pull-right">
 		<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMonCompteSettingDemand" title="#i18n{appcenter.manage_moncompte_settings.buttonAdd}">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMonCompteSettingDemand" title="#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.buttonAdd}">
 				<@icon style="plus" />
 			</button>
 		</form>
 	</div>
-	<h3>#i18n{appcenter.manage_moncompte_settings.list_setting_title}</h3>
+	<h3>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.list_setting_title}</h3>
 
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{appcenter.manage_moncompte_settings.columnEnvironment}</th>
-				<th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteName}</th>
-				<th>#i18n{appcenter.manage_moncompte_settings.columnFavoriteUrl}</th>
-				<th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonName}</th>
-				<th>#i18n{appcenter.manage_moncompte_settings.columnBackButtonUrl}</th>
+				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnEnvironment}</th>
+				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnFavoriteName}</th>
+				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnFavoriteUrl}</th>
+				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnBackButtonName}</th>
+				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnBackButtonUrl}</th>
 		</tr>
 		<#if data??>
 			<#list data.settings as setting >
@@ -48,7 +48,7 @@
 		</#if>
 	</@table>
 
-	<h3>#i18n{appcenter.manage_moncompte_settings.list_demand_title}</h3>
+	<h3>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
 
@@ -65,7 +65,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_moncompte_settings.title" aria-label="Close">&times;</button>
-						<h3 class="modal-title" id="create_moncompte_settings.title">#i18n{appcenter.create_moncompte_settings.title}</h3>
+						<h3 class="modal-title" id="create_moncompte_settings.title">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.title}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp" method="post">
 					<input type="hidden" name="page" value="moncomptesettings" />
@@ -73,28 +73,28 @@
                                         <input type="hidden" name="action" value="doCreateMonCompteSettingsDemand" />
                                             <div class="modal-body">
 						<div class="form-group">
-							<label for="environment" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelEnvironment}</label>
+							<label for="environment" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelEnvironment}</label>
 							<@select name='environment' id='environment' items=environment default_value='' />
 						</div>
 						<div class="form-group">
-							<label for="name_favorite" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelFavoriteName}</label>
+							<label for="name_favorite" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelFavoriteName}</label>
 							<input type="text" id="favoriteName" name="favoriteName" maxlength="250" class="form-control" />
 						</div>
 						<div class="form-group">
-							<label for="url_favorite" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelFavoriteUrl}</label>
+							<label for="url_favorite" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelFavoriteUrl}</label>
 							<input type="text" id="favoriteUrl" name="favoriteUrl" maxlength="250" class="form-control" />
 						</div>
 						<div class="form-group">
-							<label for="name_back_button" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelBackButtonName}</label>
+							<label for="name_back_button" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelBackButtonName}</label>
 							<input type="text" id="backButtonName" name="backButtonName" maxlength="250" class="form-control" />
 						</div>
 						<div class="form-group">
-							<label for="url_back_button" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelBackButtonUrl}</label>
+							<label for="url_back_button" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelBackButtonUrl}</label>
 							<input type="text" id="backButtonUrl" name="backButtonUrl" maxlength="250" class="form-control" />
 						</div>
 					</div>
 					<div class="modal-footer">
-							<button type="submit" class="btn btn-primary">#i18n{appcenter.create_moncompte_settings.buttonCreate}</button>
+							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.buttonCreate}</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</form>
