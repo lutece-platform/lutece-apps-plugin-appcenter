@@ -57,7 +57,7 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "jobs", pageTitleI18nKey = "appcenter.xpage.jobs.pageTitle", pagePathI18nKey = "appcenter.xpage.jobs.pagePathLabel" )
+@Controller( xpageName = "jobs", pageTitleI18nKey = "module.appcenter.jobs.xpage.jobs.pageTitle", pagePathI18nKey = "module.appcenter.jobs.xpage.jobs.pagePathLabel" )
 public class JobsXPage extends AppCenterXPage
 {
     // Templates

@@ -24,7 +24,7 @@ public class JobDemand extends Demand
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/jobs/job_demand_infos.html";
 
     private String _strApplicationCode;
-    @NotEmpty( message = "#i18n{appcenter.validation.jobs.pluginUrl.notEmpty}" )
+    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.jobs.pluginUrl.notEmpty}" )
     private String _strPluginUrl;
     private String _strPluginName;
 
