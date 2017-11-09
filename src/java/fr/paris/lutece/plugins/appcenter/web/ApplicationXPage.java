@@ -37,9 +37,11 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
@@ -54,12 +56,15 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
+import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * This class provides the user interface to manage Application xpages ( manage, createOrModify, modify, remove )
@@ -67,6 +72,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( xpageName = "application", pageTitleI18nKey = "appcenter.xpage.application.pageTitle", pagePathI18nKey = "appcenter.xpage.application.pagePathLabel" )
 public class ApplicationXPage extends AppCenterXPage
 {
+    
+    //Markers
+    private static final String MARK_ENVIRONMENTS = "environments";
+    private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
+    
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
     private static final String TEMPLATE_CREATE_APPLICATION = "/skin/plugins/appcenter/create_application.html";
@@ -94,12 +104,20 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String INFO_APPLICATION_REMOVED = "appcenter.info.application.removed";
     private static final String INFO_USER_ADDED = "appcenter.info.user.added";
     private static final String INFO_USER_REMOVED = "appcenter.info.user.removed";
+    
+    // Parameters
+    private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
+    
+    //Session
+    private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
 
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
     
 
     // Session variable to store working values
     private Application _application;
+    
+    private Environment _activeEnvironment;
 
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request )
@@ -125,6 +143,7 @@ public class ApplicationXPage extends AppCenterXPage
 
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
+        model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
 
         return getXPage( TEMPLATE_CREATE_APPLICATION, request.getLocale( ), model );
     }
@@ -140,7 +159,8 @@ public class ApplicationXPage extends AppCenterXPage
     public XPage doCreateApplication( HttpServletRequest request )
     {
         populate( _application, request );
-
+        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
+        
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
@@ -219,7 +239,25 @@ public class ApplicationXPage extends AppCenterXPage
     public XPage getModifyApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         _application = getApplication( request );
-
+        
+        //Set the active environment
+        String strActiveEnvi = request.getParameter( PARAMETER_ACTIVE_ENVIRONMENT );
+        if ( strActiveEnvi != null )
+        {
+            if ( strActiveEnvi != "no_active_environment" )
+            {
+                _activeEnvironment = Environment.getEnvironment( strActiveEnvi );
+                //Put this active environment in session
+                HttpSession session = request.getSession( true );
+                session.setAttribute( SESSION_ACTIVE_ENVIRONMENT, _activeEnvironment );
+            }
+            else
+            {
+                HttpSession session = request.getSession( true );
+                session.removeAttribute( SESSION_ACTIVE_ENVIRONMENT );
+            }
+        }
+        
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
 
@@ -229,9 +267,13 @@ public class ApplicationXPage extends AppCenterXPage
         {
             listFullDemands.add( DemandHome.getFullDemand( demand) );
         }
+        model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         model.put( MARK_DEMANDS, listFullDemands );
         model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
-
+        if ( _activeEnvironment != null )
+        {
+            model.put( MARK_ACTIVE_ENVIRONMENT, _activeEnvironment );
+        }
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
         for ( Demand demand : listDemand )
@@ -264,6 +306,7 @@ public class ApplicationXPage extends AppCenterXPage
     public XPage doModifyApplication( HttpServletRequest request )
     {
         populate( _application, request );
+        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
 
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
@@ -331,6 +374,30 @@ public class ApplicationXPage extends AppCenterXPage
         addInfo( INFO_USER_REMOVED, getLocale( request ) );
 
         return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return null;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return null;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return null;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return null;
     }
     
     

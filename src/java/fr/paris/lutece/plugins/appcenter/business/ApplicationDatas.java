@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2014, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,33 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.sources.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Sources Data Subset
- */
-public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataSubset
+public class ApplicationDatas<T extends ApplicationData>
 {
-    public static final String DATA_SOURCES_NAME = "sources";
-    public static final String DEMAND_TYPE_KEY = "source";
-
-    private String _strSiteRepository;
-
-    /**
-     * {@inheritDoc }
-     * 
-     * @return
-     */
-    @Override
-    public String getName( )
+    private List<T> _listData;
+    
+    public ApplicationDatas( )
     {
-        return DATA_SOURCES_NAME;
+        _listData = new ArrayList<>();
+    }
+    
+
+    public List<T> getListData()
+    {
+        return _listData;
     }
 
-    /**
-     * Get the site repository
-     * @return the site repository
-     */
-    public String getSiteRepository()
+    public void setListData( List<T> listData )
     {
-        return _strSiteRepository;
+        _listData = listData;
     }
-
-    /**
-     * Set the site repository
-     * @param strSiteRepository the site repository 
-     */
-    public void setSiteRepository( String strSiteRepository )
+    
+    public void addData( T data )
     {
-        _strSiteRepository = strSiteRepository;
-    }    
+        _listData.add( data );
+    }
 }

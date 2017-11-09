@@ -82,16 +82,8 @@ public class NotificationGruXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_NOTIFICATION_Gru_DEMANDS, defaultView = true )
     public XPage getManageNtoficiationGruDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        NotificationGruDatas notificationgruData = ApplicationService.loadApplicationDataSubset( application, NotificationGruDatas.DATA_NOTIFICATION_Gru_NAME, NotificationGruDatas.class );
-
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, notificationgruData );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, NotificationGruDemand.ID_DEMAND_TYPE, NotificationGruDemand.class );
+        fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_NOTIFICATION_Gru, request.getLocale( ), model );
     }
@@ -112,6 +104,7 @@ public class NotificationGruXPage extends AppCenterXPage
         notificationGruDemand.setIdApplication( application.getId( ) );
 
         populate( notificationGruDemand, request );
+        populateCommonsDemand( notificationGruDemand, request);
         
         // Check constraints
         if ( !validateBean( notificationGruDemand, getLocale( request ) ) )
@@ -122,5 +115,30 @@ public class NotificationGruXPage extends AppCenterXPage
         DemandService.saveDemand( notificationGruDemand, application );
 
         return redirect(request, VIEW_MANAGE_NOTIFICATION_Gru_DEMANDS, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return NotificationGruDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return NotificationGruDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return NotificationGruDatas.DATA_NOTIFICATION_Gru_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return NotificationGruDatas.class;
+
     }
 }

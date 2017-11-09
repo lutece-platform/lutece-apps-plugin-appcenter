@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2014, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,34 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.sources.business;
+package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import fr.paris.lutece.plugins.appcenter.business.Environment;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
-/**
- * Sources Data Subset
- */
-public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataSubset
+public class EnvironmentService
 {
-    public static final String DATA_SOURCES_NAME = "sources";
-    public static final String DEMAND_TYPE_KEY = "source";
-
-    private String _strSiteRepository;
-
     /**
-     * {@inheritDoc }
-     * 
-     * @return
+     * Get the environment list from the request
+     * @param request
+     * @return the environment list
      */
-    @Override
-    public String getName( )
+    public static List<Environment> getEnvironmentList ( HttpServletRequest request )
     {
-        return DATA_SOURCES_NAME;
+        List<Environment> listEnviReturn = new ArrayList<>();
+        Enumeration<String> enumParamNames = request.getParameterNames( );
+        while( enumParamNames.hasMoreElements() )
+        {
+            String strParamName = enumParamNames.nextElement();
+            Environment envi = Environment.getEnvironment( strParamName );
+            if ( envi != null )
+            {
+                listEnviReturn.add( envi );
+            }
+        }
+        return listEnviReturn;
     }
-
-    /**
-     * Get the site repository
-     * @return the site repository
-     */
-    public String getSiteRepository()
-    {
-        return _strSiteRepository;
-    }
-
-    /**
-     * Set the site repository
-     * @param strSiteRepository the site repository 
-     */
-    public void setSiteRepository( String strSiteRepository )
-    {
-        _strSiteRepository = strSiteRepository;
-    }    
 }

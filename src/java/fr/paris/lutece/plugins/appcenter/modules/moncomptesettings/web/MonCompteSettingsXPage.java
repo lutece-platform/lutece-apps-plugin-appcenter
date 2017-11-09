@@ -45,6 +45,8 @@ import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
@@ -76,21 +78,13 @@ public class MonCompteSettingsXPage extends AppCenterXPage
      * @param request
      *            The Http request
      * @return the html form to manage MonCompteSettingsDemands
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    @View( value = VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, defaultView = true )
-    public XPage getManageMoncompteSettingsDemands( HttpServletRequest request )
+    @View( value = VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, defaultView = true ) 
+    public XPage getManageMoncompteSettingsDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
-        Application application = ApplicationHome.findByPrimaryKey( nId );
-        MonCompteSettingsData dataSubset = ApplicationService.loadApplicationDataSubset( application, MonCompteSettingsData.DATA_SUBSET_NAME,
-                MonCompteSettingsData.class );
-
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, dataSubset );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, MonCompteSettingDemand.ID_DEMAND_TYPE, MonCompteSettingDemand.class );
+        fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );
     }
@@ -105,6 +99,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         demand.setIdApplication( application.getId( ) );
         
         populate( demand, request );
+        populateCommonsDemand( demand, request);
 
         // Check constraints
         if ( !validateBean( demand, getLocale( request ) ) )
@@ -115,5 +110,29 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         DemandService.saveDemand( demand, application );
 
         return redirect(request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return MonCompteSettingDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return MonCompteSettingDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return MonCompteSettingsData.DATA_SUBSET_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return MonCompteSettingsData.class;
     }
 }

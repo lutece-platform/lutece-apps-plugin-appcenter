@@ -25,7 +25,7 @@
 				<th>#i18n{module.appcenter.moncomptesettings.manage_moncompte_settings.columnBackButtonUrl}</th>
 		</tr>
 		<#if data??>
-			<#list data.settings as setting >
+			<#list data as setting >
 			<tr>
 					<input type="hidden" id="id" name="id" />
 					<td>
@@ -73,11 +73,7 @@
                                         <input type="hidden" name="action" value="doCreateMonCompteSettingsDemand" />
                                             <div class="modal-body">
 						<div class="form-group">
-							<label for="environment" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelEnvironment}</label>
-							<@select name='environment' id='environment' items=environment default_value='' />
-						</div>
-						<div class="form-group">
-							<label for="name_favorite" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncompte_settings.labelFavoriteName}</label>
+							<label for="name_favorite" class="col-form-label">#i18n{appcenter.create_moncompte_settings.labelFavoriteName}</label>
 							<input type="text" id="favoriteName" name="favoriteName" maxlength="250" class="form-control" />
 						</div>
 						<div class="form-group">

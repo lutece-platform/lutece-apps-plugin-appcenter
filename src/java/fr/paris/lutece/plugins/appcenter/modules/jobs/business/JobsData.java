@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.jobs.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import java.util.ArrayList;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
@@ -40,7 +41,7 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 /**
  * OpenamAgentsData Data Subset
  */
-public class JobsData implements DataSubset
+public class JobsData extends ApplicationDatas<JobData> implements DataSubset
 {
     public static final String DATA_JOBS_NAME = "jobs";
     public static final String DEMAND_TYPE_KEY = "job";
@@ -56,27 +57,6 @@ public class JobsData implements DataSubset
     public String getName( )
     {
         return DATA_JOBS_NAME;
-    }
-
-    /**
-     * Returns the JobDatas
-     *
-     * @return The JobDatas
-     */
-    public List<JobData> getJobDatas( )
-    {
-        return _listJobData;
-    }
-
-    /**
-     * add a job
-     *
-     * @param job
-     * 
-     */
-    public void addJob( JobData job )
-    {
-        _listJobData.add( job );
     }
 
 }

@@ -60,7 +60,7 @@ public class MonCompteSettingsTask extends SimpleTask {
         {
         	monCompteSettingsData = new MonCompteSettingsData();
         }
-        monCompteSettingsData.addSetting( monCompteSettingData );
+        monCompteSettingsData.addData( monCompteSettingData );
         ApplicationService.saveApplicationData ( application, monCompteSettingsData );
 
         //TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation

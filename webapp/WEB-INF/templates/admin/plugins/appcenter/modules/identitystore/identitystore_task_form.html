@@ -2,7 +2,7 @@
 
 <@messages errors=errors />
 <@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment.help}' >
-	<@input type='text' name='environment' value="${demand.environment!''}" readonly=true />
+	<@input type='text' name='environment' value="${demand.environment.prefix!''}" readonly=true />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationCode.help}' >
 	<@input type='text' name='applicationCode' value="${demand.applicationCode!''}" />

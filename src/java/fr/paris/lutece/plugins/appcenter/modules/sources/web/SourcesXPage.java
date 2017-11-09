@@ -84,17 +84,9 @@ public class SourcesXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-
-        
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, sourcesData );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, SourcesDemand.ID_DEMAND_TYPE, SourcesDemand.class );
-
+        fillAppCenterCommons( model, request );
+        
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
 
@@ -137,6 +129,7 @@ public class SourcesXPage extends AppCenterXPage
         sourcesDemand.setIdApplication( application.getId( ) );
 
         populate( sourcesDemand, request );
+        populateCommonsDemand( sourcesDemand, request);
         
         //Get the source repository from dataSubset
         SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
@@ -151,5 +144,29 @@ public class SourcesXPage extends AppCenterXPage
         DemandService.saveDemand( sourcesDemand, application );
 
         return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return SourcesDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return SourcesDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return SourcesDatas.DATA_SOURCES_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return SourcesDatas.class;
     }
 }

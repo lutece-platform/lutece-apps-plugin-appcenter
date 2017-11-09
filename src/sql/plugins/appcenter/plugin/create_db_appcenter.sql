@@ -14,6 +14,17 @@ PRIMARY KEY (id_application)
 );
 
 --
+-- Structure for table appcenter_
+--
+DROP TABLE IF EXISTS appcenter_application_environment;
+CREATE TABLE appcenter_application_environment (
+id_application_environment int(6) AUTO_INCREMENT,
+id_application int(6),
+environment_code varchar(255) default '' NOT NULL,
+PRIMARY KEY (id_application_environment)
+);
+
+--
 -- Structure for table appcenter_user_application
 --
 
@@ -39,6 +50,7 @@ id_application int(11) default '0' NOT NULL,
 demand_content TEXT,
 creation_date datetime NOT NULL,
 is_closed SMALLINT NOT NULL DEFAULT '0',
+environment varchar(255) NOT NULL,
 PRIMARY KEY (id_demand) 
 );
 

@@ -24,6 +24,9 @@
     </@table>
 
 <@messages errors=errors />
+<@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelEnvironment}' >
+	<@input type='text' name='environment' value="${demand.environment.prefix!''}" readonly=true />
+</@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelDeployJobName}' helpKey='#i18n{module.appcenter.jobs.taskForm.labelDeployJobName.help}' >
 	<@input type='text' name='deploy_job_name' value="${defaultDeployJobName!''}" />
 </@formGroup>

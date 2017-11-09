@@ -55,7 +55,7 @@ public class GuichetProTask extends SimpleTask
         {
             guichetproDatas = new GuichetProDatas( );
         }
-        guichetproDatas.addGuichetProData( guichetproData );
+        guichetproDatas.addData( guichetproData );
         ApplicationService.saveApplicationData( application, guichetproDatas );
     }
 

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.notificationgru.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import java.util.ArrayList;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
@@ -40,12 +41,10 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 /**
  * NotificationGru Data Subset
  */
-public class NotificationGruDatas implements DataSubset
+public class NotificationGruDatas extends ApplicationDatas<NotificationGruData> implements DataSubset
 {
     public static final String DATA_NOTIFICATION_Gru_NAME = "notificationgru";
     public static final String DEMAND_TYPE_KEY = "notificationgru";
-
-    private List<NotificationGruData> _listNotificationGruDatas = new ArrayList<NotificationGruData>( );
 
     /**
      * {@inheritDoc }
@@ -57,26 +56,4 @@ public class NotificationGruDatas implements DataSubset
     {
         return DATA_NOTIFICATION_Gru_NAME;
     }
-
-    /**
-     * Returns the NotificationGruDatas
-     *
-     * @return The NotificationGruDatas
-     */
-    public List<NotificationGruData> getNotificationGruDatas( )
-    {
-        return _listNotificationGruDatas;
-    }
-
-    /**
-     * Sets the NotificationGruData
-     *
-     * @param notificationgruData
-     * 
-     */
-    public void addNotificationGruData( NotificationGruData notificationgruData )
-    {
-        _listNotificationGruDatas.add( notificationgruData );
-    }
-
 }

@@ -64,10 +64,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
     // Templates
     private static final String TEMPLATE_MANAGE_AGENTS = "/skin/plugins/appcenter/modules/openam/manage_openam_agents.html";
 
-    // Markers
-    private static final String MARK_ENVIRONMENT_REC = "envi_rec";
-    private static final String MARK_ENVIRONMENT_PROD = "envi_prod";
-
     // VIEW
     private static final String VIEW_MANAGE_AGENTS = "manageagents";
 
@@ -77,18 +73,8 @@ public class OpenamAgentsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
     public XPage getManageAgents( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        OpenamAgentsData dataSubset = ApplicationService.loadApplicationDataSubset( application, OpenamAgentsData.DATA_OPENAM_AGENTS_NAME,
-                OpenamAgentsData.class );
-
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, dataSubset );
-        model.put( MARK_ENVIRONMENT_REC, Environment.getEnvironment( "rec" ) );
-        model.put( MARK_ENVIRONMENT_PROD, Environment.getEnvironment( "prod" ) );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, OpenamDemand.ID_DEMAND_TYPE, OpenamDemand.class );
+        fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_AGENTS, request.getLocale( ), model );
     }
@@ -103,6 +89,7 @@ public class OpenamAgentsXPage extends AppCenterXPage
         agentDemand.setIdApplication( application.getId( ) );
 
         populate( agentDemand, request );
+        populateCommonsDemand( agentDemand, request);
 
         // Check constraints
         if ( !validateBean( agentDemand, getLocale( request ) ) )
@@ -113,6 +100,30 @@ public class OpenamAgentsXPage extends AppCenterXPage
         DemandService.saveDemand( agentDemand, application );
 
         return redirect(request, VIEW_MANAGE_AGENTS, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return OpenamDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return OpenamDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return OpenamAgentsData.DATA_OPENAM_AGENTS_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return OpenamAgentsData.class;
     }
 
 }

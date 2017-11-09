@@ -47,30 +47,11 @@ public class NotificationGruDemand extends Demand
     public static final String DEMAND_TYPE = "notificationgru";
     public static final String ID_DEMAND_TYPE = "notificationgru";
 
-    private String _strEnvironment;
     private String _strApplicationCode;
     private String _strGruDemandType;
     private String _strCategoryGruDemandType;
     private String _strApiManagerKey;
     private String _strIdGruDemandType;
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment() {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment The Environment
-     */
-    public void setEnvironment(String strEnvironment) {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Get the application code
@@ -196,6 +177,13 @@ public class NotificationGruDemand extends Demand
     public String getDemandType( )
     {
         return DEMAND_TYPE;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return true;
     }
 
 }

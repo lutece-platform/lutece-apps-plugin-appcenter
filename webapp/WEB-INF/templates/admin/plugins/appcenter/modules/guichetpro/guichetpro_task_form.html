@@ -1,6 +1,6 @@
 <@messages errors=errors />
 <@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelEnvironment.help}' >
-	<@input type='text' name='environment' value="${demand.environment!''}" />
+	<@input type='text' name='environment' value="${demand.environment.prefix!''}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelApplicationCode.help}' >
 	<@input type='text' name='applicationCode' value="${demand.applicationCode!''}" />

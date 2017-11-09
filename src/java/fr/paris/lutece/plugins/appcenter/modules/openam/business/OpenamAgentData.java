@@ -1,6 +1,7 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.openam.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import fr.paris.lutece.plugins.appcenter.business.Environment;
@@ -8,7 +9,7 @@ import fr.paris.lutece.plugins.appcenter.business.Environment;
 /**
  * This is the business class for the object OpenamAgentData
  */ 
-public class OpenamAgentData {
+public class OpenamAgentData extends ApplicationData {
 	
 	
 	 @NotEmpty( message = "#i18n{module.appcenter.openam.validation.agentName.notEmpty}" )
@@ -19,8 +20,6 @@ public class OpenamAgentData {
 	private String _strServerUrl;
 	 @NotEmpty( message = "#i18n{module.appcenter.openam.validation.agentUrl.notEmpty}" )
 	private String _strAgentUrl;
-	 @NotEmpty( message = "#i18n{module.appcenter.openam.validation.environmentCode.notEmpty}" )
-	private String _environmentCode;
 
 	/**
 	 * 
@@ -80,16 +79,5 @@ public class OpenamAgentData {
 	public void setAgentUrl(String _strAgentUrl) {
 		this._strAgentUrl = _strAgentUrl;
 	}
-
-	public String getEnvironment() {
-		return _environmentCode;
-	}
-
-	public void setEnvironment(String _environment) {
-		this._environmentCode = _environment;
-	}
-	
-	
-
 }
 

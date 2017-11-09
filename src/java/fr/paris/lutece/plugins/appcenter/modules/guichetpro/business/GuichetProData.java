@@ -33,39 +33,20 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.guichetpro.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * GuichetPro Data Subset
  */
-public class GuichetProData
+public class GuichetProData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.environment.notEmpty}" )
-    private String _strEnvironment;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.applicationcode.notEmpty}" )
     private String _strApplicationCode;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.grudemandtype.notEmpty}" )
     private String _strGuichetProDemandType;
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment() {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment The Environment
-     */
-    public void setEnvironment(String strEnvironment) {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Get the application code

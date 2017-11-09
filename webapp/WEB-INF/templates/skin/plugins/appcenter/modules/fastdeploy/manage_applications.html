@@ -23,25 +23,25 @@
 				<th>#i18n{module.appcenter.fastdeploy.manage_applications.tabHeader.applicationUrlSite}</th>
 			</tr>
 			<#if data??>
-				<#list data.applications as application >
-				<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${application.code}
-							</td>
-					<td>
-								${application.name}
-							</td>  
-					<td>
-								${application.webApp}
-							</td>
-					<td>
-							 ${application.service}
-							</td>    
-					<td>
-							${application.urlSite}
-					</td>    
-				</tr>
+				<#list data as application >
+                                    <tr>
+                                            <input type="hidden" id="id" name="id" />
+                                            <td>
+                                                            ${application.code}
+                                                            </td>
+                                            <td>
+                                                                    ${application.name}
+                                                            </td>  
+                                            <td>
+                                                                    ${application.webApp}
+                                                            </td>
+                                            <td>
+                                                             ${application.service}
+                                                            </td>    
+                                            <td>
+                                                            ${application.urlSite}
+                                            </td>    
+                                    </tr>
 				</#list>
 			</#if>
     </@table>

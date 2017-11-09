@@ -55,7 +55,7 @@ public class NotificationGruTask extends SimpleTask
         {
             notificationgruDatas = new NotificationGruDatas( );
         }
-        notificationgruDatas.addNotificationGruData( notificationgruData );
+        notificationgruDatas.addData( notificationgruData );
         ApplicationService.saveApplicationData( application, notificationgruDatas );
     }
 

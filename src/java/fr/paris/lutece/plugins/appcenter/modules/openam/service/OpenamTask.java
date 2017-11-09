@@ -57,7 +57,7 @@ public class OpenamTask extends SimpleTask
         {
             openamAgentsData = new OpenamAgentsData( );
         }
-        openamAgentsData.addAgent( openamAgentData );
+        openamAgentsData.addData( openamAgentData );
         ApplicationService.saveApplicationData( application, openamAgentsData );
 
         // TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation

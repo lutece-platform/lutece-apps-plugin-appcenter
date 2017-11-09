@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 /**
  * Sources Data Subset
  */
-public class MonCompteSettingsData implements DataSubset
+public class MonCompteSettingsData extends ApplicationDatas<MonCompteSettingData> implements DataSubset
 {
     public static final String DATA_SUBSET_NAME = "moncompte_settings";
 
@@ -55,26 +56,5 @@ public class MonCompteSettingsData implements DataSubset
     public String getName( )
     {
         return DATA_SUBSET_NAME;
-    }
-
-    /**
-     * Returns the Demands
-     *
-     * @return The Demands
-     */
-    public List getSettings( )
-    {
-        return _listSettings;
-    }
-
-    /**
-     * Add a EnvConfig in the ListEnvConfigs
-     *
-     * @param demand
-     *            The EnvConfig
-     */
-    public void addSetting( MonCompteSettingData setting )
-    {
-        _listSettings.add( setting );
     }
 }

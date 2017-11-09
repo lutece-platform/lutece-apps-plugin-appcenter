@@ -27,7 +27,7 @@
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
 		</tr>
 		<#if data??>
-			<#list data.notificationGruDatas as notificationGruData >
+			<#list data as notificationGruData >
 			<tr>
 					<input type="hidden" id="id" name="id" />
 					<td>
@@ -77,10 +77,6 @@
                                         <input type="hidden" name="id" value="${application.id}" />
                                         <input type="hidden" name="action" value="doCreateNotificationGruDemand" />
                                             <div class="modal-body">
-						<div class="form-group">
-							<label for="environment" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelEnvironment}</label>
-							<@select name='environment' id='environment' items=environment default_value='' />
-						</div>
 						<div class="form-group">
 							<label for="application_code" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelApplicationCode}</label>
 							<input type="text" id="application_code" name="application_code" maxlength="50" class="form-control" />

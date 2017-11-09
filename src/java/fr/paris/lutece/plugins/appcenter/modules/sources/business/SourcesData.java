@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+
 /**
  * Sources Data Subset
  */
-public class SourcesData
+public class SourcesData extends ApplicationData
 {
     private String _strUsername;
     private String _strEmail;

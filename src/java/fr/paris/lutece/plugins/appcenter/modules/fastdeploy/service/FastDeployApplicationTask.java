@@ -59,7 +59,7 @@ public class FastDeployApplicationTask extends SimpleTask
         {
             fastDeployApplicationsData = new FastDeployApplicationsData( );
         }
-        fastDeployApplicationsData.addApplication( fastDeployApplicationData );
+        fastDeployApplicationsData.addData( fastDeployApplicationData );
         ApplicationService.saveApplicationData( application, fastDeployApplicationsData );
 
         // TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation

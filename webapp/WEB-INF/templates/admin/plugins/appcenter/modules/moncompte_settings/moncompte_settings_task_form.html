@@ -2,7 +2,7 @@
 
 <@messages errors=errors />
 <@formGroup labelKey='#i18n{module.appcenter.moncomptesettings.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.moncomptesettings.taskForm.labelEnvironment.help}' >
-	<@input type='text' name='environment' value="${demand.environment!''}" readonly=true />
+	<@input type='text' name='environment' value="${demand.environment.prefix!''}" readonly=true />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.moncomptesettings.taskForm.labelFavoriteName}' helpKey='#i18n{module.appcenter.moncomptesettings.taskForm.labelFavoriteName.help}' >
 	<@input type='text' name='favoriteName' value="${demand.favoriteName!''}" />

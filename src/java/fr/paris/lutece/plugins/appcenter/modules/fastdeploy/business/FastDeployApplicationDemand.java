@@ -124,4 +124,11 @@ public class FastDeployApplicationDemand extends Demand
         return DEMAND_TYPE;
     }
 
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return false;
+    }
+
 }

@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.notificationgru.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * NotificationGru Data Subset
  */
-public class NotificationGruData
+public class NotificationGruData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.environment.notEmpty}" )
-    private String _strEnvironment;
     @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.applicationcode.notEmpty}" )
     private String _strApplicationCode;
     @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.grudemandtype.notEmpty}" )
@@ -49,24 +48,6 @@ public class NotificationGruData
     private String _strCategoryGruDemandType;
     private String _strApiManagerKey;
     private String _strIdGruDemandType;
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment() {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment The Environment
-     */
-    public void setEnvironment(String strEnvironment) {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Get the application code

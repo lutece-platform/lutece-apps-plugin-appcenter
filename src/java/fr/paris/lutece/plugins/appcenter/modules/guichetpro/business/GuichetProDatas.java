@@ -33,19 +33,16 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.guichetpro.business;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
  * GuichetPro Data Subset
  */
-public class GuichetProDatas implements DataSubset
+public class GuichetProDatas extends ApplicationDatas<GuichetProData> implements DataSubset
 {
     public static final String DATA_GUICHET_PRO_NAME = "guichetpro";
     public static final String DEMAND_TYPE_KEY = "guichetpro";
-
-    private List<GuichetProData> _listGuichetProDatas = new ArrayList<GuichetProData>( );
 
     /**
      * {@inheritDoc }
@@ -57,26 +54,4 @@ public class GuichetProDatas implements DataSubset
     {
         return DATA_GUICHET_PRO_NAME;
     }
-
-    /**
-     * Returns the GuichetProDatas
-     *
-     * @return The GuichetProDatas
-     */
-    public List<GuichetProData> getGuichetProDatas( )
-    {
-        return _listGuichetProDatas;
-    }
-
-    /**
-     * Sets the GuichetProData
-     *
-     * @param guichetproData
-     * 
-     */
-    public void addGuichetProData( GuichetProData guichetproData )
-    {
-        _listGuichetProDatas.add( guichetproData );
-    }
-
 }

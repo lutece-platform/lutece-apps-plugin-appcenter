@@ -61,6 +61,8 @@ public class Application implements Serializable
     private String _strApplicationData;
     
     private List<UserApplication> _listAuthorizations;
+    
+    private List<Environment> _listEnvironment;
 
     /**
      * Returns the Id
@@ -180,5 +182,23 @@ public class Application implements Serializable
     public void setCode( String _strCode )
     {
         this._strCode = _strCode;
+    }
+
+    /**
+     * Get the environment list
+     * @return the environment list
+     */
+    public List<Environment> getListEnvironment( )
+    {
+        return _listEnvironment;
+    }
+
+    /**
+     * Set the environment list
+     * @param listEnvironment the environment list
+     */
+    public void setListEnvironment( List<Environment> listEnvironment )
+    {
+        _listEnvironment = listEnvironment;
     }
 }

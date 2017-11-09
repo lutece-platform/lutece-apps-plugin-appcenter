@@ -60,7 +60,7 @@ public class IdentitystoreTask extends SimpleTask {
         {
         	identitystoreDatas = new IdentitystoreDatas();
         }
-        identitystoreDatas.addSetting( identitystoreData );
+        identitystoreDatas.addData( identitystoreData );
         ApplicationService.saveApplicationData ( application, identitystoreDatas );
 
         //TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation

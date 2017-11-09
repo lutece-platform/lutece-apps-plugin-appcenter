@@ -46,7 +46,6 @@ import java.util.Map;
  */
 public class MonCompteSettingDemand extends Demand
 {
-    private String _strEnvironment;
     private String _strFavoriteName;
     private String _strFavoriteUrl;
     private String _strBackButtonName;
@@ -56,27 +55,6 @@ public class MonCompteSettingDemand extends Demand
     public static final String DEMAND_TYPE = "moncompte_settings";
 
     private static final String TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_demand_infos.html";
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment( )
-    {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment
-     *            The Environment
-     */
-    public void setEnvironment( String strEnvironment )
-    {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Returns the FavoriteName
@@ -192,5 +170,12 @@ public class MonCompteSettingDemand extends Demand
     public String getDemandType( )
     {
         return DEMAND_TYPE;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return true;
     }
 }

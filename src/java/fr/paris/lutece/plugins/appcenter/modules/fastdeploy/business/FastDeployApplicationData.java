@@ -1,12 +1,14 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * This is the business class for the object OpenamAgentData
  */ 
-public class FastDeployApplicationData {
+public class FastDeployApplicationData extends ApplicationData
+{
 	
 	
 	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationCode.notEmpty}" )

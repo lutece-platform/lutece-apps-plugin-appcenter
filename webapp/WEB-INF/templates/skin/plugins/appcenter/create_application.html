@@ -26,6 +26,14 @@
 					<small id="descriptionHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelDescription.help}</small>
 				</div>
 			</div>
+                        <div class="form-group row">
+                                <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelEnvironments} </label>
+                                <div class="col-sm-12 col-md-10 ml-auto">
+                                    <#list environments as environment>
+                                        <input type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
+                                    </#list>
+                                </div>
+			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 col-md-10 ml-auto">
 					<@button name='action_createApplication' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />

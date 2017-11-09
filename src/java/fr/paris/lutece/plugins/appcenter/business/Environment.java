@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-public enum Environment
+import java.io.Serializable;
+
+public enum Environment implements Serializable
 {
     DEV( "dev", "appcenter.environment.dev" ), FORMATION( "formation", "appcenter.environment.formation" ), INTEG( "integ", "appcenter.environment.integ" ), PREREC(
             "prerec", "appcenter.environment.prerec" ), REC( "rec", "appcenter.environment.rec" ), PREPROD( "preprod", "appcenter.environment.preprod" ), PROD(

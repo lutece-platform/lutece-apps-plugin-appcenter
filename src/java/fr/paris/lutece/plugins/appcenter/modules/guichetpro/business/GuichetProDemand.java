@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.appcenter.modules.guichetpro.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import java.util.HashMap;
@@ -47,29 +46,10 @@ public class GuichetProDemand extends Demand
     public static final String DEMAND_TYPE = "guichetpro";
     public static final String ID_DEMAND_TYPE = "guichetpro";
 
-    private String _strEnvironment;
     private String _strApplicationCode;
     private String _strGuichetProDemandType;
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment() {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment The Environment
-     */
-    public void setEnvironment(String strEnvironment) {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Get the application code
@@ -177,6 +157,13 @@ public class GuichetProDemand extends Demand
     public String getDemandType( )
     {
         return DEMAND_TYPE;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return true;
     }
 
 }

@@ -1,13 +1,14 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.jobs.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
  * This is the business class for the object JobData
  */ 
-public class JobData 
+public class JobData extends ApplicationData
 {
 
     // Constants

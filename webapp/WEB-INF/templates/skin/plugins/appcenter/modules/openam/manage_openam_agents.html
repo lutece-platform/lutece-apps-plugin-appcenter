@@ -23,7 +23,7 @@
 				<th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
 			</tr>
 			<#if data??>
-				<#list data.openamAgents as openam_agent >
+				<#list data as openam_agent >
 				<tr>
 					<input type="hidden" id="id" name="id" />
 					<td>
@@ -89,15 +89,6 @@
 									#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="public_url" name="public_url" maxlength="250" class="form-control" required />
-							</div>
-							<div class="form-group">
-								<label for="environment" class="col-form-label">
-									#i18n{module.appcenter.openam.manage_openam_agents.environment.label} <@icon style="asterisk" />
-								</label>
-								<select id="environment" name="environment" class="form-control" required>
-									<option value="${envi_rec.prefix}" >#i18n{${envi_rec.labelKey}}</option>
-									<option value="${envi_prod.prefix}" >#i18n{${envi_prod.labelKey}}</option>
-								</select>
 							</div>
 						</div>
 						<div class="modal-footer">

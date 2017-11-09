@@ -92,17 +92,11 @@ public class IdentitystoreXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_IDENTITYSTORE, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        Application application = getApplication( request );
-        IdentitystoreDatas identitystoreData = ApplicationService.loadApplicationDataSubset( application, IdentitystoreDatas.DATA_SUBSET_NAME, IdentitystoreDatas.class );
         Map<String,Attribute> mapAttributes = AttributeHome.getAttributesMap();
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, identitystoreData );
+        fillAppCenterCommons( model, request );
         model.put( MARK_ATTRIBUTES, _attributesProviderService.getListAttributes( ) );
         model.put( MARK_MAP_ATTRIBUTES, mapAttributes );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, IdentitystoreDemand.ID_DEMAND_TYPE, IdentitystoreDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_IDENTITYSTORE, request.getLocale( ), model );
     }
@@ -123,6 +117,7 @@ public class IdentitystoreXPage extends AppCenterXPage
         identitystoreDemand.setIdApplication( application.getId( ) );
 
         populate( identitystoreDemand, request );
+        populateCommonsDemand( identitystoreDemand, request );
         
         //Populate the identitystore attribute rights to the demand
         identitystoreDemand.setAttributeRights( IdentityStoreDemandService.getMapAttributeRights( request ) );
@@ -136,5 +131,29 @@ public class IdentitystoreXPage extends AppCenterXPage
         DemandService.saveDemand( identitystoreDemand, application );
 
         return redirect(request, VIEW_MANAGE_IDENTITYSTORE, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return IdentitystoreDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return IdentitystoreDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return IdentitystoreDatas.DATA_SUBSET_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return IdentitystoreDatas.class;
     }
 }

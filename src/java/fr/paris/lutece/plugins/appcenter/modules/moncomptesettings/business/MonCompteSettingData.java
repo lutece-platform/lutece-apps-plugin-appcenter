@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import java.util.ArrayList;
@@ -43,10 +44,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * MonCompteSettingsDemand
  */
-public class MonCompteSettingData
+public class MonCompteSettingData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.environment.notEmpty}" )
-    private String _strEnvironment;
     @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.favoriteName.notEmpty}" )
     private String _strFavoriteName;
     @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.favoriteUrl.notEmpty}" )
@@ -55,27 +54,6 @@ public class MonCompteSettingData
     private String _strBackButtonName;
     @NotEmpty( message = "#i18n{module.appcenter.moncomptesettings.validation.backButtonUrl.notEmpty}" )
     private String _strBackButtonUrl;
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment( )
-    {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment
-     *            The Environment
-     */
-    public void setEnvironment( String strEnvironment )
-    {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Returns the FavoriteName

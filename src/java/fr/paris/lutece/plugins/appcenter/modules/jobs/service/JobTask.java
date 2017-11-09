@@ -55,7 +55,7 @@ public class JobTask extends SimpleTask
         
         if ( jobsData == null ) jobsData = new JobsData( );
         
-        jobsData.addJob( jobData );
+        jobsData.addData( jobData );
         ApplicationService.saveApplicationData( application, jobsData );
 
         // TODO also save in history to be able to display in OpenamTaskComponent.getDisplayTaskInformation

@@ -48,7 +48,7 @@ public final class ApplicationDAO implements IApplicationDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_application";
-    private static final String SQL_QUERY_SELECT = "SELECT id_application, name, description, application_data,code FROM appcenter_application WHERE id_application = ?";
+    private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data,code ) VALUES ( ?, ?, ?, ? , ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , code = ?  WHERE id_application = ?";
@@ -59,7 +59,9 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_SELECT_AUTHORIZED = "SELECT * FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
     private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT user_role FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
-
+    private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
+    private static final String SQL_QUERY_DELETE_ENVIRONMENT = " DELETE FROM appcenter_application_environment WHERE id_application = ? ";
+    
     /**
      * Generates a new primary key
      * 
@@ -100,6 +102,18 @@ public final class ApplicationDAO implements IApplicationDAO
         
         daoUtil.executeUpdate( );
         daoUtil.free( );
+        
+        for ( Environment envi : application.getListEnvironment( ) )
+        {
+            daoUtil = new DAOUtil( SQL_QUERY_INSERT_ENVIRONMENT, plugin );
+            nIndex = 1;
+
+            daoUtil.setInt( nIndex++, application.getId( ) );
+            daoUtil.setString( nIndex++, envi.getPrefix( ) );
+
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -112,9 +126,12 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         Application application = null;
+        List<String> listEnvironmentCode = new ArrayList<>();
+        List<Environment> listEnvironment = new ArrayList<>();
 
         if ( daoUtil.next( ) )
         {
+            
             application = new Application( );
             int nIndex = 1;
 
@@ -123,9 +140,31 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode(daoUtil.getString( nIndex++ ) );
-            
+            String strEnviCode = daoUtil.getString( nIndex++ );
+            if ( strEnviCode != null )
+            {
+                listEnvironmentCode.add( strEnviCode );
+            }
+            while ( daoUtil.next( ) )
+            {
+                strEnviCode = daoUtil.getString( 6 );
+                if ( strEnviCode != null )
+                {
+                    listEnvironmentCode.add( strEnviCode );
+                }
+            }
+            for ( String enviCode : listEnvironmentCode )
+            {
+                Environment envi = Environment.getEnvironment( enviCode );
+                if ( envi != null )
+                {
+                    listEnvironment.add( envi );
+                }
+            }
+            application.setListEnvironment( listEnvironment );
         }
-
+        
+        
         daoUtil.free( );
         return application;
     }
@@ -165,6 +204,26 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
+        
+        //Delete the environments for the application
+        daoUtil = new DAOUtil( SQL_QUERY_DELETE_ENVIRONMENT, plugin );
+        daoUtil.setInt( 1, application.getId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+        
+        //Add the environments modified
+        for ( Environment envi : application.getListEnvironment( ) )
+        {
+            daoUtil = new DAOUtil( SQL_QUERY_INSERT_ENVIRONMENT, plugin );
+            nIndex = 1;
+
+            daoUtil.setInt( nIndex++, application.getId( ) );
+            daoUtil.setString( nIndex++, envi.getPrefix( ) );
+
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
+        
     }
 
     /**

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.openam.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import java.util.ArrayList;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
@@ -40,7 +41,7 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 /**
  * OpenamAgentsData Data Subset
  */
-public class OpenamAgentsData implements DataSubset
+public class OpenamAgentsData extends ApplicationDatas<OpenamAgentData> implements DataSubset
 {
     public static final String DATA_OPENAM_AGENTS_NAME = "openamagents";
     public static final String DEMAND_TYPE_KEY = "openamagent";
@@ -57,26 +58,4 @@ public class OpenamAgentsData implements DataSubset
     {
         return DATA_OPENAM_AGENTS_NAME;
     }
-
-    /**
-     * Returns the OpenamAgentData
-     *
-     * @return The OpenamAgentData
-     */
-    public List<OpenamAgentData> getOpenamAgents( )
-    {
-        return _listOpenamAgents;
-    }
-
-    /**
-     * Sets the OpenamAgentData
-     *
-     * @param agent
-     * 
-     */
-    public void addAgent( OpenamAgentData agent )
-    {
-        _listOpenamAgents.add( agent );
-    }
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2014, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,35 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.sources.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * Sources Data Subset
- */
-public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataSubset
+
+public class ApplicationData
 {
-    public static final String DATA_SOURCES_NAME = "sources";
-    public static final String DEMAND_TYPE_KEY = "source";
-
-    private String _strSiteRepository;
+    
+    
+    private String _strEnvironment;
 
     /**
-     * {@inheritDoc }
-     * 
-     * @return
+     * Return the environment of the application Data
+     * @return the envi of the application Data
      */
-    @Override
-    public String getName( )
+    public String getEnvironment()
     {
-        return DATA_SOURCES_NAME;
+        return _strEnvironment;
     }
 
     /**
-     * Get the site repository
-     * @return the site repository
+     * Set the environment of the application Data
+     * @param strEnvironment the environment
      */
-    public String getSiteRepository()
+    public void setEnvironment( String strEnvironment )
     {
-        return _strSiteRepository;
+        _strEnvironment = strEnvironment;
     }
-
-    /**
-     * Set the site repository
-     * @param strSiteRepository the site repository 
-     */
-    public void setSiteRepository( String strSiteRepository )
-    {
-        _strSiteRepository = strSiteRepository;
-    }    
+    
+    
+    
 }

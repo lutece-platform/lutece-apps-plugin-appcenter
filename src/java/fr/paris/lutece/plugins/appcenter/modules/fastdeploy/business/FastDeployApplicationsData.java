@@ -33,19 +33,17 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
  * OpenamAgentsData Data Subset
  */
-public class FastDeployApplicationsData implements DataSubset
+public class FastDeployApplicationsData extends ApplicationDatas<FastDeployApplicationData> implements DataSubset
 {
     public static final String DATA_FASTDEPLOY_APPLICATIONS_NAME = "fastdeployapplications";
     public static final String DEMAND_TYPE_KEY = "fastdeployapplication";
-
-    private List<FastDeployApplicationData> _listFastDeployApplications = new ArrayList<FastDeployApplicationData>( );
 
     /**
      * {@inheritDoc }
@@ -57,26 +55,4 @@ public class FastDeployApplicationsData implements DataSubset
     {
         return DATA_FASTDEPLOY_APPLICATIONS_NAME;
     }
-
-    /**
-     * Returns the OpenamAgentData
-     *
-     * @return The OpenamAgentData
-     */
-    public List<FastDeployApplicationData> getApplications( )
-    {
-        return _listFastDeployApplications;
-    }
-
-    /**
-     * Sets the OpenamAgentData
-     *
-     * @param agent
-     * 
-     */
-    public void addApplication( FastDeployApplicationData agent )
-    {
-        _listFastDeployApplications.add( agent );
-    }
-
 }

@@ -85,27 +85,15 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        FastDeployApplicationsData dataSubset = ApplicationService.loadApplicationDataSubset( application, FastDeployApplicationsData.DATA_FASTDEPLOY_APPLICATIONS_NAME,
-                FastDeployApplicationsData.class );
-
-        
-       SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-
-       String strDefaultUrlSite= sourcesData!=null?sourcesData.getSiteRepository( ):null;
-       
        ReferenceList refServices=DatastoreService.getDataByPrefix( DATA_PREFIX_FAST_DEPLOY_SERVICES );
         
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, dataSubset );
+        fillAppCenterCommons( model, request );
+        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( (Application)model.get( Constants.MARK_APPLICATION ), SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
+        String strDefaultUrlSite= sourcesData!=null?sourcesData.getSiteRepository( ):null;
+
         model.put( MARK_DEFAULT_URL_SITE, strDefaultUrlSite );
         model.put( MARK_SERVICES, refServices );
-        
-        
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, FastDeployApplicationDemand.ID_DEMAND_TYPE, FastDeployApplicationDemand.class );
 
         return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
     }
@@ -120,6 +108,7 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
         fastDeployApplicationDemand.setIdApplication( application.getId( ) );
 
         populate( fastDeployApplicationDemand, request );
+        populateCommonsDemand( fastDeployApplicationDemand, request );
 
         // Check constraints
         if ( !validateBean( fastDeployApplicationDemand, getLocale( request ) ) )
@@ -130,6 +119,30 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
         DemandService.saveDemand( fastDeployApplicationDemand, application );
 
         return redirect(request, VIEW_MANAGE_APPLICATIONS, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return FastDeployApplicationDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return FastDeployApplicationDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return FastDeployApplicationsData.DATA_FASTDEPLOY_APPLICATIONS_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return FastDeployApplicationsData.class;
     }
 
 }

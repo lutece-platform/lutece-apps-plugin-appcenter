@@ -33,42 +33,20 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.identitystore.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import java.util.Map;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * MonCompteSettingsDemand
  */
-public class IdentitystoreData
+public class IdentitystoreData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.environment.notEmpty}" )
-    private String _strEnvironment;
     @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.favoriteName.notEmpty}" )
     private String _strApplicationCode;
     private Map<String,AttributeRight> _mapAttributeRights;
     private String _strApiManagerSecurityKey;
 
-
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment( )
-    {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment
-     *            The Environment
-     */
-    public void setEnvironment( String strEnvironment )
-    {
-        _strEnvironment = strEnvironment;
-    }
 
     /**
      * Get the application code

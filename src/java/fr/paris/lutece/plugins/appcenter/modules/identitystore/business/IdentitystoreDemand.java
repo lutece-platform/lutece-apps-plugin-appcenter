@@ -47,8 +47,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class IdentitystoreDemand extends Demand
 {
     @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.environment.notEmpty}" )
-    private String _strEnvironment;
-    @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.favoriteName.notEmpty}" )
     private String _strApplicationCode;
     private Map<String,AttributeRight> _mapAttributeRights;
 
@@ -60,27 +58,6 @@ public class IdentitystoreDemand extends Demand
     //Markers
     private static final String MARK_MAP_ATTRIBUTES = "mapAttributes";
     
-    /**
-     * Returns the Environment
-     *
-     * @return The Environment
-     */
-    public String getEnvironment( )
-    {
-        return _strEnvironment;
-    }
-
-    /**
-     * Sets the Environment
-     *
-     * @param strEnvironment
-     *            The Environment
-     */
-    public void setEnvironment( String strEnvironment )
-    {
-        _strEnvironment = strEnvironment;
-    }
-
     /**
      * Get the application code
      * @return the application code
@@ -152,5 +129,12 @@ public class IdentitystoreDemand extends Demand
     public String getDemandType( )
     {
         return DEMAND_TYPE;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return true;
     }
 }

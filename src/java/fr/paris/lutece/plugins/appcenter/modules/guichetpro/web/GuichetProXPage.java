@@ -64,8 +64,6 @@ import java.util.Arrays;
 @Controller( xpageName = "guichetpro", pageTitleI18nKey = "appcenter.xpage.guichetpro.pageTitle", pagePathI18nKey = "appcenter.xpage.guichetpro.pagePathLabel" )
 public class GuichetProXPage extends AppCenterXPage
 {
-    private static final String MARK_ENVIRONMENT = "environment";
-
     // Templates
     private static final String TEMPLATE_MANAGE_GUICHET_PRO = "/skin/plugins/appcenter/modules/guichetpro/manage_guichetpro.html";
 
@@ -82,16 +80,8 @@ public class GuichetProXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_GUICHET_PRO_DEMANDS, defaultView = true )
     public XPage getManageNtoficiationGuichetProDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        GuichetProDatas guichetproData = ApplicationService.loadApplicationDataSubset( application, GuichetProDatas.DATA_GUICHET_PRO_NAME, GuichetProDatas.class );
-
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, guichetproData );
-        model.put( MARK_ENVIRONMENT, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "prefix", false ) );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, GuichetProDemand.ID_DEMAND_TYPE, GuichetProDemand.class );
+        fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_GUICHET_PRO, request.getLocale( ), model );
     }
@@ -112,6 +102,7 @@ public class GuichetProXPage extends AppCenterXPage
         guichetProDemand.setIdApplication( application.getId( ) );
 
         populate( guichetProDemand, request );
+        populateCommonsDemand( guichetProDemand, request );
         
         // Check constraints
         if ( !validateBean( guichetProDemand, getLocale( request ) ) )
@@ -122,5 +113,29 @@ public class GuichetProXPage extends AppCenterXPage
         DemandService.saveDemand( guichetProDemand, application );
 
         return redirect(request, VIEW_MANAGE_GUICHET_PRO_DEMANDS, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return GuichetProDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return GuichetProDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return GuichetProDatas.DATA_GUICHET_PRO_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return GuichetProDatas.class;
     }
 }

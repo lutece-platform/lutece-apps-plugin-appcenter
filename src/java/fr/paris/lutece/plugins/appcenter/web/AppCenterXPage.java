@@ -37,11 +37,15 @@ package fr.paris.lutece.plugins.appcenter.web;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.Environment;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
@@ -56,21 +60,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * Parent
  *
  */
-public class AppCenterXPage extends MVCApplication
+public abstract class AppCenterXPage extends MVCApplication
 {
     private static final String ERROR_APP_NOT_FOUND = "appcenter.error.applicationNotFound";
     private static final String ERROR_USER_NOT_AUTHORIZED = "appcenter.error.userNotAuthorized";
     private static final String ERROR_INVALID_APP_ID = "appcenter.error.invalidAppId";
+    
+    private static final String MARK_ENVIRONMENTS = "environments";
+    private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
+    private static final String MARK_APPLICATION = "application";
+    
+    //Session
+    private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
 
     private static final long serialVersionUID = -490960650523760757L;
-
+    
+    
     /**
      * Get the current application
      * 
@@ -137,6 +152,10 @@ public class AppCenterXPage extends MVCApplication
             Class<T> demandClass )
     {
         List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType, demandClass );
+        
+        //Filter the list of demand by environment if the demand has one
+        listDemand.stream().filter( demand -> demand.getEnvironment() != null );
+        
         model.put( Constants.MARK_DEMANDS, listDemand );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( strDemandType );
         Map<String, Object> mapStates = new HashMap<>( );
@@ -165,5 +184,83 @@ public class AppCenterXPage extends MVCApplication
     {
         return I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault( ) );
     }
+    
+    @Override
+    protected void fillCommons( Map<String,Object> model )
+    {
+        super.fillCommons( model );
+        model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
+    }
+    
+    protected void populateCommonsDemand( Object object, HttpServletRequest request )
+    {
+        Demand demand = (Demand)object;
+        if ( demand.isDependingOfEnvironment() )
+        {
+            //Get the active environment in session
+            HttpSession session = request.getSession( true );
+            Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+            if ( environment != null )
+            {
+                demand.setEnvironment( Environment.getEnvironment( environment.getPrefix( ) ) );
+            }
+        }
+    }
+    
+    
+    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
+    {
+        //Fill the active environment if it is stored in session
+        HttpSession session = request.getSession( true );
+        Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+        if ( environment != null )
+        {
+            model.put( MARK_ACTIVE_ENVIRONMENT, environment );
+        }
+        
+        //Fill with application
+        Application application = getApplication( request );
+        model.put( MARK_APPLICATION, application );
+        
+        //Add the demands
+        addListDemand( request, application, model, getDemandType( ), getDemandClass( ) );
+        
+        //Add the application Datas relative to the demand type
+        addDatas( request, application, model ,getDatasName(), getDatasClass() );
+        
+        //Add the user
+        model.put( Constants.MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
 
+    }
+    
+    protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )
+    {
+        ApplicationDatas applicationDatas = (ApplicationDatas)ApplicationService.loadApplicationDataSubset( application, strDatasName, datasClass );
+        List<ApplicationData> listFilteredApplicationData = new ArrayList<>( );
+        HttpSession session = request.getSession( true );
+        Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+        if ( environment != null && applicationDatas != null )
+        {
+            for ( T appData : (List<T>)applicationDatas.getListData( ) )
+            {
+                if ( appData.getEnvironment( ).equals( environment.getPrefix( ) ) )
+                {
+                    listFilteredApplicationData.add( appData );
+                }
+            }
+            model.put( Constants.MARK_DATA, listFilteredApplicationData );
+        }
+        else if ( applicationDatas != null )
+        {
+           model.put( Constants.MARK_DATA,( List<T>)applicationDatas.getListData() ); 
+        }
+        model.put( Constants.MARK_DATAS, applicationDatas );
+        
+    }
+    
+    protected abstract String getDemandType( );
+    protected abstract Class getDemandClass( );
+    protected abstract String getDatasName( );
+    protected abstract Class getDatasClass( );
+    
 }

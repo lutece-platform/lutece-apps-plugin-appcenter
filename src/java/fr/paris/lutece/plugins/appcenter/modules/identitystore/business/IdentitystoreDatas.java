@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.identitystore.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 import java.util.ArrayList;
@@ -40,11 +41,9 @@ import java.util.ArrayList;
 /**
  * Sources Data Subset
  */
-public class IdentitystoreDatas implements DataSubset
+public class IdentitystoreDatas extends ApplicationDatas<IdentitystoreData> implements DataSubset
 {
     public static final String DATA_SUBSET_NAME = "identitystore";
-
-    private List<IdentitystoreData> _listSettings = new ArrayList<IdentitystoreData>( );
 
     /**
      * {@inheritDoc }
@@ -55,26 +54,5 @@ public class IdentitystoreDatas implements DataSubset
     public String getName( )
     {
         return DATA_SUBSET_NAME;
-    }
-
-    /**
-     * Returns the Demands
-     *
-     * @return The Demands
-     */
-    public List getSettings( )
-    {
-        return _listSettings;
-    }
-
-    /**
-     * Add a EnvConfig in the ListEnvConfigs
-     *
-     * @param setting
-     *            The EnvConfig
-     */
-    public void addSetting( IdentitystoreData setting )
-    {
-        _listSettings.add( setting );
     }
 }

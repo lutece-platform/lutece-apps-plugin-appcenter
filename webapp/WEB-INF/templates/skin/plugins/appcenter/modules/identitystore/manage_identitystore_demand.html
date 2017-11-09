@@ -26,7 +26,7 @@
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnBeanSpring}</th>
 		</tr>
 		<#if data??>
-			<#list data.settings as setting >
+			<#list data as setting >
                             <tr>
                                 <input type="hidden" id="id" name="id" />
                                 <td>
@@ -109,10 +109,6 @@
                                         <input type="hidden" name="id" value="${application.id}" />
                                         <input type="hidden" name="action" value="addIdentitystoreDemand" />
                                             <div class="modal-body">
-						<div class="form-group">
-							<label for="environment" class="col-form-label">#i18n{module.appcenter.identitystore.create_identitystore.labelEnvironment}</label>
-							<@select name='environment' id='environment' items=environment default_value='' />
-						</div>
 						<div class="form-group">
 							<label for="application_code" class="col-form-label">#i18n{module.appcenter.identitystore.create_identitystore.labelApplicationCode}</label>
 							<input type="text" id="applicationCode" name="applicationCode" maxlength="250" class="form-control" />

@@ -55,7 +55,7 @@ public class SourcesTask extends SimpleTask
         {
             sourcesDatas = new SourcesDatas( );
         }
-        sourcesDatas.addSourceData( sourcesData );
+        sourcesDatas.addData(sourcesData );
         ApplicationService.saveApplicationData( application, sourcesDatas );
     }
 

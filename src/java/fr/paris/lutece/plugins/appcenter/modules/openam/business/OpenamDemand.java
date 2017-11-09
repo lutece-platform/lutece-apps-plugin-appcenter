@@ -31,7 +31,6 @@ public class OpenamDemand extends Demand
     @NotEmpty( message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.notEmpty}" )
     @Size( max = 50, message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.size}" )
     private String _strPublicUrl;
-    private String _strEnvironment;
 
     public String getApplicationCode( )
     {
@@ -61,16 +60,6 @@ public class OpenamDemand extends Demand
     public void setPublicUrl( String strPublicUrl )
     {
         _strPublicUrl = strPublicUrl;
-    }
-
-    public String getEnvironment( )
-    {
-        return _strEnvironment;
-    }
-
-    public void setEnvironment( String strEnvironment )
-    {
-        _strEnvironment = strEnvironment;
     }
 
     @Override
@@ -103,6 +92,13 @@ public class OpenamDemand extends Demand
     public String getDemandType( )
     {
         return DEMAND_TYPE;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isDependingOfEnvironment()
+    {
+        return true;
     }
 
 }

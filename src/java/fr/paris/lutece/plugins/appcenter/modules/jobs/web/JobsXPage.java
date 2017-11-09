@@ -74,16 +74,8 @@ public class JobsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_JOBS, defaultView = true )
     public XPage getManageJobs( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
-        Application application = getApplication( request );
-        JobsData dataSubset = ApplicationService.loadApplicationDataSubset( application, JobsData.DATA_JOBS_NAME ,
-                JobsData.class );
-
         Map<String, Object> model = getModel( );
-        model.put( Constants.MARK_APPLICATION, application );
-        model.put( Constants.MARK_DATA, dataSubset );
-        model.put( MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
-        addListDemand( request, application, model, JobDemand.ID_DEMAND_TYPE, JobDemand.class );
+        fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_JOBS , request.getLocale( ), model );
     }
@@ -98,6 +90,7 @@ public class JobsXPage extends AppCenterXPage
         jobDemand.setIdApplication( application.getId( ) );
 
         populate( jobDemand, request );
+        populateCommonsDemand( jobDemand, request);
         
         // Check constraints
         if ( !validateBean( jobDemand, getLocale( request ) ) )
@@ -112,6 +105,30 @@ public class JobsXPage extends AppCenterXPage
         DemandService.saveDemand( jobDemand, application );
 
         return redirect(request, VIEW_MANAGE_JOBS, Constants.PARAM_ID_APPLICATION, nId );
+    }
+
+    @Override
+    protected String getDemandType()
+    {
+        return JobDemand.DEMAND_TYPE;
+    }
+
+    @Override
+    protected Class getDemandClass()
+    {
+        return JobDemand.class;
+    }
+
+    @Override
+    protected String getDatasName()
+    {
+        return JobsData.DATA_JOBS_NAME;
+    }
+
+    @Override
+    protected Class getDatasClass()
+    {
+        return JobsData.class;
     }
 
 }

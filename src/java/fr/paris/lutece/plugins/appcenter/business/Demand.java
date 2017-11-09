@@ -37,6 +37,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.ResourceHistoryService;
@@ -54,6 +55,8 @@ public class Demand implements Serializable
     // Variables declarations
     @JsonIgnore
     private int _nId;
+    
+    private Environment _environment;
 
     @JsonIgnore
     private String _strStatusText;
@@ -99,6 +102,26 @@ public class Demand implements Serializable
     {
         _nId = nId;
     }
+
+    /**
+     * Get the environment
+     * @return the environment of the demand
+     */
+    public Environment getEnvironment()
+    {
+        return _environment;
+    }
+
+    /**
+     * Set the environment of the demand
+     * @param environment the environment of the demand
+     */
+    public void setEnvironment( Environment environment )
+    {
+        _environment = environment;
+    }
+    
+    
 
     /**
      * Returns the StatusText
@@ -246,6 +269,7 @@ public class Demand implements Serializable
      * Get the last update of the demand, base on workflow actions
      * @return the date of the last workflow update
      */
+    @JsonIgnore
     public Timestamp getLastUpdate( )
     {
         ResourceHistoryService resourceHistoryService = SpringContextService.getBean( "workflow.resourceHistoryService") ;
@@ -261,5 +285,9 @@ public class Demand implements Serializable
         return getCreationDate( );
     }
 
-    
+    @JsonIgnore
+    public boolean isDependingOfEnvironment( )
+    {
+        return false;
+    }
 }
