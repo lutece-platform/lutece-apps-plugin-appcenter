@@ -17,6 +17,7 @@
             <th>#i18n{module.appcenter.openam.taskForm.tabHeader.applicationWebappName}</th>
             <th>#i18n{module.appcenter.openam.taskForm.tabHeader.publicUrl}</th>
             <th>#i18n{module.appcenter.openam.taskForm.tabHeader.environment}</th>
+            <th>#i18n{module.appcenter.openam.taskForm.tabHeader.g98SettingNeeded}</th>
         </tr>
         <@tableHeadBodySeparator />
            <tr>
@@ -33,6 +34,9 @@
 	   
 	            <td>
 	               ${demand.environment}
+	            </td>
+	            <td>
+	               ${demand.g98SettingNeeded?then('Oui','Non')}
 	            </td>
 	        </tr>
 	     
@@ -55,4 +59,6 @@
 <@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl}' helpKey='#i18n{module.appcenter.openam.taskForm.labelAgentUrl.help}' >
 	<@input type='text' name='agent_url' value="${defaultAgentUrl!''}" />
 </@formGroup>
-
+<@formGroup labelKey='#i18n{module.appcenter.openam.taskForm.labelG98SettingNeeded}' helpKey='#i18n{module.appcenter.openam.taskForm.labelG98SettingNeeded.help}' >
+	<@checkBox name='g98_setting_needed' checked=demand.g98SettingNeeded />
+</@formGroup>

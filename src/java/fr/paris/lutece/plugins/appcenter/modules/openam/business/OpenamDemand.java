@@ -31,6 +31,7 @@ public class OpenamDemand extends Demand
     @NotEmpty( message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.notEmpty}" )
     @Size( max = 50, message = "#i18n{module.appcenter.openam.validation.openamagent.publicurl.size}" )
     private String _strPublicUrl;
+    private boolean _bG98SettingNeeded;
 
     public String getApplicationCode( )
     {
@@ -60,6 +61,27 @@ public class OpenamDemand extends Demand
     public void setPublicUrl( String strPublicUrl )
     {
         _strPublicUrl = strPublicUrl;
+    }
+
+    /**
+     * Returns a boolean describing whether a G98 setting is needed or not
+     *
+     * @return True if a G98 setting is needed
+     */
+    public boolean getG98SettingNeeded( )
+    {
+        return _bG98SettingNeeded;
+    }
+
+    /**
+     * Sets a boolean describing whether a G98 setting is needed or not
+     *
+     * @param bG98SettingNeeded
+     *            True if a G98 setting is needed
+     */
+    public void setG98SettingNeeded( boolean bG98SettingNeeded )
+    {
+        _bG98SettingNeeded = bG98SettingNeeded;
     }
 
     @Override

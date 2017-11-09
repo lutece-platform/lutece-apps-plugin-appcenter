@@ -20,6 +20,7 @@ public class OpenamAgentData extends ApplicationData {
 	private String _strServerUrl;
 	 @NotEmpty( message = "#i18n{module.appcenter.openam.validation.agentUrl.notEmpty}" )
 	private String _strAgentUrl;
+        private boolean _bG98SettingNeeded;
 
 	/**
 	 * 
@@ -79,5 +80,25 @@ public class OpenamAgentData extends ApplicationData {
 	public void setAgentUrl(String _strAgentUrl) {
 		this._strAgentUrl = _strAgentUrl;
 	}
-}
 
+    /**
+     * Returns a boolean describing whether a G98 setting is needed or not
+     *
+     * @return True if a G98 setting is needed
+     */
+    public boolean getG98SettingNeeded( )
+    {
+        return _bG98SettingNeeded;
+    }
+
+    /**
+     * Sets a boolean describing whether a G98 setting is needed or not
+     *
+     * @param bG98SettingNeeded
+     *            True if a G98 setting is needed
+     */
+    public void setG98SettingNeeded( boolean bG98SettingNeeded )
+    {
+        _bG98SettingNeeded = bG98SettingNeeded;
+    }
+}
