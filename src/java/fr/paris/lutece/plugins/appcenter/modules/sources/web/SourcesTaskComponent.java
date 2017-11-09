@@ -65,8 +65,8 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
     {
         SourcesData sourcesData = new SourcesData( );
         BeanUtil.populate( sourcesData, request );
-
-
+        
+        
         //FIXME return real error message here
         
         Set<ConstraintViolation<SourcesData>> errors = BeanValidationUtil.validate( sourcesData );
@@ -88,7 +88,7 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
     public String getDisplayTaskInformation( int nIdHistory, HttpServletRequest request, Locale locale, ITask task )
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdHistory );
-        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
+        SourcesDemand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ),SourcesDemand.class );
         // FIXME Load datasubset associated with this demand
 
         Map<String, Object> model = new HashMap<String, Object>( );

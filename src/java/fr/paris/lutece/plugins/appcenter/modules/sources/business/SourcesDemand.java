@@ -33,85 +33,37 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+
 public class SourcesDemand extends Demand
 {
-    private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/sources/sources_demand_infos.html";
+    
+    
+    
     public static final String DEMAND_TYPE = "sources";
     public static final String ID_DEMAND_TYPE = "sources";
-
-    private String _strUserName;
-    private String _strEmail;
-    private String _strSiteRepository;
-
-    /**
-     * get the user name
-     * 
-     * @return the user name
-     */
-    @JsonProperty
-    public String getUserName( )
-    {
-        return _strUserName;
-    }
-
-    /**
-     * Set the user name
-     * 
-     * @param strUserName
-     *            the username
-     */
-    public void setUserName( String strUserName )
-    {
-        _strUserName = strUserName;
-    }
-
-    /**
-     * Get the email
-     * 
-     * @return the email
-     */
-    public String getEmail( )
-    {
-        return _strEmail;
-    }
-
-    /**
-     * Set the email
-     * 
-     * @param strEmail
-     */
-    public void setEmail( String strEmail )
-    {
-        _strEmail = strEmail;
-    }
-
-    /**
-     * Get the SiteRepository
-     * @return the site repository
-     */
-    public String getSiteRepository()
-    {
-        return _strSiteRepository;
-    }
-
-    /**
-     * Set the SiteRepository
-     * @param strSiteRepository the SiteRepository 
-     */
-    public void setSiteRepository( String strSiteRepository )
-    {
-        _strSiteRepository = strSiteRepository;
-    }
     
+    private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/sources/sources_demand_infos.html";
+    @NotEmpty( message = "#i18n{module.appcenter.sources.validation.repositoryType.notEmpty}" )
+    private String _strRepositoryType;
+    @NotEmpty( message = "#i18n{module.appcenter.sources.validation.repositoryName.notEmpty}" )
+    private String _strRepositoryName;
+    @NotEmpty( message = "#i18n{module.appcenter.sources.validation.publicRepository.notEmpty}" )
+    private boolean _bPublicRepository;
+    private String _strCategory;
+    private List<SourceUserDemand> _listSourceUserDemand;
     
+     
     /**
      * {@inheritDoc}
      */
@@ -152,6 +104,57 @@ public class SourcesDemand extends Demand
     public boolean isDependingOfEnvironment()
     {
         return false;
+    }
+
+    public String getRepositoryType( )
+    {
+        return _strRepositoryType;
+    }
+
+    public void setRepositoryType( String _strRepositoryType )
+    {
+        this._strRepositoryType = _strRepositoryType;
+    }
+
+    public String getRepositoryName( )
+    {
+        return _strRepositoryName;
+    }
+
+    public void setRepositoryName( String _strRepositoryName )
+    {
+        this._strRepositoryName = _strRepositoryName;
+    }
+
+    public boolean isPublicRepository( )
+    {
+        return _bPublicRepository;
+    }
+
+    public void setPublicRepository( boolean bPublicRepository )
+    {
+        this._bPublicRepository = bPublicRepository;
+    }
+
+    public String getCategory( )
+    {
+        return _strCategory;
+    }
+
+    public void setCategory( String _strCategory )
+    {
+        this._strCategory = _strCategory;
+    }
+
+    public List<SourceUserDemand> getListSourceUserDemand( )
+    {
+        return _listSourceUserDemand;
+    }
+
+    public void setListSourceUserDemand( List<SourceUserDemand> _listSourceUserDemand )
+    {
+        this._listSourceUserDemand = _listSourceUserDemand;
+
     }
 
 }

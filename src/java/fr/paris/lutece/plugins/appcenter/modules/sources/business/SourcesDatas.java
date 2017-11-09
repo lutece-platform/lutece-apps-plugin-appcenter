@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
@@ -44,7 +47,9 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
     public static final String DATA_SOURCES_NAME = "sources";
     public static final String DEMAND_TYPE_KEY = "source";
 
-    private String _strSiteRepository;
+
+ 
+    private List<SourcesData> _listSourcesDatas = new ArrayList<SourcesData>( );
 
     /**
      * {@inheritDoc }
@@ -57,21 +62,27 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
         return DATA_SOURCES_NAME;
     }
 
+  
+
     /**
-     * Get the site repository
-     * @return the site repository
+     * Returns the SourcesDatas
+     *
+     * @return The SourcesDatas
      */
-    public String getSiteRepository()
+    public List<SourcesData> getSourcesDatas( )
     {
-        return _strSiteRepository;
+        return _listSourcesDatas;
     }
 
     /**
-     * Set the site repository
-     * @param strSiteRepository the site repository 
+     * Sets the SourcesData
+     *
+     * @param sourcesData
+     * 
      */
-    public void setSiteRepository( String strSiteRepository )
+    public void addSourceData( SourcesData sourcesData )
     {
-        _strSiteRepository = strSiteRepository;
-    }    
+        _listSourcesDatas.add( sourcesData );
+    }
+
 }

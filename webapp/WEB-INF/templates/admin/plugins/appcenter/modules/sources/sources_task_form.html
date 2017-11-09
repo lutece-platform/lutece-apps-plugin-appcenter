@@ -1,10 +1,54 @@
+  
+<div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{module.appcenter.sources.taskForm.tabHeader.repositoryName}</th>
+            <th>#i18n{module.appcenter.sources.taskForm.tabHeader.repositoryType}</th>
+            <th>#i18n{module.appcenter.sources.taskForm.tabHeader.publicRepository}</th>
+            <th>#i18n{module.appcenter.sources.taskForm.tabHeader.users}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+           <tr>
+	            <input type="hidden" id="id" name="id"/>
+	            <td>
+	               ${demand.repositoryName!}
+	            </td>
+	            <td>
+	              ${demand.repositoryType!}
+	            </td>
+	            <td>
+	                ${demand.publicRepository?string("Oui", "Non")}
+	            </td>
+	   
+	            <td>
+	               <#if demand.listSourceUserDemand??>
+			     		<#list demand.listSourceUserDemand as user_repo>
+				     		${user_repo.userName!}:${user_repo.email!}</br>
+				   		  </#list>
+				    </#if>
+	            </td>
+	        </tr>
+	     
+    </@table>
+
 <@messages errors=errors />
-<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelSiteRepository}' helpKey='#i18n{module.appcenter.sources.taskForm.labelSiteRepository.help}' >
-	<@input type='text' name='site_repository' value="${demand.siteRepository!''}" />
+<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUrl}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUrl.help}' >
+	<@input type='text' name='repository_url' value="" />
 </@formGroup>
-<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelUsername}' helpKey='#i18n{module.appcenter.sources.taskForm.labelUsername.help}' >
-	<@input type='text' name='username' value="${demand.userName!''}" />
+<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryType}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryType.help}' >
+	<@input type='text' name='repository_type' value="${demand.repositoryType!}" />
+</@formGroup>	
+<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryName}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryName.help}' >
+		<@input type='text' name='repository_name' value="${demand.repositoryName!}" />
+	
 </@formGroup>
-<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelEmail}' helpKey='#i18n{module.appcenter.sources.taskForm.labelEmail.help}' >
-	<@input type='text' name='email' value="${demand.email!''}" />
+<@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUsers}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUsers.help}' >
+	
+<#if demand.listSourceUserDemand??>
+   		<#list demand.listSourceUserDemand as user_repo>
+   	 	<input type="checkBox" name="${user_repo.userName!}" checked value="${user_repo.userName!}" >${user_repo.userName!}:${user_repo.email!}</br>
+  		 </#list>
+   </#if>
 </@formGroup>
+
