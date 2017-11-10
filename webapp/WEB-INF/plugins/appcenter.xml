@@ -74,6 +74,10 @@
             <application-id>guichetpro</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.guichetpro.web.GuichetProXPage</application-class>
         </application>
+          <application>
+            <application-id>appcode</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.modules.appcode.web.AppCodeXPage</application-class>
+        </application>
     </applications>
 
     <!-- Portlet parameters -->

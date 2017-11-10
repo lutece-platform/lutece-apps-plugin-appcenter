@@ -6,7 +6,8 @@ INSERT INTO workflow_workflow VALUES
 (500,'Workflow des demandes de configuration IdentityStore','Workflow des demandes de paramétrages IdentityStore','2017-08-16 12:38:32',1,'all'),
 (600,'Workflow des demandes d\'ajout d\'application FastDeploy','Workflow des demandes d\'ajout d\'application FastDeploy','2017-08-16 12:38:32',1,'all'),
 (700,'Workflow des demandes d''intégration continue','Workflow des demandes d''intégration continue','2017-11-07 12:38:32',1,'all'),
-(800,'Workflow des demandes de configuration de la notification vers le guichet pro','Workflow des demandes de configuration de la notification vers le guichet pro','2017-11-07 12:38:32',1,'all');
+(800,'Workflow des demandes de configuration de la notification vers le guichet pro','Workflow des demandes de configuration de la notification vers le guichet pro','2017-11-07 12:38:32',1,'all'),
+(900,'Workflow des demandes de code applicatif','Workflow des demandes de code applicatif','2017-11-07 12:38:32',1,'all');
 
 
 INSERT INTO workflow_state VALUES 
@@ -40,7 +41,11 @@ INSERT INTO workflow_state VALUES
 
 (800,'Initialisée','Demande initialisée',800,1,0,NULL,1),
 (801,'En cours','Demande en cours',800,0,0,NULL,2),
-(802,'Close','Demande close',800,0,0,NULL,3);
+(802,'Close','Demande close',800,0,0,NULL,3),
+
+(900,'Initialisée','Demande initialisée',900,1,0,NULL,1),
+(901,'En cours','Demande en cours',900,0,0,NULL,2),
+(902,'Close','Demande close',900,0,0,NULL,3);
 
 INSERT INTO workflow_action VALUES 
 (100,'Creation de la demande de création d\'un référentiel','Creation de la demande de création d\'un référentiel',100,100,101,3,1,0,1,0),
@@ -51,6 +56,7 @@ INSERT INTO workflow_action VALUES
 (600,'Creation de la demande d\'application FastDeploy','Creation de la demande d\'application FastDeploy',600,600,601,3,1,0,1,0),
 (700,'Creation de la demande d''intégration continue','Creation de la demande d''intégration continue',700,700,701,3,1,0,1,0),
 (800,'Creation de la demande de configuration de la notification vers le guichet profesionnel','Creation de la demande de configuration de la notification vers le guichet professionnel',800,800,801,3,1,0,1,0),
+(900,'Creation de la demande de code applicatif','Creation de la demande de code applicatif',900,900,901,3,1,0,1,0),
 
 (101,'Traiter la demande de création d\'un référentiel','Traiter la demande de création d\'un réfrérentiel',100,101,102,3,0,0,2,0),
 (201,'Traiter la demande de configuration de l\'authentification front office','Traiter la demande de configuration de l\'authentification front office',200,201,202,3,0,0,2,0),
@@ -59,7 +65,8 @@ INSERT INTO workflow_action VALUES
 (501,'Traiter la demande de paramétrage IdentityStore','Traiter la demande de paramétrage IdentityStore',500,501,502,3,0,0,2,0),
 (601,'Traiter la demande de creation d\'une application FastDeploy','Traiter la demande de creation d\'une application FastDeploy',600,601,602,3,0,0,2,0),
 (701,'Traiter la demande de paramétrage d''intégration continue','Traiter la demande de paramétrage d''intégration continue',700,701,702,3,0,0,2,0),
-(801,'Traiter la demande de configuration de la notification vers le guichet professionnel','Traiter la demande de configuration de la notification vers le guichet professionnel',800,801,802,3,0,0,2,0);
+(801,'Traiter la demande de configuration de la notification vers le guichet professionnel','Traiter la demande de configuration de la notification vers le guichet professionnel',800,801,802,3,0,0,2,0),
+(901,'Traiter la demande de code applicatif','Traiter la demande de code applicatif',900,901,902,3,0,0,2,0);
 
 
 INSERT INTO workflow_task VALUES
@@ -92,7 +99,11 @@ INSERT INTO workflow_task VALUES
 (27,'taskCustomDemandStatus',800,2),
 (28,'taskGuichetPro',801,1),
 (29,'taskCustomDemandStatus',801,2),
-(30,'taskCloseDemand',801,3);
+(30,'taskCloseDemand',801,3),
+(31,'taskCustomDemandStatus',900,2),
+(32,'taskAppCode',901,1),
+(33,'taskCustomDemandStatus',901,2),
+(34,'taskCloseDemand',901,3);
 
 
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
@@ -109,7 +120,9 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (23, 'Demande de tâche d\'intégration continue en cours de traitement'),
 (25, 'Les tâches d\'intégration continue ont été créées'),
 (27,'La demande de configuration de la notification vers le guichet professionnel est en cours de traitement'),
-(29,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée');
+(29,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée'),
+(31,'La demande de code applicatif est en cours de traitement'),
+(33,'La demande de code applicatif a bien été traitée');
 
 
 INSERT INTO workflow_resource_workflow VALUES 

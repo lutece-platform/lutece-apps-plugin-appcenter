@@ -152,5 +152,17 @@
     <bean id="appcenter.GuichetProTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.web.GuichetProTaskComponent"
      p:taskType-ref="appcenter.taskTypeGuichetPro"
     />
+
+    <bean id="appcenter.taskTypeAppCode" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskAppCode"
+            p:titleI18nKey="module.appcenter.appcode.task_title"
+            p:beanName="appcenter.taskAppCode"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskAppCode" class="fr.paris.lutece.plugins.appcenter.modules.appcode.service.AppCodeTask" scope="prototype" />
+    <bean id="appcenter.AppCodeTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.appcode.web.AppCodeTaskComponent"
+     p:taskType-ref="appcenter.taskTypeAppCode"
+    />
     
 </beans>

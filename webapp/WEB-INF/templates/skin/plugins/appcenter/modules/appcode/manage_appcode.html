@@ -1,0 +1,37 @@
+<#include "../commons.html" />
+<#include "../../appcenter_tabs.html" />
+<@tabs2 tab="app_code" application=application errors=errors infos=infos user=user>
+
+<div class="well">
+	<div class="col-12 col-sm-12">
+	<h2>#i18n{module.appcenter.appcode.manage_app_code.title}</h2>
+	<@messages infos=infos />
+
+	<h3>#i18n{module.appcenter.appcode.manage_app_code.list_setting_title}</h3>
+
+	<@table>
+		<tr>
+				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{module.appcenter.appcode.manage_app_code.columnApplicationCode}</th>
+		</tr>
+		<#if data??>
+			<#list data as appCodeData >
+			<tr>
+					<input type="hidden" id="id" name="id" />
+					<td>
+							${appCodeData.applicationCode}
+					</td>
+			</tr>
+			</#list>
+		</#if>
+	</@table>
+
+	<h3>#i18n{module.appcenter.appcode.manage_app_code.list_demand_title}</h3>
+	
+	<@printDemands demands demands_states demands_histories/>
+
+	</div>
+	&#160;
+</div>
+</@tabs2>
+

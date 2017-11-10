@@ -1,0 +1,10 @@
+<@messages errors=errors />
+<@formGroup labelKey='#i18n{module.appcenter.appcode.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.appcode.taskForm.labelApplicationCode.help}' >
+	<@input type='text' name='applicationCode' value="${demand.applicationCode!''}" />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.appcode.taskForm.labelName}' helpKey='#i18n{module.appcenter.appcode.taskForm.labelName.help}' >
+	<@input type='text' name='name' value="${demand.name!''}" readonly=true />
+</@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.appcode.taskForm.labelDescription}' helpKey='#i18n{module.appcenter.appcode.taskForm.labelDescription.help}' >
+	<@input type='text' name='description' value="${demand.description!''}" readonly=true />
+</@formGroup>
