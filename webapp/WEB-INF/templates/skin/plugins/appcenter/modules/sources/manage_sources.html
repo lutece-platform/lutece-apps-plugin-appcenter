@@ -6,101 +6,116 @@
 	<div class="col-12 col-sm-12">
             <h2>#i18n{module.appcenter.sources.manage_sources.title}</h2>
             <@messages infos=infos />
-	</div>
-	<div class="col-sm-12">
-		<#if datas?? && (datas.siteRepository) ??>
-		<div class="pull-right">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAccessDemand" title="#i18n{appcenter.manage_sources.requestSiteRepositoryAccessButton}">
-				<@icon style="plus" />
-			</button>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifySiteRepository" title="#i18n{appcenter.manage_sources.modifySiteRepositoryButton}">
-				<@icon style="edit" />
-			</button>
-		</div>
-		</#if>
-		<h3>#i18n{appcenter.manage_sources.labelSiteRepository}</h3> 
-		<#if datas?? && datas.siteRepository ??>
-		<p class="siteUrl">
-			<a href="${datas.siteRepository}" target="_blank">${datas.siteRepository}</a>
-		</p>
-                <h3>#i18n{appcenter.manage_sources.list_datas_title}</h3>
-                <@table>
-                    <tr>
-                        <input type="hidden" id="id" name="id"/>
-                        <th>#i18n{appcenter.manage_sources.columnSiteRepository}</th>
-                        <th>#i18n{appcenter.manage_sources.columnUsername}</th>
-                        <th>#i18n{appcenter.manage_sources.columnEmail}</th>
-                    </tr>
-                    <#if data??>
-                        <#list data as sourceData >
-                            <tr>
-                                <input type="hidden" id="id" name="id" />
-                                <td>
-                                    ${sourceData.siteRepository}
-                                </td>
-                                <td>
-                                    ${sourceData.username}
-                                </td>
-                                <td>
-                                    ${sourceData.email}
-                                </td>
-                            </tr>
-                        </#list>
-                    </#if>
-                </@table>
+
+
+          
+	            <div class="pull-right">
+	                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddRepository" title="#i18n{module.appcenter.sources.manage_sources.addRepositoryAccessButton}">
+	                            <@icon style="plus" />
+	                    </button>
+	                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifyRepository" title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
+	                            <@icon style="edit" />
+	                    </button>
+	            </div>
+          
+          
+            <h3>#i18n{module.appcenter.sources.manage_sources.labelRepository}</h3> 
+           
+            <@table>
+                <tr>
+                    <input type="hidden" id="id" name="id"/>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
+                      <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
+                   </tr>
+                <#if data??>
+                    <#list data as sourceData >
+                        <tr>
+                            <input type="hidden" id="id" name="id" />
+                            <td>
+                                ${sourceData.repositoryUrl!}
+                            </td>
+                            <td>
+                                ${repository_types_map[sourceData.repositoryType!]}
+                            </td>
+                            <td>
+	                            <#if sourceData.listUserData??>
+	                          		 <#list sourceData.listUserData as user_repo >
+	                          		 		${user_repo.userName!}:${user_repo.email!}</br>
+	                          		 </#list>
+	                          	</#if>	 
+                            </td>
+                        </tr>
+                    </#list>
+                </#if>
+            </@table>
+
 
             <h3>#i18n{module.appcenter.sources.manage_sources.list_demand_title}</h3>
 
             <@printDemands demands demands_states demands_histories/> 
-            <#else>   
-            <form action="jsp/site/Portal.jsp">
-                    <input type="hidden" name="page" value="sources" />
-                    <input type="hidden" name="id" value="${application.id}" />
-                    <input type="hidden" name="action" value="addSiteRepository" />
-                    <@formGroup labelFor='site_repository' labelKey='#i18n{module.appcenter.sources.manage_sources.labelSiteRepository}' mandatory=true>
-                            <@input type='text' id='site_repository' name='site_repository'  maxlength=250 tabIndex='0' />
-                    </@formGroup>
-                    <br><br>
-                    <button class="btn btn-primary" type="submit">
-                            #i18n{module.appcenter.sources.manage_sources.addSiteRepositoryButton}
-                    </button>
-            </form>
-            </#if>
+           
+   
         </div>
 	&#160;
 </div>
 </@tabs2>
 
 	<!-- Modal -->
-	<div id="ModalAccessDemand" class="modal fade" role="dialog" aria-labelledby="X">
+	<div id="ModalAddRepository" class="modal fade" role="dialog" aria-labelledby="X">
 		<div class="modal-dialog" role="document">
 
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-					<h3 class="modal-title" id="X">#i18n{module.appcenter.sources.manage_sources.modalTitle.requestSiteRepositoryAccess}</h3>
+					<h3 class="modal-title" id="X">#i18n{module.appcenter.sources.manage_sources.modalTitle.addRepository}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<div class="modal-body">
 							<input type="hidden" name="page" value="sources" />
 							<input type="hidden" name="id" value="${application.id}" />
-							<input type="hidden" name="action" value="addAccessDemand" />
+							<input type="hidden" name="action" value="addRepository" />
 							
 							<div class="form-group">
-								<label for="user_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelSvnAccessDemandUserName.label} <@icon style="asterisk" />
+								<label for="repository_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="user_name" name="user_name" maxlength="250" class="form-control" required />
+								<input type="text" id="repository_name" name="repository_name" maxlength="250" class="form-control" required />
 							</div>
 							<div class="form-group">
-								<label for="email" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelSvnAccessDemandUserEmail.label} <@icon style="asterisk" />
+								<label for="repository_type" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="email" name="email" maxlength="250" class="form-control" required />
+									<@comboSortedWithParams name="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
+								</div>
+							
+							<div class="form-group">
+								<label for="public_repository" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label} <@icon style="asterisk" />
+								</label>
+								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' value='true' mandatory=true />
+							     <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' value='false' mandatory=true />
 							</div>
+								<fieldset>
+									<legend class="clearfix">
+										#i18n{module.appcenter.sources.manage_sources.labelUsers.label}
+										<button type="button" id="addUser"class="btn btn-default pull-right">
+											<i class="fa fa-plus"></i>
+										</button> 
+									</legend>
+								<div class="form-group">
+								<fieldset class="user">
+									<legend>Utilisateur <span>1</span></legend>
+									<label for="user_name_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>
+									<input type="text" id="user_name_1" name="user_name_1"  maxlength="250" class="form-control" required>
+									<label for="email_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>
+									<input type="text" id="email_1" name="email_1"  maxlength="250" class="form-control" required>
+							    </fieldset>
+								</div>
+								
+								</fieldset>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-primary" type="submit">
-								#i18n{module.appcenter.sources.manage_sources.requestSiteRepositoryAccessButton}
+								#i18n{module.appcenter.sources.manage_sources.addRepositoryButton}
 						</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
@@ -108,31 +123,35 @@
 			</div>
 		</div>
 	</div>
+
+	
+	<script>
+	
+	$( function(){
+		
+		$("#addUser").click(
+				function() {
+				userClone=$( ".user:last").clone();
+				nbUser=parseInt($( userClone ).find("legend>span" ).text())+1;
+			    $( userClone ).find(":text").val("");
+				$( userClone ).find("legend>span" ).text(nbUser);
+		    
+				//Modify User Name
+				$( userClone ).find("label:first").attr("for","user_name_"+nbUser);
+		        $( userClone ).find(":text:first").attr("id","user_name_"+nbUser);
+		        $( userClone ).find(":text:first").attr("name","user_name_"+nbUser);
+		    
+		        
+		      	//Modify mail
+		        $( userClone ).find("label:last").attr("for","email_"+nbUser);
+		        $( userClone ).find(":text:last").attr("id","email_"+nbUser);
+		        $( userClone ).find(":text:last").attr("name","email_"+nbUser);
+		        userClone.appendTo( $(".user:first" ));
+				}
+			);
+	
+	});
+	
+	</script>
     
-    
-	<!-- Modal -->
-	<div id="ModalModifySiteRepository" class="modal fade" role="dialog" aria-labelledby="Y">
-		<div class="modal-dialog" role="document">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-					<h3 class="modal-title">#i18n{module.appcenter.sources.manage_sources.modalTitle.modifySiteRepository}</h3>
-				</div>
-				<form action="jsp/site/Portal.jsp">
-					<div class="modal-body">
-						<input type="hidden" name="page" value="sources" />
-						<input type="hidden" name="id" value="${application.id}" />
-						<input type="hidden" name="action" value="addSiteRepository" />
-						<input type="text" name="site_repository" class="form-control" value="${(datas.siteRepository)!}" />
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" type="submit">
-								#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}
-						</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>    
+

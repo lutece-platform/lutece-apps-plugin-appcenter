@@ -44,8 +44,6 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
     public static final String DATA_SOURCES_NAME = "sources";
     public static final String DEMAND_TYPE_KEY = "source";
 
-    private String _strSiteRepository;
-
     /**
      * {@inheritDoc }
      * 
@@ -57,21 +55,8 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
         return DATA_SOURCES_NAME;
     }
 
-    /**
-     * Get the site repository
-     * @return the site repository
-     */
-    public String getSiteRepository()
-    {
-        return _strSiteRepository;
-    }
+  
 
-    /**
-     * Set the site repository
-     * @param strSiteRepository the site repository 
-     */
-    public void setSiteRepository( String strSiteRepository )
-    {
-        _strSiteRepository = strSiteRepository;
-    }    
+
+
 }

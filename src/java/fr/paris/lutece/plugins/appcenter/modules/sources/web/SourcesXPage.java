@@ -34,22 +34,27 @@
 
 package fr.paris.lutece.plugins.appcenter.modules.sources.web;
 
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.rometools.rome.feed.rss.Source;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourceUserDemand;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesUtil;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
-import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
-
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -69,8 +74,15 @@ public class SourcesXPage extends AppCenterXPage
     private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
 
     private static final String VIEW_MANAGE_SOURCES = "sources";
-    private static final String ACTION_ADD_SITE_REPOSITORY = "addSiteRepository";
+    private static final String ACTION_ADD_REPOSITORY = "addRepository";
     private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
+    private static final String PARAM_USER_NAME = "user_name";
+    private static final String PARAM_MAIL = "email";
+    
+    
+    
+    private static final int NB_MAX_USER=100;
+    
     
 
 
@@ -82,11 +94,15 @@ public class SourcesXPage extends AppCenterXPage
      * @throws SiteMessageException 
      */
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage getManageSources( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
-        
+       
+        ReferenceList refListRepoType=SourcesUtil.getAllRepositoryType(getLocale(request));
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES, refListRepoType);
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, refListRepoType.toMap());
+       
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
 
@@ -97,20 +113,41 @@ public class SourcesXPage extends AppCenterXPage
      * @throws UserNotSignedException
      * @throws SiteMessageException 
      */
-    @Action( ACTION_ADD_SITE_REPOSITORY )
-    public XPage doAddSiteRepository( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    @Action( ACTION_ADD_REPOSITORY )
+    public XPage doAddRepository (HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        String strSiteDirectory = request.getParameter( PARAMETER_SITE_REPOSITORY );
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
-        SourcesDatas sourceDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-        if ( sourceDatas == null )
+        SourcesDemand sourcesDemand = new SourcesDemand( );
+        sourcesDemand.setIdApplication( application.getId( ) );
+        populate( sourcesDemand, request );
+        //Add Users Authorized
+        String strUserName=null;
+        String strMail=null;
+        SourceUserDemand sourceUserDemand;
+        sourcesDemand.setListSourceUserDemand( new ArrayList<>( ) );
+        for ( int i = 0; i < NB_MAX_USER; i++ )
         {
-            sourceDatas = new SourcesDatas( );
+            strUserName=request.getParameter( PARAM_USER_NAME+"_"+i );
+            if(!StringUtils.isEmpty( strUserName ))
+            {
+                
+                strMail=request.getParameter( PARAM_MAIL+"_"+i );
+                sourceUserDemand=new SourceUserDemand( );
+                sourceUserDemand.setUserName( strUserName );
+                sourceUserDemand.setEmail( strMail );
+                sourcesDemand.getListSourceUserDemand( ).add( sourceUserDemand );
+                
+            }
         }
-        sourceDatas.setSiteRepository( strSiteDirectory );
-        ApplicationService.saveApplicationData( application, sourceDatas );
+        // Check constraints
+        if ( !validateBean( sourcesDemand, getLocale( request ) ) )
+        {
+            return redirectView( request, VIEW_MANAGE_SOURCES );
+        }
+        DemandService.saveDemand( sourcesDemand, application );
 
-        return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, application.getId( ) );
+        return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, nId );
     }
 
     /**
@@ -133,7 +170,7 @@ public class SourcesXPage extends AppCenterXPage
         
         //Get the source repository from dataSubset
         SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-        sourcesDemand.setSiteRepository( sourcesDatas.getSiteRepository( ) );
+        //sourcesDemand.setSiteRepository( sourcesDatas.getSiteRepository( ) );
         
         // Check constraints
         if ( !validateBean( sourcesDemand, getLocale( request ) ) )

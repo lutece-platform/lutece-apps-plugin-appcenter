@@ -34,68 +34,72 @@
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+import java.util.List;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Sources Data Subset
  */
 public class SourcesData extends ApplicationData
 {
-    private String _strUsername;
-    private String _strEmail;
-    private String _strSiteRepository;
-
-    /**
-     * Get the username
-     * @return the username
-     */
-    public String getUsername()
-    {
-        return _strUsername;
-    }
-
-    /**
-     * Set the username
-     * @param strUsername 
-     */
-    public void setUsername( String strUsername )
-    {
-        _strUsername = strUsername;
-    }
-
-    /**
-     * Get the email
-     * @return the email
-     */
-    public String getEmail()
-    {
-        return _strEmail;
-    }
-
-    /**
-     * Set the email
-     * @param strEmail the email 
-     */
-    public void setEmail( String strEmail )
-    {
-        _strEmail = strEmail;
-    }
+    
+    @NotEmpty( message = "#i18n{module.appcenter.sources.validation.repositoryUrl.notEmpty}" )
+    private String _strRepositoryUrl;
+    private List<SourceUserData> _listUserData;
+    private String _strRepositoryType;
+    private String _strRepositoryName;
+  
+ 
 
     /**
      * Get the site repo
      * @return 
      */
-    public String getSiteRepository()
+    public String getRepositoryUrl()
     {
-        return _strSiteRepository;
+        return _strRepositoryUrl;
     }
     
     /**
      * Set the site repo
      * @param strSiteRepository 
      */
-    public void setSiteRepository( String strSiteRepository )
+    public void setRepositoryUrl( String strSiteRepository )
     {
-        _strSiteRepository = strSiteRepository;
+        _strRepositoryUrl = strSiteRepository;
     }
+
+    public List<SourceUserData> getListUserData( )
+    {
+        return _listUserData;
+    }
+
+    public void setListUserData( List<SourceUserData> _listUserData )
+    {
+        this._listUserData = _listUserData;
+    }
+
+    public String getRepositoryType( )
+    {
+        return _strRepositoryType;
+    }
+
+    public void setRepositoryType( String _strRepositoryType )
+    {
+        this._strRepositoryType = _strRepositoryType;
+    }
+
+    public String getRepositoryName( )
+    {
+        return _strRepositoryName;
+    }
+
+    public void setRepositoryName( String _strRepositoryName )
+    {
+        this._strRepositoryName = _strRepositoryName;
+    }
+    
+    
 
 }

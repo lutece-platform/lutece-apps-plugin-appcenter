@@ -21,6 +21,7 @@
 				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
 				<th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
 				<th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
+				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnG98SettingNeeded}</th>
 			</tr>
 			<#if data??>
 				<#list data as openam_agent >
@@ -41,6 +42,9 @@
 					<td>
 							${openam_agent.serverUrl}
 					</td>    
+					<td>
+							${openam_agent.g98SettingNeeded?then('Oui','Non')}
+					</td>
 				</tr>
 				</#list>
 			</#if>
@@ -89,6 +93,12 @@
 									#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="public_url" name="public_url" maxlength="250" class="form-control" required />
+							</div>
+							<div class="form-group">
+								<label for="g98_setting_needed" class="col-form-label">
+									#i18n{module.appcenter.openam.manage_openam_agents.g98SettingNeeded.label}
+								</label>
+								<input type="checkbox" id="g98_setting_needed" name="g98_setting_needed" class="form-control" />
 							</div>
 						</div>
 						<div class="modal-footer">
