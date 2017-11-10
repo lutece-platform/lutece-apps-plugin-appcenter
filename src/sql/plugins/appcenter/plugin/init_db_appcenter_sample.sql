@@ -3,7 +3,7 @@ INSERT INTO appcenter_application ( id_application,code , name , description , a
 VALUES (1,'W72','Budget Participatif','Budget Participatif de la Ville de Paris 2017','{"sources":{"siteRepository":"http://dev.lutece.paris.fr/svn/sites/paris.fr/site-budget-participatif/","sourcesDatas":[]}}');
 
 
-INSERT INTO `appcenter_demand` VALUES (1,NULL,'sources','sources',1,'{"siteRepository":"http://dev.lutece.paris.fr/svn/sites/paris.fr/site-budget-participatif/","userName":"ACL","email":"alexandre.close@paris.fr"}','2017-03-01 12:16:14',0);
+INSERT INTO `appcenter_demand` VALUES (1,NULL,'sources','sources',1,'{"siteRepository":"http://dev.lutece.paris.fr/svn/sites/paris.fr/site-budget-participatif/","userName":"ACL","email":"alexandre.close@paris.fr"}','2017-03-01 12:16:14',0,'');
 
 --
 -- Add identitystore attributes
@@ -35,10 +35,10 @@ INSERT INTO appcenter_attribute ( id_attribute, key_name, label, description ) V
 
 INSERT INTO appcenter_category_demand_type ( id, label, is_depending_of_environment, n_order ) VALUES
     (1,'Applications',0,1),
-    (1,'GRU',1,2),
-    (1,'Guichet Professionnel',1,3);
+    (2,'GRU',1,2),
+    (3,'Guichet Professionnel',1,3);
 
-INSERT INTO appcenter_demand_type ( id, id_demand_type, label,, id_category_demand_type, n_order ) VALUES
+INSERT INTO appcenter_demand_type ( id, id_demand_type, label, id_category_demand_type, n_order ) VALUES
     (1,'appcode','Code Applicatif',1,1),
     (2,'sources','Gestion des sources',1,2),
     (3,'jobs','Intégration continue',1,3),
@@ -46,5 +46,5 @@ INSERT INTO appcenter_demand_type ( id, id_demand_type, label,, id_category_dema
     (5,'openam','Authentification Front Office',2,5),
     (6,'moncomptesettings','Liens Mon Compte',2,6),
     (7,'notificationgru','Notifications GRU',2,7),
-    (8,'identitystore','Configuration du référentiel d''identité',2,8),
+    (8,'identitystore','Configuration du référentiel d\'identité',2,8),
     (9,'guichetpro','Guichet professionnel',3,9);
