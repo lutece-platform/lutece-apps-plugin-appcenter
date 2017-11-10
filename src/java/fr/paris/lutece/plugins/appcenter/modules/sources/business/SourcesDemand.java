@@ -43,6 +43,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesUtil;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 
 public class SourcesDemand extends Demand
@@ -58,7 +59,6 @@ public class SourcesDemand extends Demand
     private String _strRepositoryType;
     @NotEmpty( message = "#i18n{module.appcenter.sources.validation.repositoryName.notEmpty}" )
     private String _strRepositoryName;
-    @NotEmpty( message = "#i18n{module.appcenter.sources.validation.publicRepository.notEmpty}" )
     private boolean _bPublicRepository;
     private String _strCategory;
     private List<SourceUserDemand> _listSourceUserDemand;
@@ -72,6 +72,8 @@ public class SourcesDemand extends Demand
     {
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DEMAND, this );
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, SourcesUtil.getAllRepositoryType(Locale.FRENCH).toMap());
+        
         return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
     }
 

@@ -43,7 +43,7 @@ INSERT INTO workflow_state VALUES
 (802,'Close','Demande close',800,0,0,NULL,3);
 
 INSERT INTO workflow_action VALUES 
-(100,'Creation de la demande d\'accès au SVN','Creation de la demande d\'accès au SVN',100,100,101,3,1,0,1,0),
+(100,'Creation de la demande de création d\'un référentiel','Creation de la demande de création d\'un référentiel',100,100,101,3,1,0,1,0),
 (200,'Creation de la demande de configuration de l\'authentification front office','Creation de la demande de configuration de l\'authentification front office',200,200,201,3,1,0,1,0),
 (300,'Creation de la demande d\'ajout de liens MonCompte','Creation de la demande d\'ajouts de liens MonCompte',300,300,301,3,1,0,1,0),
 (400,'Creation de la demande de paramétrage NotifyGRU','Creation de la demande de paramétrage NotifyGRU',400,400,401,3,1,0,1,0),
@@ -52,7 +52,7 @@ INSERT INTO workflow_action VALUES
 (700,'Creation de la demande d''intégration continue','Creation de la demande d''intégration continue',700,700,701,3,1,0,1,0),
 (800,'Creation de la demande de configuration de la notification vers le guichet profesionnel','Creation de la demande de configuration de la notification vers le guichet professionnel',800,800,801,3,1,0,1,0),
 
-(101,'Traiter la demande d\'accès au SVN','Traiter la demande d\'accès au SVN',100,101,102,3,0,0,2,0),
+(101,'Traiter la demande de création d\'un référentiel','Traiter la demande de création d\'un réfrérentiel',100,101,102,3,0,0,2,0),
 (201,'Traiter la demande de configuration de l\'authentification front office','Traiter la demande de configuration de l\'authentification front office',200,201,202,3,0,0,2,0),
 (301,'Traiter la demande d\'ajout de liens MonCompte','Traiter la demande d\'ajout de liens MonCompte',300,301,302,3,0,0,2,0),
 (401,'Traiter la demande de paramétrage NotifyGRU','Traiter la demande de paramétrage NotifyGRU',400,401,402,3,0,0,2,0),

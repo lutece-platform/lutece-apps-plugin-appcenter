@@ -55,21 +55,6 @@ public class SourcesTask extends SimpleTask
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         SourcesDemand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) ,SourcesDemand.class);
 
-       
-           
-        
-        
-        
-        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
-
-        SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME,
-                SourcesDatas.class );
-        if ( sourcesDatas == null )
-        {
-            sourcesDatas = new SourcesDatas( );
-        }
-
-        sourcesDatas.addData(sourcesData );
         //Add userData
         sourcesData.setListUserData( new ArrayList<>( ) );
         SourceUserData userData=null;
@@ -84,8 +69,22 @@ public class SourcesTask extends SimpleTask
             }
          
          }
+           
         
-        sourcesDatas.addSourceData( sourcesData );
+        
+        
+        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
+
+        SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME,
+                SourcesDatas.class );
+        if ( sourcesDatas == null )
+        {
+            sourcesDatas = new SourcesDatas( );
+        }
+
+       
+        
+        sourcesDatas.addData( sourcesData );
 
         ApplicationService.saveApplicationData( application, sourcesDatas );
     }

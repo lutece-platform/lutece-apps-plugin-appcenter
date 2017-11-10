@@ -29,14 +29,14 @@
                       <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
                    </tr>
                 <#if data??>
-                    <#list data.sourcesDatas as sourceData >
+                    <#list data as sourceData >
                         <tr>
                             <input type="hidden" id="id" name="id" />
                             <td>
                                 ${sourceData.repositoryUrl!}
                             </td>
                             <td>
-                                ${sourceData.repositoryType!}
+                                ${repository_types_map[sourceData.repositoryType!]}
                             </td>
                             <td>
 	                            <#if sourceData.listUserData??>
@@ -85,13 +85,14 @@
 							<div class="form-group">
 								<label for="repository_type" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="repository_type" name="repository_type" maxlength="250" class="form-control" required />
-							</div>
+									<@comboSortedWithParams name="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
+								</div>
 							
 							<div class="form-group">
 								<label for="public_repository" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="public_repository" name="public_repository" maxlength="250" class="form-control" required />
+								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' value='true' mandatory=true />
+							     <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' value='false' mandatory=true />
 							</div>
 								<fieldset>
 									<legend class="clearfix">
@@ -104,9 +105,9 @@
 								<fieldset class="user">
 									<legend>Utilisateur <span>1</span></legend>
 									<label for="user_name_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>
-									<input type="text" id="user_name_1" name="user_name_1" maxlength="250" class="form-control" required>
+									<input type="text" id="user_name_1" name="user_name_1"  maxlength="250" class="form-control" required>
 									<label for="email_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>
-									<input type="text" id="email_1" name="email_1" maxlength="250" class="form-control" required>
+									<input type="text" id="email_1" name="email_1"  maxlength="250" class="form-control" required>
 							    </fieldset>
 								</div>
 								
@@ -130,8 +131,22 @@
 		
 		$("#addUser").click(
 				function() {
-				var user1=$( ".user" ).last().clone();
-				user1.appendTo( $(".user" ).last() );
+				userClone=$( ".user:last").clone();
+				nbUser=parseInt($( userClone ).find("legend>span" ).text())+1;
+			    $( userClone ).find(":text").val("");
+				$( userClone ).find("legend>span" ).text(nbUser);
+		    
+				//Modify User Name
+				$( userClone ).find("label:first").attr("for","user_name_"+nbUser);
+		        $( userClone ).find(":text:first").attr("id","user_name_"+nbUser);
+		        $( userClone ).find(":text:first").attr("name","user_name_"+nbUser);
+		    
+		        
+		      	//Modify mail
+		        $( userClone ).find("label:last").attr("for","email_"+nbUser);
+		        $( userClone ).find(":text:last").attr("id","email_"+nbUser);
+		        $( userClone ).find(":text:last").attr("name","email_"+nbUser);
+		        userClone.appendTo( $(".user:first" ));
 				}
 			);
 	

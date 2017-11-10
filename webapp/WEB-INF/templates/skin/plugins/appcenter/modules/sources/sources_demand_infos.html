@@ -1,7 +1,7 @@
 <p>
    #i18n{module.appcenter.sources.manage_sources.labelRepositoryName.label} : ${(demand.repositoryName)!''}<br/>
-    #i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} : ${(demand.repositoryType)!''}<br/>
-    #i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label}  :${demand.publicRepository?string("Oui", "Non")}<br/>
+    #i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} :  ${repository_types_map[demand.repositoryType!]}<br/>
+    #i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label}  :${demand.publicRepository?string("#i18n{portal.util.labelYes}", "#i18n{portal.util.labelNo}")}<br/>
      #i18n{module.appcenter.sources.manage_sources.labelUsers.label}  :
      <#if demand.listSourceUserDemand??>
      		<#list demand.listSourceUserDemand as user_repo>

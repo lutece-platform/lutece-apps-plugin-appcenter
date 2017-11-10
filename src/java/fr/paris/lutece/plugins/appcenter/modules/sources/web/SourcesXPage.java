@@ -43,10 +43,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.rometools.rome.feed.rss.Source;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourceUserDemand;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesUtil;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
@@ -58,6 +61,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * SourcesXPage
@@ -76,7 +80,9 @@ public class SourcesXPage extends AppCenterXPage
     private static final String PARAM_MAIL = "email";
     
     
+    
     private static final int NB_MAX_USER=100;
+    
     
 
 
@@ -88,11 +94,15 @@ public class SourcesXPage extends AppCenterXPage
      * @throws SiteMessageException 
      */
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage getManageSources( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
-        
+       
+        ReferenceList refListRepoType=SourcesUtil.getAllRepositoryType(getLocale(request));
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES, refListRepoType);
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, refListRepoType.toMap());
+       
         return getXPage( TEMPLATE_MANAGE_SOURCES, request.getLocale( ), model );
     }
 

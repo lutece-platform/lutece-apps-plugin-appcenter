@@ -16,12 +16,14 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesUtil;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.plugins.workflow.web.task.NoConfigTaskComponent;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -31,7 +33,8 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
     // TEMPLATES
     private static final String TEMPLATE_SOURCES_TASK_FORM = "admin/plugins/appcenter/modules/sources/sources_task_form.html";
     private static final String TEMPLATE_SOURCES_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/sources/sources_task_history.html";
-
+   //MARKER
+    private static final String MARK_REPOSITORY_TYPES_MAP = "repository_types_map";
     @Inject
     private IResourceHistoryService _resourceHistoryService;
 
@@ -51,6 +54,8 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
             model.put( Constants.MARK_APPLICATION, application );
 
         }
+        model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, SourcesUtil.getAllRepositoryType(locale).toMap());
+        
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SOURCES_TASK_FORM, locale, model );
 
@@ -90,9 +95,10 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdHistory );
         SourcesDemand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ),SourcesDemand.class );
         // FIXME Load datasubset associated with this demand
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-        // model.put( MARK_HISTORY_LIST, listHistory );
+         Map<String, Object> model = new HashMap<String, Object>( );
+         model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, SourcesUtil.getAllRepositoryType(locale));
+         
+         // model.put( MARK_HISTORY_LIST, listHistory );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SOURCES_DISPLAY_HISTORY, locale, model );
         return template.getHtml( );
     }

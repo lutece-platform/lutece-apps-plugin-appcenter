@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.sources.business;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
@@ -46,10 +43,6 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
 {
     public static final String DATA_SOURCES_NAME = "sources";
     public static final String DEMAND_TYPE_KEY = "source";
-
-
- 
-    private List<SourcesData> _listSourcesDatas = new ArrayList<SourcesData>( );
 
     /**
      * {@inheritDoc }
@@ -64,25 +57,6 @@ public class SourcesDatas extends ApplicationDatas<SourcesData> implements DataS
 
   
 
-    /**
-     * Returns the SourcesDatas
-     *
-     * @return The SourcesDatas
-     */
-    public List<SourcesData> getSourcesDatas( )
-    {
-        return _listSourcesDatas;
-    }
 
-    /**
-     * Sets the SourcesData
-     *
-     * @param sourcesData
-     * 
-     */
-    public void addSourceData( SourcesData sourcesData )
-    {
-        _listSourcesDatas.add( sourcesData );
-    }
 
 }
