@@ -40,7 +40,9 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
@@ -79,6 +81,8 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_APPLICATION = "application";
+    private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
+    private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     
     //Session
     private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
@@ -190,6 +194,8 @@ public abstract class AppCenterXPage extends MVCApplication
     {
         super.fillCommons( model );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
+        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
+        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
     }
     
     protected void populateCommonsDemand( Object object, HttpServletRequest request )

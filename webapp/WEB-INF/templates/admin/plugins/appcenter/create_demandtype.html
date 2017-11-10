@@ -1,0 +1,21 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_demandtype.title}' />
+	<@boxBody>
+    <@tform name='create_demandtype' action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+
+        <@messages errors=errors />
+        <input type="hidden" id="id_category_demand_type" name="id_category_demand_type" value="${id_category_demand_type}"/>
+         
+        <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelIdDemandType}' helpKey='#i18n{appcenter.create_demandtype.labelIdDemandType.help}' mandatory=true>
+                <@input type='text' name='id_demand_type' value='${demandtype.idDemandType!\'\'}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelLabel}' helpKey='#i18n{appcenter.create_demandtype.labelLabel.help}' mandatory=true>
+                <@input type='text' name='label' value='${demandtype.label!\'\'}' />
+        </@formGroup>
+        
+        <@actionButtons button1Name="action_createDemandType" button2Name="view_manageDemandType"/>
+    </@tform>
+	</@boxBody>
+</@box>

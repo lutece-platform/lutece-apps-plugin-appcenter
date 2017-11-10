@@ -1,0 +1,23 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_demandtype.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_demandtype" action="jsp/admin/plugins/appcenter/ManageDemandTypes.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${demandtype.id}"/>
+			
+				<@formGroup labelKey='#i18n{appcenter.modify_demandtype.labelIdDemandType}' helpKey='#i18n{appcenter.modify_demandtype.labelIdDemandType.help}' mandatory=true>
+					<@input type='text' name='id_demand_type' value='${demandtype.idDemandType}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demandtype.labelLabel}' helpKey='#i18n{appcenter.modify_demandtype.labelLabel.help}' mandatory=true>
+					<@input type='text' name='label' value='${demandtype.label}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demandtype.labelIdCategoryDemandType}' helpKey='#i18n{appcenter.modify_demandtype.labelIdCategoryDemandType.help}' >
+					<@input type='text' name='id_category_demand_type' value='${demandtype.idCategoryDemandType}' />
+				</@formGroup>
+        <@actionButtons button1Name="action_modifyDemandType" button2Name="view_manageDemandType"/>
+    </@tform>
+	</@boxBody>
+</@box>

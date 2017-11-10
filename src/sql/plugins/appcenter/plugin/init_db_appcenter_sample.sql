@@ -33,3 +33,17 @@ INSERT INTO appcenter_attribute ( id_attribute, key_name, label, description ) V
     (22, 'accept_survey','Accepte les enquetes de satisfaction','valeurs possibles true ou false'),
     (23, 'given_name', 'Prénoms', 'Fait partie du format pivot FranceConnect');
 
+INSERT INTO appcenter_category_demand_type ( id, label, is_depending_of_environment, n_order ) VALUES
+    (1,'Applications',0,1),
+    (1,'GRU',1,2),
+    (1,'Guichet Professionnel',1,3);
+
+INSERT INTO appcenter_demand_type ( id, id_demand_type, label,, id_category_demand_type, n_order ) VALUES
+    (1,'sources','Gestion des sources',1,1),
+    (2,'jobs','Intégration continue',1,2),
+    (3,'fastdeploy','FastDeploy',1,3),
+    (4,'openam','Authentification Front Office',2,4),
+    (5,'moncomptesettings','Liens Mon Compte',2,5),
+    (6,'notificationgru','Notifications GRU',2,6),
+    (7,'identitystore','Configuration du référentiel d''identité',2,7),
+    (8,'guichetpro','Guichet professionnel',3,8);

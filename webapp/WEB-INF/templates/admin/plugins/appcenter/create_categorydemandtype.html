@@ -1,0 +1,20 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_categorydemandtype.title}' />
+	<@boxBody>
+    <@tform name='create_categorydemandtype' action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+            <@formGroup labelKey='#i18n{appcenter.create_categorydemandtype.labelLabel}' helpKey='#i18n{appcenter.create_categorydemandtype.labelLabel.help}' >
+                    <@input type='text' name='label' value='${categorydemandtype.label!\'\'}' />
+            </@formGroup>
+            <@formGroup labelKey='#i18n{appcenter.create_categorydemandtype.labelIsDependingOfEnvironment}' helpKey='#i18n{appcenter.create_categorydemandtype.labelIsDependingOfEnvironment.help}' >
+                <input type="checkbox" name="is_depending_of_environment" value="true" <#if categorydemandtype.isDependingOfEnvironment>checked = "checked"</#if>/>
+            </@formGroup>
+
+            <@actionButtons button1Name="action_createCategoryDemandType" button2Name="view_manageCategoryDemandType"/>
+    </@tform>
+	</@boxBody>
+</@box>

@@ -1,0 +1,67 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+
+<@box>
+    <@boxHeader title='#i18n{appcenter.manage_demandtype.title}' boxTools=true>
+            <@tform class='form-inline pull-right' name='manage_demandtype' action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+                    <@button type='submit' name='view_createCategoryDemandType' buttonIcon='plus' title='#i18n{appcenter.manage_categorydemandtypes.buttonAdd}' />
+            </@tform>
+    </@boxHeader>
+    <@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+        <#list categorydemandtype_list as categorydemandtype>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading_${categorydemandtype.id?string}">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_${categorydemandtype.id?string}" aria-expanded="true" aria-controls="collapse_${categorydemandtype.id?string}">
+                 <#if (mapDemandType[categorydemandtype.id?string]) ??> 
+                    <#assign demand_type_list = mapDemandType[categorydemandtype.id?string] >
+                </#if>
+                    <@tform action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+                        <input type="hidden" id="id" name="id" value ="${categorydemandtype.id}"/>
+                        ${categorydemandtype.label} 
+                        <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?view=modifyCategoryDemandType&id=${categorydemandtype.id}' size='xs' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false class='pull-right' />
+                        <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?action=confirmRemoveCategoryDemandType&id=${categorydemandtype.id}'  size='xs' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false class='pull-right' />
+                        <@button type='submit' name='view_createDemandType' buttonIcon='plus' title='#i18n{appcenter.manage_demandtypes.buttonAdd}' size='xs' class='pull-right' />
+                        <#if categorydemandtype_index lt categorydemandtype_list?size-1 >
+                            <@button class="pull-right" type='submit' size='xs' name='action_doMoveCategoryDemandTypeDown' buttonIcon='chevron-down'/>
+                        </#if>
+                        <#if categorydemandtype_index gt 0 >
+                             <@button class="pull-right" type='submit' size='xs' name='action_doMoveCategoryDemandTypeUp' buttonIcon='chevron-up'/>
+                        </#if>
+                    </@tform>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse_${categorydemandtype.id?string}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_${categorydemandtype.id?string}">
+                <div class="panel-body">
+                <#if demand_type_list??>
+                    <#list demand_type_list as demandtype>
+                            <@tform action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+                                <input type="hidden" id="id" name="id" value ="${demandtype.id}"/>
+                                <input type="hidden" id="id_category_demand_type" name="id_category_demand_type" value="${categorydemandtype.id?string}" />
+                                ${demandtype.label} 
+                                <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?view=modifyDemandType&id=${demandtype.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false size='xs' class="pull-right"/>
+                                <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?action=confirmRemoveDemandType&id=${demandtype.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false size='xs' class="pull-right" />
+                                <#if demandtype_index lt demand_type_list?size-1 >
+                                    <@button class="pull-right" type='submit' size='xs' name='action_doMoveDemandTypeDown' buttonIcon='chevron-down'/>
+                                </#if>
+                                <#if demandtype_index gt 0 >
+                                 <@button class="pull-right" type='submit' size='xs' name='action_doMoveDemandTypeUp' buttonIcon='chevron-up'/>
+                                </#if>
+                                </@tform>
+                            <@tableHeadBodySeparator />
+                        <br/>
+                    </#list>
+                </#if>
+                </div>
+            </div>
+          </div>  
+        </#list>
+                </div>
+    <@paginationAdmin paginator=paginator />
+  </@boxBody>
+</@box>

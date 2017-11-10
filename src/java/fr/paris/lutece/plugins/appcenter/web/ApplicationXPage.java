@@ -35,8 +35,10 @@ package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
@@ -76,6 +78,8 @@ public class ApplicationXPage extends AppCenterXPage
     //Markers
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
+    private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
+    private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -260,6 +264,9 @@ public class ApplicationXPage extends AppCenterXPage
         
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
+        
+        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
+        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
 
         List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
         List<? extends Demand> listFullDemands = new ArrayList<>();
