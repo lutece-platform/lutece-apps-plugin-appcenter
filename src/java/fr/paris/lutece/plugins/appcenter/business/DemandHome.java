@@ -199,6 +199,7 @@ public final class DemandHome
         {
             T demandFromJson = (T)_mapper.readValue( demand.getDemandData( ), DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType() ) );
             demandFromJson.setId( demand.getId( ) );
+            demandFromJson.setEnvironment( demand.getEnvironment( ) );
             demandFromJson.setStatusText( demand.getStatusText( ) );
             demandFromJson.setIdDemandType( demand.getIdDemandType( ) );
             demandFromJson.setDemandType( demand.getDemandType( ) );

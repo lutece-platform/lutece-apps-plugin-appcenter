@@ -56,14 +56,15 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12">
-    <#if application.listEnvironment?size gt 1>
+    
         <ul class="nav nav-tabs nav-justified">
                 <li role="presentation" class="<#if !active_environment?? || active_environment == ''>active</#if>"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a></li>
-                <#list application.listEnvironment as envi>
-                    <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
-                </#list>
+                <#if application.listEnvironment?size gt 1>
+                    <#list application.listEnvironment as envi>
+                        <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
+                    </#list>
+                </#if>  
         </ul>
-    </#if>
     </div>
 </div>
 <br>    
