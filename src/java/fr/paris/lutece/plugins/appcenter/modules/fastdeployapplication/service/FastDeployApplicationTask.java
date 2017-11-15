@@ -1,4 +1,4 @@
-package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.service;
+package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.service;
 
 import java.util.Locale;
 
@@ -10,8 +10,8 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationData;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationsData;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationData;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationsData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentsData;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;

@@ -26,8 +26,8 @@ import javax.validation.ConstraintViolation;
 public class MonCompteSettingsTaskComponent extends NoConfigTaskComponent
 {
     // TEMPLATES
-    private static final String TEMPLATE_MONCOMPTE_SETTINGS_TASK_FORM = "admin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_task_form.html";
-    private static final String TEMPLATE_MONCOMPTE_SETTINGS_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_task_history.html";
+    private static final String TEMPLATE_moncomptesettings_TASK_FORM = "admin/plugins/appcenter/modules/moncomptesettings/moncomptesettings_task_form.html";
+    private static final String TEMPLATE_moncomptesettings_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/moncomptesettings/moncomptesettings_task_history.html";
 
     // MESSAGES
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
@@ -55,7 +55,7 @@ public class MonCompteSettingsTaskComponent extends NoConfigTaskComponent
             model.put( Constants.MARK_APPLICATION, application );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_TASK_FORM, locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_moncomptesettings_TASK_FORM, locale, model );
 
         return template.getHtml(  );
     }
@@ -95,7 +95,7 @@ public class MonCompteSettingsTaskComponent extends NoConfigTaskComponent
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         //model.put( MARK_HISTORY_LIST, listHistory );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DISPLAY_HISTORY,
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_moncomptesettings_DISPLAY_HISTORY,
                 locale, model );
         return template.getHtml(  );
     }

@@ -61,23 +61,22 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( controllerJsp = "ManageDemandTypes.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_MANAGEMENT" )
 public class DemandTypeJspBean extends ApplicationJspBean
 {
-    // Templates
-    private static final String TEMPLATE_MANAGE_DEMANDTYPES = "/admin/plugins/appcenter/manage_demandtypes.html";
-    private static final String TEMPLATE_CREATE_DEMANDTYPE = "/admin/plugins/appcenter/create_demandtype.html";
-    private static final String TEMPLATE_MODIFY_DEMANDTYPE = "/admin/plugins/appcenter/modify_demandtype.html";
-
-    // Parameters
-    private static final String PARAMETER_ID_DEMANDTYPE = "id";
-
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_DEMANDTYPES = "appcenter.manage_demandtypes.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_DEMANDTYPE = "appcenter.modify_demandtype.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_DEMANDTYPE = "appcenter.create_demandtype.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MODIFY_CATEGORYDEMANDTYPE = "appcenter.modify_categorydemandtype.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_CATEGORYDEMANDTYPE = "appcenter.create_categorydemandtype.pageTitle";
+
 
     // Markers
     private static final String MARK_DEMANDTYPE_LIST = "demandtype_list";
     private static final String MARK_DEMANDTYPE = "demandtype";
-
+    private static final String MARK_MAP_DEMAND_TYPES = "mapDemandType";
+    private static final String MARK_LIST_CATEGORY_DEMAND_TYPES = "categorydemandtype_list";
+    private static final String MARK_CATEGORYDEMANDTYPE = "categorydemandtype";
+    
+    // Jsp
     private static final String JSP_MANAGE_DEMANDTYPES = "jsp/admin/plugins/appcenter/ManageDemandTypes.jsp";
 
     // Properties
@@ -90,6 +89,9 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String VIEW_MANAGE_DEMANDTYPES = "manageDemandTypes";
     private static final String VIEW_CREATE_DEMANDTYPE = "createDemandType";
     private static final String VIEW_MODIFY_DEMANDTYPE = "modifyDemandType";
+    private static final String VIEW_MANAGE_CATEGORYDEMANDTYPES = "manageCategoryDemandTypes";
+    private static final String VIEW_CREATE_CATEGORYDEMANDTYPE = "createCategoryDemandType";
+    private static final String VIEW_MODIFY_CATEGORYDEMANDTYPE = "modifyCategoryDemandType";
 
     // Actions
     private static final String ACTION_CREATE_DEMANDTYPE = "createDemandType";
@@ -98,37 +100,6 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String ACTION_CONFIRM_REMOVE_DEMANDTYPE = "confirmRemoveDemandType";
     private static final String ACTION_MOVE_DEMAND_TYPE_UP = "doMoveDemandTypeUp";
     private static final String ACTION_MOVE_DEMAND_TYPE_DOWN = "doMoveDemandTypeDown";
-
-    
-    // Infos
-    private static final String INFO_DEMANDTYPE_CREATED = "appcenter.info.demandtype.created";
-    private static final String INFO_DEMANDTYPE_UPDATED = "appcenter.info.demandtype.updated";
-    private static final String INFO_DEMANDTYPE_REMOVED = "appcenter.info.demandtype.removed";
-    
-    // Templates
-    private static final String TEMPLATE_CREATE_CATEGORYDEMANDTYPE = "/admin/plugins/appcenter/create_categorydemandtype.html";
-    private static final String TEMPLATE_MODIFY_CATEGORYDEMANDTYPE = "/admin/plugins/appcenter/modify_categorydemandtype.html";
-
-    // Parameters
-    private static final String PARAMETER_ID_CATEGORYDEMANDTYPE = "id";
-
-    // Properties for page titles
-    private static final String PROPERTY_PAGE_TITLE_MODIFY_CATEGORYDEMANDTYPE = "appcenter.modify_categorydemandtype.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_CREATE_CATEGORYDEMANDTYPE = "appcenter.create_categorydemandtype.pageTitle";
-
-    // Markers
-    private static final String MARK_CATEGORYDEMANDTYPE = "categorydemandtype";
-
-
-    // Properties
-    private static final String MESSAGE_CONFIRM_REMOVE_CATEGORYDEMANDTYPE = "appcenter.message.confirmRemoveCategoryDemandType";
-
-    // Views
-    private static final String VIEW_MANAGE_CATEGORYDEMANDTYPES = "manageCategoryDemandTypes";
-    private static final String VIEW_CREATE_CATEGORYDEMANDTYPE = "createCategoryDemandType";
-    private static final String VIEW_MODIFY_CATEGORYDEMANDTYPE = "modifyCategoryDemandType";
-
-    // Actions
     private static final String ACTION_CREATE_CATEGORYDEMANDTYPE = "createCategoryDemandType";
     private static final String ACTION_MODIFY_CATEGORYDEMANDTYPE = "modifyCategoryDemandType";
     private static final String ACTION_REMOVE_CATEGORYDEMANDTYPE = "removeCategoryDemandType";
@@ -138,16 +109,31 @@ public class DemandTypeJspBean extends ApplicationJspBean
 
     
     // Infos
+    private static final String INFO_DEMANDTYPE_CREATED = "appcenter.info.demandtype.created";
+    private static final String INFO_DEMANDTYPE_UPDATED = "appcenter.info.demandtype.updated";
+    private static final String INFO_DEMANDTYPE_REMOVED = "appcenter.info.demandtype.removed";
     private static final String INFO_CATEGORYDEMANDTYPE_CREATED = "appcenter.info.categorydemandtype.created";
     private static final String INFO_CATEGORYDEMANDTYPE_UPDATED = "appcenter.info.categorydemandtype.updated";
     private static final String INFO_CATEGORYDEMANDTYPE_REMOVED = "appcenter.info.categorydemandtype.removed";
     
-    //Markers
-    private static final String MARK_MAP_DEMAND_TYPES = "mapDemandType";
-    private static final String MARK_LIST_CATEGORY_DEMAND_TYPES = "categorydemandtype_list";
+    // Templates
+    private static final String TEMPLATE_CREATE_CATEGORYDEMANDTYPE = "/admin/plugins/appcenter/create_categorydemandtype.html";
+    private static final String TEMPLATE_MODIFY_CATEGORYDEMANDTYPE = "/admin/plugins/appcenter/modify_categorydemandtype.html";
+    private static final String TEMPLATE_MANAGE_DEMANDTYPES = "/admin/plugins/appcenter/manage_demandtypes.html";
+    private static final String TEMPLATE_CREATE_DEMANDTYPE = "/admin/plugins/appcenter/create_demandtype.html";
+    private static final String TEMPLATE_MODIFY_DEMANDTYPE = "/admin/plugins/appcenter/modify_demandtype.html";
     
     // Parameters
+    private static final String PARAMETER_ID_CATEGORYDEMANDTYPE = "id";
     private static final String PARAMETER_DEPENDING_OF_ENVIRONMENT = "is_depending_of_environment";
+    private static final String PARAMETER_ID_DEMANDTYPE = "id";
+
+    // Markers
+    
+
+
+    // Properties
+    private static final String MESSAGE_CONFIRM_REMOVE_CATEGORYDEMANDTYPE = "appcenter.message.confirmRemoveCategoryDemandType";
     
     // Session variable to store working values
     private CategoryDemandType _categorydemandtype;

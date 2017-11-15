@@ -32,7 +32,7 @@
  * License 1.0
  */
 
-package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.web;
+package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.web;
 
 import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
 
@@ -41,8 +41,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationDemand;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationsData;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationsData;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
@@ -61,7 +61,7 @@ import fr.paris.lutece.util.ReferenceList;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "fastdeploy", pageTitleI18nKey = "appcenter.xpage.fastdeploy.pageTitle", pagePathI18nKey = "appcenter.xpage.fastdeploy.pagePathLabel" )
+@Controller( xpageName = "fastdeployapplication", pageTitleI18nKey = "appcenter.xpage.fastdeployapplication.pageTitle", pagePathI18nKey = "appcenter.xpage.fastdeployapplication.pagePathLabel" )
 public class FastDeployApplicationsXPage extends AppCenterXPage
 {
     // Templates

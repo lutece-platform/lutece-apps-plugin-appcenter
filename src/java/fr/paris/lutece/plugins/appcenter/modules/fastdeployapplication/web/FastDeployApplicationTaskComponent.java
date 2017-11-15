@@ -1,4 +1,4 @@
-package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.web;
+package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.web;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -15,8 +15,8 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationData;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationDemand;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationData;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamAgentData;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
 import fr.paris.lutece.plugins.appcenter.web.Constants;

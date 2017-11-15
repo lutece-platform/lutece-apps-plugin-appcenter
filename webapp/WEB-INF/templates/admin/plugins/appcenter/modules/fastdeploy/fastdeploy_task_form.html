@@ -4,11 +4,11 @@
     <@table>
         <tr>
             <input type="hidden" id="id" name="id"/>
-            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationCode}</th>
-            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationName}</th>
-            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationWebapp}</th>
-            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationUrlSite}</th>
-            <th>#i18n{module.appcenter.fastdeploy.taskForm.tabHeader.applicationService}</th>
+            <th>#i18n{module.appcenter.fastdeployapplication.taskForm.tabHeader.applicationCode}</th>
+            <th>#i18n{module.appcenter.fastdeployapplication.taskForm.tabHeader.applicationName}</th>
+            <th>#i18n{module.appcenter.fastdeployapplication.taskForm.tabHeader.applicationWebapp}</th>
+            <th>#i18n{module.appcenter.fastdeployapplication.taskForm.tabHeader.applicationUrlSite}</th>
+            <th>#i18n{module.appcenter.fastdeployapplication.taskForm.tabHeader.applicationService}</th>
             
         </tr>
         <@tableHeadBodySeparator />
@@ -35,17 +35,17 @@
     </@table>
 
 <@messages errors=errors />
-<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationCode.help}' >
+<@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationCode.help}' >
 	<@input type='text' name='code' value="${demand.code}" />
 </@formGroup>
-<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationName}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationName.help}' >
+<@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationName}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationName.help}' >
 	<@input type='text' name='name' value="${demand.name}" />
 </@formGroup>
-<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationWebapp}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationWebapp.help}' >
+<@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationWebapp}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationWebapp.help}' >
 	<@input type='text' name='webApp' value="${demand.webApp}" />
 </@formGroup>
 
-<@formGroup labelKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationUrlSite}' helpKey='#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationUrlSite.help}' >
+<@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationUrlSite}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationUrlSite.help}' >
 	<@input type='text' name='urlSite' value=" ${demand.urlSite}" />
 </@formGroup>
 
@@ -54,7 +54,7 @@
 
  <div class="form-group">
 		<label class="col-xs-12 col-sm-3 control-label" for="">
-				#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationService}
+				#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationService}
 		</label>
 		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<select id="service" name="service"  >
@@ -68,6 +68,6 @@
 					</#if> 
 				 </#list>
 			</select>
-			<span class="help-block">#i18n{module.appcenter.fastdeploy.taskForm.labelApplicationService.help}</span>
+			<span class="help-block">#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationService.help}</span>
 		</div>
 	</div>

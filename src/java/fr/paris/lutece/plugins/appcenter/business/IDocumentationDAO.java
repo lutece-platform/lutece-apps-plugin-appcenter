@@ -31,28 +31,69 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business;
+ 
+package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import java.util.List;
 
-/**
- * OpenamAgentsData Data Subset
+
+
+ /**
+ * IDocumentationDAO Interface
  */
-public class FastDeployApplicationsData extends ApplicationDatas<FastDeployApplicationData> implements DataSubset
+
+public interface IDocumentationDAO
 {
-    public static final String DATA_FASTDEPLOY_APPLICATIONS_NAME = "fastdeployapplications";
-    public static final String DEMAND_TYPE_KEY = "fastdeployapplication";
+
 
     /**
-     * {@inheritDoc }
-     * 
-     * @return
+     * Insert a new record in the table.
+     * @param documentation instance of the Documentation object to inssert
+     * @param plugin the Plugin
      */
-    @Override
-    public String getName( )
-    {
-        return DATA_FASTDEPLOY_APPLICATIONS_NAME;
-    }
+
+    void insert( Documentation documentation, Plugin plugin );
+
+
+
+     /**
+     * Update the record in the table
+     * @param documentation the reference of the Documentation
+     * @param plugin the Plugin
+     */
+
+    void store( Documentation documentation, Plugin plugin );
+
+
+    /**
+     * Delete a record from the table
+     * @param nIdDocumentation int identifier of the Documentation to delete
+     * @param plugin the Plugin
+     */
+
+    void delete( int nIdDocumentation, Plugin plugin );
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Finders
+
+    /**
+     * Load the data from the table
+     * @param strId The identifier of the documentation
+     * @param plugin the Plugin
+     * @return The instance of the documentation
+     */
+
+    Documentation load( int nKey, Plugin plugin );
+
+
+
+     /**
+     * Load the data of all the documentation objects and returns them as a List
+     * @param plugin the Plugin
+     * @return The List which contains the data of all the documentation objects
+     */
+
+    List<Documentation> selectDocumentationsList( Plugin plugin );
+    
 }

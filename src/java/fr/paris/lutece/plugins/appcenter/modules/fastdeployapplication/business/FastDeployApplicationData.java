@@ -1,5 +1,5 @@
 
-package fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business;
+package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,15 +11,15 @@ public class FastDeployApplicationData extends ApplicationData
 {
 	
 	
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationCode.notEmpty}" )
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationCode.notEmpty}" )
 	private String _strCode;
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationName.notEmpty}" )
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationName.notEmpty}" )
 	private String _strName;
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationWebApp.notEmpty}" )
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationWebApp.notEmpty}" )
 	private String _strWebApp;
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationSiteUrl.notEmpty}" )
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationSiteUrl.notEmpty}" )
     private String _strUrlSite;
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeploy.validation.applicationService.notEmpty}" )
+	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationService.notEmpty}" )
     private String _strService;
     
 	/**

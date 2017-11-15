@@ -34,7 +34,7 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeploy.business.FastDeployApplicationDemand;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
 import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
 import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingDemand;

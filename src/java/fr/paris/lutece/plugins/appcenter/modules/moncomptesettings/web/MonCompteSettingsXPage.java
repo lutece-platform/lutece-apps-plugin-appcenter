@@ -59,18 +59,18 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * SourcesXPage
  */
-@Controller( xpageName = "moncompte_settings", pageTitleI18nKey = "module.appcenter.moncomptesettings.xpage.moncompte_settings.pageTitle", pagePathI18nKey = "module.appcenter.moncomptesettings.xpage.moncompte_settings.pagePathLabel" )
+@Controller( xpageName = "moncomptesettings", pageTitleI18nKey = "module.appcenter.moncomptesettings.xpage.moncomptesettings.pageTitle", pagePathI18nKey = "module.appcenter.moncomptesettings.xpage.moncomptesettings.pagePathLabel" )
 public class MonCompteSettingsXPage extends AppCenterXPage
 {
 
     private static final String MARK_ENVIRONMENT = "environment";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND = "/skin/plugins/appcenter/modules/moncompte_settings/manage_moncompte_settings_demand.html";
+    private static final String TEMPLATE_MANAGE_MONCOMPTESETTINGS_DEMAND = "/skin/plugins/appcenter/modules/moncomptesettings/manage_moncomptesettings_demand.html";
 
-    private static final String VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND = "manageMoncompteSettingsDemand";
+    private static final String VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND = "manageMoncompteSettingsDemand";
 
-    private static final String ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND = "doCreateMonCompteSettingsDemand";
+    private static final String ACTION_CREATE_MONCOMPTESETTINGS_DEMAND = "doCreateMonCompteSettingsDemand";
 
     /**
      * Returns the form to manage the MonCompteSettingsDemands
@@ -80,16 +80,16 @@ public class MonCompteSettingsXPage extends AppCenterXPage
      * @return the html form to manage MonCompteSettingsDemands
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    @View( value = VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, defaultView = true ) 
+    @View( value = VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND, defaultView = true ) 
     public XPage getManageMoncompteSettingsDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 
-        return getXPage( TEMPLATE_MANAGE_MONCOMPTE_SETTINGS_DEMAND, request.getLocale( ), model );
+        return getXPage( TEMPLATE_MANAGE_MONCOMPTESETTINGS_DEMAND, request.getLocale( ), model );
     }
 
-    @Action( ACTION_CREATE_MONCOMPTE_SETTINGS_DEMAND )
+    @Action( ACTION_CREATE_MONCOMPTESETTINGS_DEMAND )
     public XPage doCreateMonCompteSettingsDemand( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
@@ -104,12 +104,12 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         // Check constraints
         if ( !validateBean( demand, getLocale( request ) ) )
         {
-            return redirectView( request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND );
+            return redirectView( request, VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND );
         }
 
         DemandService.saveDemand( demand, application );
 
-        return redirect(request, VIEW_MANAGE_MONCOMPTE_SETTINGS_DEMAND, Constants.PARAM_ID_APPLICATION, nId );
+        return redirect(request, VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND, Constants.PARAM_ID_APPLICATION, nId );
     }
 
     @Override

@@ -51,10 +51,10 @@ public class MonCompteSettingDemand extends Demand
     private String _strBackButtonName;
     private String _strBackButtonUrl;
 
-    public static final String ID_DEMAND_TYPE = "moncompte_settings";
-    public static final String DEMAND_TYPE = "moncompte_settings";
+    public static final String ID_DEMAND_TYPE = "moncomptesettings";
+    public static final String DEMAND_TYPE = "moncomptesettings";
 
-    private static final String TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncompte_settings/moncompte_settings_demand_infos.html";
+    private static final String TEMPLATE_moncomptesettings_DEMAND_INFOS = "skin/plugins/appcenter/modules/moncomptesettings/moncomptesettings_demand_infos.html";
 
     /**
      * Returns the FavoriteName
@@ -145,7 +145,7 @@ public class MonCompteSettingDemand extends Demand
     {
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DEMAND, this );
-        return AppTemplateService.getTemplate( TEMPLATE_MONCOMPTE_SETTINGS_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
+        return AppTemplateService.getTemplate( TEMPLATE_moncomptesettings_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
     }
 
     /**

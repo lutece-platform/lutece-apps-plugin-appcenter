@@ -31,21 +31,19 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business;
+package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business;
 
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import java.util.List;
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
-import java.util.ArrayList;
 
 /**
- * Sources Data Subset
+ * OpenamAgentsData Data Subset
  */
-public class MonCompteSettingsData extends ApplicationDatas<MonCompteSettingData> implements DataSubset
+public class FastDeployApplicationsData extends ApplicationDatas<FastDeployApplicationData> implements DataSubset
 {
-    public static final String DATA_SUBSET_NAME = "moncomptesettings";
-
-    private List<MonCompteSettingData> _listSettings = new ArrayList<MonCompteSettingData>( );
+    public static final String DATA_FASTDEPLOY_APPLICATIONS_NAME = "fastdeployapplications";
+    public static final String DEMAND_TYPE_KEY = "fastdeployapplication";
 
     /**
      * {@inheritDoc }
@@ -55,6 +53,6 @@ public class MonCompteSettingsData extends ApplicationDatas<MonCompteSettingData
     @Override
     public String getName( )
     {
-        return DATA_SUBSET_NAME;
+        return DATA_FASTDEPLOY_APPLICATIONS_NAME;
     }
 }
