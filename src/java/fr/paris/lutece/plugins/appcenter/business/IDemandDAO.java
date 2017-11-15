@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -150,4 +151,6 @@ public interface IDemandDAO
      * @return The referenceList which contains the data of all the demand objects
      */
     ReferenceList selectDemandsReferenceList( Plugin plugin );
+    
+    <T extends Demand> List<T> selectListFullDemands( int nIdApplication, Plugin plugin );
 }

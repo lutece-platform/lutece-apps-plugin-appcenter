@@ -42,10 +42,11 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
-import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
@@ -83,9 +84,11 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_APPLICATION = "application";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
+    private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
     
     //Session
     private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
+    
 
     private static final long serialVersionUID = -490960650523760757L;
     
@@ -147,25 +150,25 @@ public abstract class AppCenterXPage extends MVCApplication
      *            The aapplication
      * @param model
      *            The model
+     * @param demandType
      * @param strDemandType
      *            the demand type
      * @param demandClass
      *            The demand class
      */
-    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model, String strDemandType,
-            Class<T> demandClass )
+    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
     {
-        List<T> listDemand = DemandService.getDemandsListByApplicationAndType( application, strDemandType, demandClass );
+        List<T> listDemand = DemandHome.getListFullDemandsByIdApplication( application.getId( ) );
         
-        //Filter the list of demand by environment if the demand has one
-        listDemand.stream().filter( demand -> demand.getEnvironment() != null );
-        
+        model.put( MARK_ACTIVE_DEMAND_TYPE, getDemandType( ) );
         model.put( Constants.MARK_DEMANDS, listDemand );
-        int nIdWorkflow = DemandTypeService.getIdWorkflow( strDemandType );
+        
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
         for ( T demand : listDemand )
         {
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+            
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
             mapStates.put( Integer.toString( demand.getId( ) ), state );
 
@@ -229,7 +232,7 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( MARK_APPLICATION, application );
         
         //Add the demands
-        addListDemand( request, application, model, getDemandType( ), getDemandClass( ) );
+        addListDemand( request, application, model );
         
         //Add the application Datas relative to the demand type
         addDatas( request, application, model ,getDatasName(), getDatasClass() );

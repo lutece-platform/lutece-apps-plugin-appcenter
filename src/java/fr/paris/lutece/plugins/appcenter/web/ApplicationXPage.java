@@ -269,15 +269,9 @@ public class ApplicationXPage extends AppCenterXPage
         
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
         model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
-
-        List<Demand> listDemand = DemandHome.getDemandsListByApplication( _application.getId( ) ); // TODO filter on active state, not all demands ?
-        List<? extends Demand> listFullDemands = new ArrayList<>();
-        for (Demand demand : listDemand )
-        {
-            listFullDemands.add( DemandHome.getFullDemand( demand) );
-        }
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
-        model.put( MARK_DEMANDS, listFullDemands );
+        List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
+        model.put( MARK_DEMANDS, listFullDemands  );
         model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
         if ( _activeEnvironment != null )
         {
@@ -285,7 +279,7 @@ public class ApplicationXPage extends AppCenterXPage
         }
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
-        for ( Demand demand : listDemand )
+        for ( Demand demand : listFullDemands )
         {
             String strWorkflowResourceType = DemandTypeService.getWorkflowResourceType( demand.getIdDemandType( ) );
             int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getIdDemandType( ) );

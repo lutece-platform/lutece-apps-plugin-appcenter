@@ -3,7 +3,7 @@
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<#assign cpt = 0 />
 		<#list demands as demand>
-		
+                    <#if demand.demandType == active_demand_type && demand.environment.prefix == active_environment.prefix>
 			<div class="panel">
 				<div class="panel-heading" role="tab" id="heading${cpt}">
 					<h3 class="panel-title">
@@ -35,6 +35,7 @@
                 
                     <#assign cpt = cpt + 1 />
                             </div>
+                    </#if>
 		</#list>
 		</div>
 	</#if>

@@ -187,34 +187,8 @@ public final class DemandHome
         return _dao.selectDemandsReferenceList( _plugin );
     }
     
-    /**
-     * Get full demand from demand
-     * @param <T> the return type
-     * @param demand the demand
-     * @return the full demand
-     */
-    public static <T extends Demand> T getFullDemand ( Demand demand )
+    public static <T extends Demand> List<T> getListFullDemandsByIdApplication( int nIdApplication )
     {
-        try
-        {
-            T demandFromJson = (T)_mapper.readValue( demand.getDemandData( ), DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType() ) );
-            demandFromJson.setId( demand.getId( ) );
-            demandFromJson.setEnvironment( demand.getEnvironment( ) );
-            demandFromJson.setStatusText( demand.getStatusText( ) );
-            demandFromJson.setIdDemandType( demand.getIdDemandType( ) );
-            demandFromJson.setDemandType( demand.getDemandType( ) );
-            demandFromJson.setIdApplication( demand.getIdApplication( ) );
-            demandFromJson.setDemandData( demand.getDemandData( ) );
-            demandFromJson.setCreationDate( demand.getCreationDate( ) );
-            demandFromJson.setIsClosed( demand.isClosed( ) );
-            return demandFromJson;
-        }
-        catch ( IOException e )
-        {
-            AppLogService.debug( "Unable to deserealize demand json", e );
-            return (T)demand;
-        }
-                
-        
+        return _dao.selectListFullDemands( nIdApplication, _plugin );
     }
 }

@@ -41,6 +41,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -326,5 +327,42 @@ public final class DemandDAO implements IDemandDAO
             AppLogService.error( "Unable to convert demand data to obj ", e );
             throw new RuntimeException( e );
         }
+    }
+
+    @Override
+    public <T extends Demand> List<T> selectListFullDemands( int nIdApplication, Plugin plugin )
+    {
+        List<T> demandList = new ArrayList<>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            try
+            {
+               // TODO use finally for free because this throws
+                String strDemandData = daoUtil.getString( 6 );
+                String strDemandType = daoUtil.getString( 3 );
+                T demand = (T)_mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType ) );
+                demand.setId( daoUtil.getInt( 1) );
+                demand.setStatusText( daoUtil.getString( 2 ) );
+                demand.setIdDemandType( strDemandType );
+                demand.setDemandType( daoUtil.getString( 4 ) );
+                demand.setIdApplication( daoUtil.getInt( 5 ) );
+
+                demand.setCreationDate( daoUtil.getTimestamp( 7 ) );
+                demand.setIsClosed( daoUtil.getBoolean( 8  ) );
+                demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 9  ) ) );
+
+                demandList.add( demand ); 
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( "Unable to parse demand data JSON to demand type ");
+            }
+        }
+
+        daoUtil.free( );
+        return demandList;
     }
 }

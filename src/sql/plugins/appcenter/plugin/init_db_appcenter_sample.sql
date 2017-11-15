@@ -44,7 +44,7 @@ INSERT INTO appcenter_demand_type ( id, id_demand_type, label, id_category_deman
     (3,'jobs','Intégration continue',1,3),
     (4,'fastdeploy','FastDeploy',1,4),
     (5,'openam','Authentification Front Office',2,5),
-    (6,'moncomptesettings','Liens Mon Compte',2,6),
+    (6,'moncompte_settings','Liens Mon Compte',2,6),
     (7,'notificationgru','Notifications GRU',2,7),
     (8,'identitystore','Configuration du référentiel d\'identité',2,8),
     (9,'guichetpro','Guichet professionnel',3,9);
