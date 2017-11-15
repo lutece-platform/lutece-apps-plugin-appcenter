@@ -1,3 +1,19 @@
+<#macro demandAlreadyExists demandType>
+    <#list demands as demand>
+        <#if demand.idDemandType == demandType>
+            <#if active_environment??>
+                <#if active_environment.prefix == demand.environment.prefix>
+                    <span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
+                    <#break>
+                </#if>
+            <#else>
+                <span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
+                <#break>
+            </#if>
+        </#if>
+    </#list>
+</#macro>
+
 <#macro printDemandTypes dep_envi active_tab>
     <#list categorydemandtype_list as categorydemandtype>
         <#if categorydemandtype.isDependingOfEnvironment == dep_envi>
@@ -14,7 +30,12 @@
                             <ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
                                 <#list demandtype_list as demandtype>
                                     <#if demandtype.idCategoryDemandType == categorydemandtype.id>
-                                        <li class="<#if active_tab==demandtype.idDemandType> active</#if>" id="${demandtype.idDemandType}Tab"><a href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">${demandtype.label}</a></li>
+                                        <li class="<#if active_tab==demandtype.idDemandType> active</#if>" id="${demandtype.idDemandType}Tab">
+                                                <a href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+                                                    ${demandtype.label}
+                                                    <@demandAlreadyExists demandtype.idDemandType/>
+                                                 </a>
+                                        </li>
                                     </#if>
                                 </#list>
                             </ul>
