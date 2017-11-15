@@ -2,12 +2,11 @@
 <@tabs2 tab="general" application=application errors=errors infos=infos user=user>
 
 <#macro printDemandType demandType=''>
-    <#assign title = '#i18n{appcenter.tabs.'+demandType+'}'/>
-    <#if title ==''>
-        <strong>${demandType}</strong>
-    <#else>
-        <strong>${title}</strong>
-    </#if>
+    <#list demandtype_list as demandtype>
+        <#if demandtype.idDemandType == demandType>
+            ${demandtype.label!''}
+        </#if>
+    </#list>
 </#macro>
 
 <@row>
