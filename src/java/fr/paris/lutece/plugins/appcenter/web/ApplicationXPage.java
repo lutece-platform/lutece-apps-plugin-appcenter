@@ -117,8 +117,6 @@ public class ApplicationXPage extends AppCenterXPage
 
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
     
-    private static final String PATH_CREATE_APP_CODE_DEMANDS = "Portal.jsp?page=appcode&view=createAppCodeDemand&id=";
-    
 
     // Session variable to store working values
     private Application _application;
@@ -182,7 +180,7 @@ public class ApplicationXPage extends AppCenterXPage
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
 
-        return redirect( request, PATH_CREATE_APP_CODE_DEMANDS + String.valueOf( _application.getId( ) ) );
+        return redirectView( request, VIEW_MANAGE_APPLICATIONS );
     }
 
     /**

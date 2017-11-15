@@ -66,13 +66,10 @@ public class AppCodeXPage extends AppCenterXPage
 {
     // Templates
     private static final String TEMPLATE_MANAGE_APP_CODE = "/skin/plugins/appcenter/modules/appcode/manage_appcode.html";
-    private static final String TEMPLATE_CREATE_APP_CODE = "/skin/plugins/appcenter/modules/appcode/create_appcode.html";
 
     private static final String VIEW_MANAGE_APP_CODE_DEMANDS = "manageAppCodeDemands";
-    private static final String VIEW_CREATE_APP_CODE_DEMANDS = "createAppCodeDemand";
     private static final String ACTION_CREATE_APP_CODE_DEMAND = "doCreateAppCodeDemand";
     
-    private static final String PATH_MODIFY_APPLICATION = "Portal.jsp?page=application&view=modifyApplication&id=";
 
     /**
      * Manage appcode view
@@ -88,22 +85,6 @@ public class AppCodeXPage extends AppCenterXPage
         fillAppCenterCommons( model, request );
 
         return getXPage( TEMPLATE_MANAGE_APP_CODE, request.getLocale( ), model );
-    }
-
-    /**
-     * Create appcode view
-     * @param request The HttpServletRequest
-     * @return the view for creating appcode
-     * @throws UserNotSignedException
-     * @throws SiteMessageException 
-     */
-    @View( VIEW_CREATE_APP_CODE_DEMANDS )
-    public XPage getCreateAppCodeDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
-    {
-        Map<String, Object> model = getModel( );
-        fillAppCenterCommons( model, request );
-
-        return getXPage( TEMPLATE_CREATE_APP_CODE, request.getLocale( ), model );
     }
 
     /**
@@ -127,12 +108,12 @@ public class AppCodeXPage extends AppCenterXPage
         // Check constraints
         if ( !validateBean( appCodeDemand, getLocale( request ) ) )
         {
-            return redirect( request, VIEW_CREATE_APP_CODE_DEMANDS, Constants.PARAM_ID_APPLICATION, nId );
+            return redirect( request, VIEW_MANAGE_APP_CODE_DEMANDS, Constants.PARAM_ID_APPLICATION, nId );
         }
 
         DemandService.saveDemand( appCodeDemand, application );
 
-        return redirect(request, PATH_MODIFY_APPLICATION + String.valueOf( nId ) );
+        return redirect( request, VIEW_MANAGE_APP_CODE_DEMANDS, Constants.PARAM_ID_APPLICATION, nId );
     }
 
     @Override

@@ -7,6 +7,13 @@
 	<h2>#i18n{module.appcenter.appcode.manage_app_code.title}</h2>
 	<@messages infos=infos />
 
+	<div class="pull-right">
+		<form action="jsp/site/Portal.jsp?page=appcode&id=${application.id}">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAppCodeDemand" title="#i18n{module.appcenter.appcode.manage_app_code.buttonAdd}">
+				<@icon style="plus" />
+			</button>
+		</form>
+	</div>
 	<h3>#i18n{module.appcenter.appcode.manage_app_code.list_setting_title}</h3>
 
 	<@table>
@@ -35,3 +42,39 @@
 </div>
 </@tabs2>
 
+ <!-- Modal for demanding Application Code setting -->
+	<div id="ModalAppCodeDemand" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_app_code.title" aria-label="Close">&times;</button>
+						<h3 class="modal-title" id="create_app_code.title">#i18n{module.appcenter.appcode.create_app_code.title}</h3>
+				</div>
+				<form action="jsp/site/Portal.jsp" method="post">
+					<input type="hidden" name="page" value="appcode" />
+                                        <input type="hidden" name="id" value="${application.id}" />
+                                        <input type="hidden" name="action" value="doCreateAppCodeDemand" />
+                                            <div class="modal-body">
+						<div class="form-group">
+							<label for="application_code" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelApplicationCode}</label>
+							<input type="text" id="application_code" name="application_code" value="${application.code!''}" maxlength="50" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="name" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelName}</label>
+							<input type="text" id="name" name="name" value="${application.name!''}" maxlength="50" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelDescription}</label>
+                                                            <input type="textarea" id="description" name="description" value="${application.description!''}" maxlength="250" class="form-control" />
+						</div>
+					</div>
+					<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.appcode.create_app_code.buttonCreate}</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
