@@ -57,6 +57,9 @@ public class AppCodeTask extends SimpleTask
         }
         appCodeDatas.addData( appCodeData );
         ApplicationService.saveApplicationData( application, appCodeDatas );
+        
+        application.setCode( appCodeData.getApplicationCode( ) );
+        ApplicationHome.update( application );
     }
 
 }
