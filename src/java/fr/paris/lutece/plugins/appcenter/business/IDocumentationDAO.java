@@ -35,65 +35,73 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 
-
-
- /**
+/**
  * IDocumentationDAO Interface
  */
-
 public interface IDocumentationDAO
 {
-
-
     /**
      * Insert a new record in the table.
-     * @param documentation instance of the Documentation object to inssert
+     * @param documentation instance of the Documentation object to insert
      * @param plugin the Plugin
      */
-
     void insert( Documentation documentation, Plugin plugin );
 
-
-
-     /**
+    /**
      * Update the record in the table
      * @param documentation the reference of the Documentation
      * @param plugin the Plugin
      */
-
     void store( Documentation documentation, Plugin plugin );
-
 
     /**
      * Delete a record from the table
-     * @param nIdDocumentation int identifier of the Documentation to delete
+     * @param nKey The identifier of the Documentation to delete
      * @param plugin the Plugin
      */
-
-    void delete( int nIdDocumentation, Plugin plugin );
+    void delete( int nKey, Plugin plugin );
 
     ///////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param strId The identifier of the documentation
+     * @param nKey The identifier of the documentation
      * @param plugin the Plugin
      * @return The instance of the documentation
      */
-
     Documentation load( int nKey, Plugin plugin );
 
-
-
-     /**
-     * Load the data of all the documentation objects and returns them as a List
+    /**
+     * Load the data of all the documentation objects and returns them as a list
      * @param plugin the Plugin
-     * @return The List which contains the data of all the documentation objects
+     * @return The list which contains the data of all the documentation objects
      */
-
     List<Documentation> selectDocumentationsList( Plugin plugin );
+    
+    /**
+     * Load the id of all the documentation objects and returns them as a list
+     * @param plugin the Plugin
+     * @return The list which contains the id of all the documentation objects
+     */
+    List<Integer> selectIdDocumentationsList( Plugin plugin );
+    
+    /**
+     * Load the data of all the documentation objects and returns them as a referenceList
+     * @param plugin the Plugin
+     * @return The referenceList which contains the data of all the documentation objects
+     */
+    ReferenceList selectDocumentationsReferenceList( Plugin plugin );
+    
+    /**
+     * Load the data of all the documentation objects for given id demand type
+     * @param nIdDemandType
+     * @param plugin the Plugin
+     * @return The list of all the docs objects for given id demand type
+     */
+    List<Documentation> selectDocumentationsListByIdDemandType( int nIdDemandType, Plugin plugin );
     
 }

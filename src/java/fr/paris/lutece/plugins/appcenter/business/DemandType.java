@@ -36,6 +36,8 @@ package fr.paris.lutece.plugins.appcenter.business;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the business class for the object DemandType
@@ -54,10 +56,19 @@ public class DemandType implements Serializable
     @NotEmpty( message = "#i18n{appcenter.validation.demandtype.Label.notEmpty}" )
     private String _strLabel;
     
+    private String _strDescription;
+    
     private int _nIdCategoryDemandType;
     
     private int _nOrder;
+    
+    private List<Documentation> _listDocumentation;
 
+    public DemandType( )
+    {
+        _listDocumentation = new ArrayList<>();
+    }
+    
     /**
      * Returns the Id
      * @return The Id
@@ -147,4 +158,40 @@ public class DemandType implements Serializable
     {
         _nOrder = nOrder;
     }
+
+    /**
+     * Get the documentation list
+     * @return 
+     */
+    public List<Documentation> getListDocumentation()
+    {
+        return _listDocumentation;
+    }
+
+    /**
+     * Set the documentation list
+     * @param listDocumentation 
+     */
+    public void setListDocumentation( List<Documentation> listDocumentation )
+    {
+        _listDocumentation = listDocumentation;
+    }
+    
+    public void addDoc( Documentation doc )
+    {
+        _listDocumentation.add( doc );
+    }
+
+    public String getDescription()
+    {
+        return _strDescription;
+    }
+
+    public void setDescription( String strDescription )
+    {
+        _strDescription = strDescription;
+    }
+    
+    
+    
 }

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2002-2017, Mairie de Paris
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
@@ -33,108 +33,116 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
-
+import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
+import java.io.Serializable;
 
 /**
  * This is the business class for the object Documentation
  */ 
-public class Documentation
+public class Documentation implements Serializable
 {
-        // Variables declarations 
-        private int _nId;
-        private int _nIdDemandType;
-        private String _strLabel;
-        private String _strUrl;
-        private String _strCategory;
+    private static final long serialVersionUID = 1L;
+
+    // Variables declarations 
+    private int _nId;
     
+    private int _nIdDemandType;
     
-       /**
-        * Returns the Id
-        * @return The Id
-        */ 
-        public int getId()
-        {
-            return _nId;
-        }
+    private String _strLabel;
     
-       /**
-        * Sets the Id
-        * @param nId The Id
-        */ 
-        public void setId( int nId )
-        {
-            _nId = nId;
-        }
+    private String _strUrl;
     
-       /**
-        * Returns the IdDemandType
-        * @return The IdDemandType
-        */ 
-        public int getIdDemandType()
-        {
-            return _nIdDemandType;
-        }
+    @Size( max = 255 , message = "#i18n{appcenter.validation.documentation.Category.size}" ) 
+    private String _strCategory;
+
+    /**
+     * Returns the Id
+     * @return The Id
+     */
+    public int getId( )
+    {
+        return _nId;
+    }
+
+    /**
+     * Sets the Id
+     * @param nId The Id
+     */ 
+    public void setId( int nId )
+    {
+        _nId = nId;
+    }
     
-       /**
-        * Sets the IdDemandType
-        * @param nIdDemandType The IdDemandType
-        */ 
-        public void setIdDemandType( int nIdDemandType )
-        {
-            _nIdDemandType = nIdDemandType;
-        }
+    /**
+     * Returns the IdDemandType
+     * @return The IdDemandType
+     */
+    public int getIdDemandType( )
+    {
+        return _nIdDemandType;
+    }
+
+    /**
+     * Sets the IdDemandType
+     * @param nIdDemandType The IdDemandType
+     */ 
+    public void setIdDemandType( int nIdDemandType )
+    {
+        _nIdDemandType = nIdDemandType;
+    }
     
-       /**
-        * Returns the Label
-        * @return The Label
-        */ 
-        public String getLabel()
-        {
-            return _strLabel;
-        }
+    /**
+     * Returns the Label
+     * @return The Label
+     */
+    public String getLabel( )
+    {
+        return _strLabel;
+    }
+
+    /**
+     * Sets the Label
+     * @param strLabel The Label
+     */ 
+    public void setLabel( String strLabel )
+    {
+        _strLabel = strLabel;
+    }
     
-       /**
-        * Sets the Label
-        * @param strLabel The Label
-        */ 
-        public void setLabel( String strLabel )
-        {
-            _strLabel = strLabel;
-        }
+    /**
+     * Returns the Url
+     * @return The Url
+     */
+    public String getUrl( )
+    {
+        return _strUrl;
+    }
+
+    /**
+     * Sets the Url
+     * @param strUrl The Url
+     */ 
+    public void setUrl( String strUrl )
+    {
+        _strUrl = strUrl;
+    }
     
-       /**
-        * Returns the Url
-        * @return The Url
-        */ 
-        public String getUrl()
-        {
-            return _strUrl;
-        }
-    
-       /**
-        * Sets the Url
-        * @param strUrl The Url
-        */ 
-        public void setUrl( String strUrl )
-        {
-            _strUrl = strUrl;
-        }
-    
-       /**
-        * Returns the Category
-        * @return The Category
-        */ 
-        public String getCategory()
-        {
-            return _strCategory;
-        }
-    
-       /**
-        * Sets the Category
-        * @param strCategory The Category
-        */ 
-        public void setCategory( String strCategory )
-        {
-            _strCategory = strCategory;
-        }
- }
+    /**
+     * Returns the Category
+     * @return The Category
+     */
+    public String getCategory( )
+    {
+        return _strCategory;
+    }
+
+    /**
+     * Sets the Category
+     * @param strCategory The Category
+     */ 
+    public void setCategory( String strCategory )
+    {
+        _strCategory = strCategory;
+    }
+}

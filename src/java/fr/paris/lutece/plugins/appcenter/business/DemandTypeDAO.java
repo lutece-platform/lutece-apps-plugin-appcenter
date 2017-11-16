@@ -41,6 +41,7 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * This class provides Data Access methods for DemandType objects
@@ -48,12 +49,12 @@ import java.util.List;
 public final class DemandTypeDAO implements IDemandTypeDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id, id_demand_type, label, id_category_demand_type, n_order FROM appcenter_demand_type WHERE id = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand_type SELECT MAX(id+1), ?, ?, ?,  COALESCE( MAX(n_order+1) , 1 )  FROM appcenter_demand_type ";
+    private static final String SQL_QUERY_SELECT = "SELECT id, id_demand_type, label, description, id_category_demand_type, n_order FROM appcenter_demand_type WHERE id = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand_type SELECT MAX(id+1), ?, ?, ?, ?,  COALESCE( MAX(n_order+1) , 1 )  FROM appcenter_demand_type ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand_type WHERE id = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand_type SET id = ?, id_demand_type = ?, label = ?, id_category_demand_type = ?, n_order = ? WHERE id = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id, id_demand_type, label, id_category_demand_type, n_order FROM appcenter_demand_type ORDER BY n_order";
-    private static final String SQL_QUERY_SELECTALL_BY_ID_CATEGORY = "SELECT id, id_demand_type, label, id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_category_demand_type = ? ORDER BY n_order ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand_type SET id = ?, id_demand_type = ?, label = ?, description = ?,  id_category_demand_type = ?, n_order = ? WHERE id = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT appcenter_demand_type.id, appcenter_demand_type.id_demand_type, appcenter_demand_type.label, appcenter_demand_type.description, appcenter_demand_type.id_category_demand_type, appcenter_demand_type.n_order, appcenter_documentation.id_documentation, appcenter_documentation.id_demand_type, appcenter_documentation.label, appcenter_documentation.url, appcenter_documentation.category FROM appcenter_demand_type LEFT JOIN appcenter_documentation ON appcenter_documentation.id_demand_type = appcenter_demand_type.id ORDER BY n_order";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_CATEGORY = "SELECT id, id_demand_type, label, description , id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_category_demand_type = ? ORDER BY n_order ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id FROM appcenter_demand_type ORDER BY n_order";
 
     /**
@@ -68,6 +69,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             int nIndex = 1;
             daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
             daoUtil.setString( nIndex++ , demandType.getLabel( ) );
+            daoUtil.setString( nIndex++ , demandType.getDescription( ) );
             daoUtil.setInt( nIndex++ , demandType.getIdCategoryDemandType( ) );
             
             daoUtil.executeUpdate( );
@@ -101,6 +103,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
+            demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setIdCategoryDemandType( daoUtil.getInt( nIndex++ ) );
             demandType.setOrder( daoUtil.getInt( nIndex++ ) );
         }
@@ -133,6 +136,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         daoUtil.setInt( nIndex++ , demandType.getId( ) );
         daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
         daoUtil.setString( nIndex++ , demandType.getLabel( ) );
+        daoUtil.setString( nIndex++ , demandType.getDescription( ) );
         daoUtil.setInt( nIndex++ , demandType.getIdCategoryDemandType( ) );
         daoUtil.setInt( nIndex++ , demandType.getOrder( ) );
         daoUtil.setInt( nIndex , demandType.getId( ) );
@@ -150,19 +154,29 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         List<DemandType> demandTypeList = new ArrayList<DemandType>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery(  );
-
         while ( daoUtil.next(  ) )
         {
-            DemandType demandType = new DemandType(  );
-            int nIndex = 1;
-            
-            demandType.setId( daoUtil.getInt( nIndex++ ) );
-            demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
-            demandType.setLabel( daoUtil.getString( nIndex++ ) );
-            demandType.setIdCategoryDemandType( daoUtil.getInt( nIndex++ ) );
-            demandType.setOrder( daoUtil.getInt( nIndex++ ) );
-
-            demandTypeList.add( demandType );
+            if ( !demandTypeList.stream().anyMatch( demType -> demType.getId() == daoUtil.getInt( 1 ) ) )
+            {
+                
+                DemandType demandType = new DemandType(  );
+                demandType.setId( daoUtil.getInt( 1 ) );
+                demandType.setIdDemandType( daoUtil.getString( 2 ) );
+                demandType.setLabel( daoUtil.getString( 3 ) );
+                demandType.setDescription( daoUtil.getString( 4 ) );
+                demandType.setIdCategoryDemandType( daoUtil.getInt( 5 ) );
+                demandType.setOrder( daoUtil.getInt( 6 ) );
+                demandTypeList.add( demandType );
+            }
+            Documentation documentation = new Documentation(  );
+            documentation.setId( daoUtil.getInt( 7 ) );
+            documentation.setIdDemandType( daoUtil.getInt( 8 ) );
+            documentation.setLabel( daoUtil.getString( 9 ) );
+            documentation.setUrl( daoUtil.getString( 10 ) );
+            documentation.setCategory( daoUtil.getString( 11 ) );
+            demandTypeList.stream()
+                    .filter( demType -> demType.getId() == daoUtil.getInt( 1 ) )
+                    .forEach( demType -> { if(documentation.getLabel()!=null){demType.addDoc( documentation);}} );
         }
 
         daoUtil.free( );
@@ -223,6 +237,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
+            demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setIdCategoryDemandType( daoUtil.getInt( nIndex++ ) );
             demandType.setOrder( daoUtil.getInt( nIndex++ ) );
 

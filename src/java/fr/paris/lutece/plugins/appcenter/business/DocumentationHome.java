@@ -31,29 +31,27 @@
  *
  * License 1.0
  */
- 
-package fr.paris.lutece.plugins.appcenter.business;
+ package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.ReferenceList;
+
 import java.util.List;
 
 /**
  * This class provides instances management methods (create, find, ...) for Documentation objects
  */
-
 public final class DocumentationHome
 {
-
     // Static variable pointed at the DAO instance
-
-    private static IDocumentationDAO _dao = ( IDocumentationDAO ) SpringContextService.getPluginBean( "appcenter", "documentationDAO" );
-
+    private static IDocumentationDAO _dao = SpringContextService.getBean( "appcenter.documentationDAO" );
+    private static Plugin _plugin = PluginService.getPlugin( "appcenter" );
 
     /**
      * Private constructor - this class need not be instantiated
      */
-
     private DocumentationHome(  )
     {
     }
@@ -61,71 +59,81 @@ public final class DocumentationHome
     /**
      * Create an instance of the documentation class
      * @param documentation The instance of the Documentation which contains the informations to store
-     * @param plugin the Plugin
      * @return The  instance of documentation which has been created with its primary key.
      */
-
-    public static Documentation create( Documentation documentation, Plugin plugin )
+    public static Documentation create( Documentation documentation )
     {
-        _dao.insert( documentation, plugin );
+        _dao.insert( documentation, _plugin );
 
         return documentation;
     }
-
 
     /**
      * Update of the documentation which is specified in parameter
      * @param documentation The instance of the Documentation which contains the data to store
-     * @param plugin the Plugin
      * @return The instance of the  documentation which has been updated
      */
-
-    public static Documentation update( Documentation documentation, Plugin plugin )
+    public static Documentation update( Documentation documentation )
     {
-        _dao.store( documentation, plugin );
+        _dao.store( documentation, _plugin );
 
         return documentation;
     }
 
-
     /**
      * Remove the documentation whose identifier is specified in parameter
-     * @param nDocumentationId The documentation Id
-     * @param plugin the Plugin
+     * @param nKey The documentation Id
      */
-
-
-    public static void remove( int nDocumentationId, Plugin plugin )
+    public static void remove( int nKey )
     {
-        _dao.delete( nDocumentationId, plugin );
+        _dao.delete( nKey, _plugin );
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Finders
 
     /**
      * Returns an instance of a documentation whose identifier is specified in parameter
      * @param nKey The documentation primary key
-     * @param plugin the Plugin
      * @return an instance of Documentation
      */
-
-    public static Documentation findByPrimaryKey( int nKey, Plugin plugin )
+    public static Documentation findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, plugin);
+        return _dao.load( nKey, _plugin);
     }
-
 
     /**
-     * Load the data of all the documentation objects and returns them in form of a list
-     * @param plugin the Plugin
+     * Load the data of all the documentation objects and returns them as a list
      * @return the list which contains the data of all the documentation objects
      */
-
-    public static List<Documentation> getDocumentationsList( Plugin plugin )
+    public static List<Documentation> getDocumentationsList( )
     {
-        return _dao.selectDocumentationsList( plugin );
+        return _dao.selectDocumentationsList( _plugin );
     }
-
+    
+    /**
+     * Load the id of all the documentation objects and returns them as a list
+     * @return the list which contains the id of all the documentation objects
+     */
+    public static List<Integer> getIdDocumentationsList( )
+    {
+        return _dao.selectIdDocumentationsList( _plugin );
+    }
+    
+    /**
+     * Load the data of all the documentation objects and returns them as a referenceList
+     * @return the referenceList which contains the data of all the documentation objects
+     */
+    public static ReferenceList getDocumentationsReferenceList( )
+    {
+        return _dao.selectDocumentationsReferenceList(_plugin );
+    }
+    
+    /**
+     * Load the data of all the documentation objects for given id demand type 
+     * @param nIdDemandType
+     * @return the referenceList which contains the data of all the documentation objects
+     */
+    public static List<Documentation> getDocumentationsListByIdDemandType( int nIdDemandType )
+    {
+        return _dao.selectDocumentationsListByIdDemandType( nIdDemandType, _plugin );
+    }
 }
+

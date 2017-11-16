@@ -38,20 +38,27 @@ import fr.paris.lutece.plugins.appcenter.business.CategoryDemandType;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.business.Documentation;
+import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
+import fr.paris.lutece.plugins.appcenter.business.DocumentationHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
@@ -67,7 +74,9 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String PROPERTY_PAGE_TITLE_CREATE_DEMANDTYPE = "appcenter.create_demandtype.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_CATEGORYDEMANDTYPE = "appcenter.modify_categorydemandtype.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_CATEGORYDEMANDTYPE = "appcenter.create_categorydemandtype.pageTitle";
-
+    private static final String PROPERTY_PAGE_TITLE_MANAGE_DOCUMENTATIONS = "appcenter.manage_documentations.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MODIFY_DOCUMENTATION = "appcenter.modify_documentation.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_DOCUMENTATION = "appcenter.create_documentation.pageTitle";
 
     // Markers
     private static final String MARK_DEMANDTYPE_LIST = "demandtype_list";
@@ -75,16 +84,23 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String MARK_MAP_DEMAND_TYPES = "mapDemandType";
     private static final String MARK_LIST_CATEGORY_DEMAND_TYPES = "categorydemandtype_list";
     private static final String MARK_CATEGORYDEMANDTYPE = "categorydemandtype";
+    private static final String MARK_DOCUMENTATION_LIST = "documentation_list";
+    private static final String MARK_DOCUMENTATION = "documentation";
+    private static final String MARK_ID_DEMAND_TYPE = "id_demand_type";
+    private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
+    private static final String MARK_DEFAULT_DOCUMENTATION_CATEGORY = "default_documentation_category";
     
     // Jsp
     private static final String JSP_MANAGE_DEMANDTYPES = "jsp/admin/plugins/appcenter/ManageDemandTypes.jsp";
-
+     private static final String JSP_MANAGE_DOCUMENTATIONS = "jsp/admin/plugins/appcenter/ManageDemandTypes.jsp";
+    
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_DEMANDTYPE = "appcenter.message.confirmRemoveDemandType";
-
+    private static final String MESSAGE_CONFIRM_REMOVE_DOCUMENTATION = "appcenter.message.confirmRemoveDocumentation";
+    
     // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.demandtype.attribute.";
-
+    
     // Views
     private static final String VIEW_MANAGE_DEMANDTYPES = "manageDemandTypes";
     private static final String VIEW_CREATE_DEMANDTYPE = "createDemandType";
@@ -92,6 +108,9 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String VIEW_MANAGE_CATEGORYDEMANDTYPES = "manageCategoryDemandTypes";
     private static final String VIEW_CREATE_CATEGORYDEMANDTYPE = "createCategoryDemandType";
     private static final String VIEW_MODIFY_CATEGORYDEMANDTYPE = "modifyCategoryDemandType";
+    private static final String VIEW_MANAGE_DOCUMENTATIONS = "manageDocumentations";
+    private static final String VIEW_CREATE_DOCUMENTATION = "createDocumentation";
+    private static final String VIEW_MODIFY_DOCUMENTATION = "modifyDocumentation";
 
     // Actions
     private static final String ACTION_CREATE_DEMANDTYPE = "createDemandType";
@@ -106,7 +125,10 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String ACTION_CONFIRM_REMOVE_CATEGORYDEMANDTYPE = "confirmRemoveCategoryDemandType";
     private static final String ACTION_MOVE_CATEGORY_DEMAND_TYPE_UP = "doMoveCategoryDemandTypeUp";
     private static final String ACTION_MOVE_CATEGORY_DEMAND_TYPE_DOWN = "doMoveCategoryDemandTypeDown";
-
+    private static final String ACTION_CREATE_DOCUMENTATION = "createDocumentation";
+    private static final String ACTION_MODIFY_DOCUMENTATION = "modifyDocumentation";
+    private static final String ACTION_REMOVE_DOCUMENTATION = "removeDocumentation";
+    private static final String ACTION_CONFIRM_REMOVE_DOCUMENTATION = "confirmRemoveDocumentation";
     
     // Infos
     private static final String INFO_DEMANDTYPE_CREATED = "appcenter.info.demandtype.created";
@@ -115,6 +137,9 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String INFO_CATEGORYDEMANDTYPE_CREATED = "appcenter.info.categorydemandtype.created";
     private static final String INFO_CATEGORYDEMANDTYPE_UPDATED = "appcenter.info.categorydemandtype.updated";
     private static final String INFO_CATEGORYDEMANDTYPE_REMOVED = "appcenter.info.categorydemandtype.removed";
+    private static final String INFO_DOCUMENTATION_CREATED = "appcenter.info.documentation.created";
+    private static final String INFO_DOCUMENTATION_UPDATED = "appcenter.info.documentation.updated";
+    private static final String INFO_DOCUMENTATION_REMOVED = "appcenter.info.documentation.removed";
     
     // Templates
     private static final String TEMPLATE_CREATE_CATEGORYDEMANDTYPE = "/admin/plugins/appcenter/create_categorydemandtype.html";
@@ -122,24 +147,25 @@ public class DemandTypeJspBean extends ApplicationJspBean
     private static final String TEMPLATE_MANAGE_DEMANDTYPES = "/admin/plugins/appcenter/manage_demandtypes.html";
     private static final String TEMPLATE_CREATE_DEMANDTYPE = "/admin/plugins/appcenter/create_demandtype.html";
     private static final String TEMPLATE_MODIFY_DEMANDTYPE = "/admin/plugins/appcenter/modify_demandtype.html";
+    private static final String TEMPLATE_MANAGE_DOCUMENTATIONS = "/admin/plugins/appcenter/manage_documentations.html";
+    private static final String TEMPLATE_CREATE_DOCUMENTATION = "/admin/plugins/appcenter/create_documentation.html";
+    private static final String TEMPLATE_MODIFY_DOCUMENTATION = "/admin/plugins/appcenter/modify_documentation.html";
     
     // Parameters
     private static final String PARAMETER_ID_CATEGORYDEMANDTYPE = "id";
     private static final String PARAMETER_DEPENDING_OF_ENVIRONMENT = "is_depending_of_environment";
     private static final String PARAMETER_ID_DEMANDTYPE = "id";
-
-    // Markers
-    
-
+    private static final String PARAMETER_ID_DOCUMENTATION = "id";
+    private static final String PARAMETER_ID_DEMAND_TYPE="id_demand_type";
 
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_CATEGORYDEMANDTYPE = "appcenter.message.confirmRemoveCategoryDemandType";
     
     // Session variable to store working values
     private CategoryDemandType _categorydemandtype;
-    
-    // Session variable to store working values
     private DemandType _demandtype;
+    private Documentation _documentation;
+    private DemandType _docDemandType;
     
     /**
      * Build the Manage View
@@ -575,4 +601,178 @@ public class DemandTypeJspBean extends ApplicationJspBean
         
         return redirectView( request, VIEW_MANAGE_DEMANDTYPES );
     }   
+    
+    /**
+     * Build the Manage View
+     * @param request The HTTP request
+     * @return The page
+     */
+    @View( value = VIEW_MANAGE_DOCUMENTATIONS, defaultView = true )
+    public String getManageDocumentations( HttpServletRequest request )
+    {
+        _documentation = null;
+        String strIdDemandType = request.getParameter( PARAMETER_ID_DEMAND_TYPE );
+        if ( strIdDemandType != null )
+        {
+            try
+            {
+                int nIdDemandType = Integer.parseInt( strIdDemandType );
+                _docDemandType = DemandTypeHome.findByPrimaryKey( nIdDemandType );
+               
+            }
+            catch( NumberFormatException e )
+            {
+                AppLogService.error( "Unable to parse given id demand type to int" , e);
+                return redirectView( request, VIEW_MANAGE_DEMANDTYPES );
+            }
+        }
+        if ( _docDemandType != null )
+        {
+            List<Documentation> listDocumentations = DocumentationHome.getDocumentationsListByIdDemandType( _docDemandType.getId( ) );
+            Map<String, Object> model = getPaginatedListModel( request, MARK_DOCUMENTATION_LIST, listDocumentations, JSP_MANAGE_DOCUMENTATIONS );
+            model.put( MARK_ID_DEMAND_TYPE, strIdDemandType );
+            model.put( MARK_DOCUMENTATION_CATEGORIES, 
+                    Arrays.asList( DocumentationCategory.values( ) )
+                            .stream()
+                            .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
+                    );
+            
+            return getPage( PROPERTY_PAGE_TITLE_MANAGE_DOCUMENTATIONS, TEMPLATE_MANAGE_DOCUMENTATIONS, model );
+        }
+        else
+        {
+            return redirectView( request, VIEW_MANAGE_DEMANDTYPES );
+        }
+    }
+
+    /**
+     * Returns the form to create a documentation
+     *
+     * @param request The Http request
+     * @return the html code of the documentation form
+     */
+    @View( VIEW_CREATE_DOCUMENTATION )
+    public String getCreateDocumentation( HttpServletRequest request )
+    {
+        _documentation = ( _documentation != null ) ? _documentation : new Documentation(  );
+        _documentation.setIdDemandType( _docDemandType.getId( ) );
+        Map<String, Object> model = getModel(  );
+        ReferenceList listDocCategories = ReferenceList.convert( Arrays.asList(DocumentationCategory.values() ), "prefix", "labelKey", false );
+        for ( ReferenceItem item : listDocCategories )
+        {
+            item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
+        }
+        model.put( MARK_DOCUMENTATION_CATEGORIES, listDocCategories );
+        model.put( MARK_DOCUMENTATION, _documentation );
+
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_DOCUMENTATION, TEMPLATE_CREATE_DOCUMENTATION, model );
+    }
+
+    /**
+     * Process the data capture form of a new documentation
+     *
+     * @param request The Http Request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_CREATE_DOCUMENTATION )
+    public String doCreateDocumentation( HttpServletRequest request )
+    {
+        populate( _documentation, request );
+        // Check constraints
+        if ( !validateBean( _documentation, VALIDATION_ATTRIBUTES_PREFIX ) )
+        {
+            return redirectView( request, VIEW_CREATE_DOCUMENTATION );
+        }
+
+        DocumentationHome.create( _documentation );
+        addInfo( INFO_DOCUMENTATION_CREATED, getLocale(  ) );
+        
+        return redirectView( request, VIEW_MANAGE_DOCUMENTATIONS );
+    }
+
+    /**
+     * Manages the removal form of a documentation whose identifier is in the http
+     * request
+     *
+     * @param request The Http request
+     * @return the html code to confirm
+     */
+    @Action( ACTION_CONFIRM_REMOVE_DOCUMENTATION )
+    public String getConfirmRemoveDocumentation( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DOCUMENTATION ) );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_DOCUMENTATION ) );
+        url.addParameter( PARAMETER_ID_DOCUMENTATION, nId );
+
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_DOCUMENTATION, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+
+        return redirect( request, strMessageUrl );
+    }
+
+    /**
+     * Handles the removal form of a documentation
+     *
+     * @param request The Http request
+     * @return the jsp URL to display the form to manage documentations
+     */
+    @Action( ACTION_REMOVE_DOCUMENTATION )
+    public String doRemoveDocumentation( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DOCUMENTATION ) );
+        DocumentationHome.remove( nId );
+        addInfo( INFO_DOCUMENTATION_REMOVED, getLocale(  ) );
+        
+        return redirectView( request, VIEW_MANAGE_DOCUMENTATIONS );
+    }
+
+    /**
+     * Returns the form to update info about a documentation
+     *
+     * @param request The Http request
+     * @return The HTML form to update info
+     */
+    @View( VIEW_MODIFY_DOCUMENTATION )
+    public String getModifyDocumentation( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DOCUMENTATION ) );
+
+        if ( _documentation == null || ( _documentation.getId(  ) != nId ))
+        {
+            _documentation = DocumentationHome.findByPrimaryKey( nId );
+        }
+
+        Map<String, Object> model = getModel(  );
+        ReferenceList listDocCategories = ReferenceList.convert( Arrays.asList(DocumentationCategory.values() ), "prefix", "labelKey", false );
+        for ( ReferenceItem item : listDocCategories )
+        {
+            item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
+        }
+        model.put( MARK_DEFAULT_DOCUMENTATION_CATEGORY, DocumentationCategory.getDocumentationCategory( _documentation.getCategory( ) ) );
+        model.put( MARK_DOCUMENTATION_CATEGORIES, listDocCategories );
+        model.put( MARK_DOCUMENTATION, _documentation );
+
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY_DOCUMENTATION, TEMPLATE_MODIFY_DOCUMENTATION, model );
+    }
+
+    /**
+     * Process the change form of a documentation
+     *
+     * @param request The Http request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_MODIFY_DOCUMENTATION )
+    public String doModifyDocumentation( HttpServletRequest request )
+    {
+        populate( _documentation, request );
+
+        // Check constraints
+        if ( !validateBean( _documentation, VALIDATION_ATTRIBUTES_PREFIX ) )
+        {
+            return redirect( request, VIEW_MODIFY_DOCUMENTATION, PARAMETER_ID_DOCUMENTATION, _documentation.getId( ) );
+        }
+
+        DocumentationHome.update( _documentation );
+        addInfo( INFO_DOCUMENTATION_UPDATED, getLocale(  ) );
+        return redirectView( request, VIEW_MANAGE_DOCUMENTATIONS );
+    }
 }

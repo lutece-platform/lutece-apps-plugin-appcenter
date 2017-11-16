@@ -8,6 +8,7 @@ CREATE TABLE appcenter_demand_type (
 id int AUTO_INCREMENT,
 id_demand_type varchar(255) default '' NOT NULL,
 label long varchar NOT NULL,
+description long varchar,
 id_category_demand_type int default '0',
 n_order int default 0,
 PRIMARY KEY (id)
@@ -116,4 +117,14 @@ key_name varchar(255) default '' NOT NULL,
 label varchar(255) default '' NOT NULL,
 description varchar(255) default '',
 PRIMARY KEY (id_attribute)
+);
+
+DROP TABLE IF EXISTS appcenter_documentation;
+CREATE TABLE appcenter_documentation (
+id_documentation int AUTO_INCREMENT,
+id_demand_type int default '0',
+label long varchar,
+url long varchar,
+category varchar(255) default '',
+PRIMARY KEY (id_documentation)
 );

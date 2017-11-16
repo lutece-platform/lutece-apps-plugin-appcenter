@@ -1,0 +1,47 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_documentation.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_documentation' action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+			<@button type='submit' name='view_createDocumentation' buttonIcon='plus' title='#i18n{appcenter.manage_documentations.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <th>#i18n{appcenter.manage_documentations.columnLabel}</th>
+            <th>#i18n{appcenter.manage_documentations.columnUrl}</th>
+            <th>#i18n{appcenter.manage_documentations.columnCategory}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list documentation_list as documentation >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${documentation.label}
+            </td>
+            <td>
+                ${documentation.url}
+            </td>
+            <td>
+                #i18n{${documentation_categories[documentation.category].labelKey}}
+            </td>
+        <td>
+            <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?view=modifyDocumentation&id=${documentation.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+
+            <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?action=confirmRemoveDocumentation&id=${documentation.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

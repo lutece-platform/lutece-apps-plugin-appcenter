@@ -3,11 +3,11 @@
         <#if demand.idDemandType == demandType>
             <#if active_environment??>
                 <#if active_environment.prefix == demand.environment.prefix>
-                    <span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
+                    <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
                     <#break>
                 </#if>
             <#else>
-                <span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
+                <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
                 <#break>
             </#if>
         </#if>
@@ -31,9 +31,33 @@
                                 <#list demandtype_list as demandtype>
                                     <#if demandtype.idCategoryDemandType == categorydemandtype.id>
                                         <li class="<#if active_tab==demandtype.idDemandType> active</#if>" id="${demandtype.idDemandType}Tab">
-                                                <a href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
-                                                    ${demandtype.label}
-                                                    <@demandAlreadyExists demandtype.idDemandType/>
+                                                <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >
+                                                    <a class="text-center docs_link col-xs-3 col-sm-2">
+                                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                                    </a>
+                                                    <div class="doc">
+                                                        <div class="doc-content">
+                                                            <span>${demandtype.description!''}</span>
+                                                            <#if demandtype.listDocumentation?size gt 0> 
+                                                                <ul class="list-group">
+                                                                     <br/>
+                                                                    <#list demandtype.listDocumentation as documentation>
+                                                                        <li class="list-group-item">
+                                                                            <a href="${documentation.url}">
+                                                                                ${documentation.label}
+                                                                                <span class="pull-right label label-info">#i18n{${documentation_categories[documentation.category].labelKey}}</span>
+                                                                            </a>
+                                                                        </li>
+
+                                                                    </#list>
+                                                                </ul>
+                                                            </#if>
+                                                        </div>
+                                                    </div>
+                                                </#if>
+                                                 <a class="<#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+                                                        ${demandtype.label}
+                                                         <@demandAlreadyExists demandtype.idDemandType/>
                                                  </a>
                                         </li>
                                     </#if>
@@ -80,7 +104,7 @@
     
         <ul class="nav nav-tabs nav-justified">
                 <li role="presentation" class="<#if !active_environment?? || active_environment == ''>active</#if>"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a></li>
-                <#if application.listEnvironment?size gt 1>
+                <#if application.listEnvironment?size gt 0>
                     <#list application.listEnvironment as envi>
                         <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
                     </#list>
@@ -225,3 +249,17 @@
 		</div>
 	</div>
 </div>
+<script>
+$(function(){ 
+	$(".doc").hide();
+	$(".docs_link").popover(
+       { 
+        placement:'right', 
+        html: true, 
+        content: function() {
+            return $(this).next().html();
+        }
+    });
+    
+});
+</script>

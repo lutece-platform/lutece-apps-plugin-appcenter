@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
@@ -65,6 +66,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -80,6 +82,7 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
+    private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
     
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -267,6 +270,11 @@ public class ApplicationXPage extends AppCenterXPage
         
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
         model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_DOCUMENTATION_CATEGORIES, 
+                    Arrays.asList( DocumentationCategory.values( ) )
+                            .stream()
+                            .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
+                    );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
         model.put( MARK_DEMANDS, listFullDemands  );

@@ -14,6 +14,9 @@
         <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelLabel}' helpKey='#i18n{appcenter.create_demandtype.labelLabel.help}' mandatory=true>
                 <@input type='text' name='label' value='${demandtype.label!\'\'}' />
         </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelDescription}' helpKey='#i18n{appcenter.create_demandtype.labelDescription.help}' mandatory=true>
+                <@input type='text' name='description' value='${demandtype.description!\'\'}' />
+        </@formGroup>
         
         <@actionButtons button1Name="action_createDemandType" button2Name="view_manageDemandType"/>
     </@tform>

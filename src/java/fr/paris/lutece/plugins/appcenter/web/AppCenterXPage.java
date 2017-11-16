@@ -43,8 +43,8 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
-import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -85,6 +86,7 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
+    private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
     
     //Session
     private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
@@ -176,6 +178,7 @@ public abstract class AppCenterXPage extends MVCApplication
                     request, request.getLocale( ) );
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
+        
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
@@ -199,6 +202,11 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
         model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_DOCUMENTATION_CATEGORIES, 
+                    Arrays.asList( DocumentationCategory.values( ) )
+                            .stream()
+                            .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
+                    );
     }
     
     protected void populateCommonsDemand( Object object, HttpServletRequest request )

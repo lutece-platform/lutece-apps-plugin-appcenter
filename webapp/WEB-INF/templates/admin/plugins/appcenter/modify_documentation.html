@@ -1,0 +1,22 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_documentation.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_documentation" action="jsp/admin/plugins/appcenter/ManageDemandTypes.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id" value="${documentation.id}"/>
+        <@formGroup labelKey='#i18n{appcenter.modify_documentation.labelLabel}' helpKey='#i18n{appcenter.modify_documentation.labelLabel.help}' >
+                <@input type='text' name='label' value='${documentation.label}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.modify_documentation.labelUrl}' helpKey='#i18n{appcenter.modify_documentation.labelUrl.help}' >
+                <@input type='text' name='url' value='${documentation.url}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.modify_documentation.labelCategory}' helpKey='#i18n{appcenter.modify_documentation.labelCategory.help}' >
+                <@comboWithParams name='category' default_value=default_documentation_category additionalParameters='' items=documentation_categories />
+        </@formGroup>
+        <@actionButtons button1Name="action_modifyDocumentation" button2Name="view_manageDocumentation"/>
+    </@tform>
+	</@boxBody>
+</@box>

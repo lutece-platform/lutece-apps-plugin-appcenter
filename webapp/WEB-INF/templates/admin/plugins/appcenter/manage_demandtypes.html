@@ -43,7 +43,8 @@
                             <@tform action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
                                 <input type="hidden" id="id" name="id" value ="${demandtype.id}"/>
                                 <input type="hidden" id="id_category_demand_type" name="id_category_demand_type" value="${categorydemandtype.id?string}" />
-                                ${demandtype.label} 
+                                ${demandtype.label}
+                                <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?view=manageDocumentations&id=${demandtype.id}&id_demand_type=${demandtype.id}' title='#i18n{appcenter.manage_documentations.title}' buttonIcon='pencil' showTitle=true size='xs' class="pull-right"/>
                                 <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?view=modifyDemandType&id=${demandtype.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false size='xs' class="pull-right"/>
                                 <@aButton href='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp?action=confirmRemoveDemandType&id=${demandtype.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false size='xs' class="pull-right" />
                                 <#if demandtype_index lt demand_type_list?size-1 >

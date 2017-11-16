@@ -1,0 +1,22 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypes" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_documentation.title}' />
+	<@boxBody>
+    <@tform name='create_documentation' action='jsp/admin/plugins/appcenter/ManageDemandTypes.jsp'>
+
+        <@messages errors=errors />
+        <@formGroup labelKey='#i18n{appcenter.create_documentation.labelLabel}' helpKey='#i18n{appcenter.create_documentation.labelLabel.help}' >
+                <@input type='text' name='label' value='${documentation.label!\'\'}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_documentation.labelUrl}' helpKey='#i18n{appcenter.create_documentation.labelUrl.help}' >
+                <@input type='text' name='url' value='${documentation.url!\'\'}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_documentation.labelCategory}' helpKey='#i18n{appcenter.create_documentation.labelCategory.help}' >
+                <@comboWithParams name='category' default_value='' additionalParameters='' items=documentation_categories />
+        </@formGroup>
+
+        <@actionButtons button1Name="action_createDocumentation" button2Name="view_manageDocumentation"/>
+    </@tform>
+	</@boxBody>
+</@box>
