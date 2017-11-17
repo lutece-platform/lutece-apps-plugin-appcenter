@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDemandTypesEnable;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
@@ -87,6 +88,8 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
+    private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+
     
     //Session
     private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
@@ -238,6 +241,10 @@ public abstract class AppCenterXPage extends MVCApplication
         //Fill with application
         Application application = getApplication( request );
         model.put( MARK_APPLICATION, application );
+        
+        //Fill the active demand types
+        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+
         
         //Add the demands
         addListDemand( request, application, model );

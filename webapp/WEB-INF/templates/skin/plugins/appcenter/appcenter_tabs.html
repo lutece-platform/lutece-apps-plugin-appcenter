@@ -58,7 +58,7 @@
                                                         </div>
                                                     </div>
                                                 </#if>
-                                                 <a <#if !demandTypeEnabled(demandtype.idDemandType)>disabled="disabled"</#if> class="btn demandtype_link <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>"" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+                                                 <a class="btn demandtype_link  <#if !demandTypeEnabled(demandtype.idDemandType)>disabled </#if> <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
                                                         ${demandtype.label}
                                                          <@demandAlreadyExists demandtype.idDemandType/>
                                                  </a>
@@ -307,7 +307,7 @@ $(function(){
             return $(this).next().html();
         }
     });
-    $('.demandtype_link').click(function(e){
+    $('.btn.demandtype_link.disabled').click(function(e){
      e.preventDefault();
     })
     $(".parent-toogle").change(function() {
