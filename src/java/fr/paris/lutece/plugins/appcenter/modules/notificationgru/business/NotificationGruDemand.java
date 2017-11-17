@@ -47,8 +47,27 @@ public class NotificationGruDemand extends Demand
     public static final String DEMAND_TYPE = "notificationgru";
     public static final String ID_DEMAND_TYPE = "notificationgru";
 
+    private String _strGruDemandType;
     private String _strApiManagerKey;
     private String _strIdGruDemandType;
+
+    /**
+     * Get the gru demand type
+     * @return the gru demand type
+     */
+    public String getGruDemandType()
+    {
+        return _strGruDemandType;
+    }
+    
+    /**
+     * Set the gru demand type
+     * @param strGruDemandType 
+     */
+    public void setGruDemandType( String strGruDemandType )
+    {
+        _strGruDemandType = strGruDemandType;
+    }
 
     /**
      * Get the API Manager Notify key

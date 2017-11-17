@@ -41,8 +41,28 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class NotificationGruData extends ApplicationData
 {
+    @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.grudemandtype.notEmpty}" )
+    private String _strGruDemandType;
     private String _strApiManagerKey;
     private String _strIdGruDemandType;
+
+    /**
+     * Get the gru demand type
+     * @return the gru demand type
+     */
+    public String getGruDemandType()
+    {
+        return _strGruDemandType;
+    }
+    
+    /**
+     * Set the gru demand type
+     * @param strGruDemandType 
+     */
+    public void setGruDemandType( String strGruDemandType )
+    {
+        _strGruDemandType = strGruDemandType;
+    }
 
     /**
      * Get the API Manager Notify key

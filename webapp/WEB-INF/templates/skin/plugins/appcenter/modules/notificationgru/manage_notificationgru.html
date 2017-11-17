@@ -19,6 +19,7 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
+				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnGruDemandType}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApiManagerKey}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
 		</tr>
@@ -26,6 +27,9 @@
 			<#list data as notificationGruData >
 			<tr>
 					<input type="hidden" id="id" name="id" />s
+					<td>
+							${notificationGruData.gruDemandType}
+					</td>
 					<td>
 							${notificationGruData.apiManagerKey}
 					</td>
@@ -60,6 +64,13 @@
 					<input type="hidden" name="page" value="notificationgru" />
                                         <input type="hidden" name="id" value="${application.id}" />
                                         <input type="hidden" name="action" value="doCreateNotificationGruDemand" />
+                                            <div class="modal-body">
+						<div class="form-group">
+							<label for="gru_demand_type" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelGruDemandType}</label>
+							<input type="text" id="gru_demand_type" name="gru_demand_type" maxlength="250" class="form-control" />
+						</div>
+						<div class="form-group">
+                                            </div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.notificationgru.create_notification_gru.buttonCreate}</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
