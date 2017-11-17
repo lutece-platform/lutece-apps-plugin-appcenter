@@ -41,67 +41,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class NotificationGruData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.applicationcode.notEmpty}" )
-    private String _strApplicationCode;
-    @NotEmpty( message = "#i18n{module.appcenter.notificationgru.validation.grudemandtype.notEmpty}" )
-    private String _strGruDemandType;
-    private String _strCategoryGruDemandType;
     private String _strApiManagerKey;
     private String _strIdGruDemandType;
-
-    /**
-     * Get the application code
-     * @return the application code
-     */
-    public String getApplicationCode()
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * Set the application code
-     * @param strApplicationCode the application code 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
-
-    /**
-     * Get the gru demand type
-     * @return the gru demand type
-     */
-    public String getGruDemandType()
-    {
-        return _strGruDemandType;
-    }
-    
-    /**
-     * Set the gru demand type
-     * @param strGruDemandType 
-     */
-    public void setGruDemandType( String strGruDemandType )
-    {
-        _strGruDemandType = strGruDemandType;
-    }
-
-    /**
-     * Get the category of gru demand type
-     * @return the category of gru demand type
-     */
-    public String getCategoryGruDemandType()
-    {
-        return _strCategoryGruDemandType;
-    }
-
-    /**
-     * Set the category of gru demand type
-     * @param strCategoryGruDemandType 
-     */
-    public void setCategoryGruDemandType( String strCategoryGruDemandType )
-    {
-        _strCategoryGruDemandType = strCategoryGruDemandType;
-    }
 
     /**
      * Get the API Manager Notify key
