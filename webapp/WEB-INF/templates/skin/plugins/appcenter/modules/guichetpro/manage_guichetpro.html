@@ -19,8 +19,6 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnEnvironment}</th>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnApplicationCode}</th>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
@@ -29,12 +27,6 @@
 			<#list data as guichetProData >
 			<tr>
 					<input type="hidden" id="id" name="id" />
-					<td>
-							${guichetProData.environment}
-					</td>
-					<td>
-							${guichetProData.applicationCode}
-					</td>
 					<td>
 							${guichetProData.guichetProDemandType}
 					</td>

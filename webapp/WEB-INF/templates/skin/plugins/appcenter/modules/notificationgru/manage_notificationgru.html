@@ -19,17 +19,13 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnEnvironment}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApiManagerKey}</th>
 				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
 		</tr>
 		<#if data??>
 			<#list data as notificationGruData >
 			<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${notificationGruData.environment}
-					</td>
+					<input type="hidden" id="id" name="id" />s
 					<td>
 							${notificationGruData.apiManagerKey}
 					</td>

@@ -18,7 +18,6 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnEnvironment}</th>
 				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteName}</th>
 				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteUrl}</th>
 				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnBackButtonName}</th>
@@ -28,9 +27,6 @@
 			<#list data as setting >
 			<tr>
 					<input type="hidden" id="id" name="id" />
-					<td>
-							${setting.environment}
-					</td>
 					<td>
 							${setting.favoriteName}
 					</td>
