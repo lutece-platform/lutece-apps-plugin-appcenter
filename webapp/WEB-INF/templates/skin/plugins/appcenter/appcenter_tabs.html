@@ -1,3 +1,6 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 <#macro demandAlreadyExists demandType>
     <#list demands as demand>
         <#if demand.idDemandType == demandType>
@@ -55,7 +58,7 @@
                                                         </div>
                                                     </div>
                                                 </#if>
-                                                 <a class="<#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+                                                 <a <#if !demandTypeEnabled(demandtype.idDemandType)>disabled="disabled"</#if> class="btn demandtype_link <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>"" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
                                                         ${demandtype.label}
                                                          <@demandAlreadyExists demandtype.idDemandType/>
                                                  </a>
@@ -69,6 +72,15 @@
         </#if>
     </#list>
 </#macro>
+                
+<#function demandTypeEnabled idDemandType='' >
+    <#list active_demand_types.listDemandTypeIdEnabled as demand_type_enabled>
+         <#if demand_type_enabled == idDemandType>
+                <#return true/>
+         </#if>
+    </#list>
+    <#return false/>
+</#function>
 
 <#macro tabs2 tab application errors infos user >
 <div class="page-header">
@@ -85,7 +97,7 @@
                         <span class="fa fa-home"></span>   
                 </a>
                 <#if user.admin>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
+                <button id="buttonModifyApplication" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
                         <span class="fa fa-edit"></span>
                 </button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
@@ -174,14 +186,49 @@
 							</label>
 							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required >
 						</div>
-                                                <div class="form-group row">
-                                                    <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.modify_application.labelEnvironments} </label>
-                                                    <div class="col-sm-12 col-md-10 ml-auto">
+                                                <div class="form-group">
+                                                    <label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelEnvironments} </label>
+                                                    <div class="">
                                                         <#list environments as environment>
-                                                            <input <@enviChecked application environment /> type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
+                                                            <input <@enviChecked application environment /> class="" type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
                                                         </#list>
                                                     </div>
-                                            </div>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <label for="name" class="col-form-label">#i18n{appcenter.create_application.labelStepByStep} </label>
+                                                    <div class="panel panel-default">
+                                                        <#list categorydemandtype_list as categorydemandtype>
+                                                            <div class="panel-heading" role="tab" id="heading${categorydemandtype.id}">
+                                                                    <h3 class="panel-title clearfix">
+                                                                        <span class="col-xs-10 col-sm-11">${categorydemandtype.question}</span>
+                                                                        <a class="col-xs-2 col-sm-1"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${categorydemandtype.id}" aria-expanded="false" aria-controls="collapse${categorydemandtype.id}">
+                                                                                <input class="parent-toogle toogle"  data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-size="mini"  data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
+                                                                        </a>
+                                                                    </h3>
+                                                            </div>
+
+
+                                                                <div id="collapse${categorydemandtype.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${categorydemandtype.id}">
+                                                                    <div class="panel-body">
+                                                                        <ul class="list-group" id="navTabs" role="tablist">
+                                                                        <#list demandtype_list as demandtype >
+                                                                            <#if demandtype.idCategoryDemandType == categorydemandtype.id>
+
+                                                                                <li class="list-group-item clearfix">
+                                                                                    <span class="col-xs-10 col-sm-11">${demandtype.question}</span>
+                                                                                    <span class="col-xs-2 col-sm-1">
+                                                                                        <input name="demandtype_${demandtype.idDemandType!''}" class="child-toogle toogle" data-size="mini" data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
+                                                                                    </span>
+                                                                                </li>
+                                                                                    </#if>
+                                                                        </#list>
+                                                                        </ul>
+                                                                     </div>
+                                                                </div>
+
+                                                        </#list>
+                                                    </div>
+                                                </div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" name="action_modifyApplication" class="btn btn-primary">#i18n{portal.util.labelModify}</button>
@@ -260,6 +307,40 @@ $(function(){
             return $(this).next().html();
         }
     });
-    
+    $('.demandtype_link').click(function(e){
+     e.preventDefault();
+    })
+    $(".parent-toogle").change(function() {
+        if($(this).prop('checked') == false) {
+                var idCollapsed = $(this).parent().parent().attr('href');
+                $(idCollapsed).find("input:checkbox").bootstrapToggle('off');
+            }
+    });
+        
+    $(buttonModifyApplication).click( activeDemandTypes );
+        
+    function activeDemandTypes()
+    {
+        <#list active_demand_types.listDemandTypeIdEnabled as active_demand_type>
+            $('input[name=demandtype_${active_demand_type}]').bootstrapToggle('on');
+        </#list>
+        $(".parent-toogle").each( function () {
+            var bChildChecked = false;
+            var idCollapsed = $(this).parent().parent().attr('href');
+            $(idCollapsed).find("input:checkbox").each( function()
+            {
+                if ( $(this).is(':checked') )
+                {
+                    bChildChecked=true;
+                }
+            });
+            if ( bChildChecked )
+            {
+                $(this).bootstrapToggle('on');
+                $(idCollapsed).addClass('in');
+            }
+        } );
+    }
+        
 });
 </script>

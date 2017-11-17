@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDemandTypesEnable;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
@@ -43,6 +44,7 @@ import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
@@ -60,7 +62,6 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
 import fr.paris.lutece.util.ReferenceList;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.HashMap;
@@ -83,6 +84,10 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
+    private static final String MARK_CATEGORY_DEMAND_TYPES = "category_demand_types";
+    private static final String MARK_DEMAND_TYPES = "demand_types";
+    private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+    
     
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -149,6 +154,8 @@ public class ApplicationXPage extends AppCenterXPage
         _application = ( _application != null ) ? _application : new Application( );
 
         Map<String, Object> model = getModel( );
+        model.put( MARK_CATEGORY_DEMAND_TYPES, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
+        model.put( MARK_DEMAND_TYPES, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_APPLICATION, _application );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
 
@@ -175,6 +182,21 @@ public class ApplicationXPage extends AppCenterXPage
         }
 
         ApplicationHome.create( _application );
+        
+        ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
+        for( Map.Entry<String,String[]> entry : request.getParameterMap( ).entrySet( ) )
+        {
+            if ( entry.getKey().startsWith( "demandtype_" ) )
+            {
+                String strDemandType = entry.getKey().split("demandtype_")[1];
+                appDemandTypeIdEnabled.addDemandTypeEnabled( strDemandType );
+            }
+        }
+        
+        ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
+        
+        
+        
         UserApplication authorization = new UserApplication( );
         authorization.setId( _application.getId( ) );
         authorization.setUserId( UserService.getCurrentUserId( request ) );
@@ -267,7 +289,7 @@ public class ApplicationXPage extends AppCenterXPage
         
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
-        
+        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
         model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_DOCUMENTATION_CATEGORIES, 
@@ -322,8 +344,24 @@ public class ApplicationXPage extends AppCenterXPage
         {
             return redirect(request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
         }
+        
 
         ApplicationHome.update( _application );
+        
+                
+                
+        ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
+        for( Map.Entry<String,String[]> entry : request.getParameterMap( ).entrySet( ) )
+        {
+            if ( entry.getKey().startsWith( "demandtype_" ) )
+            {
+                String strDemandType = entry.getKey().split("demandtype_")[1];
+                appDemandTypeIdEnabled.addDemandTypeEnabled( strDemandType );
+            }
+        }
+        
+        ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
+        
         addInfo( INFO_APPLICATION_UPDATED, getLocale( request ) );
 
         return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );

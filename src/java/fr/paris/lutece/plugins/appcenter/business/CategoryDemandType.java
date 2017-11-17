@@ -49,6 +49,8 @@ public class CategoryDemandType implements Serializable
     
     private String _strLabel;
     
+    private String _strQuestion;
+    
     private boolean _bIsDependingOfEnvironment;
     
     private int _nOrder;
@@ -124,4 +126,16 @@ public class CategoryDemandType implements Serializable
     {
         _nOrder = nOrder;
     }
+
+    public String getQuestion()
+    {
+        return _strQuestion;
+    }
+
+    public void setQuestion( String strQuestion )
+    {
+        _strQuestion = strQuestion;
+    }
+    
+    
 }

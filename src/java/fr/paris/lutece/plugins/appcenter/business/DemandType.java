@@ -58,6 +58,8 @@ public class DemandType implements Serializable
     
     private String _strDescription;
     
+    private String _strQuestion;
+    
     private int _nIdCategoryDemandType;
     
     private int _nOrder;
@@ -190,6 +192,16 @@ public class DemandType implements Serializable
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
+    }
+
+    public String getQuestion()
+    {
+        return _strQuestion;
+    }
+
+    public void setQuestion( String strQuestion )
+    {
+        _strQuestion = strQuestion;
     }
     
     

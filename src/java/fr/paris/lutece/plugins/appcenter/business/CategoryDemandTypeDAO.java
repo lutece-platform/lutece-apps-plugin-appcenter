@@ -48,11 +48,11 @@ import java.util.List;
 public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id, label, is_depending_of_environment, n_order FROM appcenter_category_demand_type WHERE id = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_category_demand_type SELECT MAX(id+1), ?, ?,  COALESCE( MAX(n_order+1) )  FROM appcenter_category_demand_type ";
+    private static final String SQL_QUERY_SELECT = "SELECT id, label, question, is_depending_of_environment, n_order FROM appcenter_category_demand_type WHERE id = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_category_demand_type SELECT MAX(id+1), ?, ? , ?,  COALESCE( MAX(n_order+1) )  FROM appcenter_category_demand_type ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_category_demand_type WHERE id = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_category_demand_type SET id = ?, label = ? , is_depending_of_environment = ?, n_order = ? WHERE id = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id, label, is_depending_of_environment, n_order FROM appcenter_category_demand_type ORDER BY n_order";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_category_demand_type SET id = ?, label = ?, question = ? , is_depending_of_environment = ?, n_order = ? WHERE id = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id, label, question, is_depending_of_environment, n_order FROM appcenter_category_demand_type ORDER BY n_order";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id FROM appcenter_category_demand_type ORDER BY n_order";
 
     /**
@@ -66,6 +66,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++ , categoryDemandType.getLabel( ) );
+            daoUtil.setString( nIndex++ , categoryDemandType.getQuestion( ));
             daoUtil.setBoolean( nIndex++ , categoryDemandType.getIsDependingOfEnvironment( ) );
             
             daoUtil.executeUpdate( );
@@ -98,6 +99,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
             
             categoryDemandType.setId( daoUtil.getInt( nIndex++ ) );
             categoryDemandType.setLabel( daoUtil.getString( nIndex++ ) );
+            categoryDemandType.setQuestion( daoUtil.getString( nIndex++ ) );
             categoryDemandType.setIsDependingOfEnvironment( daoUtil.getBoolean( nIndex++ ) );
             categoryDemandType.setOrder( daoUtil.getInt( nIndex++ ) );
         }
@@ -129,6 +131,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
         
         daoUtil.setInt( nIndex++ , categoryDemandType.getId( ) );
         daoUtil.setString( nIndex++ , categoryDemandType.getLabel( ) );
+        daoUtil.setString( nIndex++ , categoryDemandType.getQuestion( ) );
         daoUtil.setBoolean( nIndex++ , categoryDemandType.getIsDependingOfEnvironment( ) );
         daoUtil.setInt( nIndex++ , categoryDemandType.getOrder( ) );
         daoUtil.setInt( nIndex , categoryDemandType.getId( ) );
@@ -154,6 +157,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
             
             categoryDemandType.setId( daoUtil.getInt( nIndex++ ) );
             categoryDemandType.setLabel( daoUtil.getString( nIndex++ ) );
+            categoryDemandType.setQuestion( daoUtil.getString( nIndex++ ) );
             categoryDemandType.setIsDependingOfEnvironment( daoUtil.getBoolean( nIndex++ ) );
             categoryDemandType.setOrder( daoUtil.getInt( nIndex++ ) );
 

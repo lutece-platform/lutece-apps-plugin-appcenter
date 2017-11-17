@@ -9,6 +9,7 @@ id int AUTO_INCREMENT,
 id_demand_type varchar(255) default '' NOT NULL,
 label long varchar NOT NULL,
 description long varchar,
+question long varchar,
 id_category_demand_type int default '0',
 n_order int default 0,
 PRIMARY KEY (id)
@@ -22,6 +23,7 @@ DROP TABLE IF EXISTS appcenter_category_demand_type;
 CREATE TABLE appcenter_category_demand_type (
 id int AUTO_INCREMENT,
 label long varchar,
+question long varchar,
 is_depending_of_environment SMALLINT,
 n_order int default 0,
 PRIMARY KEY (id)
