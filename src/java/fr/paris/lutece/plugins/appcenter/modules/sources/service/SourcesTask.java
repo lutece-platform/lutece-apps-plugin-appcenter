@@ -6,6 +6,8 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import com.rometools.rome.feed.rss.Source;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
@@ -15,21 +17,20 @@ import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourceUserDema
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesTaskComponent;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.service.task.AppCenterTaskFunctional;
+import fr.paris.lutece.plugins.appcenter.service.task.AppcenterTask;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
-public class SourcesTask extends SimpleTask
+public class SourcesTask extends AppcenterTask
 {
 
-    // SERVICES
-    @Inject
-    private IResourceHistoryService _resourceHistoryService;
-
-    @Override
+   @Override
     public String getTitle( Locale locale )
     {
         // TODO
@@ -39,54 +40,34 @@ public class SourcesTask extends SimpleTask
     @Override
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
     {
-        SourcesData sourcesData = new SourcesData( );
-        BeanUtil.populate( sourcesData, request );
+    	 AppCenterTaskFunctional<SourcesData, SourcesDatas, SourcesDemand> funct=( requestParam,  localeParam, applicationDataParam, applicationDatasParam,demandParam)-> addUsers(requestParam,applicationDataParam,demandParam);
+         super.processTask(nIdResourceHistory, request, locale, SourcesData.class, SourcesDatas.class,SourcesDatas.DATA_SOURCES_NAME, SourcesDemand.class,funct);
 
-        
-
-        // FIXME return real error message here
-        if ( !BeanValidationUtil.validate( sourcesData ).isEmpty( ) )
-        {
-            throw new RuntimeException( "Should not happen after validateTask" );
-        }
-        
-        
-
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        SourcesDemand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) ,SourcesDemand.class);
-
-        //Add userData
-        sourcesData.setListUserData( new ArrayList<>( ) );
-        SourceUserData userData=null;
-        for(SourceUserDemand user: demand.getListSourceUserDemand( ))
-        {
-            userData=new SourceUserData( );
-            if(request.getParameter( user.getUserName( ) )!=null)
-            {
-                userData.setUserName( user.getUserName( ) );
-                userData.setEmail( user.getEmail( ) );
-                sourcesData.getListUserData( ).add( userData );
-            }
-         
-         }
-           
-        
-        
-        
-        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
-
-        SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME,
-                SourcesDatas.class );
-        if ( sourcesDatas == null )
-        {
-            sourcesDatas = new SourcesDatas( );
-        }
-
-       
-        
-        sourcesDatas.addData( sourcesData );
-
-        ApplicationService.saveApplicationData( application, sourcesDatas );
     }
+    
+    
+    
+    public void  addUsers(HttpServletRequest request, SourcesData sourcesData,SourcesDemand demand )
+    {
+    	
+    	 sourcesData.setListUserData( new ArrayList<>( ) );
+         SourceUserData userData=null;
+         for(SourceUserDemand user: demand.getListSourceUserDemand( ))
+         {
+             userData=new SourceUserData( );
+             if(request.getParameter( user.getUserName( ) )!=null)
+             {
+                 userData.setUserName( user.getUserName( ) );
+                 userData.setEmail( user.getEmail( ) );
+                 sourcesData.getListUserData( ).add( userData );
+             }
+          
+          }
+    }
+	
+    
+    
+    
+    
 
 }

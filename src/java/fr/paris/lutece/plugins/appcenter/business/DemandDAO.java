@@ -350,11 +350,11 @@ public final class DemandDAO implements IDemandDAO
                 demand.setIdDemandType( strDemandType );
                 demand.setDemandType( daoUtil.getString( 4 ) );
                 demand.setIdApplication( daoUtil.getInt( 5 ) );
-
+                demand.setDemandData(strDemandData);
                 demand.setCreationDate( daoUtil.getTimestamp( 7 ) );
                 demand.setIsClosed( daoUtil.getBoolean( 8  ) );
                 demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 9  ) ) );
-
+                
                 demandList.add( demand ); 
             }
             catch ( IOException e )

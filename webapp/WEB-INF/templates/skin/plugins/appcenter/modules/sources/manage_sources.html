@@ -10,11 +10,8 @@
 
           
 	            <div class="pull-right">
-	                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddRepository" title="#i18n{module.appcenter.sources.manage_sources.addRepositoryAccessButton}">
+	                    <button type="button" class="btn btn-primary" id="source-data-create" title="#i18n{module.appcenter.sources.manage_sources.addRepositoryAccessButton}">
 	                            <@icon style="plus" />
-	                    </button>
-	                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModifyRepository" title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
-	                            <@icon style="edit" />
 	                    </button>
 	            </div>
           
@@ -26,7 +23,9 @@
                     <input type="hidden" id="id" name="id"/>
                     <th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
                     <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
-                      <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
+                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyActions}</th>
+                   
                    </tr>
                 <#if data??>
                     <#list data as sourceData >
@@ -45,6 +44,11 @@
 	                          		 </#list>
 	                          	</#if>	 
                             </td>
+                            <td>
+                              <button type="button" class="btn btn-primary source-data-modify" data-idapplicationdata="${sourceData.idApplicationData!}"  data-idlastdemanddata="<#if sourceData.listIdDemandAssociated??><#list sourceData.listIdDemandAssociated as lastDemandId><#if !lastDemandId?has_next>${lastDemandId}</#if></#list></#if>"title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
+	                            <@icon style="edit" />
+	                   		 </button>
+                            </td>
                         </tr>
                     </#list>
                 </#if>
@@ -55,7 +59,7 @@
 
             <@printDemands demands demands_states demands_histories/> 
            
-   
+   			  <@addJsDemands demands/> 
         </div>
 	&#160;
 </div>
@@ -73,10 +77,11 @@
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<div class="modal-body">
+							
 							<input type="hidden" name="page" value="sources" />
 							<input type="hidden" name="id" value="${application.id}" />
 							<input type="hidden" name="action" value="addRepository" />
-							
+							<input type="hidden" id="id_application_data" name="id_application_data" value="" />
 							<div class="form-group">
 								<label for="repository_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.label} <@icon style="asterisk" />
 								</label>
@@ -85,14 +90,14 @@
 							<div class="form-group">
 								<label for="repository_type" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} <@icon style="asterisk" />
 								</label>
-									<@comboSortedWithParams name="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
+									<@comboSortedWithParams name="repository_type" id="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
 								</div>
 							
 							<div class="form-group">
 								<label for="public_repository" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label} <@icon style="asterisk" />
 								</label>
-								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' value='true' mandatory=true />
-							     <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' value='false' mandatory=true />
+								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' id='public_repository_true' value='true' mandatory=true />
+							     <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' id='public_repository_false' value='false' mandatory=true />
 							</div>
 								<fieldset>
 									<legend class="clearfix">
@@ -102,8 +107,11 @@
 										</button> 
 									</legend>
 								<div class="form-group">
-								<fieldset class="user">
+								<fieldset class="user" id="user_1">
 									<legend>Utilisateur <span>1</span></legend>
+										<button type="button" class="remove-user"class="btn btn-default pull-right">
+											<i class="fa fa-minus"></i>
+										</button> 
 									<label for="user_name_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>
 									<input type="text" id="user_name_1" name="user_name_1"  maxlength="250" class="form-control" required>
 									<label for="email_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>
@@ -127,6 +135,21 @@
 	
 	<script>
 	
+	
+	function clearForm()
+	{
+		$( "#repository_name" ).val("");
+		$( "#repository_type" ).val("");
+		$( "#public_repository_true" ).prop("checked", true)
+		$( ".user:first").find(":text").val("");
+		$( ".user:not(:first)").remove();
+		
+		
+		
+	}
+	
+	
+	
 	$( function(){
 		
 		$("#addUser").click(
@@ -135,6 +158,7 @@
 				nbUser=parseInt($( userClone ).find("legend>span" ).text())+1;
 			    $( userClone ).find(":text").val("");
 				$( userClone ).find("legend>span" ).text(nbUser);
+				$( userClone ).attr("id","user_"+nbUser);
 		    
 				//Modify User Name
 				$( userClone ).find("label:first").attr("for","user_name_"+nbUser);
@@ -149,8 +173,38 @@
 		        userClone.appendTo( $(".user:first" ));
 				}
 			);
+		$(".source-data-modify").click(
+				function() {
+					$("#id_application_data").val(this.dataset.idapplicationdata);
+					
+					console.log(getLastDemandInfoById(this.dataset.idlastdemanddata));
+					
+					$("#ModalAddRepository").modal("show");
+				 }
+			);
+		
+		$("#source-data-create").click(
+				function() {
+					clearForm();
+					$("#ModalAddRepository").modal("show");
+				 }
+			);
+		
+		$(".remove-user").click(
+				function() {
+					 alert($(this).parents( "fieldset:first" ).attr("id"));
+					if($(this).parents( "fieldset:first" ).attr("id")!="user_1")
+					{	
+						
+						$(this).parents( "fieldset:first" ).remove();
+					}
+				}
+			);
+		
+		
 	
-	});
+		
+});
 	
 	</script>
     

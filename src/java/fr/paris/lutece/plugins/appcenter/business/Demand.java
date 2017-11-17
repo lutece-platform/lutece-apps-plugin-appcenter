@@ -78,9 +78,10 @@ public class Demand implements Serializable
     
     @JsonIgnore
     private boolean _bIsClosed;
-
-  
-
+    
+    
+    private Integer _nIdApplicationData;
+    
 	/**
      * Returns the Id
      * 
@@ -290,4 +291,20 @@ public class Demand implements Serializable
     {
         return false;
     }
+    
+    /**
+     * 
+     * @return the application data associated to the demand
+     */
+    public Integer getIdApplicationData() {
+		return _nIdApplicationData;
+	}
+
+    /**
+     * 
+     * @param nIdApplicationData the application dataAssociated to the demand 
+     */
+	public void setIdApplicationData(Integer nIdApplicationData) {
+		this._nIdApplicationData = nIdApplicationData;
+	}
 }

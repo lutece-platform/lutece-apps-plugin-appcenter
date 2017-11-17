@@ -36,7 +36,9 @@ package fr.paris.lutece.plugins.appcenter.business;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationDatas<T extends ApplicationData>
+import fr.paris.lutece.plugins.appcenter.service.DataSubset;
+
+public  class ApplicationDatas<T extends ApplicationData> implements DataSubset
 {
     private List<T> _listData;
     
@@ -58,6 +60,15 @@ public class ApplicationDatas<T extends ApplicationData>
     
     public void addData( T data )
     {
-        _listData.add( data );
+    	//Add Id application data
+    	data.setIdApplicationData(_listData.size()+1);
+       _listData.add( data );
     }
+
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

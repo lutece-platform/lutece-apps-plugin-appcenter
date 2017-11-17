@@ -33,13 +33,15 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ApplicationData
 {
     
-    
+	private Integer _nIdApplicationData;
+    private List<Integer> _listIdDemandAssociated=new ArrayList<Integer>();
     private String _strEnvironment;
 
     /**
@@ -59,6 +61,46 @@ public class ApplicationData
     {
         _strEnvironment = strEnvironment;
     }
+
+    /**
+     * get the list of id demand associated to the Application data
+     * @return the list of id demand associated to the Application data
+     */
+	public List<Integer> getListIdDemandAssociated() {
+		return _listIdDemandAssociated;
+	}
+
+	/**
+	 * set the list of id demand associated to the Application data
+	 * @param listIdDemandAssociated the list of id demand associated to the Application data
+	 */
+	public void setListIdDemandAssociated(List<Integer> listIdDemandAssociated) {
+		this._listIdDemandAssociated = listIdDemandAssociated;
+	}
+	
+	/**
+	 * add a new demand associated to the application data
+	 * @param nIdDemand the demand id
+	 */
+	public void addDemandAssociated(Integer nIdDemand) {
+		this._listIdDemandAssociated.add(nIdDemand);
+	}
+
+	/**
+	 * 
+	 * @return the application Data Id
+	 */
+	public Integer getIdApplicationData() {
+		return _nIdApplicationData;
+	}
+
+	/**
+	 *the application data id
+	 * @param _nIdApllicationData nIdApplication data
+	 */
+	public void setIdApplicationData(Integer _nIdApllicationData) {
+		this._nIdApplicationData = _nIdApllicationData;
+	}
     
     
     

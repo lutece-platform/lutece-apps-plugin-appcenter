@@ -150,38 +150,7 @@ public class SourcesXPage extends AppCenterXPage
         return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, nId );
     }
 
-    /**
-     * Action : add access demand
-     * @param request the HttpServletRequest
-     * @return the manage view, after processing action
-     * @throws UserNotSignedException
-     * @throws SiteMessageException 
-     */
-    @Action( ACTION_ADD_ACCESS_DEMAND )
-    public XPage doAddAccessDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
-    {
-        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
-        Application application = getApplication( request );
-        SourcesDemand sourcesDemand = new SourcesDemand( );
-        sourcesDemand.setIdApplication( application.getId( ) );
-
-        populate( sourcesDemand, request );
-        populateCommonsDemand( sourcesDemand, request);
-        
-        //Get the source repository from dataSubset
-        SourcesDatas sourcesDatas = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-        //sourcesDemand.setSiteRepository( sourcesDatas.getSiteRepository( ) );
-        
-        // Check constraints
-        if ( !validateBean( sourcesDemand, getLocale( request ) ) )
-        {
-            return redirectView( request, VIEW_MANAGE_SOURCES );
-        }
-
-        DemandService.saveDemand( sourcesDemand, application );
-
-        return redirect(request, VIEW_MANAGE_SOURCES, Constants.PARAM_ID_APPLICATION, nId );
-    }
+   
 
     @Override
     protected String getDemandType()

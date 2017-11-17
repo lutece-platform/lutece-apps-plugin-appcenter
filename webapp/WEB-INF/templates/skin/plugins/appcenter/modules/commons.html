@@ -29,6 +29,30 @@
             </div>
     </div>
 </#macro>
+<#macro addJsDemands demands>
+    <script>
+    	var jsonListDemands=$.parseJSON('[<#list demands as demand>{"idDemand":${demand.id!},"demandData":${demand.demandData!}}<#if demand?has_next>,</#if></#list>]');
+    	
+    	function getLastDemandInfoById(idDemand)
+    	{
+    		
+    		var JsonReturn;
+    		$.each(jsonListDemands, function (i, obj) {
+    		   
+    			if(obj.idDemand==idDemand)
+    		     {
+    				JsonReturn=obj;
+    		     }
+    			
+    		});
+    		return JsonReturn;
+        		
+    	}
+    	
+     </script>
+</#macro>
+
+
 
 <#macro printDemands demands demands_states demands_histories>
 	<#if 0 lt demands?size>
