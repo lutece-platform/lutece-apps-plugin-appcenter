@@ -333,7 +333,8 @@ public final class DemandDAO implements IDemandDAO
     public <T extends Demand> List<T> selectListFullDemands( int nIdApplication, Plugin plugin )
     {
         List<T> demandList = new ArrayList<>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION, plugin );
+        daoUtil.setInt( 1, nIdApplication);
         daoUtil.executeQuery( );
 
         while ( daoUtil.next( ) )
