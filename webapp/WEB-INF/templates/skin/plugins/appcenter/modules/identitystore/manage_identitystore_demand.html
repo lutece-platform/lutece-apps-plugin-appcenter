@@ -19,7 +19,6 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnEnvironment}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationCode}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationRights}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApiManagerSecurityKey}</th>
@@ -29,9 +28,6 @@
 			<#list data as setting >
                             <tr>
                                 <input type="hidden" id="id" name="id" />
-                                <td>
-                                                ${setting.environment}
-                                </td>
                                 <td>
                                                 ${setting.applicationCode}
                                 </td>
@@ -109,10 +105,6 @@
                                         <input type="hidden" name="id" value="${application.id}" />
                                         <input type="hidden" name="action" value="addIdentitystoreDemand" />
                                             <div class="modal-body">
-						<div class="form-group">
-							<label for="application_code" class="col-form-label">#i18n{module.appcenter.identitystore.create_identitystore.labelApplicationCode}</label>
-							<input type="text" id="applicationCode" name="applicationCode" maxlength="250" class="form-control" />
-						</div>
                                                 <@table>
                                                     <tr>
                                                         <th>#i18n{module.appcenter.identitystore.create_identitystore.columnAttributeName}</th>

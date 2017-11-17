@@ -47,7 +47,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class IdentitystoreDemand extends Demand
 {
     @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.environment.notEmpty}" )
-    private String _strApplicationCode;
     private Map<String,AttributeRight> _mapAttributeRights;
 
     public static final String ID_DEMAND_TYPE = "identitystore";
@@ -57,24 +56,6 @@ public class IdentitystoreDemand extends Demand
     
     //Markers
     private static final String MARK_MAP_ATTRIBUTES = "mapAttributes";
-    
-    /**
-     * Get the application code
-     * @return the application code
-     */
-    public String getApplicationCode()
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * Set the application code
-     * @param strApplicationCode the application code 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
 
     /**
      * Get the attribute rights
