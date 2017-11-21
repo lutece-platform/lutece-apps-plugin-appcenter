@@ -146,3 +146,16 @@ url long varchar,
 category varchar(255) default '',
 PRIMARY KEY (id_documentation)
 );
+
+
+--
+-- Structure for table appcenter_demand_type_category
+--
+
+DROP TABLE IF EXISTS appcenter_demand_type_category;
+CREATE TABLE appcenter_demand_type_category (
+id_demand_type_category int AUTO_INCREMENT,
+name varchar(50) default '' NOT NULL,
+description varchar(255) default '',
+PRIMARY KEY (id_demand_type_category)
+);

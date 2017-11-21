@@ -1,0 +1,19 @@
+<#include "../../manageappcenter_tabs.html" />
+<@tabs2 tab="demandtypecategories" />
+
+<@box>
+    <@boxHeader title='#i18n{module.appcenter.guichetpro.modify_demandtypecategory.title}' />
+    <@boxBody>
+        <@tform class="form-horizontal" method="post" name="modifyDemandTypeCategory" action="jsp/admin/plugins/appcenter/modules/guichetpro/ManageDemandTypeCategories.jsp">
+            <@messages errors=errors />
+            <input type="hidden" id="id" name="id" value="${demandTypeCategory.id}"/>
+            <@formGroup labelKey='#i18n{module.appcenter.guichetpro.modify_demandtypecategory.labelName}' helpKey='#i18n{module.appcenter.guichetpro.modify_demandtypecategory.labelName.help}' mandatory=true>
+                <@input type='text' name='name' value='${demandTypeCategory.name}' />
+            </@formGroup>
+            <@formGroup labelKey='#i18n{module.appcenter.guichetpro.modify_demandtypecategory.labelDescription}' helpKey='#i18n{module.appcenter.guichetpro.modify_demandtypecategory.labelDescription.help}' >
+                <@input type='text' name='description' value='${demandTypeCategory.description}' />
+            </@formGroup>
+            <@actionButtons button1Name="action_modifyDemandTypeCategory" button2Name="view_manageDemandTypeCategory"/>
+        </@tform>
+    </@boxBody>
+</@box>

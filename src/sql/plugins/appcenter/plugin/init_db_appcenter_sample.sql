@@ -53,3 +53,11 @@ INSERT INTO appcenter_documentation( id_documentation, id_demand_type, label, ur
     (7,8,'Comment récupérer des attributs utilisateurs ? Première méthode','http://fr.lutece.paris.fr/fr/wiki/gru-loadattributesafterauthentication.html','integ'),
     (8,8,'Comment récupérer des attributs utilisateurs ? Deuxième méthode','http://fr.lutece.paris.fr/fr/wiki/gru-library-identitystore.html','dev'),
     (9,8,'Comment récupérer des attributs utilisateurs ? Troisième méthode','http://fr.lutece.paris.fr/fr/wiki/gru-appeldirect-identitystore.html','dev');
+
+INSERT INTO appcenter_demand_type_category ( id_demand_type_category, name, description ) VALUES
+    (1,'Autorisation d\'occupation du domaine public','Autorisation d\'occupation du domaine public'),
+    (2,'Autres demandes','Autres demandes'),
+    (3,'Cinéma','Cinéma'),
+    (4,'Logement','Logement'),
+    (5,'Urbanisme','Urbanisme'),
+    (6,'Voirie','Voirie');

@@ -16,7 +16,7 @@
     <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
     <bean id="appcenter.attributeDAO" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.business.AttributeDAO" />
     <bean id="appcenter.notifyDAO" class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigDAO" />
-    
+    <bean id="appcenter.demandTypeCategoryDAO" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.DemandTypeCategoryDAO" />
     <!-- Services -->
     
     <bean id="appcenter.taskCustomDemandStatusConfigService"
