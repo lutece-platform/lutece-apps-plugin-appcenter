@@ -34,6 +34,8 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandType;
+import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
 import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
@@ -41,7 +43,14 @@ import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonC
 import fr.paris.lutece.plugins.appcenter.modules.notificationgru.business.NotificationGruDemand;
 import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DemandTypeService
 {
@@ -86,6 +95,42 @@ public class DemandTypeService
                 classObj = NotificationGruDemand.class;
         }
         return classObj;
+    }
+
+    /**
+     * Filter the list of all demands and the filter with RBAC authorizations
+     * @param listDemands
+     * @param demandTypeRefList
+     * @param user 
+     */
+    public static void filterWithRBAC( List<Demand> listDemands, ReferenceList demandTypeRefList, AdminUser user )
+    {
+        List<DemandType> listDemandTypes = DemandTypeHome.getDemandTypesList();
+        Collection<DemandType> listAuthorizedDemandType = RBACService.getAuthorizedCollection( listDemandTypes, DemandTypeIdService.DEMAND_TYPE_PERMISSION_VIEW, user);
+        
+        listDemands.removeIf( demand -> 
+                        {
+                            for ( DemandType demType : listAuthorizedDemandType )
+                            {
+                                if ( demType.getIdDemandType().equals( demand.getDemandType( ) ) )
+                                {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        });
+        
+        demandTypeRefList.removeIf( item -> {
+                     for ( DemandType demType : listAuthorizedDemandType )
+                            {
+                                if ( demType.getIdDemandType().equals( item.getCode() ) )
+                                {
+                                    return false;
+                                }
+                            }
+                            return true;
+                 });
+        
     }
     
 }

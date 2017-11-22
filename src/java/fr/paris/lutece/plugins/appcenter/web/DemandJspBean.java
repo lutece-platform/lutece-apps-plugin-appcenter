@@ -159,12 +159,14 @@ public class DemandJspBean extends ManageAppCenterJspBean
             
        }
         
-        Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
        
         //Construct demand type ref list
         ReferenceList demandTypeRefList = ReferenceList.convert( DemandTypeHome.getDemandTypesList( ), "idDemandType","label",false );
+        
+        //Filter demand list and demand type reference list by RBAC on demandType
+        DemandTypeService.filterWithRBAC( listDemands, demandTypeRefList, getUser() );
+        
         AppCenterUtils.addFirstItem( demandTypeRefList, request.getLocale( ) );
-        model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList  );
         
         //Construct envi ref list
         ReferenceList refListEnvi = ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false );
@@ -173,13 +175,19 @@ public class DemandJspBean extends ManageAppCenterJspBean
             item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
         }
         AppCenterUtils.addFirstItem( refListEnvi, request.getLocale( ) );
-        model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
         
         //Construct application ref list
         ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
         AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
-        model.put( MARK_APPLICATION_REF_LIST, applicationRefList );
         
+        
+        
+        
+        Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
+
+        model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList  );
+        model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
+        model.put( MARK_APPLICATION_REF_LIST, applicationRefList );
         model.put( MARK_DEMAND_FILTER, _filter );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );

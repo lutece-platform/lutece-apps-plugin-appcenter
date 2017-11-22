@@ -23,8 +23,26 @@ INSERT INTO core_datastore (entity_key,entity_value) VALUES ('appcenter.fastdepl
 INSERT INTO core_datastore (entity_key,entity_value) VALUES ('appcenter.fastdeployServices.BSIRH','BSIRH');
 
 
+--
+-- Roles creation
+--
+INSERT INTO core_admin_role ( role_key, role_description ) VALUES
+    ( 'BILD','Role définissant les droits des administrateurs BILD'),
+    ( 'BIAD','Role définissant les droits des administrateurs BIAD');
 
-
+--
+-- Roles resources
+--
+--BILD
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','identitystore','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','sources','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','jobs','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','openam','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','moncomptesettings','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','notificationgru','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','guichetpro','VIEW' FROM core_admin_role_resource;
+--BIAD
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BIAD','demand_type','appcode','VIEW' FROM core_admin_role_resource;
 
 
 

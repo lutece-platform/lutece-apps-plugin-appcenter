@@ -33,6 +33,7 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.portal.service.rbac.RBACResource;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
@@ -42,9 +43,10 @@ import java.util.List;
 /**
  * This is the business class for the object DemandType
  */ 
-public class DemandType implements Serializable
+public class DemandType implements Serializable, RBACResource
 {
     private static final long serialVersionUID = 1L;
+    public static final String RBAC_RESOURCE_DEMAND_TYPE = "demand_type";
 
     // Variables declarations 
     private int _nId;
@@ -202,6 +204,18 @@ public class DemandType implements Serializable
     public void setQuestion( String strQuestion )
     {
         _strQuestion = strQuestion;
+    }
+
+    @Override
+    public String getResourceTypeCode()
+    {
+       return RBAC_RESOURCE_DEMAND_TYPE;
+    }
+
+    @Override
+    public String getResourceId()
+    {
+        return getIdDemandType( );
     }
     
     

@@ -74,6 +74,15 @@ public interface IDemandTypeDAO
      * @return The instance of the demandType
      */
     DemandType load( int nKey, Plugin plugin );
+    
+    /**
+     * Load the data from the table
+     * @param strIdDemandType the demand type
+     * @param plugin the Plugin
+     * @return The instance of the demandType
+     */
+    DemandType loadByIdDemandType( String strIdDemandType, Plugin plugin );
+
 
     /**
      * Load the data of all the demandType objects and returns them as a list

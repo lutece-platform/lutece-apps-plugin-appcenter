@@ -50,6 +50,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
 {
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id, id_demand_type, label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id = ?";
+    private static final String SQL_QUERY_SELECT_BY_ID_DEMAND_TYPE = "SELECT id, id_demand_type, label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_demand_type = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand_type SELECT MAX(id+1), ?, ?,  ?, ?, ?,  COALESCE( MAX(n_order+1) , 1 )  FROM appcenter_demand_type ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand_type WHERE id = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand_type SET id = ?, id_demand_type = ?, label = ?, description = ?, question = ? , id_category_demand_type = ?, n_order = ? WHERE id = ?";
@@ -251,5 +252,31 @@ public final class DemandTypeDAO implements IDemandTypeDAO
 
         daoUtil.free( );
         return demandTypeList;
+    }
+
+    @Override
+    public DemandType loadByIdDemandType( String strIdDemandType, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_DEMAND_TYPE, plugin );
+        daoUtil.setString( 1 , strIdDemandType );
+        daoUtil.executeQuery( );
+        DemandType demandType = null;
+
+        if ( daoUtil.next( ) )
+        {
+            demandType = new DemandType();
+            int nIndex = 1;
+            
+            demandType.setId( daoUtil.getInt( nIndex++ ) );
+            demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
+            demandType.setLabel( daoUtil.getString( nIndex++ ) );
+            demandType.setDescription( daoUtil.getString( nIndex++ ) );
+            demandType.setQuestion( daoUtil.getString( nIndex++ ) );
+            demandType.setIdCategoryDemandType( daoUtil.getInt( nIndex++ ) );
+            demandType.setOrder( daoUtil.getInt( nIndex++ ) );
+        }
+
+        daoUtil.free( );
+        return demandType;
     }
 }

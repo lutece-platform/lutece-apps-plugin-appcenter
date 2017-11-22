@@ -98,6 +98,17 @@ public final class DemandTypeHome
     {
         return _dao.load( nKey, _plugin);
     }
+    
+    /**
+     * Returns an instance of a demandType whose demand type is specified in parameter
+     * @param strIdDemandType the demand type
+     * @return an instance of DemandType
+     */
+    public static DemandType findByIdDemandType( String strIdDemandType )
+    {
+        return _dao.loadByIdDemandType( strIdDemandType, _plugin);
+    }
+
 
     /**
      * Load the data of all the demandType objects and returns them as a list

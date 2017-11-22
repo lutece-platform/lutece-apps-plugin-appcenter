@@ -29,7 +29,7 @@
             <feature-id>APPCENTER_MANAGEMENT</feature-id>
             <feature-title>appcenter.adminFeature.ManageAppCenter.name</feature-title>
             <feature-description>appcenter.adminFeature.ManageAppCenter.description</feature-description>
-            <feature-level>0</feature-level>
+            <feature-level>1</feature-level>
             <feature-url>jsp/admin/plugins/appcenter/ManageApplications.jsp</feature-url>
             <feature-icon-url></feature-icon-url>
       </admin-feature>
@@ -83,4 +83,13 @@
     <!-- Portlet parameters -->
     <portlets>
    </portlets>
+   
+   <!-- RBAC Resources -->
+    <rbac-resource-types>
+        <rbac-resource-type>
+            <rbac-resource-type-class>
+                fr.paris.lutece.plugins.appcenter.service.DemandTypeIdService
+            </rbac-resource-type-class>
+        </rbac-resource-type>
+    </rbac-resource-types>
 </plug-in>
