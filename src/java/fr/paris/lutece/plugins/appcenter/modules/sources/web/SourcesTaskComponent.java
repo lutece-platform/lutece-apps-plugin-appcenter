@@ -1,5 +1,6 @@
 package fr.paris.lutece.plugins.appcenter.modules.sources.web;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -15,14 +16,17 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesUtil;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.plugins.workflow.web.task.NoConfigTaskComponent;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
@@ -52,7 +56,17 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
             model.put( Constants.MARK_DEMAND, demand );
             Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
             model.put( Constants.MARK_APPLICATION, application );
-
+           
+            try
+            {
+                model.put( Constants.MARK_DATA,ApplicationService.loadApplicationDataById( demand.getIdApplicationData( ), application, SourcesDatas.class, SourcesDatas.DATA_SOURCES_NAME ));
+            }
+            catch( IOException e )
+            {
+               AppLogService.error( e );
+            }
+            
+            
         }
         model.put(SourcesUtil.MARK_REPOSITORY_TYPES_MAP, SourcesUtil.getAllRepositoryType(locale).toMap());
         

@@ -1,12 +1,11 @@
 package fr.paris.lutece.plugins.appcenter.service.task;
 
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
-import com.mchange.lang.IntegerUtils;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
@@ -71,10 +70,12 @@ public abstract class AppcenterTask extends SimpleTask
           {
         	  funct.treatment(request, locale, applicationData, datas, demand);
           }
-          applicationData.addDemandAssociated(demand.getId());
+         
           
           if(demand.getIdApplicationData()==null || demand.getIdApplicationData()==0 )
           {
+              
+              applicationData.addDemandAssociated(demand.getId());
         	  //Add new data
         	  datas.addData( applicationData );
           }
@@ -85,10 +86,17 @@ public abstract class AppcenterTask extends SimpleTask
 			while(itr.hasNext()) {
 			  AD it = itr.next();
 			  if(it.getIdApplicationData()==demand.getIdApplicationData())
-				    itr.set(applicationData);
-					break;
+			  {
+			      List<Integer> listIdDemandAssociated=it.getListIdDemandAssociated( );
+			      //update list id demand associated
+			      listIdDemandAssociated.add( demand.getId() );
+			      applicationData.setIdApplicationData( it.getIdApplicationData() );
+			      applicationData.setListIdDemandAssociated( listIdDemandAssociated );
+				  itr.set(applicationData);
+				   break;
 			}
 	          
+          }
           }
           
           ApplicationService.saveApplicationData( application, datas );

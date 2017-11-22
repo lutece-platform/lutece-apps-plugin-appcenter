@@ -38,7 +38,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -149,5 +153,31 @@ public class ApplicationService
         return null;
 
     }
+    
+    /**
+     * Get application data by id application data
+     * 
+     * @param application
+     *            The application
+     * @param dataSubset
+     *            The data subset
+     * @return The JSON
+     * @throws IOException
+     *             if an error occurs
+     */
+   public static <AD extends ApplicationData,ADS extends ApplicationDatas<AD>>ApplicationData loadApplicationDataById( Integer nIdApplicationData,Application application,Class<ADS> valueType, String strDataSubsetName  ) throws IOException
+    {
+        
+           ADS ads= loadApplicationDataSubset( application, strDataSubsetName, valueType );
+           if(ads!=null &ads.getListData( )!=null)
+           {
+               return ads.getListData( ).stream( ).filter( x->x.getIdApplicationData( ) ==nIdApplicationData).findFirst( ).orElse( null ); 
+               
+           }
+        return null;
+    }
+
+    
+    
 
 }

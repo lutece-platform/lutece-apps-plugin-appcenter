@@ -34,7 +34,7 @@
 
 <@messages errors=errors />
 <@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUrl}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryUrl.help}' >
-	<@input type='text' name='repository_url' value="" />
+	<@input type='text' name='repository_url' value="${(data.repositoryUrl)!}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryType}' helpKey='#i18n{module.appcenter.sources.taskForm.labelRepositoryType.help}' >
 	<@input type='text' name='repository_type' value="${demand.repositoryType!}" readonly=true />

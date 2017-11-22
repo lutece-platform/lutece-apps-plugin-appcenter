@@ -71,11 +71,9 @@ public class SourcesXPage extends AppCenterXPage
 {
     // Templates
     private static final String TEMPLATE_MANAGE_SOURCES = "/skin/plugins/appcenter/modules/sources/manage_sources.html";
-    private static final String PARAMETER_SITE_REPOSITORY = "site_repository";
-
+ 
     private static final String VIEW_MANAGE_SOURCES = "sources";
     private static final String ACTION_ADD_REPOSITORY = "addRepository";
-    private static final String ACTION_ADD_ACCESS_DEMAND = "addAccessDemand";
     private static final String PARAM_USER_NAME = "user_name";
     private static final String PARAM_MAIL = "email";
     

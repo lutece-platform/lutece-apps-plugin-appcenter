@@ -106,17 +106,8 @@
 											<i class="fa fa-plus"></i>
 										</button> 
 									</legend>
-								<div class="form-group">
-								<fieldset class="user" id="user_1">
-									<legend>Utilisateur <span>1</span></legend>
-										<button type="button" class="remove-user"class="btn btn-default pull-right">
-											<i class="fa fa-minus"></i>
-										</button> 
-									<label for="user_name_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>
-									<input type="text" id="user_name_1" name="user_name_1"  maxlength="250" class="form-control" required>
-									<label for="email_1">#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>
-									<input type="text" id="email_1" name="email_1"  maxlength="250" class="form-control" required>
-							    </fieldset>
+								<div class="form-group" id="users-group">
+								
 								</div>
 								
 								</fieldset>
@@ -140,44 +131,43 @@
 	{
 		$( "#repository_name" ).val("");
 		$( "#repository_type" ).val("");
-		$( "#public_repository_true" ).prop("checked", true)
+		$( "#public_repository_true" ).prop("checked", true);
+		$( "#public_repository_false" ).prop("checked", false);
 		$( ".user:first").find(":text").val("");
-		$( ".user:not(:first)").remove();
-		
-		
+		$( ".user").remove();
+		$("#id_application_data").val("");
 		
 	}
 	
 	
 	
 	$( function(){
+		addEventRemove();
 		
 		$("#addUser").click(
 				function() {
-				userClone=$( ".user:last").clone();
-				nbUser=parseInt($( userClone ).find("legend>span" ).text())+1;
-			    $( userClone ).find(":text").val("");
-				$( userClone ).find("legend>span" ).text(nbUser);
-				$( userClone ).attr("id","user_"+nbUser);
-		    
-				//Modify User Name
-				$( userClone ).find("label:first").attr("for","user_name_"+nbUser);
-		        $( userClone ).find(":text:first").attr("id","user_name_"+nbUser);
-		        $( userClone ).find(":text:first").attr("name","user_name_"+nbUser);
-		    
-		        
-		      	//Modify mail
-		        $( userClone ).find("label:last").attr("for","email_"+nbUser);
-		        $( userClone ).find(":text:last").attr("id","email_"+nbUser);
-		        $( userClone ).find(":text:last").attr("name","email_"+nbUser);
-		        userClone.appendTo( $(".user:first" ));
+					
+					
+				if($(".user").length) 	
+				{	
+					nbUser=$(".user").length+1;
+					$(getNewUserDiv('','',nbUser)).insertAfter($(".user:last" ));
+				}
+				else
+				{
+				  
+		    		  $('#users-group').html(getNewUserDiv());
+					}
+				addEventRemove();
+				
 				}
 			);
 		$(".source-data-modify").click(
 				function() {
-					$("#id_application_data").val(this.dataset.idapplicationdata);
-					
-					console.log(getLastDemandInfoById(this.dataset.idlastdemanddata));
+				    clearForm();
+				    $("#id_application_data").val(this.dataset.idapplicationdata);
+					lastDemand=getLastDemandInfoById(this.dataset.idlastdemanddata);
+					loadForm(lastDemand);
 					
 					$("#ModalAddRepository").modal("show");
 				 }
@@ -190,21 +180,64 @@
 				 }
 			);
 		
-		$(".remove-user").click(
-				function() {
-					 alert($(this).parents( "fieldset:first" ).attr("id"));
-					if($(this).parents( "fieldset:first" ).attr("id")!="user_1")
-					{	
-						
-						$(this).parents( "fieldset:first" ).remove();
-					}
-				}
-			);
-		
-		
 	
 		
-});
+	});
+	function addEventRemove()
+	{
+		$(".remove-user").click(
+				function() {
+					
+						
+						$(this).parents( "fieldset:first" ).remove();
+					
+				}
+			);
+	}
+	
+	function getNewUserDiv(user_name='',email='',num=1)
+	{
+	
+		 user_div="<fieldset class='user' id='user_"+num+"'>"+
+			"<legend>Utilisateur <span>"+num+"</span></legend>"+
+			"<button type='button' class='remove-user'class='btn btn-default pull-right'>"+
+		    	"<i class='fa fa-minus'></i>"+
+			"</button>"+
+			"<label for='user_name"+num+"'>#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>"+
+			"<input type='text' id='user_name_"+num+"' name='user_name_"+num+"'  maxlength='250' class='form-control' required value='"+user_name+"'>"+
+			"<label for='email_1'>#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>"+
+			"<input type='text' id='email_"+num+"' name='email_"+num+"'  maxlength='250' class='form-control' required value='"+email+"'>"+
+		"</fieldset>";
+	 return user_div;
+	}
+	
+	
+	function loadForm(demand)
+	{
+	  
+	    $( "#repository_name" ).val(demand.demandData.repositoryName);
+		$( "#repository_type" ).val(demand.demandData.repositoryType);
+		$( "#public_repository_true" ).prop("checked", demand.demandData.publicRepository);
+		$( "#public_repository_false" ).prop("checked", !demand.demandData.publicRepository);
+		
+		if(demand.demandData.listSourceUserDemand!=null)
+		{    
+			$.each(demand.demandData.listSourceUserDemand, function (i, obj) {
+		    if($(".user").length) 	
+			{	
+				$(getNewUserDiv(obj.userName,obj.email,i+1)).insertAfter($(".user:last" ));
+			}
+			else
+			{
+			  	$('#users-group').html(getNewUserDiv(obj.userName,obj.email,i+1));
+			}
+		    		   
+			     
+				
+			});
+		}
+		addEventRemove();
+	}
 	
 	</script>
     
