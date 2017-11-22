@@ -43,14 +43,24 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandFilter;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.business.Environment;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
+import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * This class provides the user interface to manage Demand features ( manage, create, modify, remove )
@@ -79,6 +89,10 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String MARK_DEMAND = "demand";
     private static final String MARK_ID_ACTION = "id_action";
     private static final String MARK_APPLICATION = "application";
+    private static final String MARK_DEMAND_TYPE_REF_LIST = "demand_type_ref_list";
+    private static final String MARK_ENVIRONMENT_REF_LIST = "environment_ref_list";
+    private static final String MARK_APPLICATION_REF_LIST = "application_ref_list";
+    private static final String MARK_DEMAND_FILTER = "demand_filter";
 
     private static final String MARK_TASK_FORM = "task_form";
 
@@ -100,6 +114,10 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Actions
     private static final String ACTION_PROCESS_ACTION = "processAction";
     private static final String ACTION_SAVE_TASK_FORM = "saveTaskForm";
+    private static final String ACTION_FILTER_DEMAND = "filterDemands";
+    
+    //Sessions variable
+    private DemandFilter _filter;
 
     /**
      * Build the Manage View
@@ -112,12 +130,14 @@ public class DemandJspBean extends ManageAppCenterJspBean
     public String getManageDemands( HttpServletRequest request )
     {
 
-        List<Demand> listDemands = DemandHome.getDemandsList( );
+        //Initialize the demand filter
+        if ( _filter == null ){ _filter = new DemandFilter(); }
+        
+        List<Demand> listDemands = DemandHome.getDemandsListByFilter( _filter );
         int nIdWorkflow;
 
         Map<String,Application> mapApplications = new HashMap<>();
         Map<String,State> mapStates = new HashMap<>();
-        Map<String,String> mapHistories = new HashMap<>();
         
         Map<String,Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>();
 
@@ -140,6 +160,27 @@ public class DemandJspBean extends ManageAppCenterJspBean
        }
         
         Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
+       
+        //Construct demand type ref list
+        ReferenceList demandTypeRefList = ReferenceList.convert( DemandTypeHome.getDemandTypesList( ), "idDemandType","label",false );
+        AppCenterUtils.addFirstItem( demandTypeRefList, request.getLocale( ) );
+        model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList  );
+        
+        //Construct envi ref list
+        ReferenceList refListEnvi = ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false );
+        for ( ReferenceItem item : refListEnvi )
+        {
+            item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
+        }
+        AppCenterUtils.addFirstItem( refListEnvi, request.getLocale( ) );
+        model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
+        
+        //Construct application ref list
+        ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
+        AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
+        model.put( MARK_APPLICATION_REF_LIST, applicationRefList );
+        
+        model.put( MARK_DEMAND_FILTER, _filter );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );
         model.put( MARK_ACTIONS_MAP, mapActions );
@@ -147,6 +188,18 @@ public class DemandJspBean extends ManageAppCenterJspBean
         
         
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_DEMANDS, TEMPLATE_MANAGE_DEMANDS, model );
+    }
+    
+    /**
+     * Process the action of filtering demands; set the filter
+     * @param request
+     * @return The manage demands view
+     */
+    @Action( ACTION_FILTER_DEMAND )
+    public String doFilterDemand( HttpServletRequest request )
+    {
+        _filter = DemandService.computeDemandFilter( request );
+        return redirectView( request, VIEW_MANAGE_DEMANDS );
     }
 
     /**

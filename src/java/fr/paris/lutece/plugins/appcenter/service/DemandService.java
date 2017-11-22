@@ -38,17 +38,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandFilter;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 /**
  * Demand Service
  */
 public class DemandService
 {
+    private static final String PARAMETER_ENVIRONMENT_PREFIX  = "environment_prefix";
+    private static final String PARAMETER_ID_DEMAND_TYPE  = "id_demand_type";
+    private static final String PARAMETER_IS_CLOSED  = "is_closed";
+    private static final String PARAMETER_ID_APPLICATION  = "id_application";
+    
     private static ObjectMapper _mapper = new ObjectMapper( );
     
     public static void saveDemand ( Demand demand, Application application )
@@ -80,6 +85,52 @@ public class DemandService
             AppLogService.error( "Unable to convert demand obj to JSON", e);
         }
         return null;    
+    }
+    
+    /**
+     * Get the demand filter from the Http request
+     * @param request
+     * @return the demand filter
+     */
+    public static DemandFilter computeDemandFilter ( HttpServletRequest request )
+    {
+        String strEnvironmentPrefix = request.getParameter( PARAMETER_ENVIRONMENT_PREFIX );
+        String strIdDemandType = request.getParameter( PARAMETER_ID_DEMAND_TYPE );
+        String strIsClosed = request.getParameter( PARAMETER_IS_CLOSED );
+        String strApplicationId = request.getParameter( PARAMETER_ID_APPLICATION );
+        
+        DemandFilter filter = new DemandFilter();
+        if ( strEnvironmentPrefix != null && !strEnvironmentPrefix.equals( "-1" ) )
+        {
+            filter.setEnvironmentPrefix( strEnvironmentPrefix );
+            filter.setHasEnvironmentPrefix(true );
+        }
+        if ( strIdDemandType != null && !strIdDemandType.equals( "-1" ))
+        {
+            filter.setIdDemandType( strIdDemandType );
+            filter.setHasIdDemandType( true );
+        }
+        if ( strIsClosed != null && !strIsClosed.equals( "-1" ) )
+        {
+            if ( strIsClosed.equals( "true" ) )
+            {
+                filter.setIsClosed( true );
+                filter.setHasIsClosed( true );
+            }
+            else if( strIsClosed.equals( "false" ) )
+            {
+                filter.setIsClosed( false );
+                filter.setHasIsClosed( true );
+            }
+        }
+            
+        if ( strApplicationId != null  && !strApplicationId.equals( "-1" ))
+        {
+            filter.setIdApplication( Integer.parseInt( strApplicationId ) );
+            filter.setHasIdApplication( true );
+        }
+        
+        return filter;
     }
      
 }

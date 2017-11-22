@@ -191,4 +191,15 @@ public final class DemandHome
     {
         return _dao.selectListFullDemands( nIdApplication, _plugin );
     }
+    
+    /**
+     * Load the data of all the demand objects and returns them as a list
+     * 
+     * @param filter
+     * @return the list which contains the data of all the demand objects
+     */
+    public static List<Demand> getDemandsListByFilter( DemandFilter filter )
+    {
+        return _dao.selectDemandsListByFilter( filter, _plugin );
+    }
 }

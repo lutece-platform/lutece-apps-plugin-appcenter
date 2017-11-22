@@ -3,9 +3,22 @@
 
 <@box>
 	<@boxHeader title='#i18n{appcenter.manage_demand.title}' boxTools=true>
-		<@tform class='form-inline pull-right' name='manage_demand' action='jsp/admin/plugins/appcenter/ManageDemands.jsp'>
-			<@button type='submit' name='view_createDemand' buttonIcon='plus' title='#i18n{appcenter.manage_demand.buttonAdd}' />
-		</@tform>
+               
+                    <@tform class='form-inline pull-left' name='manage_demand' action='jsp/admin/plugins/appcenter/ManageDemands.jsp'>
+                        <label for="id_application" class="col-form-label">#i18n{appcenter.manage_demand.filter.application}</label>
+                        <@comboWithParams name="id_application" default_value=(demand_filter.idApplication?string)!'' additionalParameters="" items=application_ref_list />
+                        <label for="environment_prefix" class="col-form-label">#i18n{appcenter.manage_demand.filter.environment}</label>
+                        <@comboWithParams name="environment_prefix" default_value=(demand_filter.environmentPrefix)!'' additionalParameters=""  items=environment_ref_list />
+                        <label for="id_demand_type" class="col-form-label">#i18n{appcenter.manage_demand.filter.idDemandType}</label>
+                        <@comboWithParams name="id_demand_type" default_value=(demand_filter.idDemandType)!'' additionalParameters=""  items=demand_type_ref_list />
+                        <label for="is_closed" class="col-form-label">#i18n{appcenter.manage_demand.filter.isClosed}</label>
+                        <select id="is_closed" name="is_closed" >
+                            <option value="-1" >Tous</option>
+                            <option value="false" <#if demand_filter.hasIsClosed() == true && demand_filter.isClosed() == false>selected="selected"</#if>>En cours de traitement</option>
+                            <option value="true" <#if demand_filter.hasIsClosed() == true && demand_filter.isClosed() == true>selected="selected"</#if>> Clôturé</option>
+                        </select>
+                        <@button type='submit' name='action_filterDemands' buttonIcon='search' title='#i18n{appcenter.manage_demand.search}' />
+                    </@tform>
 	</@boxHeader>
 	<@boxBody>    
     <@messages infos=infos />
@@ -17,7 +30,6 @@
             <th>#i18n{appcenter.manage_demands.columnDemandType}</th>
             <th>#i18n{appcenter.manage_demands.columnApplicationName}</th>
             <th>#i18n{appcenter.manage_demands.columnWorkflowStatus}</th>
-            <th>#i18n{appcenter.manage_demands.columnStatusText}</th>
             <th>#i18n{appcenter.manage_demands.columnCreationDate}</th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
@@ -26,16 +38,18 @@
                 <tr>
                     <input type="hidden" id="id" name="id"/>
                     <td>
-                        ${demand.demandType!''}
+                        <#list demand_type_ref_list as item>
+                            <#if demand.demandType == item.code>
+                                ${item.name}
+                                <#break>
+                            </#if>
+                        </#list>
                     </td>
                     <td>
                         ${(applications[demand.idApplication?string].name)!''}
                     </td>
                     <td>
                         ${(states[demand.id?string].name)!''}
-                    </td>
-                    <td>
-                        ${demand.statusText!''}
                     </td>
                     <td>
                     	 ${demand.creationDate}

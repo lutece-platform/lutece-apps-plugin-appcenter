@@ -64,6 +64,16 @@ public final class DemandDAO implements IDemandDAO
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
+    //Constants
+    private static final String CONSTANT_WHERE = " WHERE ";
+    private static final String CONSTANT_AND = " AND ";
+
+    private static final String CONSTANT_WHERE_ENVIRONMENT = " environment = ? ";
+    private static final String CONSTANT_WHERE_ID_APPLICATION = " id_application = ? ";
+    private static final String CONSTANT_WHERE_ID_DEMAND_TYPE = " id_demand_type = ? ";
+    private static final String CONSTANT_WHERE_IS_CLOSED = " is_closed = ? ";
+    
+    
     private static ObjectMapper _mapper = new ObjectMapper( );
 
     static
@@ -329,6 +339,9 @@ public final class DemandDAO implements IDemandDAO
         }
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public <T extends Demand> List<T> selectListFullDemands( int nIdApplication, Plugin plugin )
     {
@@ -361,6 +374,77 @@ public final class DemandDAO implements IDemandDAO
             {
                 AppLogService.error( "Unable to parse demand data JSON to demand type ");
             }
+        }
+
+        daoUtil.free( );
+        return demandList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Demand> selectDemandsListByFilter( DemandFilter filter, Plugin plugin )
+    {
+        List<Demand> demandList = new ArrayList<Demand>( );
+        StringBuilder strSqlQuery = new StringBuilder( SQL_QUERY_SELECTALL );
+        
+        if ( filter.hasEnvironmentPrefix( ) || filter.hasIdApplication( ) || filter.hasIdDemandType( ) || filter.hasIsClosed( ) )
+        {
+            strSqlQuery.append( CONSTANT_WHERE );
+        }
+        boolean bFirstFilterStatement = false;
+        if ( filter.hasEnvironmentPrefix( ) )
+        {
+            strSqlQuery.append( CONSTANT_WHERE_ENVIRONMENT );
+            bFirstFilterStatement = true;
+        }
+        if ( filter.hasIdApplication( ) )
+        {
+            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_ID_APPLICATION );
+            bFirstFilterStatement = true;
+        }
+        if ( filter.hasIdDemandType( ) )
+        {
+            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_ID_DEMAND_TYPE );
+            bFirstFilterStatement = true;
+        }
+        if ( filter.hasIsClosed( ) )
+        {
+            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_IS_CLOSED );
+        }
+        
+        
+        DAOUtil daoUtil = new DAOUtil( strSqlQuery.toString( ), plugin );
+        int nIndex = 1;
+        if ( filter.hasEnvironmentPrefix( ) )
+        {
+            daoUtil.setString( nIndex++, filter.getEnvironmentPrefix( ) );
+            
+        }
+        if ( filter.hasIdApplication( ) )
+        {
+            daoUtil.setInt( nIndex++, filter.getIdApplication( ) );
+        }
+        if ( filter.hasIdDemandType( ) )
+        {
+            daoUtil.setString( nIndex++, filter.getIdDemandType( ));
+        }
+        if ( filter.hasIsClosed( ) )
+        {
+            daoUtil.setBoolean( nIndex++, filter.isClosed( ) );
+        }
+        
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            Demand demand = getRow( daoUtil );
+
+            demandList.add( demand );
         }
 
         daoUtil.free( );
