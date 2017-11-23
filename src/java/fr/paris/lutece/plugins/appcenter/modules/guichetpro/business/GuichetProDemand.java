@@ -50,6 +50,7 @@ public class GuichetProDemand extends Demand
     private String _strGuichetProDemandType;
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
+    private String _strNewCategoryGuichetProDemandType;
 
     /**
      * Get the application code
@@ -123,7 +124,24 @@ public class GuichetProDemand extends Demand
         _strIdGuichetProDemandType = strIdGuichetProDemandType;
     }
     
-    
+    /**
+     * Get the new category of gru demand type
+     * @return the id of gru demand type
+     */
+    public String getNewCategoryGuichetProDemandType()
+    {
+        return _strNewCategoryGuichetProDemandType;
+    }
+
+    /**
+     * Set the new category of gru demand type
+     * @param strNewCategoryGuichetProDemandType 
+     */
+    public void setNewCategoryGuichetProDemandType( String strNewCategoryGuichetProDemandType )
+    {
+        _strNewCategoryGuichetProDemandType = strNewCategoryGuichetProDemandType;
+    }
+
     /**
      * {@inheritDoc}
      */

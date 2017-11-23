@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
+import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.DemandTypeCategoryHome;
 import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProData;
 import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProDatas;
 import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProDemand;
@@ -69,6 +70,9 @@ public class GuichetProXPage extends AppCenterXPage
 
     private static final String VIEW_MANAGE_GUICHET_PRO_DEMANDS = "manageGuichetProDemands";
     private static final String ACTION_CREATE_GUICHET_PRO_DEMAND = "doCreateGuichetProDemand";
+    
+    private static final String MARK_CATEGORIES = "category_guichet_pro_demand_types";
+    private static final String NEW_CATEGORIE = "- Autre";
 
     /**
      * Maganage guichetpro view
@@ -82,6 +86,11 @@ public class GuichetProXPage extends AppCenterXPage
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
+
+        ReferenceList refListCategory=DemandTypeCategoryHome.getDemandTypeCategoriesReferenceList( );
+        refListCategory.addItem("", "");
+        refListCategory.addItem("new", NEW_CATEGORIE );
+        model.put(MARK_CATEGORIES, refListCategory);
 
         return getXPage( TEMPLATE_MANAGE_GUICHET_PRO, request.getLocale( ), model );
     }

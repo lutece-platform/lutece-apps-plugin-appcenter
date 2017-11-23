@@ -73,11 +73,10 @@
 							<label for="guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType}</label>
 							<input type="text" id="guichet_pro_demand_type" name="guichet_pro_demand_type" maxlength="250" class="form-control" />
 						</div>
-						<div class="form-group">
-							<label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType}</label>
-                                                            <input type="text" id="category_guichet_pro_demand_type" name="category_guichet_pro_demand_type" maxlength="250" class="form-control" />
-						</div>
-					</div>
+                                                <div class="form-group">
+                                                        <label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType} <@icon style="asterisk" /></label>
+                                                        <@comboSortedWithParams name="category_guichet_pro_demand_type" id="category_guichet_pro_demand_type" default_value="" additionalParameters="class=\"form-control \" required" items=category_guichet_pro_demand_types />
+                                                </div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.guichetpro.create_guichet_pro.buttonCreate}</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
@@ -87,3 +86,29 @@
 		</div>
 	</div>
 
+<script>
+	$( function()
+        {
+		$("#category_guichet_pro_demand_type").change(
+                        function()
+                        {
+                                if($("#category_guichet_pro_demand_type").val() == "new") 	
+                                {
+                                        $(getNewCategoryDiv()).insertAfter($(this).parent());
+                                }
+                                else
+                                {
+                                        $("#new_category_guichet_pro_demand_type").parent().remove();
+                                }
+                        }
+                );
+	});
+        function getNewCategoryDiv()
+	{
+		 category_div="<div class='form-group'>"+
+                            "<label for='new_category_guichet_pro_demand_type' class='col-form-label'>#i18n{module.appcenter.guichetpro.create_guichet_pro.labelNewCategoryGuichetProDemandType}</label>"+
+                            "<input type='text' id='new_category_guichet_pro_demand_type' name='new_category_guichet_pro_demand_type' maxlength='50' class='form-control' />"+
+                            "</div>";
+	 return category_div;
+	}
+</script>    

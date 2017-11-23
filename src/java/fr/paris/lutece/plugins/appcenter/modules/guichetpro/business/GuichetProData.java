@@ -45,8 +45,10 @@ public class GuichetProData extends ApplicationData
     private String _strApplicationCode;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.grudemandtype.notEmpty}" )
     private String _strGuichetProDemandType;
+    @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.categorygrudemandtype.notEmpty}" )
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
+    private String _strNewCategoryGuichetProDemandType;
 
     /**
      * Get the application code
@@ -118,6 +120,24 @@ public class GuichetProData extends ApplicationData
     public void setIdGuichetProDemandType( String strIdGuichetProDemandType )
     {
         _strIdGuichetProDemandType = strIdGuichetProDemandType;
+    }
+
+    /**
+     * Get the new category of gru demand type
+     * @return the id of gru demand type
+     */
+    public String getNewCategoryGuichetProDemandType()
+    {
+        return _strNewCategoryGuichetProDemandType;
+    }
+
+    /**
+     * Set the new category of gru demand type
+     * @param strNewCategoryGuichetProDemandType 
+     */
+    public void setNewCategoryGuichetProDemandType( String strNewCategoryGuichetProDemandType )
+    {
+        _strNewCategoryGuichetProDemandType = strNewCategoryGuichetProDemandType;
     }
 
 }
