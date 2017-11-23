@@ -29,6 +29,7 @@
             <input type="hidden" id="id" name="id"/>    
             <th>#i18n{appcenter.manage_demands.columnDemandType}</th>
             <th>#i18n{appcenter.manage_demands.columnApplicationName}</th>
+            <th>#i18n{appcenter.manage_demands.columnDemandOwner}</th>
             <th>#i18n{appcenter.manage_demands.columnWorkflowStatus}</th>
             <th>#i18n{appcenter.manage_demands.columnCreationDate}</th>
             <th>#i18n{portal.util.labelActions}</th>
@@ -47,6 +48,9 @@
                     </td>
                     <td>
                         ${(applications[demand.idApplication?string].name)!''}
+                    </td>
+                    <td>
+                        ${(demand.idUserFront)!''}
                     </td>
                     <td>
                         ${(states[demand.id?string].name)!''}

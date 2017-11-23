@@ -56,6 +56,9 @@ public class Demand implements Serializable
     @JsonIgnore
     private int _nId;
     
+    @JsonIgnore
+    private String _strIdUserFront;
+    
     private Environment _environment;
 
     @JsonIgnore
@@ -103,6 +106,26 @@ public class Demand implements Serializable
     {
         _nId = nId;
     }
+
+    /**
+     * Get the id of the front user of the demand creator
+     * @return the id of the user front
+     */
+    @JsonIgnore
+    public String getIdUserFront()
+    {
+        return _strIdUserFront;
+    }
+
+    /**
+     * Set the user front id
+     * @param strIdUserFront the id of the front user
+     */
+    public void setIdUserFront( String strIdUserFront )
+    {
+        _strIdUserFront = strIdUserFront;
+    }
+    
 
     /**
      * Get the environment

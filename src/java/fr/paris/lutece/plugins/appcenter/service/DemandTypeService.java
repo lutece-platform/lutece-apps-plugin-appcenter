@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.appcenter.service;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.modules.appcode.business.AppCodeDemand;
 import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
 import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
@@ -47,10 +48,8 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DemandTypeService
 {
@@ -73,6 +72,9 @@ public class DemandTypeService
         
          switch (strDemandTypeId) 
          {
+            case "appcode":
+                 classObj = AppCodeDemand.class;
+                 break;
             case "sources":  
                 classObj = SourcesDemand.class;
                      break;

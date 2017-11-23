@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -215,6 +216,9 @@ public abstract class AppCenterXPage extends MVCApplication
     protected void populateCommonsDemand( Object object, HttpServletRequest request )
     {
         Demand demand = (Demand)object;
+        //Set the demand owner
+        LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
+        demand.setIdUserFront( (user != null) ? user.getEmail( ) : StringUtils.EMPTY );
         if ( demand.isDependingOfEnvironment() )
         {
             //Get the active environment in session

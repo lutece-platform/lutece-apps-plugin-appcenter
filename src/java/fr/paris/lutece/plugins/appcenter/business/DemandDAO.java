@@ -54,12 +54,12 @@ import fr.paris.lutece.util.sql.DAOUtil;
 public final class DemandDAO implements IDemandDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand WHERE id_demand = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( status_text, id_demand_type,  demand_type, id_application, demand_content,creation_date,is_closed, environment ) VALUES ( ?, ?, ?, ?, ? , ?, ?, ?) ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_demand, id_user_front ,status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand WHERE id_demand = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand ( id_user_front, status_text, id_demand_type,  demand_type, id_application, demand_content,creation_date,is_closed, environment ) VALUES ( ?, ?, ?, ?, ? , ?, ?, ?, ?) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
 
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ?, creation_date = ?, is_closed = ?, environment = ? WHERE id_demand = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, id_user_front = ? ,status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ?, creation_date = ?, is_closed = ?, environment = ? WHERE id_demand = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, id_user_front, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand";
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? " ;
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
@@ -90,6 +90,7 @@ public final class DemandDAO implements IDemandDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
 
+        daoUtil.setString( nIndex++ , demand.getIdUserFront( ) );
         daoUtil.setString( nIndex++ , demand.getStatusText( ) );
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
@@ -179,6 +180,7 @@ public final class DemandDAO implements IDemandDAO
 
         
         daoUtil.setInt( nIndex++ , demand.getId( ) );
+        daoUtil.setString( nIndex++ , demand.getIdUserFront( ) );
         daoUtil.setString( nIndex++ , demand.getStatusText( ) );
         daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );
         daoUtil.setString( nIndex++ , demand.getDemandType( ) );
@@ -319,9 +321,10 @@ public final class DemandDAO implements IDemandDAO
     {
         try
         {
-            T demand = _mapper.readValue( daoUtil.getString( 6 ), demandClass );
+            T demand = _mapper.readValue( daoUtil.getString( 7 ), demandClass );
             int nIndex = 1;
             demand.setId( daoUtil.getInt( nIndex++ ) );
+            demand.setIdUserFront( daoUtil.getString( nIndex++ ) );
             demand.setStatusText( daoUtil.getString( nIndex++ ) );
             demand.setIdDemandType( daoUtil.getString( nIndex++ ) );
             demand.setDemandType( daoUtil.getString( nIndex++ ) );
@@ -355,18 +358,19 @@ public final class DemandDAO implements IDemandDAO
             try
             {
                // TODO use finally for free because this throws
-                String strDemandData = daoUtil.getString( 6 );
-                String strDemandType = daoUtil.getString( 3 );
+                String strDemandData = daoUtil.getString( 7 );
+                String strDemandType = daoUtil.getString( 4 );
                 T demand = (T)_mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType ) );
                 demand.setId( daoUtil.getInt( 1) );
-                demand.setStatusText( daoUtil.getString( 2 ) );
+                demand.setIdUserFront( daoUtil.getString( 2 ) );
+                demand.setStatusText( daoUtil.getString( 3 ) );
                 demand.setIdDemandType( strDemandType );
-                demand.setDemandType( daoUtil.getString( 4 ) );
-                demand.setIdApplication( daoUtil.getInt( 5 ) );
+                demand.setDemandType( daoUtil.getString( 5 ) );
+                demand.setIdApplication( daoUtil.getInt( 6 ) );
                 demand.setDemandData(strDemandData);
-                demand.setCreationDate( daoUtil.getTimestamp( 7 ) );
-                demand.setIsClosed( daoUtil.getBoolean( 8  ) );
-                demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 9  ) ) );
+                demand.setCreationDate( daoUtil.getTimestamp( 8 ) );
+                demand.setIsClosed( daoUtil.getBoolean( 9  ) );
+                demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 10  ) ) );
                 
                 demandList.add( demand ); 
             }

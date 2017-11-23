@@ -74,6 +74,7 @@ PRIMARY KEY ( id_application , user_id )
 DROP TABLE IF EXISTS appcenter_demand;
 CREATE TABLE appcenter_demand  (
 id_demand int(6) AUTO_INCREMENT,
+id_user_front varchar(255) NOT NULL,
 status_text long varchar,
 id_demand_type varchar(255) NOT NULL,
 demand_type long varchar NOT NULL,
