@@ -1,0 +1,80 @@
+<#include "/admin/util/editor/editor.html" />
+<@formGroup labelKey='#i18n{appcenter.configForm.taskNotify.labelNotifyType}' helpKey='' >
+    <@fieldInputRadioBox i18nLabelKey='appcenter.configForm.taskNotify.labelNotifyOwner' inputName='notification_type' value="owner" disabled=false checked=false i18nHelpBlockKey='appcenter.configForm.taskNotify.labelNotifyOwner.help' cssClass='' />
+    <@fieldInputRadioBox i18nLabelKey='appcenter.configForm.taskNotify.labelNotifyOwnerApp' inputName='notification_type' value="ownerApp" disabled=false checked=false i18nHelpBlockKey='appcenter.configForm.taskNotify.labelNotifyOwnerApp.help' cssClass='' />
+    <@fieldInputRadioBox i18nLabelKey='appcenter.configForm.taskNotify.labelNotifyAll' inputName='notification_type' value="all" disabled=false checked=false i18nHelpBlockKey='appcenter.configForm.taskNotify.labelNotifyAll.help' cssClass='' />
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+            <div class="radio">
+                    <label>
+                            <input class="" id="mailing_list" name="notification_type" type="radio" value="mailing_list">
+                            #i18n{appcenter.configForm.taskNotify.labelNotifyDiffusionList}
+                    </label>
+                    <@comboSortedWithParams name='id_mailing_list' default_value='' additionalParameters='' items=mailing_list id='id_mailing_list'/>
+            </div>
+            <p class="help-block">#i18n{appcenter.configForm.taskNotify.labelNotifyAll.help}</p>
+        </div>
+    </div>
+    
+</@formGroup>
+<@formGroup labelKey='#i18n{appcenter.configForm.taskNotify.labelNotifyContent}' helpKey='' >
+    <@fieldInputText i18nLabelKey='appcenter.configForm.taskNotify.labelSenderName' inputName='sender_name' mandatory=true value="${(config.senderName)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.configForm.taskNotify.labelSenderName.help' cssClass='form-control'/>
+    <@fieldInputText i18nLabelKey='appcenter.configForm.taskNotify.labelSubject' inputName='subject' mandatory=true value="${(config.subject)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.configForm.taskNotify.labelSubject.help' cssClass='form-control'/>
+    <label>#i18n{appcenter.configForm.taskNotify.labelNotifyMessage}</label>
+    <textarea id="message" class="richtext" name="message">${(config.message)!''}</textarea> 
+</@formGroup>
+    
+<@table>
+    <tr>
+        <th>#i18n{appcenter.configForm.taskNotify.markers}</th>
+        <th>#i18n{appcenter.configForm.taskNotify.markersValue}</th>
+    </tr>
+    
+<tr><td>${r"${application.name!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.applicationName}</td>
+<tr><td>${r"${application.description!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.applicationDescription}</td>
+<tr><td>${r"${application.code!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.applicationCode}</td>
+<tr><td>${r"${demand.creationDate!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.demandCreationDate}</td>
+<tr><td>${r"${demand.idUserFront!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.demandOwnerEmail}</td>
+<tr><td>${r"${environment!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.demandEnvironment}</td>
+<tr><td>${r"${demandtype.label!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.demandType}</td>
+<tr><td>${r"${categorydemandtype.label!''}"}</td><td>#i18n{appcenter.configForm.taskNotify.marker.categoryDemandType}</td>
+</@table>
+
+<@initEditor />
+<script>
+    $(function() {
+        $('#id_mailing_list').hide();
+        $("input:radio").change(function(e){
+            if ( $(this).prop('id') == 'mailing_list' )
+            {
+                $('#id_mailing_list').show();
+            }
+            else
+            {
+                $('#id_mailing_list').hide();
+            }
+        });
+        if ( '${(config.notificationType)!''}' == 'owner' )
+        {
+            $('input:radio[value=owner]').prop("checked",true);
+        }
+        else if ( '${(config.notificationType)!''}' == 'ownerApp' )
+        {
+            $('input:radio[value=ownerApp]').prop("checked",true);
+        }
+        else if ( '${(config.notificationType)!''}' == 'all' )
+        {
+            $('input:radio[value=all]').prop("checked",true);
+        }
+        else if ( '${(config.notificationType)!''}' == 'mailing_list' )
+        {
+            $('input:radio[value=mailing_list]').prop("checked",true);
+            $('#id_mailing_list').show();
+        }
+        else
+        {
+            $('input:radio[value=owner]').prop("checked",true);
+        }
+                
+    });
+</script>

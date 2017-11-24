@@ -108,6 +108,21 @@ custom_demand_status varchar(1000) default '' NOT NULL,
 PRIMARY KEY ( id_task )
 );
 
+--
+-- Structure for table appcenter_task_notify_config
+--
+
+DROP TABLE IF EXISTS appcenter_task_notify_config;
+CREATE TABLE appcenter_task_notify_config (
+id_task int(6) NOT NULL,
+recipients varchar(10000) NULL,
+notification_type varchar(255) NOT NULL DEFAULT '',
+id_mailing_list int(6) NOT NULL DEFAULT -1,
+subject varchar(1000) NOT NULL DEFAULT '',
+message long varchar,
+sender_name varchar(255) NOT NULL DEFAULT '',
+PRIMARY KEY ( id_task )
+);
 
 --
 -- Structure for table appcenter_attribute

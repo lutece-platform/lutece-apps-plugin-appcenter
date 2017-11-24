@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import java.io.Serializable;
+import java.util.Locale;
 
 public enum Environment implements Serializable
 {
@@ -95,6 +97,15 @@ public enum Environment implements Serializable
             }
         }
         return null;
+    }
+    
+    /**
+     * Get the label of the environment
+     * @return the label of the environment
+     */
+    public String getLabel( )
+    {
+        return I18nService.getLocalizedString( getLabelKey(), Locale.getDefault( ) );
     }
 
 }
