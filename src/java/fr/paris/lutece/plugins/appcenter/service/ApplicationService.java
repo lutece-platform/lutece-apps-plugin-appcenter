@@ -169,7 +169,7 @@ public class ApplicationService
     {
         
            ADS ads= loadApplicationDataSubset( application, strDataSubsetName, valueType );
-           if(ads!=null &ads.getListData( )!=null)
+           if(ads!=null && ads.getListData( )!=null)
            {
                return ads.getListData( ).stream( ).filter( x->x.getIdApplicationData( ) ==nIdApplicationData).findFirst( ).orElse( null ); 
                
