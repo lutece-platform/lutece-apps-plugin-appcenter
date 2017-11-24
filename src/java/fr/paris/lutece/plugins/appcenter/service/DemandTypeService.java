@@ -72,28 +72,28 @@ public class DemandTypeService
         
          switch (strDemandTypeId) 
          {
-            case "appcode":
+            case  AppCodeDemand.DEMAND_TYPE:
                  classObj = AppCodeDemand.class;
                  break;
-            case "sources":  
+            case SourcesDemand.DEMAND_TYPE:  
                 classObj = SourcesDemand.class;
                      break;
-            case "identitystore":  
+            case IdentitystoreDemand.DEMAND_TYPE: 
                 classObj = IdentitystoreDemand.class;
                      break;
-            case "openam":  
+            case OpenamDemand.DEMAND_TYPE:  
                 classObj = OpenamDemand.class;
                      break;
-            case "fastdeployapplication":
+            case FastDeployApplicationDemand.DEMAND_TYPE:
                 classObj = FastDeployApplicationDemand.class;
                      break;
-            case "jobs":
+            case JobDemand.DEMAND_TYPE:
                 classObj = JobDemand.class;
                      break;
-            case "moncomptesettings":
+            case MonCompteSettingDemand.DEMAND_TYPE:
                 classObj = MonCompteSettingDemand.class;
                      break;
-            case "notificationgru":
+            case NotificationGruDemand.DEMAND_TYPE:
                 classObj = NotificationGruDemand.class;
         }
         return classObj;

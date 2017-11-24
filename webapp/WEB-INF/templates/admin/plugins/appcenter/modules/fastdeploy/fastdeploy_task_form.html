@@ -15,7 +15,7 @@
            <tr>
 	            <input type="hidden" id="id" name="id"/>
 	            <td>
-	               ${demand.code}
+	               ${application.code}
 	            </td>
 	            <td>
 	               ${demand.name}
@@ -35,9 +35,7 @@
     </@table>
 
 <@messages errors=errors />
-<@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationCode}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationCode.help}' >
-	<@input type='text' name='code' value="${demand.code}" />
-</@formGroup>
+
 <@formGroup labelKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationName}' helpKey='#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationName.help}' >
 	<@input type='text' name='name' value="${demand.name}" />
 </@formGroup>
@@ -57,17 +55,10 @@
 				#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationService}
 		</label>
 		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<select id="service" name="service"  >
-			   <option value="" ></option>
-				<#list services as item>
-				      <#if item.name="${demand.service!}">
-						 <option value="${item.name}"  selected="selected"> ${item.name}</option>
-					  <#else>
-		
-					 <option value="${item.name}"> ${item.name}</option>
-					</#if> 
-				 </#list>
-			</select>
+			
+			
+				<@comboSortedWithParams name="service" id="service" default_value="${demand.service}" additionalParameters="class=\"form-control \" required" items=services />
+					
 			<span class="help-block">#i18n{module.appcenter.fastdeployapplication.taskForm.labelApplicationService.help}</span>
 		</div>
 	</div>

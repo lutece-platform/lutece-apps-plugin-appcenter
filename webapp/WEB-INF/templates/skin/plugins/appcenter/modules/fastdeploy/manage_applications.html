@@ -16,30 +16,26 @@
     <@table>
 			<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationCode}</th>
 				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationName}</th>
 				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationWebApp}</th>
 				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationService}</th>
 				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationUrlSite}</th>
 			</tr>
 			<#if data??>
-				<#list data as application >
+				<#list data as fast_application >
                                     <tr>
                                             <input type="hidden" id="id" name="id" />
-                                            <td>
-                                                            ${application.code}
-                                                            </td>
-                                            <td>
-                                                                    ${application.name}
+                                        	  <td>
+                                                                    ${fast_application.name}
                                                             </td>  
                                             <td>
-                                                                    ${application.webApp}
+                                                                    ${fast_application.webApp}
                                                             </td>
                                             <td>
-                                                             ${application.service}
+                                                             ${fast_application.service}
                                                             </td>    
                                             <td>
-                                                            ${application.urlSite}
+                                                            ${fast_application.urlSite}
                                             </td>    
                                     </tr>
 				</#list>
@@ -68,16 +64,11 @@
 				</div>
 				<form action="jsp/site/Portal.jsp">
 					<fieldset>
-						<input type="hidden" name="page" value="fastdeploy" />
+						<input type="hidden" name="page" value="fastdeployapplication" />
 						<input type="hidden" name="id" value="${application.id}" />
 						<input type="hidden" name="action" value="addApplication" />
 						<div class="modal-body">
-							<div class="form-group">
-								<label for="code" class="col-form-label">
-									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationCode.label} <@icon style="asterisk" />
-								</label>
-								<input type="text" id="code" name="code" maxlength="250" class="form-control" required  value="${application.code}"/>
-							</div>
+							
 							<div class="form-group">
 								<label for="name" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.label} <@icon style="asterisk" />
@@ -101,13 +92,7 @@
 								<label for="service" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.service.label} <@icon style="asterisk" />
 								</label>
-								
-								<select id="service" name="service"  >
-								   <option value="" ></option>
-									<#list services as item>
-											<option value="${item.name}" >${item.name}</option>
-									 </#list>
-								</select>
+								<@comboSortedWithParams name="service" id="service" default_value="" additionalParameters="class=\"form-control \" required" items=services />
 							</div>
 						</div>
 						<div class="modal-footer">

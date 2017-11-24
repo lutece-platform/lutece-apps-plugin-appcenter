@@ -90,7 +90,7 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     }
 
     @Action( ACTION_CREATE_MONCOMPTESETTINGS_DEMAND )
-    public XPage doCreateMonCompteSettingsDemand( HttpServletRequest request )
+    public XPage doCreateMonCompteSettingsDemand( HttpServletRequest request )throws UserNotSignedException, SiteMessageException
     {
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
@@ -99,8 +99,6 @@ public class MonCompteSettingsXPage extends AppCenterXPage
         demand.setIdApplication( application.getId( ) );
         
         populate( demand, request );
-        populateCommonsDemand( demand, request);
-
         // Check constraints
         if ( !validateBean( demand, getLocale( request ) ) )
         {

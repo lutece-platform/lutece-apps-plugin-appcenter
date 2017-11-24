@@ -111,7 +111,6 @@ public class GuichetProXPage extends AppCenterXPage
         guichetProDemand.setIdApplication( application.getId( ) );
 
         populate( guichetProDemand, request );
-        populateCommonsDemand( guichetProDemand, request );
         
         // Check constraints
         if ( !validateBean( guichetProDemand, getLocale( request ) ) )

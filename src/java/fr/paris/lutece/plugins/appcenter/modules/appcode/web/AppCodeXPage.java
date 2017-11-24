@@ -103,7 +103,6 @@ public class AppCodeXPage extends AppCenterXPage
         appCodeDemand.setIdApplication( application.getId( ) );
 
         populate( appCodeDemand, request );
-        populateCommonsDemand( appCodeDemand, request);
         
         // Check constraints
         if ( !validateBean( appCodeDemand, getLocale( request ) ) )

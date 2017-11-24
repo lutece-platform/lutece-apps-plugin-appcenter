@@ -117,8 +117,6 @@ public class IdentitystoreXPage extends AppCenterXPage
         identitystoreDemand.setIdApplication( application.getId( ) );
 
         populate( identitystoreDemand, request );
-        populateCommonsDemand( identitystoreDemand, request );
-        
         //Populate the identitystore attribute rights to the demand
         identitystoreDemand.setAttributeRights( IdentityStoreDemandService.getMapAttributeRights( request ) );
         

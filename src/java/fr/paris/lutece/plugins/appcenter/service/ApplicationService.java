@@ -42,10 +42,20 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Application Service
@@ -176,6 +186,32 @@ public class ApplicationService
            }
         return null;
     }
+   
+	public static <AD extends ApplicationData,ADS extends ApplicationDatas<AD>> ReferenceList getRefLisApplicationDatas(Application application,Class<ADS> classAds, String strDataSubsetName ,Locale locale,boolean bWithEmptyFile, Function<AD,String> functionRefItemCode,Function<AD,String> functionRefItemName)
+	{
+		
+		ADS ads= ApplicationService.loadApplicationDataSubset( application, strDataSubsetName, classAds );
+		ReferenceList referenceList=null;
+		if(ads!=null && ads.getListData()!=null && !CollectionUtils.isEmpty(ads.getListData()))
+		{
+			Map<String,String> mapReferenceItem=  ads.getListData().stream().collect(Collectors.toMap(functionRefItemCode, functionRefItemName));
+			referenceList=ReferenceList.convert(mapReferenceItem);
+		}
+		else
+		{
+			referenceList=new ReferenceList();
+		}
+		
+		if(bWithEmptyFile)
+		{
+			AppCenterUtils.addEmptyItem(referenceList, locale);
+		}
+		
+		
+		return referenceList;
+	
+	}
+	
 
     
     

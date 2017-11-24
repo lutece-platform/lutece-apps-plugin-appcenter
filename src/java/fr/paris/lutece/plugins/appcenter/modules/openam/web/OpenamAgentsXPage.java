@@ -89,8 +89,6 @@ public class OpenamAgentsXPage extends AppCenterXPage
         agentDemand.setIdApplication( application.getId( ) );
 
         populate( agentDemand, request );
-        populateCommonsDemand( agentDemand, request);
-
         // Check constraints
         if ( !validateBean( agentDemand, getLocale( request ) ) )
         {

@@ -1,6 +1,6 @@
-<#assign defaultDeployJobName = "${demand.pluginName}-deploy" />
-<#assign defaultDocQAJobName = "${demand.pluginName}-doc-QA" />
-<#assign defaultPluginUrl= "${demand.pluginUrl}" />
+<#assign defaultDeployJobName = "${repository_name}-deploy" />
+<#assign defaultDocQAJobName = "${repository_name}-doc-QA" />
+<#assign defaultRepositoryUrl= "${demand.repositoryUrl}" />
 
   
 <div class="clearfix"></div>
@@ -8,31 +8,28 @@
         <tr>
             <input type="hidden" id="id" name="id"/>
             <th>#i18n{module.appcenter.jobs.taskForm.tabHeader.applicationCode}</th>
-            <th>#i18n{module.appcenter.jobs.taskForm.tabHeader.labelPluginUrl}</th>
+            <th>#i18n{module.appcenter.jobs.taskForm.tabHeader.labelRepositoryUrl}</th>
         </tr>
         <@tableHeadBodySeparator />
            <tr>
 	            <input type="hidden" id="id" name="id"/>
 	            <td>
-	               ${demand.applicationCode}
+	               ${application.code}
 	            </td>
 	            <td>
-	               ${demand.pluginUrl}
+	               ${demand.repositoryUrl}
 	            </td>
 	        </tr>
 	     
     </@table>
 
 <@messages errors=errors />
-<@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelEnvironment}' >
-	<@input type='text' name='environment' value="${demand.environment.prefix!''}" readonly=true />
-</@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelDeployJobName}' helpKey='#i18n{module.appcenter.jobs.taskForm.labelDeployJobName.help}' >
 	<@input type='text' name='deploy_job_name' value="${defaultDeployJobName!''}" />
 </@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelDocQAJobName}' helpKey='#i18n{module.appcenter.jobs.taskForm.labelDocQAJobName.help}' >
 	<@input type='text' name='doc_q_a_job_name' value="${defaultDocQAJobName!''}" />
 </@formGroup>
-<@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelPluginUrl}' helpKey='#i18n{module.appcenter.jobs.taskForm.labelPluginUrl.help}' >
-	<@input type='text' name='plugin_url' value="${defaultPluginUrl!''}" />
+<@formGroup labelKey='#i18n{module.appcenter.jobs.taskForm.labelRepositoryUrl}' helpKey='#i18n{module.appcenter.jobs.taskForm.labelRepositoryUrl.help}' >
+	<@input type='text' name='repository_url' value="${defaultRepositoryUrl!''}" />
 </@formGroup>

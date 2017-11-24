@@ -2,6 +2,7 @@ package fr.paris.lutece.plugins.appcenter.modules.sources.service;
 
 import java.util.Locale;
 
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -12,7 +13,6 @@ public class SourcesUtil {
 	   
 	private static final String[] tabRepositoryTypes= {"site","theme","plugin","module","library"};
 	private static  String I18n_REPOSITORY_TYPE_PREFIX="module.appcenter.sources.repositoryTypes.label.";
-	private static String EMPTY_I18n_KEY="empty";
 	
 	
 	public static ReferenceList getAllRepositoryType(Locale locale)
@@ -27,7 +27,7 @@ public class SourcesUtil {
 		ReferenceList referenceList=new ReferenceList();
 		if(bWithEmptyFile)
 		{
-			referenceList.addItem("", I18nService.getLocalizedString(getReferentielTypeI18nKey(EMPTY_I18n_KEY), locale));
+			AppCenterUtils.addEmptyItem(referenceList, locale);
 		}
 		
 		for (int i = 0; i < tabRepositoryTypes.length; i++) {
@@ -37,6 +37,9 @@ public class SourcesUtil {
 		return referenceList;
 	
 	}
+	
+
+	
 	
 	
 	public static String getReferentielTypeI18nKey(String strRefCode)

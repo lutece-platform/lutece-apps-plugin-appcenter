@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
  * OpenamAgentsData Data Subset
  */
-public class FastDeployApplicationsData extends ApplicationDatas<FastDeployApplicationData> implements DataSubset
+public class FastDeployApplicationsData extends ApplicationDatas<FastDeployApplicationData> 
 {
     public static final String DATA_FASTDEPLOY_APPLICATIONS_NAME = "fastdeployapplications";
     public static final String DEMAND_TYPE_KEY = "fastdeployapplication";

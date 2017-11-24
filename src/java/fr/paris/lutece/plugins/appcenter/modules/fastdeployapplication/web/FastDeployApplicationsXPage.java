@@ -47,6 +47,7 @@ import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -76,6 +77,8 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     //MARK URL SITE
     private static final String MARK_DEFAULT_URL_SITE = "default_url_site";
     private static final String MARK_SERVICES = "services";
+   //CONSTANTS
+    private static final String REPOSITORY_TYPE_SITE = "site";
     
     
     public static final String  DATA_PREFIX_FAST_DEPLOY_SERVICES = "appcenter.fastdeployServices.";
@@ -87,21 +90,20 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     {
 
         Application application = getApplication( request );
-        FastDeployApplicationsData dataSubset = ApplicationService.loadApplicationDataSubset( application, FastDeployApplicationsData.DATA_FASTDEPLOY_APPLICATIONS_NAME,
-                FastDeployApplicationsData.class );
-
-        
-       SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
-
-       // String strDefaultUrlSite= sourcesData!=null?sourcesData.getSiteRepository( ):null;
-        String strDefaultUrlSite=null;
        
+        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
+       
+       Map<String, Object> model = getModel( ); 
+        if(sourcesData!=null && sourcesData.getListData()!=null)
+        {
+        	model.put( MARK_DEFAULT_URL_SITE, sourcesData.getListData().stream().filter(x->x.getRepositoryType().equals(REPOSITORY_TYPE_SITE)).map(x->x.getRepositoryUrl()).findFirst().orElse(null));
+        }
        ReferenceList refServices=DatastoreService.getDataByPrefix( DATA_PREFIX_FAST_DEPLOY_SERVICES );
-        
-        Map<String, Object> model = getModel( );
+        AppCenterUtils.addEmptyItem(refServices, getLocale(request));
+       
         fillAppCenterCommons( model, request );
      
-        model.put( MARK_DEFAULT_URL_SITE, strDefaultUrlSite );
+       
         model.put( MARK_SERVICES, refServices );
 
         return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
@@ -117,8 +119,7 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
         fastDeployApplicationDemand.setIdApplication( application.getId( ) );
 
         populate( fastDeployApplicationDemand, request );
-        populateCommonsDemand( fastDeployApplicationDemand, request );
-
+      
         // Check constraints
         if ( !validateBean( fastDeployApplicationDemand, getLocale( request ) ) )
         {

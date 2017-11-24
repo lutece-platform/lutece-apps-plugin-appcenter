@@ -41,6 +41,8 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
 import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobsData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
@@ -76,35 +78,27 @@ public class JobsXPage extends AppCenterXPage
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
-
+        model.put(Constants.MARK_REPO_LIST, ApplicationService.getRefLisApplicationDatas(getApplication( request ), SourcesDatas.class, SourcesDatas.DATA_SOURCES_NAME, getLocale(request), true,SourcesData::getRepositoryUrl, SourcesData::getRepositoryUrl));
         return getXPage( TEMPLATE_MANAGE_JOBS , request.getLocale( ), model );
     }
 
     @Action( ACTION_ADD_JOB )
     public XPage doAddJob( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
-
         JobDemand jobDemand = new JobDemand( );
-        jobDemand.setIdApplication( application.getId( ) );
-
         populate( jobDemand, request );
-        populateCommonsDemand( jobDemand, request);
-        
-        // Check constraints
+       // Check constraints
         if ( !validateBean( jobDemand, getLocale( request ) ) )
         {
             return redirectView( request, VIEW_MANAGE_JOBS );
         }
 
-        // get the name of the plugin (last term of the URL)
-        jobDemand.setPluginName( jobDemand.getPluginUrl( ).substring( jobDemand.getPluginUrl( ).lastIndexOf( "/" ) + 1 ));
-
+      
         
         DemandService.saveDemand( jobDemand, application );
 
-        return redirect(request, VIEW_MANAGE_JOBS, Constants.PARAM_ID_APPLICATION, nId );
+        return redirect(request, VIEW_MANAGE_JOBS, Constants.PARAM_ID_APPLICATION, application.getId() );
     }
 
     @Override

@@ -34,21 +34,16 @@
 package fr.paris.lutece.plugins.appcenter.modules.jobs.business;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import java.util.ArrayList;
-import java.util.List;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
 /**
  * OpenamAgentsData Data Subset
  */
-public class JobsData extends ApplicationDatas<JobData> implements DataSubset
+public class JobsData extends ApplicationDatas<JobData> 
 {
     public static final String DATA_JOBS_NAME = "jobs";
     public static final String DEMAND_TYPE_KEY = "job";
 
-    private List<JobData> _listJobData = new ArrayList<>( );
-
-    /**
+   /**
      * {@inheritDoc }
      * 
      * @return

@@ -213,10 +213,17 @@ public abstract class AppCenterXPage extends MVCApplication
                     );
     }
     
-    protected void populateCommonsDemand( Object object, HttpServletRequest request )
+  /**
+   * Populate demand
+   * @param demand the demande
+   * @param request the request
+   */
+    protected <D extends Demand> void populate( D demand, HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        Demand demand = (Demand)object;
-        //Set the demand owner
+       
+    	//Set Id Application
+    	demand.setIdApplication(getApplication(request).getId());
+    	//Set the demand owner
         LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
         demand.setIdUserFront( (user != null) ? user.getEmail( ) : StringUtils.EMPTY );
         if ( demand.isDependingOfEnvironment() )
@@ -229,6 +236,7 @@ public abstract class AppCenterXPage extends MVCApplication
                 demand.setEnvironment( Environment.getEnvironment( environment.getPrefix( ) ) );
             }
         }
+        super.populate(demand, request);
     }
     
     

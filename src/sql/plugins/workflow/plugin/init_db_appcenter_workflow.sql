@@ -1,5 +1,5 @@
 INSERT INTO workflow_workflow VALUES 
-(100,'Workflow des demandes d\'accès au site SVN','Workflow des demandes d\'accès au site SVN','2017-08-16 12:38:32',1,'all'),
+(100,'Workflow des demandes de configuration d\'un référentiel','Workflow des demandes de configuration d\'un référentiel','2017-08-16 12:38:32',1,'all'),
 (200,'Workflow des demandes d\'agents OpenAM','Workflow des demandes d\'agents OpenAM','2017-08-16 12:38:32',1,'all'),
 (300,'Workflow des demandes d\'ajout de liens MonCompte','Workflow des demandes d\'ajout de liens MonCompte','2017-08-16 12:38:32',1,'all'),
 (400,'Workflow des demandes de paramétrages NotifyGRU','Workflow des demandes de paramétrages NotifyGRU','2017-08-16 12:38:32',1,'all'),
@@ -48,7 +48,7 @@ INSERT INTO workflow_state VALUES
 (902,'Close','Demande close',900,0,0,NULL,3);
 
 INSERT INTO workflow_action VALUES 
-(100,'Creation de la demande de création d\'un référentiel','Creation de la demande de création d\'un référentiel',100,100,101,3,1,0,1,0),
+(100,'Creation de la demande de configuration d\'un référentiel','Creation de la demande de configuration d\'un référentiel',100,100,101,3,1,0,1,0),
 (200,'Creation de la demande de configuration de l\'authentification front office','Creation de la demande de configuration de l\'authentification front office',200,200,201,3,1,0,1,0),
 (300,'Creation de la demande d\'ajout de liens MonCompte','Creation de la demande d\'ajouts de liens MonCompte',300,300,301,3,1,0,1,0),
 (400,'Creation de la demande de paramétrage NotifyGRU','Creation de la demande de paramétrage NotifyGRU',400,400,401,3,1,0,1,0),
@@ -58,13 +58,13 @@ INSERT INTO workflow_action VALUES
 (800,'Creation de la demande de configuration de la notification vers le guichet profesionnel','Creation de la demande de configuration de la notification vers le guichet professionnel',800,800,801,3,1,0,1,0),
 (900,'Creation de la demande de code applicatif','Creation de la demande de code applicatif',900,900,901,3,1,0,1,0),
 
-(101,'Traiter la demande de création d\'un référentiel','Traiter la demande de création d\'un réfrérentiel',100,101,102,3,0,0,2,0),
+(101,'Traiter la demande de configuration d\'un référentiel','Traiter la demande de configuration d\'un réfrérentiel',100,101,102,3,0,0,2,0),
 (201,'Traiter la demande de configuration de l\'authentification front office','Traiter la demande de configuration de l\'authentification front office',200,201,202,3,0,0,2,0),
 (301,'Traiter la demande d\'ajout de liens MonCompte','Traiter la demande d\'ajout de liens MonCompte',300,301,302,3,0,0,2,0),
 (401,'Traiter la demande de paramétrage NotifyGRU','Traiter la demande de paramétrage NotifyGRU',400,401,402,3,0,0,2,0),
 (501,'Traiter la demande de paramétrage IdentityStore','Traiter la demande de paramétrage IdentityStore',500,501,502,3,0,0,2,0),
 (601,'Traiter la demande de creation d\'une application FastDeploy','Traiter la demande de creation d\'une application FastDeploy',600,601,602,3,0,0,2,0),
-(701,'Traiter la demande de paramétrage d''intégration continue','Traiter la demande de paramétrage d''intégration continue',700,701,702,3,0,0,2,0),
+(701,'Traiter la demande de paramétrage d\'intégration continue','Traiter la demande de paramétrage d''intégration continue',700,701,702,3,0,0,2,0),
 (801,'Traiter la demande de configuration de la notification vers le guichet professionnel','Traiter la demande de configuration de la notification vers le guichet professionnel',800,801,802,3,0,0,2,0),
 (901,'Traiter la demande de code applicatif','Traiter la demande de code applicatif',900,901,902,3,0,0,2,0);
 
@@ -91,24 +91,28 @@ INSERT INTO workflow_task VALUES
 (19,'taskCustomDemandStatus',501,2),
 (20,'taskCloseDemand',501,3),
 (21,'taskCustomDemandStatus',600,1),
-(22,'taskCloseDemand',601,3),
-(23,'taskCustomDemandStatus', 700, 1),
-(24,'taskJob', 701, 1),
-(25,'taskCustomDemandStatus', 701, 2),
-(26,'taskCloseDemand',701,3),
-(27,'taskCustomDemandStatus',800,2),
-(28,'taskGuichetPro',801,1),
-(29,'taskCustomDemandStatus',801,2),
-(30,'taskCloseDemand',801,3),
-(31,'taskCustomDemandStatus',900,2),
-(32,'taskAppCode',901,1),
-(33,'taskCustomDemandStatus',901,2),
-(34,'taskCloseDemand',901,3);
+(22,'taskFastDeployApplication',601,1),
+(23,'taskCustomDemandStatus',601,2),
+(24,'taskCloseDemand',601,3),
+(25,'taskCustomDemandStatus', 700, 1),
+(26,'taskJob', 701, 1),
+(27,'taskCustomDemandStatus', 701, 2),
+(28,'taskCloseDemand',701,3),
+(29,'taskCustomDemandStatus',800,2),
+(30,'taskGuichetPro',801,1),
+(31,'taskCustomDemandStatus',801,2),
+(32,'taskCloseDemand',801,3),
+(33,'taskCustomDemandStatus',900,2),
+(34,'taskAppCode',901,1),
+(35,'taskCustomDemandStatus',901,2),
+(36,'taskCloseDemand',901,3);
+
+
 
 
 INSERT INTO appcenter_task_custom_demand_status_config VALUES
-(1,'Demande d\'autorisation d\'accès SVN en cours de traitement'),
-(3,'Les autorisations d\'accès SVN ont été effectuées'),
+(1,'Demande de configuration d\'un référentiel'),
+(3,'La demande de configuration d\'un référentiel a été traité'),
 (5,'Demande de configuration de l\'authentification front office en cours de traitement'),
 (7,'La demande de configuration de l\'authentification front office a été traitée'),
 (9,'Demande d\'ajout de liens MonCompte en cours de traitement'),
@@ -117,12 +121,14 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (15,'La configuration de la notification GRU a été effecuée'),
 (17,'La demande de configuration de votre application dans le référentiel d\'identité est en cours de traitement'),
 (19,'La demande de configuration de votre application dans le référentiel d\'identité a bien été traitée'),
-(23, 'Demande de tâche d\'intégration continue en cours de traitement'),
-(25, 'Les tâches d\'intégration continue ont été créées'),
-(27,'La demande de configuration de la notification vers le guichet professionnel est en cours de traitement'),
-(29,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée'),
-(31,'La demande de code applicatif est en cours de traitement'),
-(33,'La demande de code applicatif a bien été traitée');
+(21,'Demande d\' ajout d\'une application FastDeploy est en cours de traitement'),
+(23,'La demande d\' ajout d\'une application FastDeploy a bein été traitée'),
+(25, 'Demande de tâche d\'intégration continue en cours de traitement'),
+(27, 'Les tâches d\'intégration continue ont été créées'),
+(29,'La demande de configuration de la notification vers le guichet professionnel est en cours de traitement'),
+(31,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée'),
+(33,'La demande de code applicatif est en cours de traitement'),
+(35,'La demande de code applicatif a bien été traitée');
 
 
 INSERT INTO workflow_resource_workflow VALUES 

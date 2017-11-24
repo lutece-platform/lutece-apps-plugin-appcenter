@@ -11,8 +11,6 @@ public class FastDeployApplicationData extends ApplicationData
 {
 	
 	
-	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationCode.notEmpty}" )
-	private String _strCode;
 	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationName.notEmpty}" )
 	private String _strName;
 	@NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationWebApp.notEmpty}" )
@@ -39,15 +37,7 @@ public class FastDeployApplicationData extends ApplicationData
 	}
 	
 	
-	public String getCode( )
-    {
-        return _strCode;
-    }
-
-    public void setCode( String _strCode )
-    {
-        this._strCode = _strCode;
-    }
+	
 
     public String getWebApp( )
     {

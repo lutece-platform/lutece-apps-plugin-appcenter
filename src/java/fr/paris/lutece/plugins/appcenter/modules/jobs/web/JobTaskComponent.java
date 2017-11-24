@@ -36,6 +36,8 @@ public class JobTaskComponent extends NoConfigTaskComponent
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
 
     // MARKS
+    private static final String MARK_REPOSITORY_NAME = "repository_name";
+
 
     @Inject
     private IResourceHistoryService _resourceHistoryService;
@@ -51,6 +53,8 @@ public class JobTaskComponent extends NoConfigTaskComponent
         JobDemand demand = DemandHome.findByPrimaryKey( nIdResource, JobDemand.class );
         if ( demand != null )
         {
+        	
+            model.put(MARK_REPOSITORY_NAME, demand.getRepositoryUrl( ).substring( demand.getRepositoryUrl( ).lastIndexOf( "/" ) + 1 ));;
             model.put( Constants.MARK_DEMAND, demand );
             Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
             model.put( Constants.MARK_APPLICATION, application );

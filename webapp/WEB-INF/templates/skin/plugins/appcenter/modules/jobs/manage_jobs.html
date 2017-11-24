@@ -18,7 +18,7 @@
 				<input type="hidden" id="id" name="id"/>
 				<th>#i18n{module.appcenter.jobs.manage_jobs.columnDeployJobName}</th>
 				<th>#i18n{module.appcenter.jobs.manage_jobs.columnDocQAJobName}</th>
-				<th>#i18n{module.appcenter.jobs.manage_jobs.columnPluginUrl}</th>
+				<th>#i18n{module.appcenter.jobs.manage_jobs.columnRepositoryUrl}</th>
 			</tr>
 			<#if data??>
 				<#list data as job >
@@ -30,7 +30,7 @@
                                             ${job.docQAJobName}
                                         </td>  
 					<td>
-                                            ${job.pluginUrl}
+                                            ${job.repositoryUrl}
                                         </td>					
 				</tr>
 				</#list>
@@ -63,18 +63,13 @@
 						<input type="hidden" name="id" value="${application.id}" />
 						<input type="hidden" name="action" value="addJob" />
 						<div class="modal-body">
-							<div class="form-group">
-								<label for="application_code" class="col-form-label">
-									#i18n{module.appcenter.jobs.manage_jobs.applicationCode.label} <@icon style="asterisk" />
-								</label>
-								<input type="text" id="application_code" name="application_code" maxlength="250" class="form-control" required value="${application.code}" />
-							</div>
+					
 
 							<div class="form-group">
-								<label for="plugin_url" class="col-form-label">
-									#i18n{module.appcenter.jobs.manage_jobs.pluginUrl.label} <@icon style="asterisk" />
+								<label for="repository_url" class="col-form-label">
+									#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.label} <@icon style="asterisk" />
 								</label>
-								<input type="text" id="plugin_url" name="plugin_url" maxlength="250" class="form-control" required />
+								<@comboSortedWithParams name="repository_url" id="repository_url" default_value="" additionalParameters="class=\"form-control \" required" items=repo_list />
 							</div>
 							
 						</div>

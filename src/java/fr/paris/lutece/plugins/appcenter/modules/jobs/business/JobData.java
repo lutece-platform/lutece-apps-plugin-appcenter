@@ -16,12 +16,12 @@ public class JobData extends ApplicationData
     public static final String CONSTANT_DOC_JOB_TYPE = "doc_job_type" ;
 
     // attributes
-    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.DeployJobName.notEmpty}" )
+    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.deployJobName.notEmpty}" )
     private String _strDeployJobName;
-    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.DocAndQAJobName.notEmpty}" )
+    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.docAndQAJobName.notEmpty}" )
     private String _strDocQAJobName;
-    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.pluginUrl.notEmpty}" )
-    private String _strPluginUrl;
+    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.repositoryUrl.notEmpty}" )
+    private String _strRepositoryUrl;
 
     /**
      * get the job name
@@ -65,9 +65,9 @@ public class JobData extends ApplicationData
      * get Plugin Url
      * @return PluginUrl
      */
-    public String getPluginUrl( ) 
+    public String getRepositoryUrl( ) 
     {
-        return _strPluginUrl;
+        return _strRepositoryUrl;
     }
 
     /**
@@ -75,9 +75,9 @@ public class JobData extends ApplicationData
      * 
      * @param _strPluginUrl 
      */
-    public void setPluginUrl(String _strPluginUrl) 
+    public void setRepositoryUrl(String _strPluginUrl) 
     {
-        this._strPluginUrl = _strPluginUrl;
+        this._strRepositoryUrl = _strPluginUrl;
     }
 	
 }

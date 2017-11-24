@@ -12,47 +12,34 @@ import java.util.Map;
 
 /**
  * 
- * OpenamDemand
+ * JobDemand
  *
  */
 public class JobDemand extends Demand
 {
 
-    public static final String ID_DEMAND_TYPE = "job";
-    public static final String DEMAND_TYPE = "job";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1360289488188596187L;
+	public static final String ID_DEMAND_TYPE = "jobs";
+    public static final String DEMAND_TYPE = "jobs";
 
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/jobs/job_demand_infos.html";
 
-    private String _strApplicationCode;
-    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.jobs.pluginUrl.notEmpty}" )
-    private String _strPluginUrl;
-    private String _strPluginName;
-
-    /**
-     * 
-     * @return 
-     */
-    public String getApplicationCode( )
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * 
-     * @param strApplicationCode 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
+ 
+    @NotEmpty( message = "#i18n{module.appcenter.jobs.validation.jobs.repositoryUrl.notEmpty}" )
+    private String _strRepositoyUrl;
+    
+    
 
     /**
      * get Plugin Url
      * @return PluginUrl
      */
-    public String getPluginUrl( )
+    public String getRepositoryUrl( )
     {
-        return _strPluginUrl ;
+        return _strRepositoyUrl ;
     }
 
     /**
@@ -60,27 +47,12 @@ public class JobDemand extends Demand
      * 
      * @param strPluginUrl 
      */
-    public void setPluginUrl( String strPluginUrl )
+    public void setRepositoryUrl( String strPluginUrl )
     {
-        _strPluginUrl = strPluginUrl;
+    	_strRepositoyUrl = strPluginUrl;
     }
 
-    /**
-     * get plugin name
-     * @return 
-     */
-    public String getPluginName() {
-        return _strPluginName;
-    }
-
-    /**
-     * set plugin name
-     * @param _strPluginName 
-     */
-    public void setPluginName(String _strPluginName) {
-        this._strPluginName = _strPluginName;
-    }
-
+   
     
     
     /**

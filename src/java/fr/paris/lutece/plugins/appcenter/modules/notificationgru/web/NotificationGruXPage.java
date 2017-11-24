@@ -104,7 +104,6 @@ public class NotificationGruXPage extends AppCenterXPage
         notificationGruDemand.setIdApplication( application.getId( ) );
 
         populate( notificationGruDemand, request );
-        populateCommonsDemand( notificationGruDemand, request);
         
         // Check constraints
         if ( !validateBean( notificationGruDemand, getLocale( request ) ) )

@@ -102,6 +102,13 @@ public abstract class AppcenterTask extends SimpleTask
           ApplicationService.saveApplicationData( application, datas );
     }
     
+    
+    
+    public <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand >void  processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale,Class<AD>  applicationDataClass,Class<ADS> applicationDatasClass,String strDataSubsetName, Class<D> demandClass  )
+    {
+    	processTask(nIdResourceHistory, request, locale, applicationDataClass, applicationDatasClass, strDataSubsetName, demandClass, null);
+    	
+    }
 	
 	
 

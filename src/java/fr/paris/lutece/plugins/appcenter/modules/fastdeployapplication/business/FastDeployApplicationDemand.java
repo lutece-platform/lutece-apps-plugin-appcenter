@@ -1,15 +1,15 @@
 package fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
-import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 
 /**
  * 
@@ -23,8 +23,7 @@ public class FastDeployApplicationDemand extends Demand
     public static final String DEMAND_TYPE = "fastdeployapplication";
 
     private static final String TEMPLATE_SOURCES_DEMAND_INFOS = "skin/plugins/appcenter/modules/fastdeploy/application_demand_infos.html";
-    @NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationCode.notEmpty}" )
-    private String _strCode;
+   
     @NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationName.notEmpty}" )
     private String _strName;
     @NotEmpty( message = "#i18n{module.appcenter.fastdeployapplication.validation.applicationWebApp.notEmpty}" )
@@ -51,17 +50,7 @@ public class FastDeployApplicationDemand extends Demand
     }
     
     
-    public String getCode( )
-    {
-        return _strCode;
-    }
-
-    public void setCode( String _strCode )
-    {
-        this._strCode = _strCode;
-    }
-
-    public String getWebApp( )
+   public String getWebApp( )
     {
         return _strWebApp;
     }
