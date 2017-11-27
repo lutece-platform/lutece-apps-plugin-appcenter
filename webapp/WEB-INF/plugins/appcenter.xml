@@ -82,6 +82,10 @@
             <application-id>environment</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.environment.web.EnvironmentXPage</application-class>
         </application>
+        <application>
+            <application-id>wsso</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.modules.wsso.web.WssoXPage</application-class>
+        </application>
     </applications>
 
     <!-- Portlet parameters -->
