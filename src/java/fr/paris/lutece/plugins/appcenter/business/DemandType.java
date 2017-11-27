@@ -64,6 +64,8 @@ public class DemandType implements Serializable, RBACResource
     
     private int _nIdCategoryDemandType;
     
+    private int _nIdWorkflow;
+    
     private int _nOrder;
     
     private List<Documentation> _listDocumentation;
@@ -205,6 +207,18 @@ public class DemandType implements Serializable, RBACResource
     {
         _strQuestion = strQuestion;
     }
+
+    public int getIdWorkflow()
+    {
+        return _nIdWorkflow;
+    }
+
+    public void setIdWorkflow( int nIdWorkflow )
+    {
+        _nIdWorkflow = nIdWorkflow;
+    }
+    
+    
 
     @Override
     public String getResourceTypeCode()

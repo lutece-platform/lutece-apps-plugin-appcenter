@@ -49,13 +49,13 @@ import java.util.function.Predicate;
 public final class DemandTypeDAO implements IDemandTypeDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id, id_demand_type, label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id = ?";
-    private static final String SQL_QUERY_SELECT_BY_ID_DEMAND_TYPE = "SELECT id, id_demand_type, label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_demand_type = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand_type SELECT MAX(id+1), ?, ?,  ?, ?, ?,  COALESCE( MAX(n_order+1) , 1 )  FROM appcenter_demand_type ";
+    private static final String SQL_QUERY_SELECT = "SELECT id, id_demand_type, id_workflow, label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id = ?";
+    private static final String SQL_QUERY_SELECT_BY_ID_DEMAND_TYPE = "SELECT id, id_demand_type, id_workflow , label, description, question,  id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_demand_type = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_demand_type SELECT MAX(id+1), ?, ? , ?,  ?, ?, ?,  COALESCE( MAX(n_order+1) , 1 )  FROM appcenter_demand_type ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand_type WHERE id = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand_type SET id = ?, id_demand_type = ?, label = ?, description = ?, question = ? , id_category_demand_type = ?, n_order = ? WHERE id = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT appcenter_demand_type.id, appcenter_demand_type.id_demand_type, appcenter_demand_type.label, appcenter_demand_type.description, appcenter_demand_type.question, appcenter_demand_type.id_category_demand_type, appcenter_demand_type.n_order, appcenter_documentation.id_documentation, appcenter_documentation.id_demand_type, appcenter_documentation.label, appcenter_documentation.url, appcenter_documentation.category FROM appcenter_demand_type LEFT JOIN appcenter_documentation ON appcenter_documentation.id_demand_type = appcenter_demand_type.id ORDER BY n_order";
-    private static final String SQL_QUERY_SELECTALL_BY_ID_CATEGORY = "SELECT id, id_demand_type, label, description, question , id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_category_demand_type = ? ORDER BY n_order ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand_type SET id = ?, id_demand_type = ?, id_workflow = ?, label = ?, description = ?, question = ? , id_category_demand_type = ?, n_order = ? WHERE id = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT appcenter_demand_type.id, appcenter_demand_type.id_demand_type, appcenter_demand_type.id_workflow , appcenter_demand_type.label, appcenter_demand_type.description, appcenter_demand_type.question, appcenter_demand_type.id_category_demand_type, appcenter_demand_type.n_order, appcenter_documentation.id_documentation, appcenter_documentation.id_demand_type, appcenter_documentation.label, appcenter_documentation.url, appcenter_documentation.category FROM appcenter_demand_type LEFT JOIN appcenter_documentation ON appcenter_documentation.id_demand_type = appcenter_demand_type.id ORDER BY n_order";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_CATEGORY = "SELECT id, id_demand_type, id_workflow , label, description, question , id_category_demand_type, n_order FROM appcenter_demand_type WHERE id_category_demand_type = ? ORDER BY n_order ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id FROM appcenter_demand_type ORDER BY n_order";
 
     /**
@@ -69,6 +69,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
+            daoUtil.setInt( nIndex++ , demandType.getIdWorkflow( ) );
             daoUtil.setString( nIndex++ , demandType.getLabel( ) );
             daoUtil.setString( nIndex++ , demandType.getDescription( ) );
             daoUtil.setString( nIndex++ , demandType.getQuestion( ));
@@ -104,6 +105,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
+            demandType.setIdWorkflow( daoUtil.getInt( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
             demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setQuestion( daoUtil.getString( nIndex++ ) );
@@ -138,6 +140,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         
         daoUtil.setInt( nIndex++ , demandType.getId( ) );
         daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
+        daoUtil.setInt( nIndex++ , demandType.getIdWorkflow( ) );
         daoUtil.setString( nIndex++ , demandType.getLabel( ) );
         daoUtil.setString( nIndex++ , demandType.getDescription( ) );
         daoUtil.setString( nIndex++ , demandType.getQuestion( ) );
@@ -166,19 +169,21 @@ public final class DemandTypeDAO implements IDemandTypeDAO
                 DemandType demandType = new DemandType(  );
                 demandType.setId( daoUtil.getInt( 1 ) );
                 demandType.setIdDemandType( daoUtil.getString( 2 ) );
-                demandType.setLabel( daoUtil.getString( 3 ) );
-                demandType.setDescription( daoUtil.getString( 4 ) );
-                demandType.setQuestion( daoUtil.getString( 5 ) );
-                demandType.setIdCategoryDemandType( daoUtil.getInt( 6 ) );
-                demandType.setOrder( daoUtil.getInt( 7 ) );
+                demandType.setIdWorkflow(daoUtil.getInt( 3 ) );
+                demandType.setLabel( daoUtil.getString( 4 ) );
+                demandType.setDescription( daoUtil.getString( 5 ) );
+                demandType.setQuestion( daoUtil.getString( 6 ) );
+                demandType.setIdCategoryDemandType( daoUtil.getInt( 7 ) );
+                demandType.setOrder( daoUtil.getInt( 8 ) );
                 demandTypeList.add( demandType );
             }
             Documentation documentation = new Documentation(  );
-            documentation.setId( daoUtil.getInt( 8 ) );
-            documentation.setIdDemandType( daoUtil.getInt( 9 ) );
-            documentation.setLabel( daoUtil.getString( 10 ) );
-            documentation.setUrl( daoUtil.getString( 11 ) );
-            documentation.setCategory( daoUtil.getString( 12 ) );
+            documentation.setId( daoUtil.getInt( 9 ) );
+
+            documentation.setIdDemandType( daoUtil.getInt( 10 ) );
+            documentation.setLabel( daoUtil.getString( 11 ) );
+            documentation.setUrl( daoUtil.getString( 12 ) );
+            documentation.setCategory( daoUtil.getString( 13 ) );
             demandTypeList.stream()
                     .filter( demType -> demType.getId() == daoUtil.getInt( 1 ) )
                     .forEach( demType -> { if(documentation.getLabel()!=null){demType.addDoc( documentation);}} );
@@ -241,6 +246,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
+            demandType.setIdWorkflow(daoUtil.getInt( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
             demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setQuestion( daoUtil.getString( nIndex++ ) );
@@ -269,6 +275,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
             
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
+            demandType.setIdWorkflow(daoUtil.getInt( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
             demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setQuestion( daoUtil.getString( nIndex++ ) );

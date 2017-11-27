@@ -46,19 +46,16 @@ import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.rbac.RBACService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Collection;
 import java.util.List;
 
 public class DemandTypeService
 {
-    private static final String ID_WORKFLOW_DEMAND_TYPE_PREFIX = "idWorkflow.demandType.";
 
     public static int getIdWorkflow( String strDemandTypeKey )
     {
-        int nIdWorkflow = AppPropertiesService.getPropertyInt( ID_WORKFLOW_DEMAND_TYPE_PREFIX + strDemandTypeKey, -1 );
-        return nIdWorkflow;
+        return DemandTypeHome.findByIdDemandType( strDemandTypeKey ).getIdWorkflow( );
     }
 
     public static String getWorkflowResourceType( String strDemandTypeKey )
