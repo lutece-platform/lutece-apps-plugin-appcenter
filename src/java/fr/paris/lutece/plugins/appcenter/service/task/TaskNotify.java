@@ -167,7 +167,7 @@ public class TaskNotify extends SimpleTask
             case "all" : 
                 for ( UserApplication userApp : userAppList )
                 {
-                    if ( userApp.getUserRole() == 3  )
+                    if ( userApp.getUserRole() == 3 || userApp.getUserRole() == 2 || userApp.getUserRole() == 4  )
                     {
                         listEmailAddresses.add( userApp.getUserId( ) );
                         break;
