@@ -20,6 +20,9 @@
         <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelIdWorkflow}' helpKey='#i18n{appcenter.create_demandtype.labelIdWorkflow.help}' mandatory=true>
                 <@input type='text' name='id_workflow' value='${demandtype.idWorkflow!\'\'}' />
         </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelJavaClass}' helpKey='#i18n{appcenter.create_demandtype.labelJavaClass.help}' mandatory=true>
+                <@input type='text' name='java_class' value='${demandtype.javaClass!\'\'}' />
+        </@formGroup>
         
         <@actionButtons button1Name="action_createDemandType" button2Name="view_manageDemandType"/>
     </@tform>

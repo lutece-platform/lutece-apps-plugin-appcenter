@@ -8,6 +8,7 @@ CREATE TABLE appcenter_demand_type (
 id int AUTO_INCREMENT,
 id_demand_type varchar(255) default '' NOT NULL,
 id_workflow int default -1,
+java_class long varchar NOT NULL,
 label long varchar NOT NULL,
 description long varchar,
 question long varchar,

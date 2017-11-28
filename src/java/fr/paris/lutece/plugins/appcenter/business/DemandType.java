@@ -66,6 +66,8 @@ public class DemandType implements Serializable, RBACResource
     
     private int _nIdWorkflow;
     
+    private String _strJavaClass;
+    
     private int _nOrder;
     
     private List<Documentation> _listDocumentation;
@@ -216,6 +218,16 @@ public class DemandType implements Serializable, RBACResource
     public void setIdWorkflow( int nIdWorkflow )
     {
         _nIdWorkflow = nIdWorkflow;
+    }
+
+    public String getJavaClass()
+    {
+        return _strJavaClass;
+    }
+
+    public void setJavaClass( String strJavaClass )
+    {
+        _strJavaClass = strJavaClass;
     }
     
     

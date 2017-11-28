@@ -36,19 +36,13 @@ package fr.paris.lutece.plugins.appcenter.service;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
-import fr.paris.lutece.plugins.appcenter.modules.appcode.business.AppCodeDemand;
-import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.business.FastDeployApplicationDemand;
-import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
-import fr.paris.lutece.plugins.appcenter.modules.jobs.business.JobDemand;
-import fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business.MonCompteSettingDemand;
-import fr.paris.lutece.plugins.appcenter.modules.notificationgru.business.NotificationGruDemand;
-import fr.paris.lutece.plugins.appcenter.modules.openam.business.OpenamDemand;
-import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDemand;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class DemandTypeService
 {
@@ -63,37 +57,26 @@ public class DemandTypeService
         return Demand.WORKFLOW_RESOURCE_TYPE;
     }
     
-    public static Class getClassByDemandTypeId( String strDemandTypeId )
+    public static Class getClassByDemandTypeId( String strDemandTypeId, List<DemandType> listDemandType )
     {
-        Class classObj = Demand.class;
+        Optional<DemandType> filteredDemandType = listDemandType.stream()
+                .filter( demandType -> demandType.getIdDemandType( ).equals( strDemandTypeId) )
+                .findAny( );
         
-         switch (strDemandTypeId) 
-         {
-            case  AppCodeDemand.DEMAND_TYPE:
-                 classObj = AppCodeDemand.class;
-                 break;
-            case SourcesDemand.DEMAND_TYPE:  
-                classObj = SourcesDemand.class;
-                     break;
-            case IdentitystoreDemand.DEMAND_TYPE: 
-                classObj = IdentitystoreDemand.class;
-                     break;
-            case OpenamDemand.DEMAND_TYPE:  
-                classObj = OpenamDemand.class;
-                     break;
-            case FastDeployApplicationDemand.DEMAND_TYPE:
-                classObj = FastDeployApplicationDemand.class;
-                     break;
-            case JobDemand.DEMAND_TYPE:
-                classObj = JobDemand.class;
-                     break;
-            case MonCompteSettingDemand.DEMAND_TYPE:
-                classObj = MonCompteSettingDemand.class;
-                     break;
-            case NotificationGruDemand.DEMAND_TYPE:
-                classObj = NotificationGruDemand.class;
+        if ( filteredDemandType.isPresent( ) )
+        {
+            try
+            {
+                Class className = Class.forName( filteredDemandType.get( ).getJavaClass( ) );
+                return className;
+            }
+            catch( ClassNotFoundException e )
+            {
+                AppLogService.error( "Unable to find class", e );
+                return null;
+            }
         }
-        return classObj;
+        return null;
     }
 
     /**

@@ -156,11 +156,6 @@ public abstract class AppCenterXPage extends MVCApplication
      *            The aapplication
      * @param model
      *            The model
-     * @param demandType
-     * @param strDemandType
-     *            the demand type
-     * @param demandClass
-     *            The demand class
      */
     protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
     {

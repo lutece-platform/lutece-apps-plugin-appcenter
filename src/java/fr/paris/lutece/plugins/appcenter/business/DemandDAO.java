@@ -346,7 +346,7 @@ public final class DemandDAO implements IDemandDAO
      * {@inheritDoc }
      */
     @Override
-    public <T extends Demand> List<T> selectListFullDemands( int nIdApplication, Plugin plugin )
+    public <T extends Demand> List<T> selectListFullDemands( int nIdApplication, List<DemandType> listDemandType, Plugin plugin )
     {
         List<T> demandList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION, plugin );
@@ -360,7 +360,7 @@ public final class DemandDAO implements IDemandDAO
                // TODO use finally for free because this throws
                 String strDemandData = daoUtil.getString( 7 );
                 String strDemandType = daoUtil.getString( 4 );
-                T demand = (T)_mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType ) );
+                T demand = (T)_mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType, listDemandType ) );
                 demand.setId( daoUtil.getInt( 1) );
                 demand.setIdUserFront( daoUtil.getString( 2 ) );
                 demand.setStatusText( daoUtil.getString( 3 ) );

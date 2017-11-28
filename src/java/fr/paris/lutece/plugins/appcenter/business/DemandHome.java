@@ -189,7 +189,7 @@ public final class DemandHome
     
     public static <T extends Demand> List<T> getListFullDemandsByIdApplication( int nIdApplication )
     {
-        return _dao.selectListFullDemands( nIdApplication, _plugin );
+        return _dao.selectListFullDemands( nIdApplication, DemandTypeHome.getDemandTypesList( ) ,_plugin );
     }
     
     /**
