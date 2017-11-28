@@ -34,19 +34,21 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesData;
-import java.io.IOException;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import fr.paris.lutece.plugins.appcenter.modules.sources.business.SourcesDatas;
 
 /**
  * ApplicationService Test
  */
 public class ApplicationServiceTest
 {
-    private static final String SITE_DIRECTORY = "http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-stock/";
-    private static final String PLUGIN_DIRECTORY = "http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-rating/";
     private static final String JSON = "{\"sources\":{\"siteRepository\":\"http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-stock/\",\"pluginRepositories\":[\"http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-rating/\"]}}\n";
 
     /**
@@ -59,9 +61,7 @@ public class ApplicationServiceTest
     {
         System.out.println( "getApplicationData" );
         Application application = new Application( );
-        SourcesData data = new SourcesData( );
-        data.setSiteRepository( SITE_DIRECTORY );
-        data.addPluginRepository( PLUGIN_DIRECTORY );
+        SourcesDatas data = new SourcesDatas( );
         String strGlobalJson = ApplicationService.getApplicationData( application, data );
         System.out.println( strGlobalJson );
     }
@@ -75,10 +75,9 @@ public class ApplicationServiceTest
     public void testGetDataSubset( ) throws IOException
     {
         System.out.println( "getDataSubset" );
-        SourcesData data = ApplicationService.getDataSubset( JSON, SourcesData.DATA_SUBSET_NAME, SourcesData.class );
+        SourcesData data = ApplicationService.getDataSubset( JSON, SourcesDatas.DATA_SOURCES_NAME, SourcesData.class );
 
-        assertEquals( data.getSiteRepository( ), SITE_DIRECTORY );
-        assertEquals( data.getPluginRepositories( ).get( 0 ), PLUGIN_DIRECTORY );
+       
     }
 
 }
