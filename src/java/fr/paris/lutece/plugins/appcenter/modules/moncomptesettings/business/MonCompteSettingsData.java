@@ -34,20 +34,15 @@
 package fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.business;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import java.util.List;
-import fr.paris.lutece.plugins.appcenter.service.DataSubset;
-import java.util.ArrayList;
 
 /**
  * Sources Data Subset
  */
-public class MonCompteSettingsData extends ApplicationDatas<MonCompteSettingData> implements DataSubset
+public class MonCompteSettingsData extends ApplicationDatas<MonCompteSettingData> 
 {
     public static final String DATA_SUBSET_NAME = "moncomptesettings";
 
-    private List<MonCompteSettingData> _listSettings = new ArrayList<MonCompteSettingData>( );
-
-    /**
+     /**
      * {@inheritDoc }
      * 
      * @return

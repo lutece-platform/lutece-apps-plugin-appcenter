@@ -20,7 +20,11 @@ import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
-
+/**
+ * 
+ * AppcenterTask
+ *
+ */
 public abstract class AppcenterTask extends SimpleTask
 {
 
@@ -29,8 +33,18 @@ public abstract class AppcenterTask extends SimpleTask
     private IResourceHistoryService _resourceHistoryService;
 
    
-
-    public <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand >void  processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale,Class<AD>  applicationDataClass,Class<ADS> applicationDatasClass,String strDataSubsetName, Class<D> demandClass,AppCenterTaskFunctional funct  )
+    /**
+     * ProcessTask
+     * @param nIdResourceHistory the resource Id history
+     * @param request the httpservletRequest
+     * @param locale the locale
+     * @param applicationDataClass a class who extend ApplicationData    
+     * @param applicationDatasClass a class who extend ApplicationDatas 
+     * @param strDataSubsetName the dataSubsetName associate to the applicationDatas 
+     * @param demandClass a class who extend DemandObject
+     * @param funct  AppCenterTaskFunctional
+     */
+    public <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand >void  processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale,Class<AD>  applicationDataClass,Class<ADS> applicationDatasClass,Class<D> demandClass,AppCenterTaskFunctional funct  )
     {
     	 AD  applicationData=null;
     	 try {
@@ -53,7 +67,7 @@ public abstract class AppcenterTask extends SimpleTask
 
           Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
 
-          ADS datas = ApplicationService.loadApplicationDataSubset( application, strDataSubsetName,
+          ADS datas = ApplicationService.loadApplicationDataSubset( application,
         		  applicationDatasClass );
           if ( datas == null )
           {
@@ -103,10 +117,19 @@ public abstract class AppcenterTask extends SimpleTask
     }
     
     
-    
-    public <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand >void  processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale,Class<AD>  applicationDataClass,Class<ADS> applicationDatasClass,String strDataSubsetName, Class<D> demandClass  )
+    /**
+     * ProcessTask
+     * @param nIdResourceHistory the resource Id history
+     * @param request the httpservletRequest
+     * @param locale the locale
+     * @param applicationDataClass a class who extend ApplicationData    
+     * @param applicationDatasClass a class who extend ApplicationDatas 
+     * @param strDataSubsetName the dataSubsetName associate to the applicationDatas 
+     * @param demandClass a class who extend DemandObject
+     */
+    public <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand >void  processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale,Class<AD>  applicationDataClass,Class<ADS> applicationDatasClass,Class<D> demandClass  )
     {
-    	processTask(nIdResourceHistory, request, locale, applicationDataClass, applicationDatasClass, strDataSubsetName, demandClass, null);
+    	processTask(nIdResourceHistory, request, locale, applicationDataClass, applicationDatasClass,  demandClass, null);
     	
     }
 	

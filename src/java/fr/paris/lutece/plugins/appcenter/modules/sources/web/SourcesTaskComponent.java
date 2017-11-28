@@ -59,7 +59,7 @@ public class SourcesTaskComponent extends NoConfigTaskComponent
            
             try
             {
-                model.put( Constants.MARK_DATA,ApplicationService.loadApplicationDataById( demand.getIdApplicationData( ), application, SourcesDatas.class, SourcesDatas.DATA_SOURCES_NAME ));
+                model.put( Constants.MARK_DATA,ApplicationService.loadApplicationDataById( demand.getIdApplicationData( ), application, SourcesDatas.class));
             }
             catch( IOException e )
             {

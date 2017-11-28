@@ -41,7 +41,7 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 /**
  * AppCode Data Subset
  */
-public class AppCodeDatas extends ApplicationDatas<AppCodeData> implements DataSubset
+public class AppCodeDatas extends ApplicationDatas<AppCodeData>
 {
     public static final String DATA_APP_CODE_NAME = "appcode";
     public static final String DEMAND_TYPE_KEY = "appcode";

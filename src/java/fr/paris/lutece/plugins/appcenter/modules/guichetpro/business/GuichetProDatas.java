@@ -39,7 +39,7 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 /**
  * GuichetPro Data Subset
  */
-public class GuichetProDatas extends ApplicationDatas<GuichetProData> implements DataSubset
+public class GuichetProDatas extends ApplicationDatas<GuichetProData> 
 {
     public static final String DATA_GUICHET_PRO_NAME = "guichetpro";
     public static final String DEMAND_TYPE_KEY = "guichetpro";

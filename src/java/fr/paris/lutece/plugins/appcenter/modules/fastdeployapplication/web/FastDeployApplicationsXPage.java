@@ -91,7 +91,7 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
 
         Application application = getApplication( request );
        
-        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application, SourcesDatas.DATA_SOURCES_NAME, SourcesDatas.class );
+        SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application,SourcesDatas.class );
        
        Map<String, Object> model = getModel( ); 
         if(sourcesData!=null && sourcesData.getListData()!=null)

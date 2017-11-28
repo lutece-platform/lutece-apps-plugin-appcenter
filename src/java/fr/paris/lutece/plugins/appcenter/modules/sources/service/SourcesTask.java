@@ -41,7 +41,7 @@ public class SourcesTask extends AppcenterTask
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
     {
     	 AppCenterTaskFunctional<SourcesData, SourcesDatas, SourcesDemand> funct=( requestParam,  localeParam, applicationDataParam, applicationDatasParam,demandParam)-> addUsers(requestParam,applicationDataParam,demandParam);
-         super.processTask(nIdResourceHistory, request, locale, SourcesData.class, SourcesDatas.class,SourcesDatas.DATA_SOURCES_NAME, SourcesDemand.class,funct);
+         super.processTask(nIdResourceHistory, request, locale, SourcesData.class, SourcesDatas.class, SourcesDemand.class,funct);
 
     }
     

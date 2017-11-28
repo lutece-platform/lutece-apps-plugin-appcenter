@@ -41,7 +41,7 @@ import java.util.ArrayList;
 /**
  * Sources Data Subset
  */
-public class IdentitystoreDatas extends ApplicationDatas<IdentitystoreData> implements DataSubset
+public class IdentitystoreDatas extends ApplicationDatas<IdentitystoreData> 
 {
     public static final String DATA_SUBSET_NAME = "identitystore";
 

@@ -24,7 +24,7 @@ public class FastDeployApplicationTask extends AppcenterTask
     @Override
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
     {
-    	   super.processTask(nIdResourceHistory, request, locale, FastDeployApplicationData.class, FastDeployApplicationsData.class,FastDeployApplicationsData.DATA_FASTDEPLOY_APPLICATIONS_NAME, FastDeployApplicationDemand.class);
+    	   super.processTask(nIdResourceHistory, request, locale, FastDeployApplicationData.class, FastDeployApplicationsData.class, FastDeployApplicationDemand.class);
 
     }
 }

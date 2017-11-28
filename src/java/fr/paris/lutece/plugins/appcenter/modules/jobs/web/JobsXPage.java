@@ -78,7 +78,7 @@ public class JobsXPage extends AppCenterXPage
     {
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
-        model.put(Constants.MARK_REPO_LIST, ApplicationService.getRefLisApplicationDatas(getApplication( request ), SourcesDatas.class, SourcesDatas.DATA_SOURCES_NAME, getLocale(request), true,SourcesData::getRepositoryUrl, SourcesData::getRepositoryUrl));
+        model.put(Constants.MARK_REPO_LIST, ApplicationService.getRefLisApplicationDatas(getApplication( request ), SourcesDatas.class,  getLocale(request), true,SourcesData::getRepositoryUrl, SourcesData::getRepositoryUrl));
         return getXPage( TEMPLATE_MANAGE_JOBS , request.getLocale( ), model );
     }
 
