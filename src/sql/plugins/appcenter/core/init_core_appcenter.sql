@@ -1,4 +1,4 @@
-
+    
 --
 -- Data for table core_admin_right
 --
@@ -46,6 +46,10 @@ INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resourc
 --BIAD
 INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BIAD','demand_type','appcode','VIEW' FROM core_admin_role_resource;
 
-
+--
+-- Roles assignment
+--
+INSERT INTO core_user_role (role_key, id_user) VALUES ('BIAD', 1);
+INSERT INTO core_user_role (role_key, id_user) VALUES ('BILD', 1);
 
 UPDATE core_admin_user SET password_max_valid_date = NULL;
