@@ -14,7 +14,7 @@
 <@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelIdGuichetProDemandType}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelIdGuichetProDemandType.help}' >
 	<@input type='text' name='idGuichetProDemandType' value="${demand.idGuichetProDemandType!''}" />
 </@formGroup>
-<#if !demand.newCategoryGuichetProDemandType?has_content>
+<#if demand.newCategoryGuichetProDemandType?has_content>
     <p>
         #i18n{module.appcenter.guichetpro.taskForm.labelNewCategoryGuichetProDemandType} : ${demand.newCategoryGuichetProDemandType}
     </p>
