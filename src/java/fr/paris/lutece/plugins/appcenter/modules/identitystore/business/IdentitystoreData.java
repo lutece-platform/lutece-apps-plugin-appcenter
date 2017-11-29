@@ -42,29 +42,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class IdentitystoreData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.identitystore.validation.favoriteName.notEmpty}" )
-    private String _strApplicationCode;
     private Map<String,AttributeRight> _mapAttributeRights;
     private String _strApiManagerSecurityKey;
 
-
-    /**
-     * Get the application code
-     * @return the application code
-     */
-    public String getApplicationCode()
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * Set the application code
-     * @param strApplicationCode the application code 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
 
     /**
      * Get the attribute rights

@@ -19,7 +19,6 @@
 	<@table>
 		<tr>
 				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationCode}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationRights}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApiManagerSecurityKey}</th>
 				<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnBeanSpring}</th>
@@ -28,9 +27,6 @@
 			<#list data as setting >
                             <tr>
                                 <input type="hidden" id="id" name="id" />
-                                <td>
-                                                ${setting.applicationCode}
-                                </td>
                                 <td>
                                     <#if setting.attributeRights??>
                                     <ul>
