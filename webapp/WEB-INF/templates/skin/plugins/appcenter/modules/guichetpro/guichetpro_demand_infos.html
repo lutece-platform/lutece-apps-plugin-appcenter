@@ -1,7 +1,11 @@
 <p>
     #i18n{module.appcenter.guichetpro.manage_guichet_pro.labelEnvironment} : ${(demand.environment.prefix)!''}<br />
     #i18n{module.appcenter.guichetpro.manage_guichet_pro.labelGuichetProDemandType} : ${(demand.guichetProDemandType)!''}<br />
-    #i18n{module.appcenter.guichetpro.manage_guichet_pro.labelCategoryGuichetProDemandType} : ${(demand.categoryGuichetProDemandType)!''}
+    <#list category_guichet_pro_demand_types as item>
+        <#if demand.categoryGuichetProDemandType == item.code >
+            #i18n{module.appcenter.guichetpro.manage_guichet_pro.labelCategoryGuichetProDemandType} : ${item.name}<br />
+        </#if>
+    </#list>
     <#if demand.newCategoryGuichetProDemandType?? && !demand.newCategoryGuichetProDemandType?has_content>
         #i18n{module.appcenter.guichetpro.manage_guichet_pro.labelNewCategoryGuichetProDemandType} : ${demand.newCategoryGuichetProDemandType}
     </#if>

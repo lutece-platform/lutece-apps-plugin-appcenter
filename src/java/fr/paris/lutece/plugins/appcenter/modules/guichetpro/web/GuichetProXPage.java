@@ -56,6 +56,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Arrays;
 
@@ -72,7 +73,7 @@ public class GuichetProXPage extends AppCenterXPage
     private static final String ACTION_CREATE_GUICHET_PRO_DEMAND = "doCreateGuichetProDemand";
     
     private static final String MARK_CATEGORIES = "category_guichet_pro_demand_types";
-    private static final String NEW_CATEGORIE = "- Autre";
+    private static final String NEW_CATEGORIE = "-- Autre --";
 
     /**
      * Maganage guichetpro view
@@ -88,7 +89,10 @@ public class GuichetProXPage extends AppCenterXPage
         fillAppCenterCommons( model, request );
 
         ReferenceList refListCategory=DemandTypeCategoryHome.getDemandTypeCategoriesReferenceList( );
-        refListCategory.addItem("", "");
+        ReferenceItem nulRefItem=new ReferenceItem();
+        nulRefItem.setCode("");
+        nulRefItem.setName("");
+        refListCategory.add(0, nulRefItem);
         refListCategory.addItem("new", NEW_CATEGORIE );
         model.put(MARK_CATEGORIES, refListCategory);
 

@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.appcenter.modules.guichetpro.business;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.ReferenceList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +46,9 @@ public class GuichetProDemand extends Demand
     private static final String TEMPLATE_GUICHET_PRO_DEMAND_INFOS = "skin/plugins/appcenter/modules/guichetpro/guichetpro_demand_infos.html";
     public static final String DEMAND_TYPE = "guichetpro";
     public static final String ID_DEMAND_TYPE = "guichetpro";
+
+    private static final String MARK_CATEGORIES = "category_guichet_pro_demand_types";
+    private static final String NEW_CATEGORIE = "Autre";
 
     private String _strGuichetProDemandType;
     private String _strCategoryGuichetProDemandType;
@@ -130,7 +134,10 @@ public class GuichetProDemand extends Demand
     public String getComplementaryInfos( )
     {
         Map<String, Object> model = new HashMap<String, Object>( );
+        ReferenceList refListCategory=DemandTypeCategoryHome.getDemandTypeCategoriesReferenceList( );
+        refListCategory.addItem("new", NEW_CATEGORIE );
         model.put( MARK_DEMAND, this );
+        model.put(MARK_CATEGORIES, refListCategory);
         return AppTemplateService.getTemplate( TEMPLATE_GUICHET_PRO_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
     }
 

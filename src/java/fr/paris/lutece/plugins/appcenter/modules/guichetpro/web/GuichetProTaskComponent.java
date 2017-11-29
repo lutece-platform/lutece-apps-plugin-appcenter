@@ -14,6 +14,7 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.DemandTypeCategoryHome;
 import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProData;
 import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProDemand;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
@@ -22,6 +23,7 @@ import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -31,6 +33,8 @@ public class GuichetProTaskComponent extends NoConfigTaskComponent
     // TEMPLATES
     private static final String TEMPLATE_GUICHET_PRO_TASK_FORM = "admin/plugins/appcenter/modules/guichetpro/guichetpro_task_form.html";
     private static final String TEMPLATE_GUICHET_PRO_DISPLAY_HISTORY = "admin/plugins/appcenter/modules/guichetpro/guichetpro_task_history.html";
+
+    private static final String MARK_CATEGORIES = "category_guichet_pro_demand_types";
 
     @Inject
     private IResourceHistoryService _resourceHistoryService;
@@ -46,6 +50,9 @@ public class GuichetProTaskComponent extends NoConfigTaskComponent
         GuichetProDemand demand = DemandHome.findByPrimaryKey( nIdResource, GuichetProDemand.class );
         if ( demand != null )
         {
+            ReferenceList refListCategory=DemandTypeCategoryHome.getDemandTypeCategoriesReferenceList( );
+            refListCategory.addItem( "", "" );
+            model.put( MARK_CATEGORIES, refListCategory );
             model.put( Constants.MARK_DEMAND, demand );
             Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
             model.put( Constants.MARK_APPLICATION, application );
