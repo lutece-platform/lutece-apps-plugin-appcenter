@@ -41,32 +41,12 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class GuichetProData extends ApplicationData
 {
-    @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.applicationcode.notEmpty}" )
-    private String _strApplicationCode;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.grudemandtype.notEmpty}" )
     private String _strGuichetProDemandType;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.categorygrudemandtype.notEmpty}" )
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
     private String _strNewCategoryGuichetProDemandType;
-
-    /**
-     * Get the application code
-     * @return the application code
-     */
-    public String getApplicationCode()
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * Set the application code
-     * @param strApplicationCode the application code 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
 
     /**
      * Get the gru demand type

@@ -46,29 +46,10 @@ public class GuichetProDemand extends Demand
     public static final String DEMAND_TYPE = "guichetpro";
     public static final String ID_DEMAND_TYPE = "guichetpro";
 
-    private String _strApplicationCode;
     private String _strGuichetProDemandType;
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
     private String _strNewCategoryGuichetProDemandType;
-
-    /**
-     * Get the application code
-     * @return the application code
-     */
-    public String getApplicationCode()
-    {
-        return _strApplicationCode;
-    }
-
-    /**
-     * Set the application code
-     * @param strApplicationCode the application code 
-     */
-    public void setApplicationCode( String strApplicationCode )
-    {
-        _strApplicationCode = strApplicationCode;
-    }
 
     /**
      * Get the gru demand type
