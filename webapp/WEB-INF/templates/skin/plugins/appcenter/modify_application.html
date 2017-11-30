@@ -1,82 +1,8 @@
-<#include "appcenter_tabs.html" />
-<@tabs2 tab="general" application=application errors=errors infos=infos user=user>
-
-<#macro printDemandType demandType=''>
-    <#list demandtype_list as demandtype>
-        <#if demandtype.idDemandType == demandType>
-            ${demandtype.label!''}
-        </#if>
-    </#list>
-</#macro>
-
-<#macro printDemand demand>
-    <div class="panel">
-        <div class="panel-heading" role="tab" id="heading${cpt}">
-                <h3 class="panel-title">
-                        <a class="clearfix" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
-                                <span class="pull-left">${demand.lastUpdate?datetime?string('dd-MM-yyyy HH:mm')!''} - <@printDemandType demand.demandType/></span><span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
-
-                        </a>
-                </h3>
-        </div>
-
-        <div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
-                <div class="panel-body">
-                        <p>${demand.statusText!''}</p>
-                        <p>#i18n{appcenter.view_demands.complementaryInfos}</p>
-                        <p>${(demand.complementaryInfos)!''}</p>
-                        <p>${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}</p>
-                </div>
-        </div>
-    </div>
-</#macro>
-
-<@row>
-	<@columns>
-		<div class="well">
-			<@columns>
-		<#-- Demands -->
-                <#if 0 lt demands?size>
-		<h2><span class="fa fa-gears"></span> #i18n{appcenter.modify_application.labelCurrentDemands}</h2>
-		
-		
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			<#assign cpt = 0 />
-			<#list demands?sort_by("lastUpdate")?reverse as demand>
-                            <#if active_environment?? && active_environment != ''>
-                                <#if demand.environment?? && demand.environment.prefix == active_environment.prefix>
-                                    <#if active_demand_type??>
-                                        <#if active_demand_type == demand.demandType>
-                                            <@printDemand demand/>
-                                         </#if>
-                                    <#else>
-                                        <@printDemand demand/>
-                                    </#if>
-                                    <#assign cpt=cpt+1 />
-                                    </#if>
-                                <#else>
-                                    <#if active_demand_type??>
-                                        <#if active_demand_type == demand.demandType>
-                                             <@printDemand demand/>
-                                        </#if>
-                                    <#else>
-                                        <@printDemand demand/>
-                                    </#if>
-                                    <#assign cpt=cpt+1 />
-                                </#if>
-			</#list>
-		</div>
-		<#else>
-                    <h2>
-                        <span class="fa fa-gears"></span> #i18n{appcenter.modify_application.labelNoDemand}
-                    </h2>
-                </#if>
-		</@columns>
-		&#160;
-		</div>
-	</@columns>
-</@row>
-
-</@tabs2>
+<#include "commons.html" />
+<@headerApp tab="general" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="general" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="general" application=application errors=errors infos=infos user=user>
+Pour faire une nouvelle demande ou visualiser une configuration, sélectionner un type de demand et/ou un environnement.
+</@listDemandTypes>
 
 

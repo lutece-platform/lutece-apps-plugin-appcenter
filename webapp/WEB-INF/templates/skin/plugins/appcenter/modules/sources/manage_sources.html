@@ -1,6 +1,8 @@
-<#include "../../appcenter_tabs.html" />
+<#include "../../commons.html" />
 <#include "../commons.html" />
-<@tabs2 tab="sources" application=application errors=errors infos=infos user=user>
+<@headerApp tab="sources" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="sources" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="sources" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -63,7 +65,7 @@
         </div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
 
 	<!-- Modal -->
 	<div id="ModalAddRepository" class="modal fade" role="dialog" aria-labelledby="X">
@@ -86,19 +88,23 @@
 								<label for="repository_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="repository_name" name="repository_name" maxlength="250" class="form-control" required />
-							</div>
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.help}</small>
+                                                        </div>
 							<div class="form-group">
 								<label for="repository_type" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} <@icon style="asterisk" />
 								</label>
 									<@comboSortedWithParams name="repository_type" id="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
 								</div>
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.help}</small>
 							
 							<div class="form-group">
 								<label for="public_repository" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label} <@icon style="asterisk" />
 								</label>
 								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' id='public_repository_true' value='true' mandatory=true />
-							     <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' id='public_repository_false' value='false' mandatory=true />
-							</div>
+                                                                <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' id='public_repository_false' value='false' mandatory=true />
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.help}</small>
+                                                             
+                                                        </div>
 								<fieldset>
 									<legend class="clearfix">
 										#i18n{module.appcenter.sources.manage_sources.labelUsers.label}
@@ -109,6 +115,8 @@
 								<div class="form-group" id="users-group">
 								
 								</div>
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelUsers.help}</small>
+                                                                    
 								
 								</fieldset>
 					</div>

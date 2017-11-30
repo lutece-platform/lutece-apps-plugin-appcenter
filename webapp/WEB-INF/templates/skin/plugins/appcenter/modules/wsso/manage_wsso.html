@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="wsso" application=application errors=errors infos=infos user=user>
+<#include "../../commons.html" />
+<@headerApp tab="wsso" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="wsso" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="wsso" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -18,5 +20,5 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
 

@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="app_code" application=application errors=errors infos=infos user=user>
+<#include "../../commons.html" />
+<@headerApp tab="appcode" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="appcode" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="appcode" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -40,7 +42,7 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
 
  <!-- Modal for demanding Application Code setting -->
 	<div id="ModalAppCodeDemand" class="modal fade" role="dialog">
@@ -60,14 +62,18 @@
 						<div class="form-group">
 							<label for="application_code" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelApplicationCode}</label>
 							<input type="text" id="application_code" name="application_code" value="${application.code!''}" maxlength="50" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.appcode.create_app_code.labelApplicationCode.help}</small>
+                                                </div>
 						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelName}</label>
 							<input type="text" id="name" name="name" value="${application.name!''}" maxlength="50" class="form-control" />
-						</div>
+						        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.appcode.create_app_code.labelName.help}</small>
+
+                                                </div>
 						<div class="form-group">
 							<label for="description" class="col-form-label">#i18n{module.appcenter.appcode.create_app_code.labelDescription}</label>
                                                             <input type="textarea" id="description" name="description" value="${application.description!''}" maxlength="250" class="form-control" />
+                                                            <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.appcode.create_app_code.labelDescription.help}</small>
 						</div>
 					</div>
 					<div class="modal-footer">

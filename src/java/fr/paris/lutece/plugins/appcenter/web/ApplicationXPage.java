@@ -93,6 +93,7 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
     private static final String TEMPLATE_CREATE_APPLICATION = "/skin/plugins/appcenter/create_application.html";
     private static final String TEMPLATE_MODIFY_APPLICATION = "/skin/plugins/appcenter/modify_application.html";
+    private static final String TEMPLATE_VIEW_DEMANDS = "/skin/plugins/appcenter/view_demands.html";
 
     // Message
     private static final String MESSAGE_CONFIRM_REMOVE_APPLICATION = "appcenter.message.confirmRemoveApplication";
@@ -101,6 +102,7 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String VIEW_MANAGE_APPLICATIONS = "manageApplications";
     private static final String VIEW_CREATE_APPLICATION = "createApplication";
     private static final String VIEW_MODIFY_APPLICATION = "modifyApplication";
+    private static final String VIEW_DEMANDS = "viewDemands";
 
     // Actions
     private static final String ACTION_CREATE_APPLICATION = "createApplication";
@@ -324,6 +326,42 @@ public class ApplicationXPage extends AppCenterXPage
         model.put( MARK_USER, UserService.getCurrentUser( request, _application.getId( ) ));
 
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
+    }
+    
+    @View( VIEW_DEMANDS )
+    public XPage getViewDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    {
+        _application = getApplication( request );
+        
+        
+        Map<String, Object> model = getModel( );
+        model.put( MARK_APPLICATION, _application );
+        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
+        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
+        List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
+        model.put( MARK_DEMANDS, listFullDemands  );
+        model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
+        Map<String, Object> mapStates = new HashMap<>( );
+        Map<String, Object> mapHistories = new HashMap<>( );
+        for ( Demand demand : listFullDemands )
+        {
+            String strWorkflowResourceType = DemandTypeService.getWorkflowResourceType( demand.getIdDemandType( ) );
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getIdDemandType( ) );
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), strWorkflowResourceType, nIdWorkflow, -1 );
+            mapStates.put( Integer.toString( demand.getId( ) ), state );
+
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), strWorkflowResourceType, nIdWorkflow, request,
+                    request.getLocale( ) );
+            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
+        }
+
+        model.put( MARK_DEMANDS_STATES, mapStates );
+        model.put( MARK_DEMANDS_HISTORIES, mapHistories );
+        model.put( MARK_USER, UserService.getCurrentUser( request, _application.getId( ) ));
+
+        return getXPage( TEMPLATE_VIEW_DEMANDS, request.getLocale( ), model );
     }
 
     /**

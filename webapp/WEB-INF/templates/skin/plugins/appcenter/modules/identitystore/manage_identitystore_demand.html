@@ -1,7 +1,9 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
+<#include "../../commons.html" />
 <#include "bean_spring.html"/>
-<@tabs2 tab="identitystore" application=application errors=errors infos=infos  user=user>
+<@headerApp tab="identitystore" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="identitystore" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="identitystore" application=application errors=errors infos=infos user=user>
 <div class="well">
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.identitystore.manage_identitystore.title}</h2>
@@ -84,7 +86,7 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Modal for demanding Identitystore conf -->
 	<div id="ModalIdentiyystoreDemand" class="modal fade" role="dialog">
@@ -117,6 +119,7 @@
                                                         </tr>
                                                     </#list>
                                                 </@table>
+                                            <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.identitystore.create_identitystore.attribute.help}</small>
 					</div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.identitystore.create_identitystore.buttonCreate}</button>

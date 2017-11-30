@@ -76,7 +76,7 @@ public class WssoXPage extends AppCenterXPage
     @Override
     protected String getDemandType()
     {
-        return "";
+        return "wsso";
     }
 
     @Override

@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="jobs" application=application  errors=errors infos=infos  user=user>
+<#include "../../commons.html" />
+<@headerApp tab="jobs" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="jobs" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="jobs" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-sm-12">
@@ -45,7 +47,7 @@
 &#160;
 </div>
 
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Job demand Modal -->
 	<div id="ModalJobDemand" class="modal fade" role="dialog" aria-labelledby="addJob">
@@ -70,6 +72,7 @@
 									#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.label} <@icon style="asterisk" />
 								</label>
 								<@comboSortedWithParams name="repository_url" id="repository_url" default_value="" additionalParameters="class=\"form-control \" required" items=repo_list />
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.help}</small>
 							</div>
 							
 						</div>

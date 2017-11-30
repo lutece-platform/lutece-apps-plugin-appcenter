@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="notification_gru" application=application errors=errors infos=infos user=user>
+<#include "../../commons.html" />
+<@headerApp tab="notificationgru" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="notificationgru" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="notificationgru" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -48,7 +50,7 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Modal for demanding  Notification Gru setting -->
 	<div id="ModalNotificationGruDemand" class="modal fade" role="dialog">
@@ -68,7 +70,8 @@
 						<div class="form-group">
 							<label for="gru_demand_type" class="col-form-label">#i18n{module.appcenter.notificationgru.create_notification_gru.labelGruDemandType}</label>
 							<input type="text" id="gru_demand_type" name="gru_demand_type" maxlength="250" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.notificationgru.create_notification_gru.labelGruDemandType.help}</small>
+                                                </div>
 						<div class="form-group">
                                             </div>
 					<div class="modal-footer">

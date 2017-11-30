@@ -1,98 +1,16 @@
+<#macro headerApp tab application errors infos user>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
-<#macro demandAlreadyExists demandType>
-    <#list demands as demand>
-        <#if demand.idDemandType == demandType>
-            <#if active_environment??>
-                <#if active_environment.prefix == demand.environment.prefix>
-                    <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
-                    <#break>
-                </#if>
-            <#else>
-                <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
-                <#break>
-            </#if>
-        </#if>
-    </#list>
-</#macro>
-
-<#macro printDemandTypes dep_envi active_tab>
-    <#list categorydemandtype_list as categorydemandtype>
-        <#if categorydemandtype.isDependingOfEnvironment == dep_envi>
-            <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading_${categorydemandtype.id?string}">
-                      <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_${categorydemandtype.id?string}" aria-expanded="true" aria-controls="collapse_${categorydemandtype.id?string}">
-                              ${categorydemandtype.label}
-                            </a>
-                      </h4>
-                    </div>
-                    <div id="collapse_${categorydemandtype.id?string}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_${categorydemandtype.id?string}">
-                      <div class="panel-body">
-                            <ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
-                                <#list demandtype_list as demandtype>
-                                    <#if demandtype.idCategoryDemandType == categorydemandtype.id>
-                                        <li class="<#if active_tab==demandtype.idDemandType> active</#if>" id="${demandtype.idDemandType}Tab">
-                                                <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >
-                                                    <a class="text-center docs_link col-xs-3 col-sm-2">
-                                                        <span class="glyphicon glyphicon-question-sign"></span>
-                                                    </a>
-                                                    <div class="doc">
-                                                        <div class="doc-content">
-                                                            <span>${demandtype.description!''}</span>
-                                                            <#if demandtype.listDocumentation?size gt 0> 
-                                                                <ul class="list-group">
-                                                                     <br/>
-                                                                    <#list demandtype.listDocumentation as documentation>
-                                                                        <li class="list-group-item">
-                                                                            <a href="${documentation.url}">
-                                                                                ${documentation.label}
-                                                                                <span class="pull-right label label-info">#i18n{${documentation_categories[documentation.category].labelKey}}</span>
-                                                                            </a>
-                                                                        </li>
-
-                                                                    </#list>
-                                                                </ul>
-                                                            </#if>
-                                                        </div>
-                                                    </div>
-                                                </#if>
-                                                 <a class="btn demandtype_link  <#if !demandTypeEnabled(demandtype.idDemandType)>disabled </#if> <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
-                                                        ${demandtype.label}
-                                                         <@demandAlreadyExists demandtype.idDemandType/>
-                                                 </a>
-                                        </li>
-                                    </#if>
-                                </#list>
-                            </ul>
-                      </div>
-                    </div>
-            </div>
-        </#if>
-    </#list>
-</#macro>
-                
-<#function demandTypeEnabled idDemandType='' >
-    <#list active_demand_types.listDemandTypeIdEnabled as demand_type_enabled>
-         <#if demand_type_enabled == idDemandType>
-                <#return true/>
-         </#if>
-    </#list>
-    <#return false/>
-</#function>
-
-<#macro tabs2 tab application errors infos user >
 <div class="page-header">
     <div class="row">
         <div class="col-xs-12 col-sm-9">
-            <h1>${application.code!}-${application.name}
-            <small>${application.description}</small>
-            </h1>
+            <h2>${application.code!}-${application.name}
+            </h2>
+            
             <@messages errors=errors />
             <@messages infos=infos />
         </div>
-        <div class="col-xs-12 col-sm-3">
+        <div class="col-xs-12 col-sm-3 text-center">
                 <a class="btn btn-primary" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
                         <span class="fa fa-home"></span>   
                 </a>
@@ -107,56 +25,21 @@
                                 <span class="fa fa-trash"></span>
                 </a>
                 </#if>
+                
         </div>
+        
+    </div>
+    <div class="row">
+        <ul class="nav nav-pills">
+            <li role="presentation" class="col-xs-12 col-sm-5"><a class="btn btn-info <#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">
+                    <i class="fa fa-cog">  Faire des demandes et voir mes configurations</i>
+            </a></li>
+            <li role="presentation" class="col-xs-12 col-sm-5"><a class="btn btn-info <#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}">
+                    <i class="fa fa-eye">  Voir les demandes en cours </i>
+            </a></li>
+          </ul>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12">
-    
-        <ul class="nav nav-tabs nav-justified">
-                <li role="presentation" class="<#if !active_environment?? || active_environment == ''>active</#if>"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a></li>
-                <#if application.listEnvironment?size gt 0>
-                    <#list application.listEnvironment as envi>
-                        <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
-                    </#list>
-                </#if>  
-        </ul>
-    </div>
-</div>
-<br>    
-
-<div class="row">
-	<div class="col-xs-12 col-sm-4">
-		<div class="list-group">
-			<a class="list-group-item<#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">
-				Demandes en cours
-			</a>
-		</div>
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <#if !active_environment?? || active_environment == ''>
-                        <@printDemandTypes dep_envi=false active_tab=tab />
-                    <#else>
-                        <@printDemandTypes dep_envi=true active_tab=tab />
-                     </#if>
-		</div>
-	</div>
-	<div class="col-xs-12 col-sm-8">
-		<div class="tab-content" id="tabContent">
-			<div class="tab-pane fade in active" id="" role="tabpanel" aria-labelledby="">
-				<#nested>
-			</div>
-		</div>
-	</div>
-</div>
-</#macro>
-
-<#macro enviChecked application environment >
-    <#list application.listEnvironment as envi>
-        <#if envi.prefix == environment.code>checked="checked"</#if>
-    </#list>
-</#macro>
-
 <!-- Modal -->
 <div id="ModalModify" class="modal fade" role="dialog" aria-labelledby="modalTitleModifyAppDescription">
 	<div class="modal-dialog" role="document">
@@ -344,3 +227,159 @@ $(function(){
         
 });
 </script>
+</#macro>
+
+<#macro tabEnvis tab application errors infos user> 
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+
+            <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="<#if !active_environment?? || active_environment == ''>active</#if>"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a></li>
+                    <#if application.listEnvironment?size gt 0>
+                        <#list application.listEnvironment as envi>
+                            <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
+                        </#list>
+                    </#if>  
+            </ul>
+        </div>
+    </div>
+<br>
+</#macro>
+
+
+<#macro listDemandTypes tab application errors infos user >
+<div class="row">
+	<div class="col-xs-12 col-sm-4">
+		
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <#if !active_environment?? || active_environment == ''>
+                        <@printDemandTypes dep_envi=false active_tab=tab />
+                    <#else>
+                        <@printDemandTypes dep_envi=true active_tab=tab />
+                     </#if>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-8">
+		<div class="tab-content" id="tabContent">
+			<div class="tab-pane fade in active" id="" role="tabpanel" aria-labelledby="">
+				<#nested>
+			</div>
+		</div>
+	</div>
+</div>
+</#macro>
+
+<#macro demandAlreadyExists demandType>
+    <#list demands as demand>
+        <#if demand.idDemandType == demandType>
+            <#if active_environment??>
+                <#if active_environment.prefix == demand.environment.prefix>
+                    <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
+                    <#break>
+                </#if>
+            <#else>
+                <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
+                <#break>
+            </#if>
+        </#if>
+    </#list>
+</#macro>
+
+<#macro printDemandTypes dep_envi active_tab>
+    <#list categorydemandtype_list as categorydemandtype>
+        <#if categorydemandtype.isDependingOfEnvironment == dep_envi>
+            <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading_${categorydemandtype.id?string}">
+                      <h4 class="panel-title">
+                              ${categorydemandtype.label}
+                      </h4>
+                    </div>
+                    <div id="panel_${categorydemandtype.id?string}" class="" >
+                      <div class="panel-body">
+                            <ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
+                                <#list demandtype_list as demandtype>
+                                    <#if demandtype.idCategoryDemandType == categorydemandtype.id>
+                                        <li class="" id="${demandtype.idDemandType}Tab">
+                                                <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >
+                                                    <a class="text-center docs_link col-xs-3 col-sm-2">
+                                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                                    </a>
+                                                    <div class="doc">
+                                                        <div class="doc-content">
+                                                            <span>${demandtype.description!''}</span>
+                                                            <#if demandtype.listDocumentation?size gt 0> 
+                                                                <ul class="list-group">
+                                                                     <br/>
+                                                                    <#list demandtype.listDocumentation as documentation>
+                                                                        <li class="list-group-item">
+                                                                            <a href="${documentation.url}">
+                                                                                ${documentation.label}
+                                                                                <span class="pull-right label label-info">#i18n{${documentation_categories[documentation.category].labelKey}}</span>
+                                                                            </a>
+                                                                        </li>
+
+                                                                    </#list>
+                                                                </ul>
+                                                            </#if>
+                                                        </div>
+                                                    </div>
+                                                </#if>
+                                                 <a class="btn demandtype_link <#if active_demand_type?? && active_demand_type==demandtype.idDemandType> active</#if> <#if !demandTypeEnabled(demandtype.idDemandType)>disabled </#if> <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+                                                        ${demandtype.label}
+                                                         <@demandAlreadyExists demandtype.idDemandType/>
+                                                 </a>
+                                        </li>
+                                    </#if>
+                                </#list>
+                            </ul>
+                      </div>
+                    </div>
+            </div>
+        </#if>
+    </#list>
+</#macro>
+
+<#function demandTypeEnabled idDemandType='' >
+    <#list active_demand_types.listDemandTypeIdEnabled as demand_type_enabled>
+         <#if demand_type_enabled == idDemandType>
+                <#return true/>
+         </#if>
+    </#list>
+    <#return false/>
+</#function>
+
+<#macro enviChecked application environment >
+    <#list application.listEnvironment as envi>
+        <#if envi.prefix == environment.code>checked="checked"</#if>
+    </#list>
+</#macro>
+        
+        <#macro printDemandType demandType=''>
+    <#list demandtype_list as demandtype>
+        <#if demandtype.idDemandType == demandType>
+            ${demandtype.label!''}
+        </#if>
+    </#list>
+</#macro>
+
+<#macro printDemandInList demand>
+    <div class="panel">
+        <div class="panel-heading" role="tab" id="heading${cpt}">
+                <h3 class="panel-title">
+                        <a class="clearfix" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
+                                <span class="pull-left">${demand.lastUpdate?datetime?string('dd-MM-yyyy HH:mm')!''} - <@printDemandType demand.demandType/></span><span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
+
+                        </a>
+                </h3>
+        </div>
+
+        <div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
+                <div class="panel-body">
+                        <p>${demand.statusText!''}</p>
+                        <p>#i18n{appcenter.view_demands.complementaryInfos}</p>
+                        <p>${(demand.complementaryInfos)!''}</p>
+                        <p>${(demands_histories[demand.id?string])!'TODO DEMAND HISTORY'}</p>
+                </div>
+        </div>
+    </div>
+</#macro>

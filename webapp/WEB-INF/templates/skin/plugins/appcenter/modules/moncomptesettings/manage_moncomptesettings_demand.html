@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="moncomptesettings" application=application errors=errors infos=infos  user=user>
+<#include "../../commons.html" />
+<@headerApp tab="moncomptesettings" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="moncomptesettings" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="moncomptesettings" application=application errors=errors infos=infos user=user>
 <div class="well">
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.title}</h2>
@@ -51,7 +53,7 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Modal for demanding OpenAM agent -->
 	<div id="ModalMonCompteSettingDemand" class="modal fade" role="dialog">
@@ -71,19 +73,23 @@
 						<div class="form-group">
 							<label for="name_favorite" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelFavoriteName}</label>
 							<input type="text" id="favoriteName" name="favoriteName" maxlength="250" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelFavoriteName.help}</small>
+                                                </div>
 						<div class="form-group">
 							<label for="url_favorite" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelFavoriteUrl}</label>
 							<input type="text" id="favoriteUrl" name="favoriteUrl" maxlength="250" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelFavoriteUrl.help}</small>
+                                                </div>
 						<div class="form-group">
 							<label for="name_back_button" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelBackButtonName}</label>
 							<input type="text" id="backButtonName" name="backButtonName" maxlength="250" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelBackButtonName.help}</small>				
+                                                </div>
 						<div class="form-group">
 							<label for="url_back_button" class="col-form-label">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelBackButtonUrl}</label>
 							<input type="text" id="backButtonUrl" name="backButtonUrl" maxlength="250" class="form-control" />
-						</div>
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.labelBackButtonUrl.help}</small>				
+                                                </div>
 					</div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.moncomptesettings.create_moncomptesettings.buttonCreate}</button>

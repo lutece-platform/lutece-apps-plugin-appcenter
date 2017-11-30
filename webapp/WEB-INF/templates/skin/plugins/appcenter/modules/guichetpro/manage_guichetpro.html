@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="guichet_pro" application=application errors=errors infos=infos user=user>
+<#include "../../commons.html" />
+<@headerApp tab="guichetpro" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="guichetpro" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="guichetpro" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-12 col-sm-12">
@@ -52,7 +54,7 @@
 	</div>
 	&#160;
 </div>
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Modal for demanding  Notification GuichetPro setting -->
 	<div id="ModalGuichetProDemand" class="modal fade" role="dialog">
@@ -72,10 +74,12 @@
 						<div class="form-group">
 							<label for="guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType}</label>
 							<input type="text" id="guichet_pro_demand_type" name="guichet_pro_demand_type" maxlength="250" class="form-control" />
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType.help}</small>
 						</div>
                                                 <div class="form-group">
                                                         <label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType} <@icon style="asterisk" /></label>
                                                         <@comboWithParams name="category_guichet_pro_demand_type" default_value="" additionalParameters="class=\"form-control \" required" items=category_guichet_pro_demand_types />
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType.help}</small>
                                                 </div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.guichetpro.create_guichet_pro.buttonCreate}</button>

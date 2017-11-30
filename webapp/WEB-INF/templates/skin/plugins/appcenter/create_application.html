@@ -34,6 +34,7 @@
                                     <#list environments as environment>
                                         <input type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
                                     </#list>
+                                    <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelEnvironments.help}</small>
                                 </div>
 			</div>
                         <div class="form-group row ">

@@ -1,6 +1,8 @@
 <#include "../commons.html" />
-<#include "../../appcenter_tabs.html" />
-<@tabs2 tab="fastdeploy" application=application  errors=errors infos=infos  user=user>
+<#include "../../commons.html" />
+<@headerApp tab="fastdeployapplication" application=application errors=errors infos=infos user=user/>
+<@tabEnvis tab="fastdeployapplication" application=application errors=errors infos=infos user=user/>
+<@listDemandTypes tab="fastdeployapplication" application=application errors=errors infos=infos user=user>
 
 <div class="well">
 	<div class="col-sm-12">
@@ -50,7 +52,7 @@
 &#160;
 </div>
 
-</@tabs2>
+</@listDemandTypes>
     
  <!-- Modal for demanding Fast deploy application -->
 	<div id="ModalFastDeployApplicationDemand" class="modal fade" role="dialog" aria-labelledby="addApplication">
@@ -74,18 +76,22 @@
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="name" name="name" maxlength="250" class="form-control" required  value="${application.name}"/>
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.help}</small>
+
 							</div>
 							<div class="form-group">
 								<label for="web_app" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationWebapp.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="web_app" name="web_app" maxlength="250" class="form-control" required/>
-							</div>
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationWebapp.help}</small>
+                                                        </div>
 							<div class="form-group">
 								<label for="url_site" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationUrlSite.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="url_site" name="url_site" maxlength="250" class="form-control" required value="${default_url_site!}" />
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationUrlSite.help}</small>
 							</div>
 							
 							<div class="form-group">
@@ -93,6 +99,7 @@
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.service.label} <@icon style="asterisk" />
 								</label>
 								<@comboSortedWithParams name="service" id="service" default_value="" additionalParameters="class=\"form-control \" required" items=services />
+                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.service.help}</small>
 							</div>
 						</div>
 						<div class="modal-footer">
