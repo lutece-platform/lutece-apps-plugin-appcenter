@@ -30,7 +30,7 @@ public abstract class AppcenterTask extends SimpleTask
 
     // SERVICES
     @Inject
-    private IResourceHistoryService _resourceHistoryService;
+    protected IResourceHistoryService _resourceHistoryService;
 
    
     /**

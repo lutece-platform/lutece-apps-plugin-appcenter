@@ -48,7 +48,6 @@ public class AppCodeTask extends AppcenterTask
     {
         ResourceHistory resourceHistory = super._resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
-
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
         application.setCode( appCodeData.getApplicationCode( ) );
         ApplicationHome.update( application );
