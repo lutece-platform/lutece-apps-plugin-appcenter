@@ -1,12 +1,12 @@
 <#if demand.environment=='rec' >
-  <#assign defaultAgentName = "${demand.applicationCode}.rec.apps.paris.mdp" />
-  <#assign defaultAgentPassword = "${demand.applicationCode}.rec.apps.paris.mdp" />
+  <#assign defaultAgentName = "${application.code}.rec.apps.paris.mdp" />
+  <#assign defaultAgentPassword = "${application.code}.rec.apps.paris.mdp" />
   <#assign defaultServerUrl= "http://v69.rec.apps.paris.mdp:80/v69" />
-  <#assign defaultAgentUrl= "http://${demand.applicationCode}.rec.apps.paris.mdp:80/agent4v69" />
+  <#assign defaultAgentUrl= "http://${application.code}.rec.apps.paris.mdp:80/agent4v69" />
 <#else>
-	<#assign defaultAgentName = "${demand.applicationCode}.apps.paris.mdp" />
+	<#assign defaultAgentName = "${application.code}.apps.paris.mdp" />
  	<#assign defaultServerUrl= "http://v69.apps.paris.mdp:80/v69" />
-  	<#assign defaultAgentUrl= "http://${demand.applicationCode}.apps.paris.mdp:80/agent4v69" />
+  	<#assign defaultAgentUrl= "http://${application.code}.apps.paris.mdp:80/agent4v69" />
 </#if>
   
 <div class="clearfix"></div>
@@ -23,7 +23,7 @@
            <tr>
 	            <input type="hidden" id="id" name="id"/>
 	            <td>
-	               ${demand.applicationCode}
+	               ${application.code}
 	            </td>
 	            <td>
 	               ${demand.webappName}
