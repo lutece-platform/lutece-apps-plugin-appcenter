@@ -49,11 +49,11 @@ public class AppCodeDemand extends Demand
     public static final String DEMAND_TYPE = "appcode";
     public static final String ID_DEMAND_TYPE = "appcode";
 
-    @NotEmpty( message = "#i18n{module.appcenter.appcode.validation.applicationcode.notEmpty}" )
     private String _strApplicationCode;
     @NotEmpty( message = "#i18n{module.appcenter.appcode.validation.name.notEmpty}" )
     @Size( max = 50, message = "#i18n{module.appcenter.appcode.validation.name.size}" )
     private String _strName;
+    @NotEmpty( message = "#i18n{module.appcenter.appcode.validation.description.notEmpty}" )
     @Size( max = 255, message = "#i18n{module.appcenter.appcode.validation.description.size}" )
     private String _strDescription;
 

@@ -47,6 +47,7 @@ public class AppCodeData extends ApplicationData
     @NotEmpty( message = "#i18n{module.appcenter.appcode.validation.name.notEmpty}" )
     @Size( max = 50, message = "#i18n{module.appcenter.appcode.validation.name.size}" )
     private String _strName;
+    @NotEmpty( message = "#i18n{module.appcenter.appcode.validation.description.notEmpty}" )
     @Size( max = 255, message = "#i18n{module.appcenter.appcode.validation.description.size}" )
     private String _strDescription;
 
