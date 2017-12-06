@@ -84,6 +84,41 @@
 	</#if>
 </#macro>
     
-<#macro noCurrentDemands>
+<#function existsDemand demands demandType=''>
+    <#list demands as demand>
+        <#if active_demand_type == demand.demandType>
+            <#if active_environment ?? && demand.environment??>
+                <#if demand.environment.prefix == active_environment.prefix >
+                    <#return true>
+                </#if>
+            <#else>
+                <#return true>
+            </#if>
+        </#if>
+    </#list>
+    <#return false>
+</#function>
     
+    
+<#macro makeDemandButton actionUrl='' status='' datatarget=''>
+    <#if status == 'first'>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <form action="${actionUrl}" class="col-xs-12 col-sm-6">
+            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="${datatarget}">
+                    <@icon style="plus" />  #i18n{appcenter.addDemand}
+            </button>
+        </form>
+        <div class="col-sm-3"></div>
+    </div>
+    <#elseif status == 'new' >
+    <div class="pull-right">
+        <form action="${actionUrl}">
+            
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="${datatarget}">
+                    <@icon style="plus" />  #i18n{appcenter.addNewDemand}
+            </button>
+        </form>
+     </div>
+    </#if>
 </#macro>

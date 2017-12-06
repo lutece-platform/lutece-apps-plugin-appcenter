@@ -3,53 +3,55 @@
 <@headerApp tab="moncomptesettings" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="moncomptesettings" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="moncomptesettings" application=application errors=errors infos=infos user=user>
-<div class="well">
+<div>
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.title}</h2>
 	<@messages infos=infos />
 
-	<div class="pull-right">
-		<form action="jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalMonCompteSettingDemand" title="#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.buttonAdd}">
-				<@icon style="plus" />
-			</button>
-		</form>
-	</div>
-	<h3>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.list_setting_title}</h3>
+	
+	<#if !existsDemand(demands,"moncomptesettings") >
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='first' datatarget='#ModalMonCompteSettingDemand' />
+        <#else>
 
-	<@table>
-		<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteName}</th>
-				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteUrl}</th>
-				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnBackButtonName}</th>
-				<th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnBackButtonUrl}</th>
-		</tr>
-		<#if data??>
-			<#list data as setting >
-			<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${setting.favoriteName}
-					</td>
-					<td>
-							${setting.favoriteUrl}
-					</td>
-					<td>
-							${setting.backButtonName}
-					</td>
-					<td>
-							${setting.backButtonUrl}
-					</td>
-			</tr>
-			</#list>
-		</#if>
-	</@table>
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='new' datatarget='#ModalMonCompteSettingDemand' />
+
+            <#if data?? && data?size gt 0>
+                <h3>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.list_setting_title}</h3>
+
+                <@table>
+                        <tr>
+                                        <input type="hidden" id="id" name="id"/>
+                                        <th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteName}</th>
+                                        <th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnFavoriteUrl}</th>
+                                        <th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnBackButtonName}</th>
+                                        <th>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.columnBackButtonUrl}</th>
+                        </tr>
+                        <#if data??>
+                                <#list data as setting >
+                                <tr>
+                                                <input type="hidden" id="id" name="id" />
+                                                <td>
+                                                                ${setting.favoriteName}
+                                                </td>
+                                                <td>
+                                                                ${setting.favoriteUrl}
+                                                </td>
+                                                <td>
+                                                                ${setting.backButtonName}
+                                                </td>
+                                                <td>
+                                                                ${setting.backButtonUrl}
+                                                </td>
+                                </tr>
+                                </#list>
+                        </#if>
+                </@table>
+            </#if>
 
 	<h3>#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
-
+        </#if>
 	</div>
 	&#160;
 </div>

@@ -4,52 +4,53 @@
 <@tabEnvis tab="fastdeployapplication" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="fastdeployapplication" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-sm-12">
+            <h2>#i18n{module.appcenter.fastdeployapplication.manage_applications.title}</h2>
     <@messages infos=infos />
-    <@tform action='jsp/site/Portal.jsp?page=fastdeploy'>
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalFastDeployApplicationDemand" title="#i18n{appcenter.manage_openam_agents.buttonAdd}">
-			<@icon style="plus" />
-    </button>
-    </@tform>
+    <#if !existsDemand(demands,"fastdeploy") >
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='first' datatarget='#ModalFastDeployApplicationDemand' />
+        <#else>
 
-    <h2>#i18n{module.appcenter.fastdeployapplication.manage_applications.title}</h2>
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='new' datatarget='#ModalFastDeployApplicationDemand' />
 
-    <@table>
-			<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationName}</th>
-				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationWebApp}</th>
-				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationService}</th>
-				<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationUrlSite}</th>
-			</tr>
-			<#if data??>
-				<#list data as fast_application >
+            <#if data?? && data?size gt 0>
+
+                <@table>
                                     <tr>
-                                            <input type="hidden" id="id" name="id" />
-                                        	  <td>
-                                                                    ${fast_application.name}
-                                                            </td>  
-                                            <td>
-                                                                    ${fast_application.webApp}
-                                                            </td>
-                                            <td>
-                                                             ${fast_application.service}
-                                                            </td>    
-                                            <td>
-                                                            ${fast_application.urlSite}
-                                            </td>    
+                                            <input type="hidden" id="id" name="id"/>
+                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationName}</th>
+                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationWebApp}</th>
+                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationService}</th>
+                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationUrlSite}</th>
                                     </tr>
-				</#list>
-			</#if>
-    </@table>
+                                    <#if data??>
+                                            <#list data as fast_application >
+                                                <tr>
+                                                        <input type="hidden" id="id" name="id" />
+                                                              <td>
+                                                                                ${fast_application.name}
+                                                                        </td>  
+                                                        <td>
+                                                                                ${fast_application.webApp}
+                                                                        </td>
+                                                        <td>
+                                                                         ${fast_application.service}
+                                                                        </td>    
+                                                        <td>
+                                                                        ${fast_application.urlSite}
+                                                        </td>    
+                                                </tr>
+                                            </#list>
+                                    </#if>
+                </@table>
+            </#if>
 
     <h2>#i18n{module.appcenter.fastdeployapplication.manage_applications.demands.title}</h2>
     
     <@printDemands demands demands_states demands_histories/>
-
+    </#if>
 </div>
-&#160;
 </div>
 
 </@listDemandTypes>

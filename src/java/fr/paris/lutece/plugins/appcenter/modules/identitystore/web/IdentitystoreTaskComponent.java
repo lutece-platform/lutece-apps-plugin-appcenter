@@ -7,15 +7,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
-import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
-import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.Attribute;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.AttributeHome;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreData;
 import fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.plugins.workflow.web.task.NoConfigTaskComponent;
-import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -93,12 +90,8 @@ public class IdentitystoreTaskComponent extends NoConfigTaskComponent
     @Override
     public String getDisplayTaskInformation( int nIdHistory, HttpServletRequest request, Locale locale, ITask task )
     {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdHistory );
-        Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource() );
-        //FIXME Load datasubset associated with this demand
 
         Map<String, Object> model = new HashMap<String, Object>(  );
-        //model.put( MARK_HISTORY_LIST, listHistory );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IDENTITYSTORE_DISPLAY_HISTORY,
                 locale, model );
         return template.getHtml(  );

@@ -4,43 +4,42 @@
 <@tabEnvis tab="appcode" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="appcode" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.appcode.manage_app_code.title}</h2>
 	<@messages infos=infos />
+        <#if !existsDemand(demands,"appcode") >
+                    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='first' datatarget='#ModalAppCodeDemand' />
+                <#else>
 
-	<div class="pull-right">
-		<form action="jsp/site/Portal.jsp?page=appcode&id=${application.id}">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAppCodeDemand" title="#i18n{module.appcenter.appcode.manage_app_code.buttonAdd}">
-				<@icon style="plus" />
-			</button>
-		</form>
-	</div>
-	<h3>#i18n{module.appcenter.appcode.manage_app_code.list_setting_title}</h3>
+                    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='new' datatarget='#ModalAppCodeDemand' />
 
-	<@table>
-		<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.appcode.manage_app_code.columnApplicationCode}</th>
-		</tr>
-		<#if data??>
-			<#list data as appCodeData >
-			<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${appCodeData.applicationCode}
-					</td>
-			</tr>
-			</#list>
-		</#if>
-	</@table>
+                    <#if data?? && data?size gt 0>
+                        <h3>#i18n{module.appcenter.appcode.manage_app_code.list_setting_title}</h3>
+
+                        <@table>
+                                <tr>
+                                                <input type="hidden" id="id" name="id"/>
+                                                <th>#i18n{module.appcenter.appcode.manage_app_code.columnApplicationCode}</th>
+                                </tr>
+                                <#if data??>
+                                        <#list data as appCodeData >
+                                        <tr>
+                                                        <input type="hidden" id="id" name="id" />
+                                                        <td>
+                                                                        ${appCodeData.applicationCode}
+                                                        </td>
+                                        </tr>
+                                        </#list>
+                                </#if>
+                        </@table>
+                    </#if>
 
 	<h3>#i18n{module.appcenter.appcode.manage_app_code.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
-
+        </#if>
 	</div>
-	&#160;
 </div>
 </@listDemandTypes>
 

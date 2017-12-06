@@ -4,54 +4,56 @@
 <@tabEnvis tab="openam" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="openam" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-sm-12">
     <@messages infos=infos />
-    <@tform action='jsp/site/Portal.jsp?page=openam'>
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalOpenAMAgentDemand" title="#i18n{module.appcenter.openam.manage_openam_agents.buttonAdd}">
-			<@icon style="plus" />
-    </button>
-    </@tform>
+    <#if !existsDemand(demands,"openam") >
+        <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
+     <#else>
 
-    <h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
+    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='new' datatarget='#ModalOpenAMAgentDemand' />
 
-    <@table>
-			<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnName}</th>
-				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
-				<th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
-				<th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
-				<th>#i18n{module.appcenter.openam.manage_openam_agents.columnG98SettingNeeded}</th>
-			</tr>
-			<#if data??>
-				<#list data as openam_agent >
-				<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${openam_agent.name}
-							</td>
-					<td>
-							${openam_agent.password}
-							</td>
-					<td>
-						 ${openam_agent.agentUrl}
-							</td>    
-					<td>
-							${openam_agent.serverUrl}
-					</td>    
-					<td>
-							${openam_agent.g98SettingNeeded?then('Oui','Non')}
-					</td>
-				</tr>
-				</#list>
-			</#if>
-    </@table>
+    <#if data?? && data?size gt 0 >
 
+        <h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
+
+        <@table>
+                            <tr>
+                                    <input type="hidden" id="id" name="id"/>
+                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnName}</th>
+                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
+                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
+                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
+                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnG98SettingNeeded}</th>
+                            </tr>
+                            <#if data??>
+                                    <#list data as openam_agent >
+                                    <tr>
+                                            <input type="hidden" id="id" name="id" />
+                                            <td>
+                                                            ${openam_agent.name}
+                                                            </td>
+                                            <td>
+                                                            ${openam_agent.password}
+                                                            </td>
+                                            <td>
+                                                     ${openam_agent.agentUrl}
+                                                            </td>    
+                                            <td>
+                                                            ${openam_agent.serverUrl}
+                                            </td>    
+                                            <td>
+                                                            ${openam_agent.g98SettingNeeded?then('Oui','Non')}
+                                            </td>
+                                    </tr>
+                                    </#list>
+                            </#if>
+        </@table>
+    </#if>
     <h2>#i18n{module.appcenter.openam.manage_openam_agents.demands.title}</h2>
     
     <@printDemands demands demands_states demands_histories/>
-
+    </#if>
 </div>
 &#160;
 </div>

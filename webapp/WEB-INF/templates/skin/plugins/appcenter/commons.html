@@ -261,7 +261,7 @@ $(function(){
 	</div>
 	<div class="col-xs-12 col-sm-8">
 		<div class="tab-content" id="tabContent">
-			<div class="tab-pane fade in active" id="" role="tabpanel" aria-labelledby="">
+			<div>
 				<#nested>
 			</div>
 		</div>
@@ -272,7 +272,7 @@ $(function(){
 <#macro demandAlreadyExists demandType>
     <#list demands as demand>
         <#if demand.idDemandType == demandType>
-            <#if active_environment??>
+            <#if active_environment?? && demand.environment??>
                 <#if active_environment.prefix == demand.environment.prefix>
                     <#if demand.isClosed()><span class="pull-right glyphicon glyphicon-ok"></span><#else><span class="pull-right glyphicon glyphicon-hourglass"></span></#if>
                     <#break>

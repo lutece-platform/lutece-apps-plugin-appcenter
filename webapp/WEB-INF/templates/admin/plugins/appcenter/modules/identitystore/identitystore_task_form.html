@@ -6,6 +6,9 @@
 <@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelEnvironment.help}' >
 	<@input type='text' name='environment' value="${demand.environment.prefix!''}" readonly=true />
 </@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationName}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelApplicationName.help}' >
+	<@input type='text' name='application_name' value="${application.name!''}" mandatory=true />
+</@formGroup>
 <@table>
     <tr><td><strong>#i18n{module.appcenter.identitystore.taskForm.columnAttribute}</strong></td>
     <td><strong>#i18n{module.appcenter.identitystore.taskForm.columnReadable}</strong></td>
@@ -21,5 +24,5 @@
     </#list>
 </@table>
         <@formGroup labelKey='#i18n{module.appcenter.identitystore.taskForm.labelApiManagerSecurityKey}' helpKey='#i18n{module.appcenter.identitystore.taskForm.labelApiManagerSecurityKey.help}' >
-	<@input type='text' name='apiManagerSecurityKey' value="" />
+	<@input type='text' name='apiManagerSecurityKey' value="" mandatory=true />
 </@formGroup>

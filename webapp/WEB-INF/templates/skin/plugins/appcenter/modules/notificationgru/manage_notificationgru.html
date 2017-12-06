@@ -4,51 +4,51 @@
 <@tabEnvis tab="notificationgru" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="notificationgru" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.notificationgru.manage_notification_gru.title}</h2>
 	<@messages infos=infos />
 
-	<div class="pull-right">
-		<form action="jsp/site/Portal.jsp?page=notificationgru&id=${application.id}">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalNotificationGruDemand" title="#i18n{module.appcenter.notificationgru.manage_notification_gru.buttonAdd}">
-				<@icon style="plus" />
-			</button>
-		</form>
-	</div>
-	<h3>#i18n{module.appcenter.notificationgru.manage_notification_gru.list_setting_title}</h3>
+        <#if !existsDemand(demands,"notificationgru") >
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='first' datatarget='#ModalNotificationGruDemand' />
+        <#else>
 
-	<@table>
-		<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnGruDemandType}</th>
-				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApiManagerKey}</th>
-				<th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
-		</tr>
-		<#if data??>
-			<#list data as notificationGruData >
-			<tr>
-					<input type="hidden" id="id" name="id" />s
-					<td>
-							${notificationGruData.gruDemandType}
-					</td>
-					<td>
-							${notificationGruData.apiManagerKey}
-					</td>
-					<td>
-							${notificationGruData.idGruDemandType}
-					</td>
-			</tr>
-			</#list>
-		</#if>
-	</@table>
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='new' datatarget='#ModalNotificationGruDemand' />
+
+            <#if data?? && data?size gt 0>
+                <h3>#i18n{module.appcenter.notificationgru.manage_notification_gru.list_setting_title}</h3>
+
+                <@table>
+                        <tr>
+                                        <input type="hidden" id="id" name="id"/>
+                                        <th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnGruDemandType}</th>
+                                        <th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnApiManagerKey}</th>
+                                        <th>#i18n{module.appcenter.notificationgru.manage_notification_gru.columnIdGruDemandType}</th>
+                        </tr>
+                        <#if data??>
+                                <#list data as notificationGruData >
+                                <tr>
+                                                <input type="hidden" id="id" name="id" />s
+                                                <td>
+                                                                ${notificationGruData.gruDemandType}
+                                                </td>
+                                                <td>
+                                                                ${notificationGruData.apiManagerKey}
+                                                </td>
+                                                <td>
+                                                                ${notificationGruData.idGruDemandType}
+                                                </td>
+                                </tr>
+                                </#list>
+                        </#if>
+                </@table>
+            </#if>
 
 	<h3>#i18n{module.appcenter.notificationgru.manage_notification_gru.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
-
-	</div>
-	&#160;
+       </#if>
+    </div>
 </div>
 </@listDemandTypes>
     

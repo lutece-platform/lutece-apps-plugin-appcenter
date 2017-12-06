@@ -4,59 +4,58 @@
 <@tabEnvis tab="guichetpro" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="guichetpro" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-12 col-sm-12">
 	<h2>#i18n{module.appcenter.guichetpro.manage_guichet_pro.title}</h2>
 	<@messages infos=infos />
+	<#if !existsDemand(demands,"guichetpro") >
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='first' datatarget='#ModalGuichetProDemand' />
+        <#else>
 
-	<div class="pull-right">
-		<form action="jsp/site/Portal.jsp?page=guichetpro&id=${application.id}">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalGuichetProDemand" title="#i18n{module.appcenter.guichetpro.manage_guichet_pro.buttonAdd}">
-				<@icon style="plus" />
-			</button>
-		</form>
-	</div>
-	<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_setting_title}</h3>
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='new' datatarget='#ModalGuichetProDemand' />
 
-	<@table>
-		<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnSiteUrl}</th>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
-				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
-		</tr>
-		<#if data??>
-			<#list data as guichetProData >
-			<tr>
-					<input type="hidden" id="id" name="id" />
-					<td>
-							${guichetProData.guichetProDemandType}
-					</td>
-					<td>
-							${guichetProData.siteUrl}
-					</td>
-					<td>
-                                                        <#list category_guichet_pro_demand_types as item>
-                                                            <#if guichetProData.categoryGuichetProDemandType == item.code >
-                                                                ${item.name}
-                                                            </#if>
-                                                        </#list>
-					</td>
-					<td>
-							${guichetProData.idGuichetProDemandType}
-					</td>
-			</tr>
-			</#list>
-		</#if>
-	</@table>
+            <#if data?? && data?size gt 0>
+                <h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_setting_title}</h3>
+
+                <@table>
+                        <tr>
+                                        <input type="hidden" id="id" name="id"/>
+                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
+                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnSiteUrl}</th>
+                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
+                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
+                        </tr>
+                        <#if data??>
+                                <#list data as guichetProData >
+                                <tr>
+                                                <input type="hidden" id="id" name="id" />
+                                                <td>
+                                                                ${guichetProData.guichetProDemandType}
+                                                </td>
+                                                <td>
+                                                                ${guichetProData.siteUrl}
+                                                </td>
+                                                <td>
+                                                                <#list category_guichet_pro_demand_types as item>
+                                                                    <#if guichetProData.categoryGuichetProDemandType == item.code >
+                                                                        ${item.name}
+                                                                    </#if>
+                                                                </#list>
+                                                </td>
+                                                <td>
+                                                                ${guichetProData.idGuichetProDemandType}
+                                                </td>
+                                </tr>
+                                </#list>
+                        </#if>
+                </@table>
+             </#if>
 
 	<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_demand_title}</h3>
 	
 	<@printDemands demands demands_states demands_histories/>
-
+        </#if>
 	</div>
-	&#160;
 </div>
 </@listDemandTypes>
     

@@ -4,45 +4,49 @@
 <@tabEnvis tab="jobs" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="jobs" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-sm-12">
+            <h2>#i18n{module.appcenter.jobs.manage_jobs.title}</h2>
     <@messages infos=infos />
-    <@tform action='jsp/site/Portal.jsp?page=jobs'>
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#ModalJobDemand" title="#i18n{module.appcenter.jobs.manage_jobs.buttonAdd}">
-			<@icon style="plus" />
-    </button>
-    </@tform>
+    <#if !existsDemand(demands,"jobs") >
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='first' datatarget='#ModalJobDemand' />
+        <#else>
 
-    <h2>#i18n{module.appcenter.jobs.manage_jobs.title}</h2>
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='new' datatarget='#ModalJobDemand' />
 
-    <@table>
-			<tr>
-				<input type="hidden" id="id" name="id"/>
-				<th>#i18n{module.appcenter.jobs.manage_jobs.columnDeployJobName}</th>
-				<th>#i18n{module.appcenter.jobs.manage_jobs.columnDocQAJobName}</th>
-				<th>#i18n{module.appcenter.jobs.manage_jobs.columnRepositoryUrl}</th>
-			</tr>
-			<#if data??>
-				<#list data as job >
-				<tr>
-					<td>
-                                            ${job.deployJobName}
-                                        </td>  
-					<td>
-                                            ${job.docQAJobName}
-                                        </td>  
-					<td>
-                                            ${job.repositoryUrl}
-                                        </td>					
-				</tr>
-				</#list>
-			</#if>
-    </@table>
+            <#if data?? && data?size gt 0>
+
+                
+
+                <@table>
+                                    <tr>
+                                            <input type="hidden" id="id" name="id"/>
+                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnDeployJobName}</th>
+                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnDocQAJobName}</th>
+                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnRepositoryUrl}</th>
+                                    </tr>
+                                    <#if data??>
+                                            <#list data as job >
+                                            <tr>
+                                                    <td>
+                                                        ${job.deployJobName}
+                                                    </td>  
+                                                    <td>
+                                                        ${job.docQAJobName}
+                                                    </td>  
+                                                    <td>
+                                                        ${job.repositoryUrl}
+                                                    </td>					
+                                            </tr>
+                                            </#list>
+                                    </#if>
+                </@table>
+            </#if>
 
     <h2>#i18n{module.appcenter.jobs.jobs.demands.title}</h2>
     
     <@printDemands demands demands_states demands_histories/>
-
+    </#if>
 </div>
 &#160;
 </div>

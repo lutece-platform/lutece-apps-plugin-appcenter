@@ -4,66 +4,65 @@
 <@tabEnvis tab="sources" application=application errors=errors infos=infos user=user/>
 <@listDemandTypes tab="sources" application=application errors=errors infos=infos user=user>
 
-<div class="well">
+<div>
 	<div class="col-12 col-sm-12">
             <h2>#i18n{module.appcenter.sources.manage_sources.title}</h2>
             <@messages infos=infos />
+            <#if !existsDemand(demands,"sources") >
+                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='first' datatarget='#ModalAddRepository' />
+             <#else>
 
+            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='new' datatarget='#ModalAddRepository' />
 
-          
-	            <div class="pull-right">
-	                    <button type="button" class="btn btn-primary" id="source-data-create" title="#i18n{module.appcenter.sources.manage_sources.addRepositoryAccessButton}">
-	                            <@icon style="plus" />
-	                    </button>
-	            </div>
-          
-          
-            <h3>#i18n{module.appcenter.sources.manage_sources.labelRepository}</h3> 
-           
-            <@table>
-                <tr>
-                    <input type="hidden" id="id" name="id"/>
-                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
-                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
-                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
-                    <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyActions}</th>
-                   
-                   </tr>
-                <#if data??>
-                    <#list data as sourceData >
-                        <tr>
-                            <input type="hidden" id="id" name="id" />
-                            <td>
-                                ${sourceData.repositoryUrl!}
-                            </td>
-                            <td>
-                                ${repository_types_map[sourceData.repositoryType!]}
-                            </td>
-                            <td>
-	                            <#if sourceData.listUserData??>
-	                          		 <#list sourceData.listUserData as user_repo >
-	                          		 		${user_repo.userName!}:${user_repo.email!}</br>
-	                          		 </#list>
-	                          	</#if>	 
-                            </td>
-                            <td>
-                              <button type="button" class="btn btn-primary source-data-modify" data-idapplicationdata="${sourceData.idApplicationData!}"  data-idlastdemanddata="<#if sourceData.listIdDemandAssociated??><#list sourceData.listIdDemandAssociated as lastDemandId><#if !lastDemandId?has_next>${lastDemandId}</#if></#list></#if>"title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
-	                            <@icon style="edit" />
-	                   		 </button>
-                            </td>
-                        </tr>
-                    </#list>
-                </#if>
-            </@table>
+            <#if data?? && data?size gt 0>
+
+                <h3>#i18n{module.appcenter.sources.manage_sources.labelRepository}</h3> 
+
+                <@table>
+                    <tr>
+                        <input type="hidden" id="id" name="id"/>
+                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
+                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
+                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
+                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyActions}</th>
+
+                       </tr>
+                    <#if data??>
+                        <#list data as sourceData >
+                            <tr>
+                                <input type="hidden" id="id" name="id" />
+                                <td>
+                                    ${sourceData.repositoryUrl!}
+                                </td>
+                                <td>
+                                    ${repository_types_map[sourceData.repositoryType!]}
+                                </td>
+                                <td>
+                                        <#if sourceData.listUserData??>
+                                                     <#list sourceData.listUserData as user_repo >
+                                                                    ${user_repo.userName!}:${user_repo.email!}</br>
+                                                     </#list>
+                                            </#if>	 
+                                </td>
+                                <td>
+                                  <button type="button" class="btn btn-primary source-data-modify" data-idapplicationdata="${sourceData.idApplicationData!}"  data-idlastdemanddata="<#if sourceData.listIdDemandAssociated??><#list sourceData.listIdDemandAssociated as lastDemandId><#if !lastDemandId?has_next>${lastDemandId}</#if></#list></#if>"title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
+                                        <@icon style="edit" />
+                                             </button>
+                                </td>
+                            </tr>
+                        </#list>
+                    </#if>
+                </@table>
+            </#if>
 
 
             <h3>#i18n{module.appcenter.sources.manage_sources.list_demand_title}</h3>
 
             <@printDemands demands demands_states demands_histories/> 
            
-   			  <@addJsDemands demands/> 
+            <@addJsDemands demands/> 
+            </#if>
         </div>
-	&#160;
 </div>
 </@listDemandTypes>
 
