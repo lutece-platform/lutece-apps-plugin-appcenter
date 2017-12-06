@@ -44,6 +44,7 @@ public class IdentitystoreData extends ApplicationData
 {
     private Map<String,AttributeRight> _mapAttributeRights;
     private String _strApiManagerSecurityKey;
+    private String _applicationName;
 
 
     /**
@@ -81,6 +82,26 @@ public class IdentitystoreData extends ApplicationData
     {
         _strApiManagerSecurityKey = strApiManagerSecurityKey;
     }
+
+    /**
+     * Get the application name
+     * @return the application name
+     */
+    public String getApplicationName()
+    {
+        return _applicationName;
+    }
+
+    /**
+     * Set the application name
+     * @param applicationName 
+     */
+    public void setApplicationName( String applicationName )
+    {
+        _applicationName = applicationName;
+    }
+    
+    
 
     
     
