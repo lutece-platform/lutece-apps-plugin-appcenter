@@ -2,13 +2,13 @@
     <div class="panel">
             <div class="panel-heading" role="tab" id="heading${cpt}">
                     <h3 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion-demand" href="#demand-collapse${cpt}" aria-expanded="false" aria-controls="demand-collapse${cpt}">
                                     Demande #${demand.id}
                             </a>
                     </h3>
             </div>
 
-            <div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
+            <div id="demand-collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="demand-heading${cpt}">
                     <div class="panel-body">
                             <table class="table table-responsive">
                                     <tr>
@@ -56,7 +56,7 @@
 
 <#macro printDemands demands demands_states demands_histories>
 	<#if 0 lt demands?size>
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel-group" id="demand-accordion" role="tablist" aria-multiselectable="true">
 		<#assign cpt = 0 />
 		<#list demands as demand>
                     <#if active_demand_type?? >

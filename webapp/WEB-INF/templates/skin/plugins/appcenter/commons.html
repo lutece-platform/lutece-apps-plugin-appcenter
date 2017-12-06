@@ -84,7 +84,7 @@
                                                             <div class="panel-heading" role="tab" id="heading${categorydemandtype.id}">
                                                                     <h3 class="panel-title clearfix">
                                                                         <span class="col-xs-10 col-sm-11">${categorydemandtype.question}</span>
-                                                                        <a class="col-xs-2 col-sm-1"  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${categorydemandtype.id}" aria-expanded="false" aria-controls="collapse${categorydemandtype.id}">
+                                                                        <a class="col-xs-2 col-sm-1"  role="button" data-toggle="collapse" data-parent="#accordion-demand" href="#collapse${categorydemandtype.id}" aria-expanded="false" aria-controls="collapse${categorydemandtype.id}">
                                                                                 <input class="parent-toogle toogle"  data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-size="mini"  data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
                                                                         </a>
                                                                     </h3>
@@ -251,7 +251,7 @@ $(function(){
 <div class="row">
 	<div class="col-xs-12 col-sm-4">
 		
-		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel-group" id="accordion-demand" role="tablist" aria-multiselectable="true">
                     <#if !active_environment?? || active_environment == ''>
                         <@printDemandTypes dep_envi=false active_tab=tab />
                     <#else>
@@ -366,14 +366,13 @@ $(function(){
     <div class="panel">
         <div class="panel-heading" role="tab" id="heading${cpt}">
                 <h3 class="panel-title">
-                        <a class="clearfix" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${cpt}" aria-expanded="false" aria-controls="collapse${cpt}">
+                        <a class="clearfix" role="button" data-toggle="collapse" data-parent="#accordion-demand" href="#demand-collapse${cpt}" aria-expanded="false" aria-controls="demand-collapse${cpt}">
                                 <span class="pull-left">${demand.lastUpdate?datetime?string('dd-MM-yyyy HH:mm')!''} - <@printDemandType demand.demandType/></span><span class="pull-right <#if demand.isClosed()>btn-success<#else>btn-warning</#if>" >${(demands_states[demand.id?string].name)!'TODO DEMAND STATE NAME'}</span>
-
                         </a>
                 </h3>
         </div>
 
-        <div id="collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${cpt}">
+        <div id="demand-collapse${cpt}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="demand-heading${cpt}">
                 <div class="panel-body">
                         <p>${demand.statusText!''}</p>
                         <p>#i18n{appcenter.view_demands.complementaryInfos}</p>
