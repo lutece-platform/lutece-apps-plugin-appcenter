@@ -182,6 +182,13 @@
 <script>
 $(function(){ 
 	$(".doc").hide();
+	$(".docs_link").click(
+		function() {
+			
+		    $(".docs_link").popover('hide');
+	
+		 }
+	);
 	$(".docs_link").popover(
        { 
         placement:'right', 
