@@ -22,6 +22,7 @@
 		<tr>
 				<input type="hidden" id="id" name="id"/>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
+				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnSiteUrl}</th>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
 				<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
 		</tr>
@@ -31,6 +32,9 @@
 					<input type="hidden" id="id" name="id" />
 					<td>
 							${guichetProData.guichetProDemandType}
+					</td>
+					<td>
+							${guichetProData.siteUrl}
 					</td>
 					<td>
                                                         <#list category_guichet_pro_demand_types as item>
@@ -75,6 +79,11 @@
 							<label for="guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType}</label>
 							<input type="text" id="guichet_pro_demand_type" name="guichet_pro_demand_type" maxlength="250" class="form-control" />
                                                         <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType.help}</small>
+						</div>
+						<div class="form-group">
+							<label for="site_url" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelSiteUrl}</label>
+							<input type="text" id="site_url" name="site_url" maxlength="250" class="form-control" />
+                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelSiteUrl.help}</small>
 						</div>
                                                 <div class="form-group">
                                                         <label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType} <@icon style="asterisk" /></label>

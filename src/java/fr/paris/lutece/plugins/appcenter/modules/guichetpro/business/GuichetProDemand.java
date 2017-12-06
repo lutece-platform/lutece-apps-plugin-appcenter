@@ -51,6 +51,7 @@ public class GuichetProDemand extends Demand
     private static final String NEW_CATEGORIE = "Autre";
 
     private String _strGuichetProDemandType;
+    private String _strSiteUrl;
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
     private String _strNewCategoryGuichetProDemandType;
@@ -71,6 +72,24 @@ public class GuichetProDemand extends Demand
     public void setGuichetProDemandType( String strGuichetProDemandType )
     {
         _strGuichetProDemandType = strGuichetProDemandType;
+    }
+
+    /**
+     * Get the site url
+     * @return the site url
+     */
+    public String getSiteUrl()
+    {
+        return _strSiteUrl;
+    }
+    
+    /**
+     * Set the site url
+     * @param strSiteUrl 
+     */
+    public void setSiteUrl( String strSiteUrl )
+    {
+        _strSiteUrl = strSiteUrl;
     }
 
     /**

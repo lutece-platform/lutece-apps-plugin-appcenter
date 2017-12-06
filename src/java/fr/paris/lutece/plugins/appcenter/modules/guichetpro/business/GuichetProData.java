@@ -43,6 +43,8 @@ public class GuichetProData extends ApplicationData
 {
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.grudemandtype.notEmpty}" )
     private String _strGuichetProDemandType;
+    @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.siteurl.notEmpty}" )
+    private String _strSiteUrl;
     @NotEmpty( message = "#i18n{module.appcenter.guichetpro.validation.categorygrudemandtype.notEmpty}" )
     private String _strCategoryGuichetProDemandType;
     private String _strIdGuichetProDemandType;
@@ -64,6 +66,24 @@ public class GuichetProData extends ApplicationData
     public void setGuichetProDemandType( String strGuichetProDemandType )
     {
         _strGuichetProDemandType = strGuichetProDemandType;
+    }
+
+    /**
+     * Get the site url
+     * @return the site url
+     */
+    public String getSiteUrl()
+    {
+        return _strSiteUrl;
+    }
+    
+    /**
+     * Set the site url
+     * @param strSiteUrl 
+     */
+    public void setSiteUrl( String strSiteUrl )
+    {
+        _strSiteUrl = strSiteUrl;
     }
 
     /**

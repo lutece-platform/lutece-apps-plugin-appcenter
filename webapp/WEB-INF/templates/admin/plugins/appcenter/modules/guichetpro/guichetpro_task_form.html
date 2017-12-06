@@ -13,6 +13,9 @@
 <@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelGuichetProDemandType}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelGuichetProDemandType.help}' >
 	<@input type='text' name='guichetProDemandType' value="${demand.guichetProDemandType!''}" />
 </@formGroup>
+<@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelSiteUrl}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelSiteUrl.help}' >
+	<@input type='text' name='siteUrl' value="${demand.siteUrl!''}" />
+</@formGroup>
 <@formGroup labelKey='#i18n{module.appcenter.guichetpro.taskForm.labelCategoryGuichetProDemandType}' helpKey='#i18n{module.appcenter.guichetpro.taskForm.labelCategoryGuichetProDemandType.help}' >
         <@comboSortedWithParams name="categoryGuichetProDemandType" default_value=defaultCategory additionalParameters="class=\"form-control \" required" items=category_guichet_pro_demand_types />
 </@formGroup>
