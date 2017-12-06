@@ -1,12 +1,12 @@
-<#if demand.environment=='rec' >
-  <#assign defaultAgentName = "${application.code}.rec.apps.paris.mdp" />
-  <#assign defaultAgentPassword = "${application.code}.rec.apps.paris.mdp" />
-  <#assign defaultServerUrl= "http://v69.rec.apps.paris.mdp:80/v69" />
-  <#assign defaultAgentUrl= "http://${application.code}.rec.apps.paris.mdp:80/agent4v69" />
+<#if demand.environment.prefix=='prod' >
+    <#assign defaultAgentName = "${application.code}.apps.paris.mdp" />
+    <#assign defaultServerUrl= "http://v69.apps.paris.mdp:80/v69" />
+    <#assign defaultAgentUrl= "http://${application.code}.apps.paris.mdp:80/agent4v69" />
 <#else>
-	<#assign defaultAgentName = "${application.code}.apps.paris.mdp" />
- 	<#assign defaultServerUrl= "http://v69.apps.paris.mdp:80/v69" />
-  	<#assign defaultAgentUrl= "http://${application.code}.apps.paris.mdp:80/agent4v69" />
+    <#assign defaultAgentName = "${application.code}.${demand.environment.prefix}.apps.paris.mdp" />
+    <#assign defaultAgentPassword = "${application.code}.${demand.environment.prefix}.apps.paris.mdp" />
+    <#assign defaultServerUrl= "http://v69.rec.apps.paris.mdp:80/v69" />
+    <#assign defaultAgentUrl= "http://${application.code}.${demand.environment.prefix}.apps.paris.mdp:80/agent4v69" />
 </#if>
   
 <div class="clearfix"></div>
@@ -33,7 +33,7 @@
 	            </td>
 	   
 	            <td>
-	               ${demand.environment}
+	               ${demand.environment.prefix}
 	            </td>
 	            <td>
 	               ${demand.g98SettingNeeded?then('Oui','Non')}
