@@ -39,9 +39,15 @@
                                 </td>
                                 <td>
                                         <#if sourceData.listUserData??>
+                                                    
+                                                    <ul class="list-unstyled">
                                                      <#list sourceData.listUserData as user_repo >
-                                                                    ${user_repo.userName!}:${user_repo.email!}</br>
+                                                    	<li>
+                                                    
+                                                            <span  class="fa fa-user"></span>${user_repo.userName!}:${user_repo.email!}
+                                                    	</li>
                                                      </#list>
+                                                    </ul> 
                                             </#if>	 
                                 </td>
                                 <td>
@@ -206,14 +212,15 @@
 	{
 	
 		 user_div="<fieldset class='user' id='user_"+num+"'>"+
-			"<legend>#18n{module.appcenter.sources.manage_sources.collaborator} <span>"+num+"</span></legend>"+
-			"<button type='button' class='remove-user'class='btn btn-default pull-right'>"+
-		    	"<i class='fa fa-minus'></i>"+
+			"<legend class='clearfix'>#i18n{module.appcenter.sources.manage_sources.collaborator} <span>"+num+"</span>"+
+			"<button type='button' class='remove-user btn btn-danger btn-xs pull-right'>"+
+		    	"<i class='fa fa-remove'></i>"+
 			"</button>"+
+			"</legend>"+
 			"<label for='user_name"+num+"'>#i18n{module.appcenter.sources.manage_sources.labelAddUserName.label}</label>"+
 			"<input type='text' id='user_name_"+num+"' name='user_name_"+num+"'  maxlength='250' class='form-control' required value='"+user_name+"'>"+
 			"<label for='email_1'>#i18n{module.appcenter.sources.manage_sources.labelAddUserEmail.label}</label>"+
-			"<input type='text' id='email_"+num+"' name='email_"+num+"'  maxlength='250' class='form-control' required value='"+email+"'>"+
+			"<input type='email' id='email_"+num+"' name='email_"+num+"'  maxlength='250' class='form-control' required value='"+email+"'>"+
 		"</fieldset>";
 	 return user_div;
 	}

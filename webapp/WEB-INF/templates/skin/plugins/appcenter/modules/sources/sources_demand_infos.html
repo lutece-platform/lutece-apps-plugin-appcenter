@@ -4,10 +4,13 @@
     #i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label}  :${demand.publicRepository?string("#i18n{portal.util.labelYes}", "#i18n{portal.util.labelNo}")}<br/>
      #i18n{module.appcenter.sources.manage_sources.labelUsers.label}  :
      <#if demand.listSourceUserDemand??>
+      <ul class="list-unstyled">
      		<#list demand.listSourceUserDemand as user_repo>
-	     		${user_repo.userName!}:${user_repo.email!}</br>
+	     		<li>
+	     			<span  class="fa fa-user"></span>${user_repo.userName!}:${user_repo.email!}
+                </li>
 	     </#list>
-	     
+	   </ul>  
      </#if>
      <br/>
 </p>

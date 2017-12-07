@@ -6,6 +6,7 @@
 
 <div>
 	<div class="col-sm-12">
+	<h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
     <@messages infos=infos />
     <#if !existsDemand(demands,"openam") >
         <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
@@ -15,7 +16,7 @@
 
     <#if data?? && data?size gt 0 >
 
-        <h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
+        
 
         <@table>
                             <tr>
