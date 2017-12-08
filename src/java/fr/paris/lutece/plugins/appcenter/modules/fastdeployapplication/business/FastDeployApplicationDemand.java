@@ -9,7 +9,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.web.FastDeployApplicationsXPage;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * 
@@ -86,6 +89,10 @@ public class FastDeployApplicationDemand extends Demand
     {
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DEMAND, this );
+        ReferenceList refServices=DatastoreService.getDataByPrefix( FastDeployApplicationsXPage.DATA_PREFIX_FAST_DEPLOY_SERVICES );
+        model.put( FastDeployApplicationsXPage.MARK_MAP_SERVICES, refServices.toMap( ) );
+        
+        
         return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, Locale.FRENCH, model ).getHtml( );
     }
 

@@ -42,8 +42,7 @@ public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
     // MESSAGES
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryFields";
 
-    // MARKS
-    private static final String MARK_SERVICES = "services";
+    
     @Inject
     private IResourceHistoryService _resourceHistoryService;
 
@@ -62,7 +61,8 @@ public class FastDeployApplicationTaskComponent extends NoConfigTaskComponent
             Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
             model.put( Constants.MARK_APPLICATION, application );
             ReferenceList refServices=DatastoreService.getDataByPrefix( FastDeployApplicationsXPage.DATA_PREFIX_FAST_DEPLOY_SERVICES );
-             model.put( MARK_SERVICES, refServices);
+             model.put( FastDeployApplicationsXPage.MARK_SERVICES, refServices);
+             model.put( FastDeployApplicationsXPage.MARK_MAP_SERVICES, refServices.toMap( ) );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FASTDEPLOY_TASK_FORM, locale, model );

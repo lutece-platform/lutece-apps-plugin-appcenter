@@ -75,14 +75,16 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     // ACTION
     private static final String ACTION_ADD_APPLICATION = "addApplication";
     //MARK URL SITE
+    public static final String  DATA_PREFIX_FAST_DEPLOY_SERVICES = "appcenter.fastdeployServices.";
+    public static final String MARK_SERVICES = "services";
+    public static final String MARK_MAP_SERVICES = "map_services";
     private static final String MARK_DEFAULT_URL_SITE = "default_url_site";
-    private static final String MARK_SERVICES = "services";
+    
    //CONSTANTS
     private static final String REPOSITORY_TYPE_SITE = "site";
     
     
-    public static final String  DATA_PREFIX_FAST_DEPLOY_SERVICES = "appcenter.fastdeployServices.";
-    
+   
     
     
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
@@ -105,6 +107,8 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
      
        
         model.put( MARK_SERVICES, refServices );
+        model.put( MARK_MAP_SERVICES, refServices.toMap( ) );
+        
 
         return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
     }
