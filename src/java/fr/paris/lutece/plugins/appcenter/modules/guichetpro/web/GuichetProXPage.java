@@ -73,7 +73,7 @@ public class GuichetProXPage extends AppCenterXPage
     private static final String ACTION_CREATE_GUICHET_PRO_DEMAND = "doCreateGuichetProDemand";
     
     private static final String MARK_CATEGORIES = "category_guichet_pro_demand_types";
-    private static final String NEW_CATEGORIE = "-- Autre --";
+    private static final String NEW_CATEGORIE = "-- Proposition d'une nouvelle catégorie --";
 
     /**
      * Maganage guichetpro view
