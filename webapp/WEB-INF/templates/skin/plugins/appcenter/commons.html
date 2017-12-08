@@ -4,7 +4,7 @@
 <div class="page-header">
     <div class="row">
         <div class="col-xs-12 col-sm-9">
-            <h2>${application.code!}-${application.name}
+            <h2>${application.code!} <#if application.code?has_content> - </#if> ${application.name}
             </h2>
             
             <@messages errors=errors />
@@ -35,7 +35,7 @@
                     <i class="fa fa-cog">  Faire des demandes et voir mes configurations</i>
             </a></li>
             <li role="presentation" class="col-xs-12 col-sm-5"><a class="btn btn-info <#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}">
-                    <i class="fa fa-eye">  Voir les demandes en cours </i>
+                    <i class="fa fa-eye">  Voir toutes les demandes </i>
             </a></li>
           </ul>
     </div>
