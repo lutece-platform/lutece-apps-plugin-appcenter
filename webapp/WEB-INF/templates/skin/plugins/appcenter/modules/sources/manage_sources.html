@@ -2,75 +2,76 @@
 <#include "../commons.html" />
 <@headerApp tab="sources" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="sources" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="sources" application=application errors=errors infos=infos user=user>
-
-<div>
-	<div class="col-12 col-sm-12">
-            <h2>#i18n{module.appcenter.sources.manage_sources.title}</h2>
-            <@messages infos=infos />
-            <#if !existsDemand(demands,"sources") >
-                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='first' datatarget='#ModalAddRepository' />
-             <#else>
-
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='new' datatarget='#ModalAddRepository' />
-
-            <#if data?? && data?size gt 0>
-
-                <h3>#i18n{module.appcenter.sources.manage_sources.labelRepository}</h3> 
-
-                <@table>
-                    <tr>
-                        <input type="hidden" id="id" name="id"/>
-                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
-                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
-                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
-                        <th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyActions}</th>
-
-                       </tr>
-                    <#if data??>
-                        <#list data as sourceData >
-                            <tr>
-                                <input type="hidden" id="id" name="id" />
-                                <td>
-                                    ${sourceData.repositoryUrl!}
-                                </td>
-                                <td>
-                                    ${repository_types_map[sourceData.repositoryType!]}
-                                </td>
-                                <td>
-                                        <#if sourceData.listUserData??>
-                                                    
-                                                    <ul class="list-unstyled">
-                                                     <#list sourceData.listUserData as user_repo >
-                                                    	<li>
-                                                    
-                                                            <span  class="fa fa-user"></span>${user_repo.userName!}:${user_repo.email!}
-                                                    	</li>
-                                                     </#list>
-                                                    </ul> 
-                                            </#if>	 
-                                </td>
-                                <td>
-                                  <button type="button" class="btn btn-primary source-data-modify" data-idapplicationdata="${sourceData.idApplicationData!}"  data-idlastdemanddata="<#if sourceData.listIdDemandAssociated??><#list sourceData.listIdDemandAssociated as lastDemandId><#if !lastDemandId?has_next>${lastDemandId}</#if></#list></#if>"title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
-                                        <@icon style="edit" />
-                                             </button>
-                                </td>
-                            </tr>
-                        </#list>
-                    </#if>
-                </@table>
-            </#if>
-
-
-            <h3>#i18n{module.appcenter.sources.manage_sources.list_demand_title}</h3>
-
-            <@printDemands demands demands_states demands_histories/> 
-           
-            <@addJsDemands demands/> 
-            </#if>
-        </div>
+<div class="col-sm-9">
+	<@messages infos=infos />
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.sources.manage_sources.title}</h2>
+			<div class="box-tools">
+				<#if !existsDemand(demands,"sources")>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='first' datatarget='#ModalAddRepository' />
+				 <#else>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='new' datatarget='#ModalAddRepository' />
+				</#if>
+			</div>
+		</div>
+		<div class="box-body">
+			<#if existsDemand(demands,"sources")>
+				<#if data?? && data?size gt 0>
+					<h3>#i18n{module.appcenter.sources.manage_sources.labelRepository}</h3>
+					<@table>
+						<tr>
+							<input type="hidden" id="id" name="id"/>
+							<th>#i18n{module.appcenter.sources.manage_sources.columnRepositoryUrl}</th>
+							<th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyType}</th>
+							<th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyUsers}</th>
+							<th>#i18n{module.appcenter.sources.manage_sources.columnRepositotyActions}</th>
+						</tr>
+						<#if data??>
+							<#list data as sourceData >
+								<tr>
+									<input type="hidden" id="id" name="id" />
+									<td>${sourceData.repositoryUrl!}</td>
+									<td>${repository_types_map[sourceData.repositoryType!]}</td>
+									<td>
+										<#if sourceData.listUserData??>
+											<ul class="list-unstyled">
+											 <#list sourceData.listUserData as user_repo >
+												<li>
+											
+															<span  class="fa fa-user"></span>${user_repo.userName!}:${user_repo.email!}
+												</li>
+											 </#list>
+											</ul> 
+										</#if>	 
+									</td>
+									<td>
+										<button type="button" class="btn btn-primary source-data-modify" data-idapplicationdata="${sourceData.idApplicationData!}"  data-idlastdemanddata="<#if sourceData.listIdDemandAssociated??><#list sourceData.listIdDemandAssociated as lastDemandId><#if !lastDemandId?has_next>${lastDemandId}</#if></#list></#if>"title="#i18n{module.appcenter.sources.manage_sources.modifySiteRepositoryButton}">
+													<@icon style="edit" />
+									 </button>
+									</td>
+								</tr>
+								</#list>
+						</#if>
+					</@table>
+				</#if>
+			</#if>
+		</div>
+	</div>
+	
+	<#if existsDemand(demands,"sources")>
+		<div class="box box-primary">
+			<div class="box-header">
+				<h2 class="box-title">#i18n{module.appcenter.sources.manage_sources.list_demand_title}</h2>
+			</div>
+			<div class="box-body">
+				<@printDemands demands demands_states demands_histories/>
+				<@addJsDemands demands/> 
+			</div>
+		</div>
+  </#if>
 </div>
-</@listDemandTypes>
+
 
 	<!-- Modal -->
 	<div id="ModalAddRepository" class="modal fade" role="dialog" aria-labelledby="X">
@@ -93,23 +94,22 @@
 								<label for="repository_name" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="repository_name" name="repository_name" maxlength="250" class="form-control" required />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.help}</small>
+								<p class="help-block">#i18n{module.appcenter.sources.manage_sources.labelRepositoryName.help}</p>
                                                         </div>
 							<div class="form-group">
 								<label for="repository_type" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.label} <@icon style="asterisk" />
 								</label>
 									<@comboSortedWithParams name="repository_type" id="repository_type" default_value="" additionalParameters="class=\"form-control \" required" items=repository_types />
 								</div>
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.help}</small>
+                <p class="help-block">#i18n{module.appcenter.sources.manage_sources.labelRepositoryType.help}</p>
 							
 							<div class="form-group">
 								<label for="public_repository" class="col-form-label">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.label} <@icon style="asterisk" />
 								</label>
 								 <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='public_repository' id='public_repository_true' value='true' mandatory=true />
-                                                                <@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' id='public_repository_false' value='false' mandatory=true checked=true />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.help}</small>
-                                                             
-                                                        </div>
+								<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='public_repository' id='public_repository_false' value='false' mandatory=true checked=true />
+								<p class="help-block">#i18n{module.appcenter.sources.manage_sources.labelPublicRepository.help}</p>
+               </div>
 								<fieldset>
 									<legend class="clearfix">
 										#i18n{module.appcenter.sources.manage_sources.labelUsers.label}
@@ -120,16 +120,14 @@
 								<div class="form-group" id="users-group">
 								
 								</div>
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.sources.manage_sources.labelUsers.help}</small>
-                                                                    
-								
-								</fieldset>
+								<p class="help-block">#i18n{module.appcenter.sources.manage_sources.labelUsers.help}</p>
+              </fieldset>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-primary" type="submit">
 								#i18n{module.appcenter.sources.manage_sources.addRepositoryButton}
 						</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</form>
 			</div>

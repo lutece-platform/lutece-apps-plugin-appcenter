@@ -2,58 +2,59 @@
 <#include "../../commons.html" />
 <@headerApp tab="fastdeployapplication" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="fastdeployapplication" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="fastdeployapplication" application=application errors=errors infos=infos user=user>
 
-<div>
-	<div class="col-sm-12">
-            <h2>#i18n{module.appcenter.fastdeployapplication.manage_applications.title}</h2>
-    <@messages infos=infos />
-    <#if !existsDemand(demands,"fastdeploy") >
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='first' datatarget='#ModalFastDeployApplicationDemand' />
-        <#else>
-
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='new' datatarget='#ModalFastDeployApplicationDemand' />
-
-            <#if data?? && data?size gt 0>
-
-                <@table>
-                                    <tr>
-                                            <input type="hidden" id="id" name="id"/>
-                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationName}</th>
-                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationWebApp}</th>
-                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationService}</th>
-                                            <th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationUrlSite}</th>
-                                    </tr>
-                                    <#if data??>
-                                            <#list data as fast_application >
-                                                <tr>
-                                                        <input type="hidden" id="id" name="id" />
-                                                              <td>
-                                                                                ${fast_application.name}
-                                                                        </td>  
-                                                        <td>
-                                                                                ${fast_application.webApp}
-                                                                        </td>
-                                                        <td>
-                                                                         ${map_services[fast_application.service!]}
-                                                                        </td>    
-                                                        <td>
-                                                                        ${fast_application.urlSite}
-                                                        </td>    
-                                                </tr>
-                                            </#list>
-                                    </#if>
-                </@table>
-            </#if>
-
-    <h2>#i18n{module.appcenter.fastdeployapplication.manage_applications.demands.title}</h2>
-    
-    <@printDemands demands demands_states demands_histories/>
-    </#if>
+<div class="col-sm-9">
+	<@messages infos=infos />
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.fastdeployapplication.manage_applications.title}</h2>
+			<div class="box-tools">
+				<#if !existsDemand(demands,"fastdeploy")>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='first' datatarget='#ModalFastDeployApplicationDemand' />
+				<#else>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='new' datatarget='#ModalFastDeployApplicationDemand' />
+				</#if>
+			</div>
+		</div>
+		<div class="box-body">
+			<#if existsDemand(demands,"fastdeploy")>
+				<#if data?? && data?size gt 0>
+					<@table>
+						<tr>
+							<input type="hidden" id="id" name="id"/>
+							<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationName}</th>
+							<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationWebApp}</th>
+							<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationService}</th>
+							<th>#i18n{module.appcenter.fastdeployapplication.manage_applications.tabHeader.applicationUrlSite}</th>
+						</tr>
+						<#if data??>
+							<#list data as fast_application >
+								<tr>
+									<input type="hidden" id="id" name="id" />
+									<td>${fast_application.name}</td>  
+									<td>${fast_application.webApp}</td>
+									<td>${map_services[fast_application.service!]}</td>    
+									<td>${fast_application.urlSite}</td>    
+								</tr>
+							</#list>
+						</#if>
+					</@table>
+				</#if>
+			</#if>
+		</div>
+	</div>
+	
+	<#if existsDemand(demands,"fastdeploy")>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.fastdeployapplication.manage_applications.demands.title}</h2>
+		</div>
+		<div class="box-body">
+			<@printDemands demands demands_states demands_histories/>
+		</div>
+	</div>
+  </#if>
 </div>
-</div>
-
-</@listDemandTypes>
     
  <!-- Modal for demanding Fast deploy application -->
 	<div id="ModalFastDeployApplicationDemand" class="modal fade" role="dialog" aria-labelledby="addApplication">
@@ -71,28 +72,26 @@
 						<input type="hidden" name="id" value="${application.id}" />
 						<input type="hidden" name="action" value="addApplication" />
 						<div class="modal-body">
-							
 							<div class="form-group">
 								<label for="name" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="name" name="name" maxlength="250" class="form-control" required  value="${application.name}"/>
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.help}</small>
-
+								<p class="help-block">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationName.help}</p>
 							</div>
 							<div class="form-group">
 								<label for="web_app" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationWebapp.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="web_app" name="web_app" maxlength="250" class="form-control" required/>
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationWebapp.help}</small>
-                                                        </div>
+                <p class="help-block">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationWebapp.help}</p>
+							</div>
 							<div class="form-group">
 								<label for="url_site" class="col-form-label">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationUrlSite.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="url_site" name="url_site" maxlength="250" class="form-control" required value="${default_url_site!}" />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationUrlSite.help}</small>
+								<p class="help-block">#i18n{module.appcenter.fastdeployapplication.manage_applications.applicationUrlSite.help}</p>
 							</div>
 							
 							<div class="form-group">
@@ -100,14 +99,14 @@
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.service.label} <@icon style="asterisk" />
 								</label>
 								<@comboSortedWithParams name="service" id="service" default_value="" additionalParameters="class=\"form-control \" required" items=services />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.fastdeployapplication.manage_applications.service.help}</small>
+								<p class="help-block">#i18n{module.appcenter.fastdeployapplication.manage_applications.service.help}</p>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary" type="submit">
 									#i18n{module.appcenter.fastdeployapplication.manage_applications.addApplication}
 							</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 						</div>
 					</fieldset>
 				</form>

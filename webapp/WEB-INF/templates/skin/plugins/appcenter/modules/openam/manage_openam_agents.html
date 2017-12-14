@@ -2,68 +2,65 @@
 <#include "../../commons.html" />
 <@headerApp tab="openam" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="openam" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="openam" application=application errors=errors infos=infos user=user>
 
-<div>
-	<div class="col-sm-12">
-	<h2>#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
+	<div class="col-sm-9">
     <@messages infos=infos />
-    <#if !existsDemand(demands,"openam") >
-        <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
-     <#else>
-
-    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='new' datatarget='#ModalOpenAMAgentDemand' />
-
-    <#if data?? && data?size gt 0 >
-
-        
-
-        <@table>
-                            <tr>
-                                    <input type="hidden" id="id" name="id"/>
-                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnName}</th>
-                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
-                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
-                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
-                                    <th>#i18n{module.appcenter.openam.manage_openam_agents.columnG98SettingNeeded}</th>
-                            </tr>
-                            <#if data??>
-                                    <#list data as openam_agent >
-                                    <tr>
-                                            <input type="hidden" id="id" name="id" />
-                                            <td>
-                                                            ${openam_agent.name}
-                                                            </td>
-                                            <td>
-                                                            ${openam_agent.password}
-                                                            </td>
-                                            <td>
-                                                     ${openam_agent.agentUrl}
-                                                            </td>    
-                                            <td>
-                                                            ${openam_agent.serverUrl}
-                                            </td>    
-                                            <td>
-                                                            ${openam_agent.g98SettingNeeded?then('Oui','Non')}
-                                            </td>
-                                    </tr>
-                                    </#list>
-                            </#if>
-        </@table>
-    </#if>
-    <h2>#i18n{module.appcenter.openam.manage_openam_agents.demands.title}</h2>
-    
-    <@printDemands demands demands_states demands_histories/>
+		<div class="box box-primary">
+				<div class="box-header">
+					<h2 class="box-title">#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
+					<div class="box-tools">
+						<#if !existsDemand(demands,"openam")>
+							<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
+						 <#else>
+							<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='new' datatarget='#ModalOpenAMAgentDemand' />
+						</#if>
+					</div>
+				</div>
+				<div class="box-body">
+					<#if existsDemand(demands,"openam")>
+						<#if data?? && data?size gt 0 >
+								<@table>
+									<tr>
+										<input type="hidden" id="id" name="id"/>
+										<th>#i18n{module.appcenter.openam.manage_openam_agents.columnName}</th>
+										<th>#i18n{module.appcenter.openam.manage_openam_agents.columnPassword}</th>
+										<th>#i18n{module.appcenter.openam.manage_openam_agents.agentUrl}</th>
+										<th>#i18n{module.appcenter.openam.manage_openam_agents.serverUrl}</th>
+										<th>#i18n{module.appcenter.openam.manage_openam_agents.columnG98SettingNeeded}</th>
+									</tr>
+									<#if data??>
+										<#list data as openam_agent >
+										<tr>
+											<input type="hidden" id="id" name="id" />
+											<td>${openam_agent.name}</td>
+											<td>${openam_agent.password}</td>
+											<td>${openam_agent.agentUrl}</td>    
+											<td>${openam_agent.serverUrl}</td>    
+											<td>${openam_agent.g98SettingNeeded?then('Oui','Non')}</td>
+										</tr>
+										</#list>
+									</#if>
+								</@table>
+						</#if>
+					</#if>
+				</div>
+		</div>
+		<#if existsDemand(demands,"openam")>
+    <div class="box box-primary">
+			<div class="box-header">
+				<h2 class="box-title">#i18n{module.appcenter.openam.manage_openam_agents.demands.title}</h2>
+			</div>
+			<div class="box-body">
+				<@printDemands demands demands_states demands_histories/>
+			</div>
+		</div>
     </#if>
 </div>
 &#160;
-</div>
-
-</@listDemandTypes>
     
  <!-- Modal for demanding OpenAM agent -->
 	<div id="ModalOpenAMAgentDemand" class="modal fade" role="dialog" aria-labelledby="addOpenAMAgent">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -82,29 +79,28 @@
 									#i18n{module.appcenter.openam.manage_openam_agents.webappName.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="webapp_name" name="webapp_name" maxlength="250" class="form-control" required />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.openam.manage_openam_agents.webappName.help}</small>
-
-                                                         </div>
+								<p class="help-block">#i18n{module.appcenter.openam.manage_openam_agents.webappName.help}</p>
+							</div>
 							<div class="form-group">
 								<label for="public_url" class="col-form-label">
 									#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.label} <@icon style="asterisk" />
 								</label>
 								<input type="text" id="public_url" name="public_url" maxlength="250" class="form-control" required />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.help}</small>
-                                                        </div>
+								<p class="help-block">#i18n{module.appcenter.openam.manage_openam_agents.publicUrl.help}</p>
+							</div>
 							<div class="form-group">
 								<label for="g98_setting_needed" class="col-form-label">
+									<input type="checkbox" id="g98_setting_needed" name="g98_setting_needed" />
 									#i18n{module.appcenter.openam.manage_openam_agents.g98SettingNeeded.label}
 								</label>
-								<input type="checkbox" id="g98_setting_needed" name="g98_setting_needed" class="form-control" />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.openam.manage_openam_agents.g98SettingNeeded.help}</small>
-                                                        </div>
+								<p class="help-block">#i18n{module.appcenter.openam.manage_openam_agents.g98SettingNeeded.help}</p>
+							</div>
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary" type="submit">
 									#i18n{module.appcenter.openam.manage_openam_agents.addOpenAMAgent}
 							</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 						</div>
 					</fieldset>
 				</form>

@@ -3,89 +3,97 @@
 <#include "bean_spring.html"/>
 <@headerApp tab="identitystore" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="identitystore" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="identitystore" application=application errors=errors infos=infos user=user>
-<div>
-	<div class="col-12 col-sm-12">
-	<h2>#i18n{module.appcenter.identitystore.manage_identitystore.title}</h2>
+
+<div class="col-sm-9">
 	<@messages infos=infos />
-
-        <#if !existsDemand(demands,"identitystore") >
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='first' datatarget='#ModalIdentiyystoreDemand' />
-        <#else>
-
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='new' datatarget='#ModalIdentiyystoreDemand' />
-
-            <#if data?? && data?size gt 0>
-                <h3>#i18n{module.appcenter.identitystore.manage_identitystore.list_identitystore_datas}</h3>
-
-                <@table>
-                        <tr>
-                                        <input type="hidden" id="id" name="id"/>
-                                        <th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationRights}</th>
-                                        <th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApiManagerSecurityKey}</th>
-                                        <th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationName}</th>
-                        </tr>
-                        <#if data??>
-                                <#list data as setting >
-                                    <tr>
-                                        <input type="hidden" id="id" name="id" />
-                                        <td>
-                                            <#if setting.attributeRights??>
-                                            <ul>
-                                                            <li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeReadable}</li>
-                                                            <ul>
-                                                            <#list setting.attributeRights?keys as attribute>
-                                                                    <#assign right = setting.attributeRights[attribute]>
-                                                                    <#if right.readable>
-                                                                    <li>${mapAttributes[attribute].label}</li>
-                                                                    </#if>	
-                                                            </#list>
-                                                            </ul>
-                                                            <li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeWritable}</li>
-                                                            <ul>
-                                                            <#list setting.attributeRights?keys as attribute>
-                                                                    <#assign right = setting.attributeRights[attribute]>
-                                                                    <#if right.writable>
-                                                                    <li>${mapAttributes[attribute].label}</li>
-                                                                    </#if>	
-                                                            </#list>
-                                                            </ul>
-                                                            <li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeCertifiable}</li>
-                                                            <ul>
-                                                            <#list setting.attributeRights?keys as attribute>
-                                                                    <#assign right = setting.attributeRights[attribute]>
-                                                                    <#if right.certifiable>
-                                                                    <li>${mapAttributes[attribute].label}</li>
-                                                                    </#if>	
-                                                            </#list>
-                                                            </ul>
-                                            </ul>	
-                                           </#if>
-                                        </td>
-                                        <td class="text-center">
-                                                                                <button type="button" class="btn btn-default button_apiManagerSecurityKey">
-                                                                                        <i class="fa fa-eye"></i>
-                                                                                </button>
-                                            <div class="apiManagerSecurityKey">${setting.apiManagerSecurityKey!''}</div>
-                                        </td>
-                                        <td class="text-center">
-                                            ${setting.applicationName!''}
-                                        </td>
-                                    </tr>
-                                </#list>
-                        </#if>
-                </@table>
-                </#if>
-
-                <h3>#i18n{module.appcenter.identitystore.manage_identitystore.list_demand_title}</h3>
-
-                <@printDemands demands demands_states demands_histories/>
-
-            
-        </#if>
-    </div>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.identitystore.manage_identitystore.title}</h2>
+			<div class="box-tools">
+				<#if !existsDemand(demands,"identitystore")>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='first' datatarget='#ModalIdentiyystoreDemand' />
+				<#else>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='new' datatarget='#ModalIdentiyystoreDemand' />
+				</#if>
+			</div>
+		</div>
+		<div class="box-body">
+			<#if existsDemand(demands,"identitystore")>
+				<#if data?? && data?size gt 0>
+					<h3>#i18n{module.appcenter.identitystore.manage_identitystore.list_identitystore_datas}</h3>
+					<@table>
+						<tr>
+							<input type="hidden" id="id" name="id"/>
+							<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationRights}</th>
+							<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApiManagerSecurityKey}</th>
+							<th>#i18n{module.appcenter.identitystore.manage_identitystore.columnApplicationName}</th>
+						</tr>
+						<#if data??>
+							<#list data as setting >
+									<tr>
+										<input type="hidden" id="id" name="id" />
+										<td>
+											<#if setting.attributeRights??>
+											<ul>
+												<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeReadable}</li>
+												<ul>
+												<#list setting.attributeRights?keys as attribute>
+													<#assign right = setting.attributeRights[attribute]>
+													<#if right.readable>
+													<li>${mapAttributes[attribute].label}</li>
+													</#if>	
+												</#list>
+												</ul>
+												<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeWritable}</li>
+												<ul>
+												<#list setting.attributeRights?keys as attribute>
+													<#assign right = setting.attributeRights[attribute]>
+													<#if right.writable>
+													<li>${mapAttributes[attribute].label}</li>
+													</#if>	
+												</#list>
+												</ul>
+												<li>#i18n{module.appcenter.identitystore.manage_identitystore.attributeCertifiable}</li>
+												<ul>
+												<#list setting.attributeRights?keys as attribute>
+													<#assign right = setting.attributeRights[attribute]>
+													<#if right.certifiable>
+													<li>${mapAttributes[attribute].label}</li>
+													</#if>	
+												</#list>
+												</ul>
+											</ul>	
+										 </#if>
+										</td>
+										<td class="text-center">
+											<button type="button" class="btn btn-default button_apiManagerSecurityKey">
+												<i class="fa fa-eye"></i>
+											</button>
+											<div class="apiManagerSecurityKey">${setting.apiManagerSecurityKey!''}</div>
+										</td>
+										<td class="text-center">
+											${setting.applicationName!''}
+										</td>
+									</tr>
+							</#list>
+						</#if>
+					</@table>
+				</#if>
+			</#if>
+		</div>
+	</div>
+	
+	<#if existsDemand(demands,"identitystore")>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.identitystore.manage_identitystore.list_demand_title}</h2>
+		</div>
+		<div class="box-body">
+			<@printDemands demands demands_states demands_histories/>
+		</div>
+	</div>
+  </#if>
 </div>
-</@listDemandTypes>
     
  <!-- Modal for demanding Identitystore conf -->
 	<div id="ModalIdentiyystoreDemand" class="modal fade" role="dialog">
@@ -99,30 +107,30 @@
 				</div>
 				<form action="jsp/site/Portal.jsp" method="post">
 					<input type="hidden" name="page" value="identitystore" />
-                                        <input type="hidden" name="id" value="${application.id}" />
-                                        <input type="hidden" name="action" value="addIdentitystoreDemand" />
-                                            <div class="modal-body">
-                                                <@table>
-                                                    <tr>
-                                                        <th>#i18n{module.appcenter.identitystore.create_identitystore.columnAttributeName}</th>
-                                                        <th>#i18n{module.appcenter.identitystore.create_identitystore.columnReadable}</th>
-                                                        <th>#i18n{module.appcenter.identitystore.create_identitystore.columnWritable}</th>
-                                                        <th>#i18n{module.appcenter.identitystore.create_identitystore.columnCertifiable}</th>
-                                                    </tr>
-                                                    <#list attributes as attribute>
-                                                        <tr>
-                                                            <td>${attribute.label}</td>
-                                                            <td><input type="checkbox" id="${attribute.key}_readable" name="${attribute.key}_readable" value="true"/></td>
-                                                            <td><input type="checkbox" id="${attribute.key}_writable" name="${attribute.key}_writable" value="true"/></td>
-                                                            <td><input type="checkbox" id="${attribute.key}_certifiable" name="${attribute.key}_certifiable" value="true"/></td>
-                                                        </tr>
-                                                    </#list>
-                                                </@table>
-                                            <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.identitystore.create_identitystore.attribute.help}</small>
+					<input type="hidden" name="id" value="${application.id}" />
+					<input type="hidden" name="action" value="addIdentitystoreDemand" />
+						<div class="modal-body">
+							<@table>
+								<tr>
+									<th>#i18n{module.appcenter.identitystore.create_identitystore.columnAttributeName}</th>
+									<th>#i18n{module.appcenter.identitystore.create_identitystore.columnReadable}</th>
+									<th>#i18n{module.appcenter.identitystore.create_identitystore.columnWritable}</th>
+									<th>#i18n{module.appcenter.identitystore.create_identitystore.columnCertifiable}</th>
+								</tr>
+								<#list attributes as attribute>
+									<tr>
+										<td>${attribute.label}</td>
+										<td><input type="checkbox" id="${attribute.key}_readable" name="${attribute.key}_readable" value="true"/></td>
+										<td><input type="checkbox" id="${attribute.key}_writable" name="${attribute.key}_writable" value="true"/></td>
+										<td><input type="checkbox" id="${attribute.key}_certifiable" name="${attribute.key}_certifiable" value="true"/></td>
+									</tr>
+								</#list>
+							</@table>
+							<p class="help-block">#i18n{module.appcenter.identitystore.create_identitystore.attribute.help}</p>
 					</div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.identitystore.create_identitystore.buttonCreate}</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</form>
 			</div>

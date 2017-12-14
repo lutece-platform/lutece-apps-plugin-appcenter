@@ -2,62 +2,66 @@
 <#include "../../commons.html" />
 <@headerApp tab="guichetpro" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="guichetpro" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="guichetpro" application=application errors=errors infos=infos user=user>
 
-<div>
-	<div class="col-12 col-sm-12">
-	<h2>#i18n{module.appcenter.guichetpro.manage_guichet_pro.title}</h2>
+<div class="col-sm-9">
 	<@messages infos=infos />
-	<#if !existsDemand(demands,"guichetpro") >
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='first' datatarget='#ModalGuichetProDemand' />
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.guichetpro.manage_guichet_pro.title}</h2>
+			<div class="box-tools">
+				<#if !existsDemand(demands,"guichetpro") >
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='first' datatarget='#ModalGuichetProDemand' />
         <#else>
-
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='new' datatarget='#ModalGuichetProDemand' />
-
-            <#if data?? && data?size gt 0>
-                <h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_setting_title}</h3>
-
-                <@table>
-                        <tr>
-                                        <input type="hidden" id="id" name="id"/>
-                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
-                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnSiteUrl}</th>
-                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
-                                        <th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
-                        </tr>
-                        <#if data??>
-                                <#list data as guichetProData >
-                                <tr>
-                                                <input type="hidden" id="id" name="id" />
-                                                <td>
-                                                                ${guichetProData.guichetProDemandType}
-                                                </td>
-                                                <td>
-                                                                ${guichetProData.siteUrl}
-                                                </td>
-                                                <td>
-                                                                <#list category_guichet_pro_demand_types as item>
-                                                                    <#if guichetProData.categoryGuichetProDemandType == item.code >
-                                                                        ${item.name}
-                                                                    </#if>
-                                                                </#list>
-                                                </td>
-                                                <td>
-                                                                ${guichetProData.idGuichetProDemandType}
-                                                </td>
-                                </tr>
-                                </#list>
-                        </#if>
-                </@table>
-             </#if>
-
-	<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_demand_title}</h3>
-	
-	<@printDemands demands demands_states demands_histories/>
-        </#if>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='new' datatarget='#ModalGuichetProDemand' />
+				</#if>
+			</div>
+		</div>
+		<div class="box-body">
+			<#if existsDemand(demands,"guichetpro")>
+				<#if data?? && data?size gt 0>
+					<h3>#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_setting_title}</h3>
+					<@table>
+						<tr>
+							<input type="hidden" id="id" name="id"/>
+							<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnGuichetProDemandType}</th>
+							<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnSiteUrl}</th>
+							<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnCategoryGuichetProDemandType}</th>
+							<th>#i18n{module.appcenter.guichetpro.manage_guichet_pro.columnIdGuichetProDemandType}</th>
+						</tr>
+						<#if data??>
+							<#list data as guichetProData >
+							<tr>
+								<input type="hidden" id="id" name="id" />
+								<td>${guichetProData.guichetProDemandType}</td>
+								<td>${guichetProData.siteUrl}</td>
+								<td>
+									<#list category_guichet_pro_demand_types as item>
+										<#if guichetProData.categoryGuichetProDemandType == item.code >
+												${item.name}
+										</#if>
+									</#list>
+								</td>
+								<td>${guichetProData.idGuichetProDemandType}</td>
+							</tr>
+							</#list>
+						</#if>
+					</@table>
+				</#if>
+			</#if>
+		</div>
 	</div>
+	
+	<#if existsDemand(demands,"guichetpro")>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.guichetpro.manage_guichet_pro.list_demand_title}</h2>
+		</div>
+		<div class="box-body">
+			<@printDemands demands demands_states demands_histories/>
+		</div>
+	</div>
+  </#if>
 </div>
-</@listDemandTypes>
     
  <!-- Modal for demanding  Notification GuichetPro setting -->
 	<div id="ModalGuichetProDemand" class="modal fade" role="dialog">
@@ -66,37 +70,38 @@
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_guichet_pro.title" aria-label="Close">&times;</button>
-						<h3 class="modal-title" id="create_guichet_pro.title">#i18n{module.appcenter.guichetpro.create_guichet_pro.title}</h3>
+					<button type="button" class="close" data-dismiss="modal" aria-labelledby="create_guichet_pro.title" aria-label="Close">&times;</button>
+					<h3 class="modal-title" id="create_guichet_pro.title">#i18n{module.appcenter.guichetpro.create_guichet_pro.title}</h3>
 				</div>
 				<form action="jsp/site/Portal.jsp" method="post">
 					<input type="hidden" name="page" value="guichetpro" />
-                                        <input type="hidden" name="id" value="${application.id}" />
-                                        <input type="hidden" name="action" value="doCreateGuichetProDemand" />
-                                            <div class="modal-body">
+					<input type="hidden" name="id" value="${application.id}" />
+					<input type="hidden" name="action" value="doCreateGuichetProDemand" />
+					<div class="modal-body">
 						<div class="form-group">
 							<label for="guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType}</label>
 							<input type="text" id="guichet_pro_demand_type" name="guichet_pro_demand_type" maxlength="250" class="form-control" required />
-                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType.help}</small>
+							<p class="help-block">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelGuichetProDemandType.help}</p>
 						</div>
 						<div class="form-group">
 							<label for="site_url" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelSiteUrl}</label>
 							<input type="text" id="site_url" name="site_url" maxlength="250" class="form-control" required />
-                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelSiteUrl.help}</small>
+							<p class="help-block">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelSiteUrl.help}</p>
 						</div>
-                                                <div class="form-group">
-                                                        <label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType} <@icon style="asterisk" /></label>
-                                                        <@comboWithParams name="category_guichet_pro_demand_type" default_value="" additionalParameters="class=\"form-control \" required" items=category_guichet_pro_demand_types />
-                                                        <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType.help}</small>
-                                                </div>
+						<div class="form-group">
+							<label for="category_guichet_pro_demand_type" class="col-form-label">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType} <@icon style="asterisk" /></label>
+							<@comboWithParams name="category_guichet_pro_demand_type" default_value="" additionalParameters="class=\"form-control \" required" items=category_guichet_pro_demand_types />
+							<p class="help-block">#i18n{module.appcenter.guichetpro.create_guichet_pro.labelCategoryGuichetProDemandType.help}</p>
+						</div>
 					<div class="modal-footer">
 							<button type="submit" class="btn btn-primary">#i18n{module.appcenter.guichetpro.create_guichet_pro.buttonCreate}</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+</div>
 
 <script>
 	$( function()

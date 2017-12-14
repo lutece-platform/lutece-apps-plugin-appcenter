@@ -101,24 +101,16 @@
     
     
 <#macro makeDemandButton actionUrl='' status='' datatarget=''>
-    <#if status == 'first'>
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <form action="${actionUrl}" class="col-xs-12 col-sm-6">
-            <button type="button" class="btn btn-primary btn-block " data-toggle="modal" data-target="${datatarget}">
-                    <@icon style="plus" />  #i18n{appcenter.addDemand}
-            </button>
-        </form>
-        <div class="col-sm-3"></div>
-    </div>
-    <#elseif status == 'new' >
-    <div class="pull-right">
-        <form action="${actionUrl}">
-            
-            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="${datatarget}">
-                    <@icon style="plus" />  #i18n{appcenter.addNewDemand}
-            </button>
-        </form>
-     </div>
-    </#if>
+	<#if status == 'first'>
+  <form action="${actionUrl}">
+    <button type="button" class="btn btn-primary btn-block " data-toggle="modal" data-target="${datatarget}">
+      <@icon style="plus" />  #i18n{appcenter.addDemand}
+    </button>
+  </form>
+  <#elseif status == 'new' >
+  <form action="${actionUrl}">
+		<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="${datatarget}">
+      <@icon style="plus" />  #i18n{appcenter.addNewDemand}
+    </button>
+  </#if>
 </#macro>

@@ -1,56 +1,46 @@
 <#macro headerApp tab application errors infos user>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<div class="page-header">
-    <div class="row">
-        <div class="col-xs-12 col-sm-9">
-            <h2>${application.code!} <#if application.code?has_content> - </#if> ${application.name}
-            </h2>
-            
-            <@messages errors=errors />
-            <@messages infos=infos />
-        </div>
-        <div class="col-xs-12 col-sm-3 text-center">
-                <a class="btn btn-primary" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
-                        <span class="fa fa-home"></span>   
-                </a>
-                <#if user.admin>
-                <button id="buttonModifyApplication" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
-                        <span class="fa fa-edit"></span>
-                </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
-                        <span class="fa fa-user-plus"></span>
-                </button>
-                <a class="btn btn-danger" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
-                                <span class="fa fa-trash"></span>
-                </a>
-                </#if>
-                
-        </div>
-        
-    </div>
-    <div class="row">
-        <ul class="nav nav-pills">
-            <li role="presentation" class="col-xs-12 col-sm-5"><a class="btn btn-info <#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}">
-                    <i class="fa fa-cog">  Faire des demandes et voir mes configurations</i>
-            </a></li>
-            <li role="presentation" class="col-xs-12 col-sm-5"><a class="btn btn-info <#if tab="general"> active</#if>" id="generalTab" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}">
-                    <i class="fa fa-eye">  Voir toutes les demandes </i>
-            </a></li>
-          </ul>
-    </div>
-</div>
+
+<div class="col-xs-12">
+	<div class="page-header">
+		<div class="pull-right">
+			<a class="btn btn-app" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
+				<span class="fa fa-home"></span> Mes applications
+			</a>
+			<#if user.admin>
+			<!-- <button id="buttonModifyApplication" type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
+				<span class="fa fa-edit"></span> Modifier
+			</button>
+			<button type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
+				<span class="fa fa-user-plus"></span> Utilisateurs
+			</button>
+			<a class="btn btn-app" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">
+				<i class="fa fa-eye"></i> Demandes
+			</a>
+			<a class="btn btn-app btn-danger" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
+				<span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
+			</a> -->
+			</#if>
+		</div>
+		<h1>${application.code!} <#if application.code?has_content> - </#if> ${application.name}</h1>
+	</div>
+
+	<@messages errors=errors />
+	<@messages infos=infos />
+	</div>
+
 <!-- Modal -->
 <div id="ModalModify" class="modal fade" role="dialog" aria-labelledby="modalTitleModifyAppDescription">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				<h2 class="modal-title" id="modalTitleModifyAppDescription">#i18n{appcenter.modify_application.modalTitleModifyAppDescription}</h2>
 			</div>
-            <form action="jsp/site/Portal.jsp">
-                <input type="hidden" name="page" value="application">
+			<form action="jsp/site/Portal.jsp">
+				<input type="hidden" name="page" value="application">
 				<fieldset>
 					<div class="modal-body">
 						<input type="hidden" id="id" name="id" value="${application.id}">
@@ -69,53 +59,53 @@
 							</label>
 							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required >
 						</div>
-                                                <div class="form-group">
-                                                    <label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelEnvironments} </label>
-                                                    <div class="">
-                                                        <#list environments as environment>
-                                                            <input <@enviChecked application environment /> class="" type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
-                                                        </#list>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group ">
-                                                    <label for="name" class="col-form-label">#i18n{appcenter.create_application.labelStepByStep} </label>
-                                                    <div class="panel panel-default">
-                                                        <#list categorydemandtype_list as categorydemandtype>
-                                                            <div class="panel-heading" role="tab" id="heading${categorydemandtype.id}">
-                                                                    <h3 class="panel-title clearfix">
-                                                                        <span class="col-xs-10 col-sm-11">${categorydemandtype.question}</span>
-                                                                        <a class="col-xs-2 col-sm-1"  role="button" data-toggle="collapse" data-parent="#accordion-demand" href="#collapse${categorydemandtype.id}" aria-expanded="false" aria-controls="collapse${categorydemandtype.id}">
-                                                                                <input class="parent-toogle toogle"  data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-size="mini"  data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
-                                                                        </a>
-                                                                    </h3>
-                                                            </div>
+						<div class="form-group">
+							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelEnvironments} </label>
+							<div class="">
+								<#list environments as environment>
+									<label class="checkbox-inline">
+										<input <@enviChecked application environment /> class="" type="checkbox" id="${environment.code}" name="${environment.code}" value="true"/> #i18n{${environment.name}}
+									</label>
+								</#list>
+							</div>
+						</div>
+						<div class="form-group ">
+							<label for="name" class="col-form-label">#i18n{appcenter.create_application.labelStepByStep} </label>
+								<#list categorydemandtype_list as categorydemandtype>
+							<div class="panel panel-default">
+									<div class="panel-heading" role="tab" id="heading${categorydemandtype.id}">
+										<h3 class="panel-title clearfix">
+											<span class="col-xs-10 col-sm-11">${categorydemandtype.question}</span>
+											<a class="col-xs-2 col-sm-1"  role="button" data-toggle="collapse" data-parent="#accordion-demand" href="#collapse${categorydemandtype.id}" aria-expanded="false" aria-controls="collapse${categorydemandtype.id}">
+												<input class="parent-toogle toogle"  data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-size="mini" data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
+											</a>
+										</h3>
+									</div>
 
 
-                                                                <div id="collapse${categorydemandtype.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${categorydemandtype.id}">
-                                                                    <div class="panel-body">
-                                                                        <ul class="list-group" id="navTabs" role="tablist">
-                                                                        <#list demandtype_list as demandtype >
-                                                                            <#if demandtype.idCategoryDemandType == categorydemandtype.id>
+									<div id="collapse${categorydemandtype.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${categorydemandtype.id}">
+											<ul class="list-group" id="navTabs" role="tablist">
+											<#list demandtype_list as demandtype >
+													<#if demandtype.idCategoryDemandType == categorydemandtype.id>
 
-                                                                                <li class="list-group-item clearfix">
-                                                                                    <span class="col-xs-10 col-sm-11">${demandtype.question}</span>
-                                                                                    <span class="col-xs-2 col-sm-1">
-                                                                                        <input name="demandtype_${demandtype.idDemandType!''}" class="child-toogle toogle" data-size="mini" data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
-                                                                                    </span>
-                                                                                </li>
-                                                                                    </#if>
-                                                                        </#list>
-                                                                        </ul>
-                                                                     </div>
-                                                                </div>
+													<li class="list-group-item clearfix">
+														<span class="col-xs-10 col-sm-11">${demandtype.question}</span>
+														<span class="col-xs-2 col-sm-1">
+															<input name="demandtype_${demandtype.idDemandType!''}" class="child-toogle toogle" data-size="mini" data-toggle="toggle" data-on="#i18n{portal.util.labelYes}" data-off="#i18n{portal.util.labelNo}" data-onstyle="success" data-offstyle="danger" type="checkbox">
+														</span>
+													</li>
+													</#if>
+											</#list>
+											</ul>
+									</div>
 
-                                                        </#list>
-                                                    </div>
-                                                </div>
+							</div>
+								</#list>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" name="action_modifyApplication" class="btn btn-primary">#i18n{portal.util.labelModify}</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</fieldset>
 			</form>
@@ -172,7 +162,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="submit" name="action_addUser" class="btn btn-primary">#i18n{appcenter.modify_application.buttonAdd}</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 					</div>
 				</fieldset>
 			</form>
@@ -237,43 +227,115 @@ $(function(){
 </#macro>
 
 <#macro tabEnvis tab application errors infos user> 
-    <div class="row">
-        <div class="col-xs-12 col-sm-12">
 
-            <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" class="<#if !active_environment?? || active_environment == ''>active</#if>"><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a></li>
-                    <#if application.listEnvironment?size gt 0>
-                        <#list application.listEnvironment as envi>
-                            <li role="presentation" class="<#if active_environment?? && active_environment.prefix == envi.prefix>active</#if>" ><a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement de </#if>#i18n{${envi.labelKey}}</a></li>
-                        </#list>
-                    </#if>  
-            </ul>
-        </div>
-    </div>
-<br>
+<div class="col-xs-12 col-sm-3">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable=true">
+		<#if user.admin>
+			<div class="panel panel-pink">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<i class="fa fa-hashtag"></i>
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Gérer l'application</a>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+					<ul class="list-group">
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-1">
+									<i class="fa fa-edit"></i>
+								</div>
+								<div class="col-xs-11">
+									<a id="buttonModifyApplication" data-toggle="modal" data-target="#ModalModify" style="cursor:pointer;">#i18n{appcenter.modify_application.buttonModifyAppDescription}</a>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-1">
+									<i class="fa fa-user-plus"></i>
+								</div>
+								<div class="col-xs-11">
+									<a data-toggle="modal" data-target="#ModalAddUser" style="cursor:pointer;">
+										#i18n{appcenter.modify_application.buttonAddUser}
+									</a>
+								</div>
+						</li>
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-1">
+									<i class="fa fa-eye"></i>
+								</div>
+								<div class="col-xs-11">
+									<a href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">Voir toutes les demandes</a>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-1">
+									<i class="fa fa-trash"></i>
+								</div>
+								<div class="col-xs-11">
+									<a href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">#i18n{portal.util.labelDelete}</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</#if>
+		<div class="panel panel-<#if !active_environment?? || active_environment == ''>purple<#else>purple</#if>">
+			<div class="panel-heading" role="tab" id="headingOne">
+				<h4 class="panel-title">
+					<i class="fa fa-cog"></i>
+					<#if !active_environment?? || active_environment == ''>
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Configurer l'application</a>
+					<#else>
+						<a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a>
+					</#if>
+				</h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+					<#if !active_environment??>
+						<@listDemandTypes tab="general" application=application errors=errors infos=infos user=user />
+					</#if>
+			</div>
+		</div>
+		
+		
+		<#if application.listEnvironment?size gt 0>
+			<#list application.listEnvironment as envi>
+				<div class="panel panel-<#if active_environment?? && active_environment.prefix == envi.prefix>info<#else>default</#if>">
+						<div class="panel-heading" role="tab" id="heading${envi?index}">
+							<h3 class="panel-title">
+								<i class="fa fa-th-large"></i> 
+								<#if active_environment?? && active_environment.prefix == envi.prefix>
+									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${envi?index}" aria-expanded="true" aria-controls="collapse${envi?index}">#i18n{${envi.labelKey}}</a>
+								<#else>
+									<a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=${envi.prefix}"><#if active_environment?? && active_environment.prefix == envi.prefix>Environnement: </#if>#i18n{${envi.labelKey}}</a>
+								</#if>
+							</h3>
+						</div>
+						<div id="collapse${envi?index}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading${envi?index}">
+							<#if active_environment?? && active_environment.prefix == envi.prefix>
+							<@listDemandTypes tab="general" application=application errors=errors infos=infos user=user />
+							</#if>
+						</div>
+				</div>
+			</#list>
+		</#if>
+	</div>
+</div>
 </#macro>
 
 
 <#macro listDemandTypes tab application errors infos user >
-<div class="row">
-	<div class="col-xs-12 col-sm-4">
-		
-		<div class="panel-group" id="accordion-demand" role="tablist" aria-multiselectable="true">
-                    <#if !active_environment?? || active_environment == ''>
-                        <@printDemandTypes dep_envi=false active_tab=tab />
-                    <#else>
-                        <@printDemandTypes dep_envi=true active_tab=tab />
-                     </#if>
-		</div>
-	</div>
-	<div class="col-xs-12 col-sm-8">
-		<div class="tab-content" id="tabContent">
-			<div>
-				<#nested>
-			</div>
-		</div>
-	</div>
-</div>
+	<#if !active_environment?? || active_environment == ''>
+			<@printDemandTypes dep_envi=false active_tab=tab />
+	<#else>
+			<@printDemandTypes dep_envi=true active_tab=tab />
+	 </#if>
 </#macro>
 
 <#macro demandAlreadyExists demandType>
@@ -295,53 +357,47 @@ $(function(){
 <#macro printDemandTypes dep_envi active_tab>
     <#list categorydemandtype_list as categorydemandtype>
         <#if categorydemandtype.isDependingOfEnvironment == dep_envi>
-            <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="heading_${categorydemandtype.id?string}">
-                      <h4 class="panel-title">
-                              ${categorydemandtype.label}
-                      </h4>
-                    </div>
-                    <div id="panel_${categorydemandtype.id?string}" class="" >
-                      <div class="panel-body">
-                            <ul class="nav nav-pills nav-stacked" id="navTabs" role="tablist">
-                                <#list demandtype_list as demandtype>
-                                    <#if demandtype.idCategoryDemandType == categorydemandtype.id>
-                                        <li class="" id="${demandtype.idDemandType}Tab">
-                                                <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >
-                                                    <a class="text-center docs_link col-xs-3 col-sm-2">
-                                                        <span class="glyphicon glyphicon-question-sign"></span>
-                                                    </a>
-                                                    <div class="doc">
-                                                        <div class="doc-content">
-                                                            <span>${demandtype.description!''}</span>
-                                                            <#if demandtype.listDocumentation?size gt 0> 
-                                                                <ul class="list-group">
-                                                                     <br/>
-                                                                    <#list demandtype.listDocumentation as documentation>
-                                                                        <li class="list-group-item">
-                                                                            <a href="${documentation.url}" target="_blank">
-                                                                                ${documentation.label}
-                                                                                <span class="pull-right label label-info">#i18n{${documentation_categories[documentation.category].labelKey}}</span>
-                                                                            </a>
-                                                                        </li>
+						<ul class="list-group">
+							<li class="list-group-item" id="heading_${categorydemandtype.id?string}">
+								${categorydemandtype.label}
+							</li>
+              <#list demandtype_list as demandtype>
+								<#if demandtype.idCategoryDemandType == categorydemandtype.id>
+								<li class="list-group-item" id="${demandtype.idDemandType}Tab">
+									<div class="row">
+									<#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >
+											<a class="text-center docs_link col-xs-2">
+													<span class="fa fa-question-circle"></span>
+											</a>
+                      <div class="doc">
+												<div class="doc-content">
+													<span>${demandtype.description!''}</span>
+													<#if demandtype.listDocumentation?size gt 0> 
+															<ul class="list-group">
+																	 <br/>
+																	<#list demandtype.listDocumentation as documentation>
+																			<li class="list-group-item">
+																					<a href="${documentation.url}" target="_blank">
+																							${documentation.label}
+																							<span class="pull-right label label-info">#i18n{${documentation_categories[documentation.category].labelKey}}</span>
+																					</a>
+																			</li>
 
-                                                                    </#list>
-                                                                </ul>
-                                                            </#if>
-                                                        </div>
-                                                    </div>
-                                                </#if>
-                                                 <a class="btn demandtype_link <#if active_demand_type?? && active_demand_type==demandtype.idDemandType> active</#if> <#if !demandTypeEnabled(demandtype.idDemandType)>disabled </#if> <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
-                                                        ${demandtype.label}
-                                                         <@demandAlreadyExists demandtype.idDemandType/>
-                                                 </a>
-                                        </li>
-                                    </#if>
-                                </#list>
-                            </ul>
-                      </div>
-                    </div>
-            </div>
+																	</#list>
+															</ul>
+													</#if>
+												</div>
+											</div>
+									</#if>
+									<a class="demandtype_link <#if active_demand_type?? && active_demand_type==demandtype.idDemandType> active</#if> <#if !demandTypeEnabled(demandtype.idDemandType)>disabled </#if> <#if demandtype.listDocumentation?size gt 0 || (demandtype.description?? && demandtype.description?length gt 0 ) >col-xs-9 col-sm-10<#else>col-xs-12 col-sm-12</#if>" href="jsp/site/Portal.jsp?page=${demandtype.idDemandType}&id=${application.id}">
+													${demandtype.label}
+													 <@demandAlreadyExists demandtype.idDemandType/>
+									 </a>
+									</div>
+								</li>
+							</#if>
+						</#list>
+					</ul>
         </#if>
     </#list>
 </#macro>

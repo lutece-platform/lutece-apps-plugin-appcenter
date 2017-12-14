@@ -2,56 +2,62 @@
 <#include "../../commons.html" />
 <@headerApp tab="jobs" application=application errors=errors infos=infos user=user/>
 <@tabEnvis tab="jobs" application=application errors=errors infos=infos user=user/>
-<@listDemandTypes tab="jobs" application=application errors=errors infos=infos user=user>
 
-<div>
-	<div class="col-sm-12">
-            <h2>#i18n{module.appcenter.jobs.manage_jobs.title}</h2>
-    <@messages infos=infos />
-    <#if !existsDemand(demands,"jobs") >
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='first' datatarget='#ModalJobDemand' />
+<div class="col-sm-9">
+	<@messages infos=infos />
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.jobs.manage_jobs.title}</h2>
+			<div class="box-tools">
+				<#if !existsDemand(demands,"jobs")>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='first' datatarget='#ModalJobDemand' />
         <#else>
-
-            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='new' datatarget='#ModalJobDemand' />
-
-            <#if data?? && data?size gt 0>
-
-                
-
-                <@table>
-                                    <tr>
-                                            <input type="hidden" id="id" name="id"/>
-                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnDeployJobName}</th>
-                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnDocQAJobName}</th>
-                                            <th>#i18n{module.appcenter.jobs.manage_jobs.columnRepositoryUrl}</th>
-                                    </tr>
-                                    <#if data??>
-                                            <#list data as job >
-                                            <tr>
-                                                    <td>
-                                                        ${job.deployJobName}
-                                                    </td>  
-                                                    <td>
-                                                        ${job.docQAJobName}
-                                                    </td>  
-                                                    <td>
-                                                        ${job.repositoryUrl}
-                                                    </td>					
-                                            </tr>
-                                            </#list>
-                                    </#if>
-                </@table>
-            </#if>
-
-    <h2>#i18n{module.appcenter.jobs.jobs.demands.title}</h2>
-    
-    <@printDemands demands demands_states demands_histories/>
-    </#if>
+					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='new' datatarget='#ModalJobDemand' />
+				</#if>
+			</div>
+		</div>
+		<div class="box-body">
+			<#if existsDemand(demands,"jobs")>
+				<#if data?? && data?size gt 0>
+					<@table>
+						<tr>
+							<input type="hidden" id="id" name="id"/>
+							<th>#i18n{module.appcenter.jobs.manage_jobs.columnDeployJobName}</th>
+							<th>#i18n{module.appcenter.jobs.manage_jobs.columnDocQAJobName}</th>
+							<th>#i18n{module.appcenter.jobs.manage_jobs.columnRepositoryUrl}</th>
+						</tr>
+						<#if data??>
+							<#list data as job >
+							<tr>
+								<td>
+										${job.deployJobName}
+								</td>  
+								<td>
+										${job.docQAJobName}
+								</td>  
+								<td>
+										${job.repositoryUrl}
+								</td>					
+							</tr>
+							</#list>
+						</#if>
+					</@table>
+				</#if>
+			</#if>
+		</div>
+	</div>
+	
+	<#if existsDemand(demands,"jobs")>
+	<div class="box box-primary">
+		<div class="box-header">
+			<h2 class="box-title">#i18n{module.appcenter.jobs.jobs.demands.title}</h2>
+		</div>
+		<div class="box-body">
+			<@printDemands demands demands_states demands_histories/>
+    </div>
+	</div>
+  </#if>
 </div>
-&#160;
-</div>
-
-</@listDemandTypes>
     
  <!-- Job demand Modal -->
 	<div id="ModalJobDemand" class="modal fade" role="dialog" aria-labelledby="addJob">
@@ -69,14 +75,12 @@
 						<input type="hidden" name="id" value="${application.id}" />
 						<input type="hidden" name="action" value="addJob" />
 						<div class="modal-body">
-					
-
 							<div class="form-group">
 								<label for="repository_url" class="col-form-label">
 									#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.label} <@icon style="asterisk" />
 								</label>
 								<@comboSortedWithParams name="repository_url" id="repository_url" default_value="" additionalParameters="class=\"form-control \" required" items=repo_list />
-                                                                <small id="descriptionHelpBlock" class="form-text text-muted">#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.help}</small>
+								<p class="help-block">#i18n{module.appcenter.jobs.manage_jobs.repositoryUrl.help}</p>
 							</div>
 							
 						</div>
@@ -84,7 +88,7 @@
 							<button class="btn btn-primary" type="submit">
 									#i18n{module.appcenter.jobs.manage_jobs.addJob}
 							</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal">#i18n{portal.util.labelCancel}</button>
 						</div>
 					</fieldset>
 				</form>
