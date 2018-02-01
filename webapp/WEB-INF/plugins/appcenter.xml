@@ -86,6 +86,10 @@
             <application-id>wsso</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.modules.wsso.web.WssoXPage</application-class>
         </application>
+        <application>
+            <application-id>support</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.modules.support.web.SupportsXPage</application-class>
+        </application>
     </applications>
 
     <!-- Portlet parameters -->

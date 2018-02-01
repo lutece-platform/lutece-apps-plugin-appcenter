@@ -26,6 +26,8 @@
         class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
         p:taskConfigDAO-ref="appcenter.notifyDAO" />
     
+    <bean id="appcenter.supportAsynchronousUploadHandler" class="fr.paris.lutece.plugins.appcenter.modules.support.service.SupportAsynchronousUploadHandler" />
+    
     <!-- Provider -->
     <bean id="appcenter.attributesProvider" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.service.LocalAttributesProvider" />    
     
@@ -187,6 +189,18 @@
     <bean id="appcenter.taskAppCode" class="fr.paris.lutece.plugins.appcenter.modules.appcode.service.AppCodeTask" scope="prototype" />
     <bean id="appcenter.AppCodeTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.appcode.web.AppCodeTaskComponent"
      p:taskType-ref="appcenter.taskTypeAppCode"
+    />
+
+    <bean id="appcenter.taskTypeSupport" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+            p:key="taskSupport"
+            p:titleI18nKey="module.appcenter.support.task_title"
+            p:beanName="appcenter.taskSupport"
+            p:configRequired="false"
+            p:formTaskRequired="true"
+            p:taskForAutomaticAction="false" />
+    <bean id="appcenter.taskSupport" class="fr.paris.lutece.plugins.appcenter.modules.support.service.SupportTask" scope="prototype" />
+    <bean id="appcenter.SupportTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.support.web.SupportTaskComponent"
+     p:taskType-ref="appcenter.taskTypeSupport"
     />
     
 </beans>

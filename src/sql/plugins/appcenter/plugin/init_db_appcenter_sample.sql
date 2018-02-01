@@ -32,7 +32,8 @@ INSERT INTO appcenter_category_demand_type ( id, label, question , is_depending_
     (2,'Livraison d''environnement','Livraison d''environnement',1,2),
     (3,'GRU','Votre application a t-elle besoin d''être rattachée à la GRU ?',1,3),
     (4,'Guichet Professionnel','Votre application a t-elle besoin d''être rattachée au Guichet Professionnel ?',1,4),
-    (5,'WSSO','Votre application a t-elle besoin d''être rattachée au WSSO ?',1,5);
+    (5,'WSSO','Votre application a t-elle besoin d''être rattachée au WSSO ?',1,5),
+    (6,'Support','',0,6);
 
 INSERT INTO appcenter_demand_type ( id, id_demand_type, id_workflow, java_class , label, description, question, id_category_demand_type, n_order ) VALUES
     (1,'appcode',900,'fr.paris.lutece.plugins.appcenter.modules.appcode.business.AppCodeDemand','Code Applicatif','Le code applicatif est un code qui permet d''identifier de manière unique votre application.','Votre application a t-elle besoin d''un code applicatif ?',1,1),
@@ -45,7 +46,8 @@ INSERT INTO appcenter_demand_type ( id, id_demand_type, id_workflow, java_class 
     (8,'notificationgru',400,'fr.paris.lutece.plugins.appcenter.modules.notificationgru.business.NotificationGruDemand','Notifications vers la GRU','Ce type de demande permet d''obtenir la configuration nécessaire afin que votre application puisse émettre des notifications vers la GRU (Mails, vue 360, MonCompte). Ces notifications sont visibles par les agents dans le back office de la GRU, et par les usagers dans leur tableau de bord MonCompte.','Votre application doit-elle envoyer des notifications vers la GRU (vue 360, tableau de bord des usagers, mails aux usagers) ?',3,8),
     (9,'identitystore',500,'fr.paris.lutece.plugins.appcenter.modules.identitystore.business.IdentitystoreDemand','Référentiel d''identité','Ce type de demande permet d''établir un contrat entre votre application et le référentiel d''identité de la GRU. Il s''agit ici de déterminer quels sont les droits de votre application sur les attributs d''identité des usagers. ( lecture, écriture, certification ). Lors du développement de votre application, vous pouvez utiliser l''une des trois méthodes ci-dessous pour récupérer des attributs d''identité ( classées par simplicité d''utilisation )','Votre application doit-elle récupérer des attributs de l''usager qui se connecte ?',3,9),
     (10,'guichetpro',800,'fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProDemand','Notifications vers le guichet professionnel','Ce type de demande permet d''obtenir la configuration nécessaire afin d''émettre des notifications vers le Guichet Professionnel. Ces notifications sont visibles par les usagers dans leur tableau de bord du Guichet Professionnel.','Votre application a t-elle besoin d''émettre des notifications vers le Guichet Professionnel ?',4,10),
-    (11,'wsso',-1,'','WSSO','Ce type de demande permet de confier l''authentification de l''application au WSSO','L''authentification de votre site doit-elle être confiée au WSSO ?',5,11);
+    (11,'wsso',-1,'','WSSO','Ce type de demande permet de confier l''authentification de l''application au WSSO','L''authentification de votre site doit-elle être confiée au WSSO ?',5,11),
+    (12,'support',1000,'fr.paris.lutece.plugins.appcenter.modules.support.business.SupportDemand','Question support','Ce type de demande permet de bénéficier du support Lutèce','Voulez-vous faire des demandes au support Lutèce ?',6,12);
 
 INSERT INTO appcenter_documentation( id_documentation, id_demand_type, label, url, category ) VALUES
     (1,4,'Mode d''emploi de l''application Fast Deploy','http://fr.lutece.paris.fr/fr/wiki/fastdeploy.html','project_manager'),

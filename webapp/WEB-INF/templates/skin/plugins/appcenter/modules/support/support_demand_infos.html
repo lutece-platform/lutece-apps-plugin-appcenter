@@ -1,0 +1,24 @@
+<span>#i18n{module.appcenter.support.manage_support.questionSupport.label} : </span>
+<pre>${demand.questionSupport!''}</pre>
+<span>#i18n{module.appcenter.support.manage_support.fileSupport.label} : </span>
+    <@listGroup>
+        <#list demand.listFilesSupport as file>
+            <li class="${listElementClass}">
+                <#if file.size??>
+                    <#if file.size < 1024 >
+                        <#assign octetUnit="o"> 
+                        <#assign octetNumber=file.size> 
+                    <#elseif file.size < 1024 * 1024 >
+                        <#assign octetUnit="Ko">
+                        <#assign octetNumber=file.size/1024>
+                    <#else >
+                        <#assign octetUnit="Mo">
+                        <#assign octetNumber=file.size/(1024*1024)>
+                    </#if>
+                </#if>
+                <a href="jsp/site/plugins/appcenter/modules/support/DoDownloadFile.jsp?id_app=${demand.idApplication}&id_file=${file.idFile}" class="btn btn-link">
+                    ${file.title} <#if file.size?has_content>(${octetNumber?string["0.#"]} ${octetUnit})</#if>
+                </a>
+            </li>
+        </#list>
+    </@listGroup>

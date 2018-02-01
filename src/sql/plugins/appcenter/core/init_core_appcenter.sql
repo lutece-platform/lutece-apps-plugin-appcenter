@@ -42,6 +42,7 @@ INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resourc
 INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','notificationgru','VIEW' FROM core_admin_role_resource;
 INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','guichetpro','VIEW' FROM core_admin_role_resource;
 INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','fastdeployapplication','VIEW' FROM core_admin_role_resource;
+INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BILD','demand_type','support','VIEW' FROM core_admin_role_resource;
 
 --BIAD
 INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) SELECT COALESCE(MAX(rbac_id+1),1),'BIAD','demand_type','appcode','VIEW' FROM core_admin_role_resource;

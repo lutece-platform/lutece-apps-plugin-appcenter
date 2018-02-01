@@ -7,7 +7,8 @@ INSERT INTO workflow_workflow VALUES
 (600,'Workflow des demandes d\'ajout d\'application FastDeploy','Workflow des demandes d\'ajout d\'application FastDeploy','2017-08-16 12:38:32',1,'all'),
 (700,'Workflow des demandes d''intégration continue','Workflow des demandes d''intégration continue','2017-11-07 12:38:32',1,'all'),
 (800,'Workflow des demandes de configuration de la notification vers le guichet pro','Workflow des demandes de configuration de la notification vers le guichet pro','2017-11-07 12:38:32',1,'all'),
-(900,'Workflow des demandes de code applicatif','Workflow des demandes de code applicatif','2017-11-07 12:38:32',1,'all');
+(900,'Workflow des demandes de code applicatif','Workflow des demandes de code applicatif','2017-11-07 12:38:32',1,'all'),
+(1000,'Workflow des demandes de support applicatif','Workflow des demandes de support applicatif','2017-11-07 12:38:32',1,'all');
 
 
 INSERT INTO workflow_state VALUES 
@@ -45,7 +46,11 @@ INSERT INTO workflow_state VALUES
 
 (900,'Initialisée','Demande initialisée',900,1,0,NULL,1),
 (901,'En cours','Demande en cours',900,0,0,NULL,2),
-(902,'Close','Demande close',900,0,0,NULL,3);
+(902,'Close','Demande close',900,0,0,NULL,3),
+
+(1000,'Initialisée','Demande initialisée',1000,1,0,NULL,1),
+(1001,'En cours','Demande en cours',1000,0,0,NULL,2),
+(1002,'Close','Demande close',1000,0,0,NULL,3);
 
 INSERT INTO workflow_action VALUES 
 (100,'Creation de la demande de configuration d\'un référentiel','Creation de la demande de configuration d\'un référentiel',100,100,101,3,1,0,1,0),
@@ -57,6 +62,7 @@ INSERT INTO workflow_action VALUES
 (700,'Creation de la demande d''intégration continue','Creation de la demande d''intégration continue',700,700,701,3,1,0,1,0),
 (800,'Creation de la demande de configuration de la notification vers le guichet profesionnel','Creation de la demande de configuration de la notification vers le guichet professionnel',800,800,801,3,1,0,1,0),
 (900,'Creation de la demande de code applicatif','Creation de la demande de code applicatif',900,900,901,3,1,0,1,0),
+(1000,'Creation de la demande de support applicatif','Creation de la demande de support applicatif',1000,1000,1001,3,1,0,1,0),
 
 (101,'Traiter la demande de configuration d\'un référentiel','Traiter la demande de configuration d\'un réfrérentiel',100,101,102,3,0,0,2,0),
 (201,'Traiter la demande de configuration de l\'authentification front office','Traiter la demande de configuration de l\'authentification front office',200,201,202,3,0,0,2,0),
@@ -66,7 +72,8 @@ INSERT INTO workflow_action VALUES
 (601,'Traiter la demande de creation d\'une application FastDeploy','Traiter la demande de creation d\'une application FastDeploy',600,601,602,3,0,0,2,0),
 (701,'Traiter la demande de paramétrage d\'intégration continue','Traiter la demande de paramétrage d''intégration continue',700,701,702,3,0,0,2,0),
 (801,'Traiter la demande de configuration de la notification vers le guichet professionnel','Traiter la demande de configuration de la notification vers le guichet professionnel',800,801,802,3,0,0,2,0),
-(901,'Traiter la demande de code applicatif','Traiter la demande de code applicatif',900,901,902,3,0,0,2,0);
+(901,'Traiter la demande de code applicatif','Traiter la demande de code applicatif',900,901,902,3,0,0,2,0),
+(1001,'Traiter la demande de support applicatif','Traiter la demande de support applicatif',1000,1001,1002,3,0,0,2,0);
 
 
 INSERT INTO workflow_task VALUES
@@ -105,7 +112,11 @@ INSERT INTO workflow_task VALUES
 (33,'taskCustomDemandStatus',900,2),
 (34,'taskAppCode',901,1),
 (35,'taskCustomDemandStatus',901,2),
-(36,'taskCloseDemand',901,3);
+(36,'taskCloseDemand',901,3),
+(37,'taskCustomDemandStatus',1000,2),
+(38,'taskSupport',1001,1),
+(39,'taskCustomDemandStatus',1001,2),
+(40,'taskCloseDemand',1001,3);
 
 
 
@@ -128,7 +139,9 @@ INSERT INTO appcenter_task_custom_demand_status_config VALUES
 (29,'La demande de configuration de la notification vers le guichet professionnel est en cours de traitement'),
 (31,'La demande de configuration de la notification vers le guichet professionnel a bien été traitée'),
 (33,'La demande de code applicatif est en cours de traitement'),
-(35,'La demande de code applicatif a bien été traitée');
+(35,'La demande de code applicatif a bien été traitée'),
+(37,'La demande de support applicatif est en cours de traitement'),
+(39,'La demande de support applicatif a bien été traitée');
 
 
 INSERT INTO workflow_resource_workflow VALUES 
