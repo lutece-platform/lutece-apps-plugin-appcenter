@@ -14,6 +14,7 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
@@ -92,6 +93,8 @@ public abstract class AppcenterTask extends SimpleTask
               applicationData.addDemandAssociated(demand.getId());
         	  //Add new data
         	  datas.addData( applicationData );
+                  demand.setIdApplicationData( applicationData.getIdApplicationData( ) );
+                  demand.setDemandData( DemandService.getDemandAsString( demand ) );
           }
           else
           {
@@ -114,6 +117,7 @@ public abstract class AppcenterTask extends SimpleTask
           }
           
           ApplicationService.saveApplicationData( application, datas );
+          DemandHome.update( demand );
     }
     
     

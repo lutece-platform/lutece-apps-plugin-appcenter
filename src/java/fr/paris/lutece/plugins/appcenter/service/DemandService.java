@@ -74,7 +74,7 @@ public class DemandService
         return DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType, demandClass );
     }
     
-    private static String getDemandAsString( Demand demand )
+    public static String getDemandAsString( Demand demand )
     {
         try
         {
