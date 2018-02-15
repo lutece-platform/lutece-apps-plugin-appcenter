@@ -1,12 +1,18 @@
 package fr.paris.lutece.plugins.appcenter.modules.support.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -82,6 +88,22 @@ public class SupportDemand extends Demand
     {
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_DEMAND, this );
+        
+        if ( this.getIdApplicationData(  ) != null )
+        {
+            Application application = ApplicationHome.findByPrimaryKey( this.getIdApplication( ) );
+            
+            try
+            {
+                SupportData data = (SupportData) ApplicationService.loadApplicationDataById(this.getIdApplicationData(), application, SupportsData.class );
+                model.put( Constants.MARK_DATA, data );
+            }
+            catch( IOException e )
+            {
+               AppLogService.error( e );
+            }
+        }
+        
         return AppTemplateService.getTemplate( TEMPLATE_SOURCES_DEMAND_INFOS, I18nService.getDefaultLocale( ), model ).getHtml( );
     }
 

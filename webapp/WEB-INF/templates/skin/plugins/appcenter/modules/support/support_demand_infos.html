@@ -22,3 +22,7 @@
             </li>
         </#list>
     </@listGroup>
+<#if data?has_content>
+    <span>#i18n{module.appcenter.support.manage_support.responseSupport.label} : </span>
+    <pre>${data.responseSupport!''}</pre>
+</#if>
