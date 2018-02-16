@@ -47,6 +47,7 @@ import fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.GuichetProD
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
 import fr.paris.lutece.plugins.appcenter.web.Constants;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
@@ -89,11 +90,8 @@ public class GuichetProXPage extends AppCenterXPage
         fillAppCenterCommons( model, request );
 
         ReferenceList refListCategory=DemandTypeCategoryHome.getDemandTypeCategoriesReferenceList( );
-        ReferenceItem nulRefItem=new ReferenceItem();
-        nulRefItem.setCode("");
-        nulRefItem.setName("");
-        refListCategory.add(0, nulRefItem);
         refListCategory.addItem("new", NEW_CATEGORIE );
+        AppCenterUtils.addEmptyItem(refListCategory, getLocale(request));
         model.put(MARK_CATEGORIES, refListCategory);
 
         return getXPage( TEMPLATE_MANAGE_GUICHET_PRO, request.getLocale( ), model );
