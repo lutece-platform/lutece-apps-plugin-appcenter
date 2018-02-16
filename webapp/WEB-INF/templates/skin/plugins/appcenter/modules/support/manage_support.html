@@ -23,6 +23,7 @@
                     <@table>
                         <tr>
                             <input type="hidden" id="id" name="id"/>
+                            <th></th>
                             <th>#i18n{module.appcenter.support.manage_support.columnQuestionSupport}</th>
                             <th>#i18n{module.appcenter.support.manage_support.columnResponseSupport}</th>
                         </tr>
@@ -30,11 +31,12 @@
                             <#list data as support >
                                 <tr>
                                     <td>
-                                        ${support.questionSupport}
+                                        <a data-toggle="collapse" data-target="#demand-collapse${support.listIdDemandAssociated[0]}" href="jsp/site/Portal.jsp?page=support&view=managesupport&id=${application.id}#heading${support.listIdDemandAssociated[0]}" aria-expanded="false" aria-controls="demand-collapse${support.listIdDemandAssociated[0]}">
+                                            Demand #${support.listIdDemandAssociated[0]}
+                                        </a>
                                     </td>
-                                    <td>
-                                        ${support.responseSupport}
-                                    </td>
+                                    <td>${(support.questionSupport?trim)[0..*200]}<#if support.questionSupport?length gt 200 >...</#if></td>
+                                    <td>${(support.responseSupport?trim)[0..*200]}<#if support.questionSupport?length gt 200 >...</#if></td>
                                 </tr>
                             </#list>
                         </#if>
