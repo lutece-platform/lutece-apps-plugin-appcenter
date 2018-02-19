@@ -1,7 +1,7 @@
 <#macro tabs2 tab >
 <@tabs>
 	<@listTabs>
-                        <li <#if tab="demands">class="active"</#if>>
+                        <li <#if tab="demand">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageDemands.jsp">#i18n{appcenter.manage_demands.pageTitle}</a>
 			</li>
                         <li <#if tab="application">class="active"</#if>>
@@ -10,7 +10,7 @@
 			<li <#if tab="userapplication">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageUserApplications.jsp">#i18n{appcenter.manage_userapplications.pageTitle}</a>
 			</li>
-                        <li <#if tab="attributes">class="active"</#if>>
+                        <li <#if tab="attribute">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageAttributes.jsp">#i18n{appcenter.manage_attributes.pageTitle}</a>
 			</li>
                         <li <#if tab="demandtypes">class="active"</#if>>
