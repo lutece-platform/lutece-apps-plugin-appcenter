@@ -67,11 +67,13 @@ public final class DemandDAO implements IDemandDAO
     //Constants
     private static final String CONSTANT_WHERE = " WHERE ";
     private static final String CONSTANT_AND = " AND ";
+    private static final String CONSTANT_ORDER_BY = " ORDER BY";
 
     private static final String CONSTANT_WHERE_ENVIRONMENT = " environment = ? ";
     private static final String CONSTANT_WHERE_ID_APPLICATION = " id_application = ? ";
     private static final String CONSTANT_WHERE_ID_DEMAND_TYPE = " id_demand_type = ? ";
     private static final String CONSTANT_WHERE_IS_CLOSED = " is_closed = ? ";
+    private static final String CONSTANT_ORDER_BY_CREATION_DATE = " creation_date DESC";
     
     
     private static ObjectMapper _mapper = new ObjectMapper( );
@@ -421,6 +423,8 @@ public final class DemandDAO implements IDemandDAO
             strSqlQuery.append( CONSTANT_WHERE_IS_CLOSED );
         }
         
+        strSqlQuery.append( CONSTANT_ORDER_BY );
+        strSqlQuery.append( CONSTANT_ORDER_BY_CREATION_DATE );
         
         DAOUtil daoUtil = new DAOUtil( strSqlQuery.toString( ), plugin );
         int nIndex = 1;
