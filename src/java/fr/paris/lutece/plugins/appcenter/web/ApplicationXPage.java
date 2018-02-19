@@ -61,6 +61,8 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Arrays;
 
@@ -134,10 +136,25 @@ public class ApplicationXPage extends AppCenterXPage
     private Environment _activeEnvironment;
 
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
-    public XPage getManageApplications( HttpServletRequest request )
+    public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException
     {
         _application = null;
         Map<String, Object> model = getModel( );
+        
+        LuteceUser user = null;
+        if ( SecurityService.isAuthenticationEnable( ) )
+        {
+            user = SecurityService.getInstance( ).getRemoteUser( request );
+            if ( user == null )
+            {
+                throw new UserNotSignedException( );
+            }
+            
+            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( user.getEmail( ) ));
+
+            return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
+        }
+        
         model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsList( ) );
 
         return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
