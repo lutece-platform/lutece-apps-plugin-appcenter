@@ -27,11 +27,11 @@
     <@table>
         <tr>
             <input type="hidden" id="id" name="id"/>    
-            <th>#i18n{appcenter.manage_demands.columnDemandType}</th>
-            <th>#i18n{appcenter.manage_demands.columnApplicationName}</th>
-            <th>#i18n{appcenter.manage_demands.columnDemandOwner}</th>
-            <th>#i18n{appcenter.manage_demands.columnWorkflowStatus}</th>
-            <th>#i18n{appcenter.manage_demands.columnCreationDate}</th>
+            <th>#i18n{appcenter.manage_demands.columnDemandType} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageDemands.jsp" attribute="labelDemandType" /></th>
+            <th>#i18n{appcenter.manage_demands.columnApplicationName} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageDemands.jsp" attribute="nameApplication" /></th>
+            <th>#i18n{appcenter.manage_demands.columnDemandOwner} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageDemands.jsp" attribute="idUserFront" /></th>
+            <th>#i18n{appcenter.manage_demands.columnWorkflowStatus} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageDemands.jsp" attribute="workflowState" /></th>
+            <th>#i18n{appcenter.manage_demands.columnCreationDate} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageDemands.jsp" attribute="creationDate" /></th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
         <@tableHeadBodySeparator />

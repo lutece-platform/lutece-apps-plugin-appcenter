@@ -45,6 +45,7 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandFilter;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
@@ -57,9 +58,14 @@ import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.url.UrlItem;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 /**
@@ -116,6 +122,13 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String ACTION_SAVE_TASK_FORM = "saveTaskForm";
     private static final String ACTION_FILTER_DEMAND = "filterDemands";
     
+    //Constant
+    private static final String CONSTANT_LABEL_DEMAND_TYPE = "labelDemandType";
+    private static final String CONSTANT_NAME_APPLICATION = "nameApplication";
+    private static final String CONSTANT_WORKFLOW_STATE = "workflowState";
+    private static final String CONSTANT_ID_USER_FRONT = "idUserFront";
+    private static final String CONSTANT_CREATION_DATE = "creationDate";
+    
     //Sessions variable
     private DemandFilter _filter;
 
@@ -138,12 +151,18 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
         Map<String,Application> mapApplications = new HashMap<>();
         Map<String,State> mapStates = new HashMap<>();
+        Map<String,DemandType> mapDemandTypes = new HashMap<>();
         
         Map<String,Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>();
 
         for ( Application app : ApplicationHome.getApplicationsList( ) )
         {
             mapApplications.put( Integer.toString( app.getId( ) ), app );
+        }
+
+        for ( DemandType demandType : DemandTypeHome.getDemandTypesList( ) )
+        {
+            mapDemandTypes.put( demandType.getIdDemandType( ), demandType );
         }
 
         for ( Demand demand : listDemands)
@@ -161,7 +180,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
         
        
         //Construct demand type ref list
-        ReferenceList demandTypeRefList = ReferenceList.convert( DemandTypeHome.getDemandTypesList( ), "idDemandType","label",false );
+        ReferenceList demandTypeRefList = ReferenceList.convert( mapDemandTypes.values( ), "idDemandType","label",false );
         
         //Filter demand list and demand type reference list by RBAC on demandType
         DemandTypeService.filterWithRBAC( listDemands, demandTypeRefList, getUser() );
@@ -180,10 +199,64 @@ public class DemandJspBean extends ManageAppCenterJspBean
         ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
         AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
         
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+            
+            if ( strSortedAttributeName.equals( CONSTANT_ID_USER_FRONT ) || strSortedAttributeName.equals( CONSTANT_CREATION_DATE ) )
+            {
+                Collections.sort( listDemands, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+            }
+            else
+            {
+                Comparator<Demand> c = null;
+                
+                if ( strSortedAttributeName.equals( CONSTANT_NAME_APPLICATION ) )
+                {
+                    c = Comparator.comparing( ( Demand x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getName( ) );
+                }
+                else if ( strSortedAttributeName.equals( CONSTANT_LABEL_DEMAND_TYPE ) )
+                {
+                    c = Comparator.comparing( ( Demand x ) -> mapDemandTypes.get( x.getIdDemandType( ) ).getLabel( ) );
+                }
+                else if ( strSortedAttributeName.equals( CONSTANT_WORKFLOW_STATE ) )
+                {
+                    c = Comparator.comparing( ( Demand x ) -> mapStates.get( Integer.toString( x.getId( ) ) ).getName( ) );
+                }
+                
+                if ( c != null )
+                {
+                    if (bIsAscSort)
+                    {
+                        Collections.sort( listDemands, Collections.reverseOrder( c ) );
+                    }
+                    else
+                    {
+                        Collections.sort( listDemands, c );
+                    }
+                }
+            }
+        }
         
+        UrlItem url = new UrlItem( JSP_MANAGE_DEMANDS );
         
+        if ( strSortedAttributeName != null )
+        {
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
         
-        Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, JSP_MANAGE_DEMANDS );
+        if ( strAscSort != null )
+        {
+            url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+        
+        Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, url.getUrl( ) );
 
         model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList  );
         model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
