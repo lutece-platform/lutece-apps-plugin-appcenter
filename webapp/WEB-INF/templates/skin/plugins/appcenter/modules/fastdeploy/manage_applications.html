@@ -9,10 +9,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.fastdeployapplication.manage_applications.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"fastdeploy")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='first' datatarget='#ModalFastDeployApplicationDemand' />
-				<#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='new' datatarget='#ModalFastDeployApplicationDemand' />
+				<#if is_role_for_action_add_application >
+                                        <#if !existsDemand(demands,"fastdeploy")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='first' datatarget='#ModalFastDeployApplicationDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=fastdeploy&id=${application.id}' status='new' datatarget='#ModalFastDeployApplicationDemand' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

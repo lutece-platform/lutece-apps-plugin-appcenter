@@ -36,9 +36,13 @@ package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -112,17 +116,12 @@ public class UserService
                 int nRole = ApplicationHome.getUserRole( nApplicationId, luteceUser.getEmail( ) );
                 boolean bAdmin = (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
                 user.setAdmin( bAdmin );
-                if( bAdmin )
-                {
-                    user.setDelegateRoles( RoleService.getRolesList() );
-                }
             }
         }
         else
         {
             user.setId( MOCK_USER );
             user.setAdmin( true );
-            user.setDelegateRoles( RoleService.getRolesList() );
         }
         return user;
 

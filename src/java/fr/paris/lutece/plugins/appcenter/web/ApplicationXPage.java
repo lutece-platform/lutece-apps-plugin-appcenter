@@ -121,6 +121,10 @@ public class ApplicationXPage extends AppCenterXPage
     private static final String INFO_USER_ADDED = "appcenter.info.user.added";
     private static final String INFO_USER_REMOVED = "appcenter.info.user.removed";
     
+    //Errors
+    private static final String ERROR_USER_ROLE_NOT_AUTHORIZED = "appcenter.error.userRoleNotAuthorized";
+    private static final String ERROR_INVALID_VALUE = "appcenter.error.invalidValue";
+    
     // Parameters
     private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
     
@@ -238,14 +242,9 @@ public class ApplicationXPage extends AppCenterXPage
     @Action( ACTION_CONFIRM_REMOVE_APPLICATION )
     public XPage getConfirmRemoveApplication( HttpServletRequest request ) throws SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_APPLICATION.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(PARAM_ID_APPLICATION ) );
-        String strUserId = UserService.getCurrentUserId( request );
-        int nRole = ApplicationHome.getUserRole( nId, strUserId );
-        if ( nRole != RoleService.ROLE_ADMIN && nRole != RoleService.ROLE_OWNER )
-        {
-            addError( getMessage( MESSAGE_INVALID_ROLE_LEVEL ) );
-            return redirect(request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, nId );
-        }
 
         UrlItem url = new UrlItem( JSP_PAGE_PORTAL );
         url.addParameter( PARAM_PAGE, MARK_APPLICATION );
@@ -264,8 +263,10 @@ public class ApplicationXPage extends AppCenterXPage
      * @return the jsp URL to display the form to manage applications
      */
     @Action( ACTION_REMOVE_APPLICATION )
-    public XPage doRemoveApplication( HttpServletRequest request )
+    public XPage doRemoveApplication( HttpServletRequest request ) throws SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_APPLICATION.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(PARAM_ID_APPLICATION ) );
         ApplicationHome.remove( nId );
         addInfo( INFO_APPLICATION_REMOVED, getLocale( request ) );
@@ -307,6 +308,7 @@ public class ApplicationXPage extends AppCenterXPage
         }
         
         Map<String, Object> model = getModel( );
+        fillAppCenterCommons( model, request );
         model.put( MARK_APPLICATION, _application );
         model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
@@ -350,8 +352,10 @@ public class ApplicationXPage extends AppCenterXPage
     {
         _application = getApplication( request );
         
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_DEMANDS.toLowerCase( ) );
         
         Map<String, Object> model = getModel( );
+        fillAppCenterCommons( model, request );
         model.put( MARK_APPLICATION, _application );
         model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
         model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
@@ -389,8 +393,10 @@ public class ApplicationXPage extends AppCenterXPage
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_APPLICATION )
-    public XPage doModifyApplication( HttpServletRequest request )
+    public XPage doModifyApplication( HttpServletRequest request ) throws SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_MODIFY_APPLICATION.toLowerCase( ) );
+        
         populate( _application, request );
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
 
@@ -434,23 +440,29 @@ public class ApplicationXPage extends AppCenterXPage
     @Action( ACTION_ADD_USER )
     public XPage doAddUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        Application application = getApplication( request );
-        String strUserEmail = request.getParameter( PARAM_USER_EMAIL );
-        String strUserRole = request.getParameter( PARAM_USER_ROLE );
-        int nRole = RoleService.ROLE_NONE;
+        int nUserRole = checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_USER.toLowerCase( ) );
+        
+        _application = getApplication( request );
 
-        // Check constraints TODO
-        try {
-            nRole = Integer.parseInt( strUserRole );
-        }
-        catch( NumberFormatException e )
-        {
-            
-        }
         UserApplication authorization = new UserApplication();
-        authorization.setId( application.getId() );
-        authorization.setUserId( strUserEmail );
-        authorization.setUserRole( nRole );
+        
+        populate( authorization, request );
+        authorization.setId( _application.getId() );
+        
+        // Check constraints
+        // Also check user role parameter because populate method init the field to 0 in authorization
+        if ( !validateBean( authorization ) || request.getParameter( PARAM_USER_ROLE ).isEmpty( ) )
+        {
+            addError( ERROR_INVALID_VALUE, getLocale( request ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+        }
+        
+        if ( nUserRole != RoleService.ROLE_ADMIN && authorization.getUserRole( ) <= nUserRole )
+        {
+            addError( ERROR_USER_ROLE_NOT_AUTHORIZED, getLocale( request ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+        }
+        
         UserApplicationHome.createOrModify( authorization );
         
         addInfo( INFO_USER_ADDED, getLocale( request ) );
@@ -469,6 +481,8 @@ public class ApplicationXPage extends AppCenterXPage
     @Action( ACTION_REMOVE_USER )
     public XPage doRemoveUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_USER.toLowerCase( ) );
+        
         Application application = getApplication( request );
         String strUserEmail = request.getParameter( PARAM_USER_EMAIL );
         UserApplicationHome.remove( application.getId() , strUserEmail );

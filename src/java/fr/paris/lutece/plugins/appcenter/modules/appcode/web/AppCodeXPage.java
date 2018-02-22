@@ -81,6 +81,8 @@ public class AppCodeXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_APP_CODE_DEMANDS, defaultView = true )
     public XPage getManageAppCodeDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_APP_CODE_DEMANDS.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 
@@ -97,6 +99,8 @@ public class AppCodeXPage extends AppCenterXPage
     @Action( ACTION_CREATE_APP_CODE_DEMAND )
     public XPage doCreateAppCodeDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_CREATE_APP_CODE_DEMAND.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
         AppCodeDemand appCodeDemand = new AppCodeDemand( );

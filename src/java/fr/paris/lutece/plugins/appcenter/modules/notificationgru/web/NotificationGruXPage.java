@@ -82,6 +82,8 @@ public class NotificationGruXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_NOTIFICATION_Gru_DEMANDS, defaultView = true )
     public XPage getManageNtoficiationGruDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_NOTIFICATION_Gru_DEMANDS.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 
@@ -98,6 +100,8 @@ public class NotificationGruXPage extends AppCenterXPage
     @Action( ACTION_CREATE_NOTIFICATION_Gru_DEMAND )
     public XPage doCreateNotificationGruDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_CREATE_NOTIFICATION_Gru_DEMAND.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
         NotificationGruDemand notificationGruDemand = new NotificationGruDemand( );

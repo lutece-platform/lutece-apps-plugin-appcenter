@@ -94,6 +94,8 @@ public class SourcesXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_SOURCES, defaultView = true )
     public XPage getManageSources( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_SOURCES.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
        
@@ -114,6 +116,8 @@ public class SourcesXPage extends AppCenterXPage
     @Action( ACTION_ADD_REPOSITORY )
     public XPage doAddRepository (HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_REPOSITORY.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
         SourcesDemand sourcesDemand = new SourcesDemand( );

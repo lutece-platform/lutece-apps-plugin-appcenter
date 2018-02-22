@@ -39,6 +39,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.web.AppCenterXPage;
+import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -67,6 +68,8 @@ public class WssoXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_WSSO_DEMANDS, defaultView = true )
     public XPage getManageNtoficiationGruDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_WSSO_DEMANDS.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 

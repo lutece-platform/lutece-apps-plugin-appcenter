@@ -76,6 +76,8 @@ public class JobsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_JOBS, defaultView = true )
     public XPage getManageJobs( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_JOBS.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
         model.put(Constants.MARK_REPO_LIST, ApplicationService.getRefLisApplicationDatas(getApplication( request ), SourcesDatas.class,  getLocale(request), true,SourcesData::getRepositoryUrl, SourcesData::getRepositoryUrl));
@@ -85,6 +87,8 @@ public class JobsXPage extends AppCenterXPage
     @Action( ACTION_ADD_JOB )
     public XPage doAddJob( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_JOB.toLowerCase( ) );
+        
         Application application = getApplication( request );
         JobDemand jobDemand = new JobDemand( );
         populate( jobDemand, request );

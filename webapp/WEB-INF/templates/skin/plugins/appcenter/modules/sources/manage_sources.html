@@ -8,10 +8,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.sources.manage_sources.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"sources")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='first' datatarget='#ModalAddRepository' />
-				 <#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='new' datatarget='#ModalAddRepository' />
+				<#if is_role_for_action_add_repository >
+                                        <#if !existsDemand(demands,"sources")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='first' datatarget='#ModalAddRepository' />
+                                         <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=sources&id=${application.id}' status='new' datatarget='#ModalAddRepository' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

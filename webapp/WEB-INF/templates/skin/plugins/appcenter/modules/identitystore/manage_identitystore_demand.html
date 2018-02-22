@@ -10,10 +10,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.identitystore.manage_identitystore.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"identitystore")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='first' datatarget='#ModalIdentiyystoreDemand' />
-				<#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='new' datatarget='#ModalIdentiyystoreDemand' />
+				<#if is_role_for_action_add_identitystore_demand >
+                                        <#if !existsDemand(demands,"identitystore")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='first' datatarget='#ModalIdentiyystoreDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=identitystore&id=${application.id}' status='new' datatarget='#ModalIdentiyystoreDemand' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

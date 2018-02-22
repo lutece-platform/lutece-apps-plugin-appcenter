@@ -86,6 +86,8 @@ public class SupportsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_SUPPORT, defaultView = true )
     public XPage getManageSupport( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_SUPPORT.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         
         String strFiledName = SupportAsynchronousUploadHandler.getHandler( ).buildFieldName( request );
@@ -101,6 +103,8 @@ public class SupportsXPage extends AppCenterXPage
     @Action( ACTION_ADD_SUPPORT )
     public XPage doAddSupport( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_SUPPORT.toLowerCase( ) );
+        
         Application application = getApplication( request );
         SupportDemand supportDemand = new SupportDemand( );
         populate( supportDemand, request );

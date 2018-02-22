@@ -90,7 +90,8 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_APPLICATIONS.toLowerCase( ) );
+        
         Application application = getApplication( request );
        
         SourcesDatas sourcesData = ApplicationService.loadApplicationDataSubset( application,SourcesDatas.class );
@@ -116,6 +117,8 @@ public class FastDeployApplicationsXPage extends AppCenterXPage
     @Action( ACTION_ADD_APPLICATION )
     public XPage doAddApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_APPLICATION.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
 

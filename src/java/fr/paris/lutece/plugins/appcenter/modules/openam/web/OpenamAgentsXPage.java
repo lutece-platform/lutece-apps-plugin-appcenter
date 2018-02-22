@@ -73,6 +73,8 @@ public class OpenamAgentsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_AGENTS, defaultView = true )
     public XPage getManageAgents( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_AGENTS.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 
@@ -82,6 +84,8 @@ public class OpenamAgentsXPage extends AppCenterXPage
     @Action( ACTION_ADD_AGENT )
     public XPage doAddAgent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_AGENT.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
 

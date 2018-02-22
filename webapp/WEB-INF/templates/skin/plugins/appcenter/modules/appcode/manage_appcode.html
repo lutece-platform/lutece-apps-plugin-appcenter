@@ -9,11 +9,13 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.appcode.manage_app_code.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"appcode")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='first' datatarget='#ModalAppCodeDemand' />
-				<#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='new' datatarget='#ModalAppCodeDemand' />
-				</#if>
+                                <#if is_role_for_action_create_app_code_demand >
+                                        <#if !existsDemand(demands,"appcode")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='first' datatarget='#ModalAppCodeDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=appcode&id=${application.id}' status='new' datatarget='#ModalAppCodeDemand' />
+                                        </#if>
+                                </#if>
 			</div>
 		</div>
 		<div class="box-body">

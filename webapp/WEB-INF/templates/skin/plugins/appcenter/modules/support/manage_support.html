@@ -10,10 +10,12 @@
         <div class="box-header">
             <h2 class="box-title">#i18n{module.appcenter.support.manage_support.title}</h2>
             <div class="box-tools">
-                <#if !existsDemand(demands,"support")>
-                    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=support&id=${application.id}' status='first' datatarget='#ModalSupportDemand' />
-                <#else>
-                    <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=support&id=${application.id}' status='new' datatarget='#ModalSupportDemand' />
+                <#if is_role_for_action_add_support >
+                    <#if !existsDemand(demands,"support")>
+                        <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=support&id=${application.id}' status='first' datatarget='#ModalSupportDemand' />
+                    <#else>
+                        <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=support&id=${application.id}' status='new' datatarget='#ModalSupportDemand' />
+                    </#if>
                 </#if>
             </div>
         </div>

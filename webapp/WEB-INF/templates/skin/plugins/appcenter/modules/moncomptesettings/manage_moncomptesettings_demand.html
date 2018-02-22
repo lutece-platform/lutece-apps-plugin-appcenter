@@ -9,10 +9,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.moncomptesettings.manage_moncomptesettings.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"moncomptesettings") >
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='first' datatarget='#ModalMonCompteSettingDemand' />
-				<#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='new' datatarget='#ModalMonCompteSettingDemand' />
+				<#if is_role_for_action_create_moncomptesettings_demand >
+                                        <#if !existsDemand(demands,"moncomptesettings") >
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='first' datatarget='#ModalMonCompteSettingDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=moncomptesettings&id=${application.id}' status='new' datatarget='#ModalMonCompteSettingDemand' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

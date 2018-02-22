@@ -9,10 +9,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.notificationgru.manage_notification_gru.title}</h2>
 			<div class="box-tools">
-        <#if !existsDemand(demands,"notificationgru")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='first' datatarget='#ModalNotificationGruDemand' />
-        <#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='new' datatarget='#ModalNotificationGruDemand' />
+                                <#if is_role_for_action_create_notification_gru_demand >
+                                        <#if !existsDemand(demands,"notificationgru")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='first' datatarget='#ModalNotificationGruDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=notificationgru&id=${application.id}' status='new' datatarget='#ModalNotificationGruDemand' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

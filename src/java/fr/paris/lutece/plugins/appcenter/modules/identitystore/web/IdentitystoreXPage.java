@@ -92,6 +92,8 @@ public class IdentitystoreXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_IDENTITYSTORE, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_IDENTITYSTORE.toLowerCase( ) );
+        
         Map<String,Attribute> mapAttributes = AttributeHome.getAttributesMap();
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
@@ -111,6 +113,8 @@ public class IdentitystoreXPage extends AppCenterXPage
     @Action( value = ACTION_ADD_IDENTITYSTORE_DEMAND )
     public XPage doAddAccessDemand( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_IDENTITYSTORE_DEMAND.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = getApplication( request );
         IdentitystoreDemand identitystoreDemand = new IdentitystoreDemand( );

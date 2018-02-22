@@ -47,9 +47,13 @@ import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
+import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.plugins.appcenter.web.Constants;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
@@ -58,6 +62,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.HashMap;
@@ -90,6 +95,7 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+    private static final String MARK_ROLES_LIST = "roles_list";
 
     
     //Session
@@ -260,8 +266,16 @@ public abstract class AppCenterXPage extends MVCApplication
         addDatas( request, application, model ,getDatasName(), getDatasClass() );
         
         //Add the user
-        model.put( Constants.MARK_USER, UserService.getCurrentUser( request, application.getId( ) ));
+        User user = UserService.getCurrentUser( request, application.getId( ) );
+        model.put( Constants.MARK_USER, user );
 
+        //Fill permissions for the user role
+        int nUserRole = ApplicationHome.getUserRole( application.getId( ), user.getId( ) );
+        fillPermissionsForRole( model, nUserRole);
+
+        ReferenceList rolesList = RoleService.getRolesList( nUserRole );
+        AppCenterUtils.addEmptyItem( rolesList, getLocale( request ) );
+        model.put( MARK_ROLES_LIST, rolesList );
     }
     
     protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )
@@ -287,6 +301,53 @@ public abstract class AppCenterXPage extends MVCApplication
         }
         model.put( Constants.MARK_DATAS, applicationDatas );
         
+    }
+    
+    protected int checkRole( HttpServletRequest request, String strPropertyMappingXPageRole ) throws SiteMessageException
+    {
+        int nId = Integer.parseInt( request.getParameter( Constants.PARAM_ID_APPLICATION ) );
+        String strUserId = UserService.getCurrentUserId( request );
+        int nUserRole = ApplicationHome.getUserRole( nId, strUserId );
+
+        if ( !hasRoleFor( nUserRole, strPropertyMappingXPageRole ) )
+        {            
+            SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
+        }
+        
+        return nUserRole;
+    }
+    
+    private boolean hasRoleFor( int nUserRole, String strPropertyMappingXPageRole )
+    {
+        String strMappingXPageRole = AppPropertiesService.getProperty( strPropertyMappingXPageRole );
+
+        if ( strMappingXPageRole != null )
+        {
+            String [ ] tabXPageRole = strMappingXPageRole.split( "," );
+
+            for ( String strRole : tabXPageRole )
+            {
+                if ( Integer.parseInt( strRole ) == nUserRole )
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private void fillPermissionsForRole( Map<String,Object> model, int nUserRole )
+    {
+        List<String> listPermissions = AppPropertiesService.getKeys( Constants.PROPERTY_MAPPING_XPAGE_ROLE );
+        
+        for (String Permission : listPermissions)
+        {
+            String strMarkIsRoleWithPermission = Constants.MARK_IS_ROLE + Permission.replaceFirst( Constants.PROPERTY_MAPPING_XPAGE_ROLE, "" );
+            model.put( strMarkIsRoleWithPermission, hasRoleFor( nUserRole, Permission ));
+        }
     }
     
     protected abstract String getDemandType( );

@@ -8,22 +8,32 @@
 			<a class="btn btn-app" href="jsp/site/Portal.jsp?page=application" title="Mes applications">
 				<span class="fa fa-home"></span> Mes applications
 			</a>
-			<a class="btn btn-app" href="jsp/site/Portal.jsp?page=support&id=${application.id}" title="Support Lutèce">
-				<span class="fa fa-question-circle-o"></span> Support Lutèce
-			</a>
+			<#if is_role_for_view_manage_support >
+                                <a class="btn btn-app" href="jsp/site/Portal.jsp?page=support&id=${application.id}" title="Support Lutèce">
+                                        <span class="fa fa-question-circle-o"></span> Support Lutèce
+                                </a>
+                        </#if>
 			<#if user.admin>
-			<!-- <button id="buttonModifyApplication" type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
-				<span class="fa fa-edit"></span> Modifier
-			</button>
-			<button type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
-				<span class="fa fa-user-plus"></span> Utilisateurs
-			</button>
-			<a class="btn btn-app" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">
-				<i class="fa fa-eye"></i> Demandes
-			</a>
-			<a class="btn btn-app btn-danger" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
-				<span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
-			</a> -->
+			<!-- <#if is_role_for_action_modify_application >
+                                <button id="buttonModifyApplication" type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
+                                        <span class="fa fa-edit"></span> Modifier
+                                </button>
+                        </#if>
+                        <#if is_role_for_action_add_user >
+                                <button type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
+                                        <span class="fa fa-user-plus"></span> Utilisateurs
+                                </button>
+                        </#if>
+                        <#if is_role_for_view_demands >
+                                <a class="btn btn-app" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">
+                                        <i class="fa fa-eye"></i> Demandes
+                                </a>
+                        </#if>
+                        <#if is_role_for_action_remove_user >
+                                <a class="btn btn-app btn-danger" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
+                                        <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
+                                </a>
+                        </#if> -->
 			</#if>
 		</div>
 		<h1>${application.code!} <#if application.code?has_content> - </#if> ${application.name}</h1>
@@ -151,14 +161,14 @@
 						<div class="form-group">
 							<label for="user_email" class="col-form-label">#i18n{appcenter.modify_application.labelUserEmail} <@icon style="asterisk" />
 							</label>
-							<input type="text" id="user_email" name="user_email" maxlength="50" value="" class="form-control" required />
+							<input type="text" id="user_id" name="user_id" maxlength="50" value="" class="form-control" required />
 						</div>
 						<div class="form-group">
 							<label for="user_role" class="col-form-label">#i18n{appcenter.modify_application.labelRole} <@icon style="asterisk" />
 							</label>
 							<select id="user_role" name="user_role" class="form-control">
-								<#if user.delegateRoles?has_content>
-								<#list user.delegateRoles as item>
+								<#if roles_list?has_content>
+								<#list roles_list as item>
         								<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
 								</#list>
 								</#if>
@@ -233,9 +243,25 @@ $(function(){
 
 <#macro tabEnvis tab application errors infos user> 
 
+<#assign show_panel_one = is_role_for_action_modify_application
+                        || is_role_for_action_add_user
+                        || is_role_for_view_demands
+                        || is_role_for_action_remove_application >
+<#assign show_panel_two = is_role_for_view_manage_app_code_demands
+                        || is_role_for_view_manage_sources
+                        || is_role_for_view_manage_jobs
+                        || is_role_for_view_manage_applications >
+<#assign show_panel_three = is_role_for_view_manage_environment_demands
+                        || is_role_for_view_manage_guichet_pro_demands
+                        || is_role_for_view_manage_identitystore
+                        || is_role_for_view_manage_moncomptesettings_demand
+                        || is_role_for_view_manage_notification_gru_demands
+                        || is_role_for_view_manage_agents
+                        || is_role_for_view_manage_wsso_demands >
+                        
 <div class="col-xs-12 col-sm-3">
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable=true">
-		<#if user.admin>
+		<#if show_panel_one >
 			<div class="panel panel-pink">
 				<div class="panel-heading" role="tab" id="headingTwo">
 					<h4 class="panel-title">
@@ -245,71 +271,81 @@ $(function(){
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 					<ul class="list-group">
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-xs-1">
-									<i class="fa fa-edit"></i>
-								</div>
-								<div class="col-xs-11">
-									<a id="buttonModifyApplication" data-toggle="modal" data-target="#ModalModify" style="cursor:pointer;">#i18n{appcenter.modify_application.buttonModifyAppDescription}</a>
-								</div>
-							</div>
-						</li>
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-xs-1">
-									<i class="fa fa-user-plus"></i>
-								</div>
-								<div class="col-xs-11">
-									<a data-toggle="modal" data-target="#ModalAddUser" style="cursor:pointer;">
-										#i18n{appcenter.modify_application.buttonAddUser}
-									</a>
-								</div>
-						</li>
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-xs-1">
-									<i class="fa fa-eye"></i>
-								</div>
-								<div class="col-xs-11">
-									<a href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">Voir toutes les demandes</a>
-								</div>
-							</div>
-						</li>
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-xs-1">
-									<i class="fa fa-trash"></i>
-								</div>
-								<div class="col-xs-11">
-									<a href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">#i18n{portal.util.labelDelete}</a>
-								</div>
-							</div>
-						</li>
+						<#if is_role_for_action_modify_application >
+                                                        <li class="list-group-item">
+                                                                <div class="row">
+                                                                        <div class="col-xs-1">
+                                                                                <i class="fa fa-edit"></i>
+                                                                        </div>
+                                                                        <div class="col-xs-11">
+                                                                                <a id="buttonModifyApplication" data-toggle="modal" data-target="#ModalModify" style="cursor:pointer;">#i18n{appcenter.modify_application.buttonModifyAppDescription}</a>
+                                                                        </div>
+                                                                </div>
+                                                        </li>
+                                                </#if>
+                                                <#if is_role_for_action_add_user >
+                                                        <li class="list-group-item">
+                                                                <div class="row">
+                                                                        <div class="col-xs-1">
+                                                                                <i class="fa fa-user-plus"></i>
+                                                                        </div>
+                                                                        <div class="col-xs-11">
+                                                                                <a data-toggle="modal" data-target="#ModalAddUser" style="cursor:pointer;">
+                                                                                        #i18n{appcenter.modify_application.buttonAddUser}
+                                                                                </a>
+                                                                        </div>
+                                                        </li>
+                                                </#if>
+                                                <#if is_role_for_view_demands >
+                                                        <li class="list-group-item">
+                                                                <div class="row">
+                                                                        <div class="col-xs-1">
+                                                                                <i class="fa fa-eye"></i>
+                                                                        </div>
+                                                                        <div class="col-xs-11">
+                                                                                <a href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">Voir toutes les demandes</a>
+                                                                        </div>
+                                                                </div>
+                                                        </li>
+                                                </#if>
+                                                <#if is_role_for_action_remove_application >
+                                                        <li class="list-group-item">
+                                                                <div class="row">
+                                                                        <div class="col-xs-1">
+                                                                                <i class="fa fa-trash"></i>
+                                                                        </div>
+                                                                        <div class="col-xs-11">
+                                                                                <a href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">#i18n{portal.util.labelDelete}</a>
+                                                                        </div>
+                                                                </div>
+                                                        </li>
+                                                </#if>
 					</ul>
 				</div>
 			</div>
 		</#if>
-		<div class="panel panel-<#if !active_environment?? || active_environment == ''>purple<#else>purple</#if>">
-			<div class="panel-heading" role="tab" id="headingOne">
-				<h4 class="panel-title">
-					<i class="fa fa-cog"></i>
-					<#if !active_environment?? || active_environment == ''>
-						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Configurer l'application</a>
-					<#else>
-						<a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a>
-					</#if>
-				</h4>
-			</div>
-			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-					<#if !active_environment??>
-						<@listDemandTypes tab="general" application=application errors=errors infos=infos user=user />
-					</#if>
-			</div>
-		</div>
+		<#if show_panel_two>
+                        <div class="panel panel-<#if !active_environment?? || active_environment == ''>purple<#else>purple</#if>">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                                <i class="fa fa-cog"></i>
+                                                <#if !active_environment?? || active_environment == ''>
+                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Configurer l'application</a>
+                                                <#else>
+                                                        <a href="jsp/site/Portal.jsp?page=application&view=modifyApplication&id=${application.id}&active_environment=no_active_environment">Paramétrages globaux</a>
+                                                </#if>
+                                        </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                <#if !active_environment??>
+                                                        <@listDemandTypes tab="general" application=application errors=errors infos=infos user=user />
+                                                </#if>
+                                </div>
+                        </div>
+                </#if>
 		
 		
-		<#if application.listEnvironment?size gt 0>
+		<#if show_panel_three && application.listEnvironment?size gt 0>
 			<#list application.listEnvironment as envi>
 				<div class="panel panel-<#if active_environment?? && active_environment.prefix == envi.prefix>info<#else>default</#if>">
 						<div class="panel-heading" role="tab" id="heading${envi?index}">

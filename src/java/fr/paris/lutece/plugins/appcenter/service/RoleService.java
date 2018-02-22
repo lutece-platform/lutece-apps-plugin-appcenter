@@ -43,18 +43,18 @@ import fr.paris.lutece.util.ReferenceList;
  */
 public class RoleService
 {
-    public static final int ROLE_NONE = 0;
-    public static final int ROLE_ADMIN = 1;
-    public static final int ROLE_OWNER = 2;
+    public static final int ROLE_ADMIN = 0;
+    public static final int ROLE_OWNER = 1;
+    public static final int ROLE_MODIFY = 2;
     public static final int ROLE_VIEW = 3;
-    public static final int ROLE_MODIFY = 4;
+    public static final int ROLE_NONE = 4;
 
     private static final String KEY_PREFIX = "appcenter.role.";
     private static final String [ ] ROLES_KEYS = {
-            "none", "admin", "owner", "view", "modify"
+            "admin", "owner", "modify", "view", "none"
     };
     private static final int [ ] ROLES_VALUES = {
-            ROLE_NONE, ROLE_ADMIN, ROLE_OWNER, ROLE_VIEW, ROLE_MODIFY
+            ROLE_ADMIN, ROLE_OWNER, ROLE_MODIFY, ROLE_VIEW
     };
 
     /**
@@ -62,13 +62,16 @@ public class RoleService
      * 
      * @return The list
      */
-    public static ReferenceList getRolesList( )
+    public static ReferenceList getRolesList( int nUserRole )
     {
         ReferenceList list = new ReferenceList( );
-        for ( int i = 0; i < ROLES_KEYS.length; i++ )
+        for ( int i = 0; i < ROLES_VALUES.length; i++ )
         {
-            String strRole = getRoleName( i );
-            list.addItem( ROLES_VALUES [i], strRole );
+            if ( nUserRole == ROLE_ADMIN || ROLES_VALUES [i] > nUserRole )
+            {
+                String strRole = getRoleName( ROLES_VALUES [i] );
+                list.addItem( ROLES_VALUES [i], strRole );
+            }
         }
         return list;
     }

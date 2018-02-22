@@ -9,10 +9,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.guichetpro.manage_guichet_pro.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"guichetpro") >
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='first' datatarget='#ModalGuichetProDemand' />
-        <#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='new' datatarget='#ModalGuichetProDemand' />
+				<#if is_role_for_action_create_guichet_pro_demand >
+                                    <#if !existsDemand(demands,"guichetpro") >
+                                            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='first' datatarget='#ModalGuichetProDemand' />
+                                    <#else>
+                                            <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=guichetpro&id=${application.id}' status='new' datatarget='#ModalGuichetProDemand' />
+                                    </#if>
 				</#if>
 			</div>
 		</div>

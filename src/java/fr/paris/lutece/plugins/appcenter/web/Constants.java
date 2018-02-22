@@ -61,11 +61,13 @@ public class Constants
     public static final String MARK_ENVIRONMENT = "environment";
     public static final String MARK_HISTORY_LIST = "listHistory";
     public static final String MARK_ROLES_LIST = "roles_list";
+    public static final String MARK_IS_ROLE = "is_role_for_";
     public static final String MARK_DEFAULT_ROLE = "default_role";
     public static final String MARK_USERS_LIST = "users_list";
     public static final String MARK_USER = "user";
     public static final String MARK_REPO_LIST = "repo_list";
   
-    
+    //Property
+    public static final String PROPERTY_MAPPING_XPAGE_ROLE = "appcenter.mapping_xpage_role.";
     
 }

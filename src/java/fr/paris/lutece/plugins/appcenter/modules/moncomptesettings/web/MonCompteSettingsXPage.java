@@ -83,6 +83,8 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     @View( value = VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND, defaultView = true ) 
     public XPage getManageMoncompteSettingsDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_MANAGE_MONCOMPTESETTINGS_DEMAND.toLowerCase( ) );
+        
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
 
@@ -92,6 +94,8 @@ public class MonCompteSettingsXPage extends AppCenterXPage
     @Action( ACTION_CREATE_MONCOMPTESETTINGS_DEMAND )
     public XPage doCreateMonCompteSettingsDemand( HttpServletRequest request )throws UserNotSignedException, SiteMessageException
     {
+        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_CREATE_MONCOMPTESETTINGS_DEMAND.toLowerCase( ) );
+        
         int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
         Application application = ApplicationHome.findByPrimaryKey( nId );
 

@@ -38,12 +38,15 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplication;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
@@ -63,6 +66,8 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
     // Parameters
     private static final String PARAMETER_ID_USERAPPLICATION = "id";
     private static final String PARAMETER_USER_ID = "user_id";
+    private static final String PARAMETER_USER_ROLE = "user_role";
+    
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_USERAPPLICATIONS = "appcenter.manage_userapplications.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_USERAPPLICATION = "appcenter.modify_userapplication.pageTitle";
@@ -135,7 +140,9 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
         model.put( MARK_USERAPPLICATION, _userapplication );
         model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsReferenceList( ) );
         model.put( MARK_USERS_LIST, UserService.getUserList( ) );
-        model.put( MARK_ROLES_LIST, RoleService.getRolesList( ) );
+        ReferenceList rolesList = RoleService.getRolesList( RoleService.ROLE_ADMIN );
+        AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
+        model.put( MARK_ROLES_LIST, rolesList );
         return getPage( PROPERTY_PAGE_TITLE_CREATE_USERAPPLICATION, TEMPLATE_CREATE_USERAPPLICATION, model );
     }
 
@@ -223,7 +230,9 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USERAPPLICATION, _userapplication );
-        model.put( MARK_ROLES_LIST, RoleService.getRolesList( ) );
+        ReferenceList rolesList = RoleService.getRolesList( RoleService.ROLE_ADMIN );
+        AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
+        model.put( MARK_ROLES_LIST, rolesList );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_USERAPPLICATION, TEMPLATE_MODIFY_USERAPPLICATION, model );
     }
@@ -241,9 +250,13 @@ public class UserApplicationJspBean extends ManageAppCenterJspBean
         populate( _userapplication, request );
 
         // Check constraints
-        if ( !validateBean( _userapplication, VALIDATION_ATTRIBUTES_PREFIX ) )
+        // Also check user role parameter because populate method init the field to 0 in _userapplication
+        if ( !validateBean( _userapplication, VALIDATION_ATTRIBUTES_PREFIX ) || request.getParameter( PARAMETER_USER_ROLE ).isEmpty( ) )
         {
-            return redirect( request, VIEW_MODIFY_USERAPPLICATION, PARAMETER_ID_USERAPPLICATION, _userapplication.getId( ) );
+            Map<String, String> mapParameters = new HashMap<String, String>( );
+            mapParameters.put( PARAMETER_ID_USERAPPLICATION, Integer.toString( _userapplication.getId( ) ) );
+            mapParameters.put( PARAMETER_USER_ID, _userapplication.getUserId( ) );
+            return redirect( request, VIEW_MODIFY_USERAPPLICATION, mapParameters );
         }
 
         UserApplicationHome.update( _userapplication );

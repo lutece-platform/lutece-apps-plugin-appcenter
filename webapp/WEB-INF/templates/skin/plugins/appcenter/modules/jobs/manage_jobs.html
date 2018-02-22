@@ -9,10 +9,12 @@
 		<div class="box-header">
 			<h2 class="box-title">#i18n{module.appcenter.jobs.manage_jobs.title}</h2>
 			<div class="box-tools">
-				<#if !existsDemand(demands,"jobs")>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='first' datatarget='#ModalJobDemand' />
-        <#else>
-					<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='new' datatarget='#ModalJobDemand' />
+				<#if is_role_for_action_add_job >
+                                        <#if !existsDemand(demands,"jobs")>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='first' datatarget='#ModalJobDemand' />
+                                        <#else>
+                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=jobs&id=${application.id}' status='new' datatarget='#ModalJobDemand' />
+                                        </#if>
 				</#if>
 			</div>
 		</div>

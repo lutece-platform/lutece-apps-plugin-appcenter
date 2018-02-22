@@ -45,7 +45,6 @@ public class User
    // Variables declarations 
     private String _strId;
     private boolean _bAdmin;
-    private ReferenceList _listDelegateRoles = new ReferenceList();
     
     
        /**
@@ -83,24 +82,4 @@ public class User
     {
         _bAdmin = Admin;
     }
-    
-    /**
-     * Return the list of roles that can be delegated to other users
-     * @return The list
-     */
-    public ReferenceList getDelegateRoles()
-    {
-        return _listDelegateRoles;
-    }
-
-    /**
-     * Sets the list of roles that can be delegated to other users
-     * @param list The list
-     */    
-    public void setDelegateRoles( ReferenceList list )
-    {
-        _listDelegateRoles = list;
-    }
-    
-    
 }

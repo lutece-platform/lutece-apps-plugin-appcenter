@@ -9,10 +9,12 @@
 				<div class="box-header">
 					<h2 class="box-title">#i18n{module.appcenter.openam.manage_openam_agents.title}</h2>
 					<div class="box-tools">
-						<#if !existsDemand(demands,"openam")>
-							<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
-						 <#else>
-							<@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='new' datatarget='#ModalOpenAMAgentDemand' />
+						<#if is_role_for_action_add_agent >
+                                                        <#if !existsDemand(demands,"openam")>
+                                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='first' datatarget='#ModalOpenAMAgentDemand' />
+                                                         <#else>
+                                                                <@makeDemandButton actionUrl='jsp/site/Portal.jsp?page=openam&id=${application.id}' status='new' datatarget='#ModalOpenAMAgentDemand' />
+                                                        </#if>
 						</#if>
 					</div>
 				</div>
