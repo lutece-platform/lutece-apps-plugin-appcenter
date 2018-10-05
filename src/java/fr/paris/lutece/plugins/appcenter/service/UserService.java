@@ -64,7 +64,7 @@ public class UserService
             ReferenceList list = new ReferenceList( );
             for ( LuteceUser user : SecurityService.getInstance( ).getUsers( ) )
             {
-                list.addItem( user.getEmail( ), user.getEmail( ) );
+                list.addItem( getEmailUser( user ), getEmailUser( user ) );
             }
             return list;
 
@@ -87,7 +87,7 @@ public class UserService
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
-            return user.getEmail( );
+            return getEmailUser( user );
         }
         else
         {
@@ -112,8 +112,8 @@ public class UserService
             LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
             if( luteceUser != null )
             {
-                user.setId( luteceUser.getEmail( ) );
-                int nRole = ApplicationHome.getUserRole( nApplicationId, luteceUser.getEmail( ) );
+                user.setId( getEmailUser( luteceUser ) );
+                int nRole = ApplicationHome.getUserRole( nApplicationId, getEmailUser( luteceUser ) );
                 boolean bAdmin = (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
                 user.setAdmin( bAdmin );
             }
@@ -124,6 +124,26 @@ public class UserService
             user.setAdmin( true );
         }
         return user;
+
+    }
+
+    /**
+     * Gets the user's email
+     * 
+     * @param user
+     *            The user
+     * @return The mail
+     */
+    public static String getEmailUser( LuteceUser user )
+    {
+        String strUserEmail = null;
+
+        if( user != null )
+        {
+            strUserEmail = user.getEmail( ) == null ? user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL ): user.getEmail( );
+        }
+
+        return strUserEmail;
 
     }
 

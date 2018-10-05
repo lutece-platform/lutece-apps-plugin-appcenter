@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.appcenter.modules.support.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.file.File;
@@ -105,8 +106,7 @@ public class DoDownloadFile
                 throw new UserNotSignedException( );
             }
         }
-        
-        if ( user != null && !ApplicationHome.isAuthorized( nIdApp, user.getEmail( ) ) )
+        if ( user != null && !ApplicationHome.isAuthorized( nIdApp, UserService.getEmailUser( user ) ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
         }

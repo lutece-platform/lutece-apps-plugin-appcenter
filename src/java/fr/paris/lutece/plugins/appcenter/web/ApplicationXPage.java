@@ -153,9 +153,7 @@ public class ApplicationXPage extends AppCenterXPage
             {
                 throw new UserNotSignedException( );
             }
-            
-            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( user.getEmail( ) ));
-
+            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( UserService.getEmailUser( user ) ));
             return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
         }
         

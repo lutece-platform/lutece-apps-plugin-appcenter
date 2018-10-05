@@ -137,7 +137,7 @@ public abstract class AppCenterXPage extends MVCApplication
             {
                 SiteMessageService.setMessage( request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
             }
-            if ( user != null && !ApplicationHome.isAuthorized( nId, user.getEmail( ) ) )
+            if ( user != null && !ApplicationHome.isAuthorized( nId, UserService.getEmailUser( user ) ) )
             {
                 SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
             }
@@ -226,7 +226,7 @@ public abstract class AppCenterXPage extends MVCApplication
     	demand.setIdApplication(getApplication(request).getId());
     	//Set the demand owner
         LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
-        demand.setIdUserFront( (user != null) ? user.getEmail( ) : StringUtils.EMPTY );
+        demand.setIdUserFront( (user != null) ? UserService.getEmailUser( user ) : StringUtils.EMPTY );
         if ( demand.isDependingOfEnvironment() )
         {
             //Get the active environment in session
