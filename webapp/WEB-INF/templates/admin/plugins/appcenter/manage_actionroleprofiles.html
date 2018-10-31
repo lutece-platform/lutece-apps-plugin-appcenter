@@ -1,0 +1,47 @@
+<#include "manageactionrolesprofile_tabs.html" />
+<@tabs2 tab="actionroleprofile" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_actionroleprofile.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_actionroleprofile' action='jsp/admin/plugins/appcenter/ManageActionRoleProfiles.jsp'>
+			<@button type='submit' name='view_createActionRoleProfile' buttonIcon='plus' title='#i18n{appcenter.manage_actionroleprofiles.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            
+            <th>#i18n{appcenter.manage_actionroleprofiles.columnCodeProfile}</th>
+            <th>#i18n{appcenter.manage_actionroleprofiles.columnCodeActionRole}</th>
+            <th>#i18n{appcenter.manage_actionroleprofiles.columnCodeResource}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list actionroleprofile_list as actionroleprofile >
+        <tr>
+            
+            <td>
+                ${actionroleprofile.codeProfile}
+            </td>
+            <td>
+                ${actionroleprofile.codeActionRole}
+            </td>
+            <td>
+                ${actionroleprofile.codeResource}
+            </td>
+        <td>
+					
+			<@aButton href='jsp/admin/plugins/appcenter/ManageActionRoleProfiles.jsp?action=confirmRemoveActionRoleProfile&codeActionRole=${actionroleprofile.codeActionRole}&codeProfile=${actionroleprofile.codeProfile}&codeResource=${actionroleprofile.codeResource}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

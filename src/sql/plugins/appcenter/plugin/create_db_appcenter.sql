@@ -161,3 +161,69 @@ name varchar(50) default '' NOT NULL,
 description varchar(255) default '',
 PRIMARY KEY (id_demand_type_category)
 );
+
+
+--
+-- Structure for table appcenter_action_role
+--
+
+DROP TABLE IF EXISTS appcenter_action_role;
+CREATE TABLE appcenter_action_role (
+id_action int AUTO_INCREMENT,
+code varchar(50) default '' NOT NULL,
+label varchar(255) default '' NOT NULL,
+resource_type varchar(50) default '' NOT NULL,
+PRIMARY KEY (id_action),
+  UNIQUE KEY `IDX_ACTION_ROLE` (`code`)
+);
+
+--
+-- Structure for table appcenter_user_application_profile
+--
+
+DROP TABLE IF EXISTS appcenter_user_application_profile;
+CREATE TABLE appcenter_user_application_profile (
+id_profile int default '0' NOT NULL,
+id_application int default '0' NOT NULL,
+id_user varchar(60) default '' NOT NULL,
+PRIMARY KEY (id_user, id_profile, id_application)
+);
+
+--
+-- Structure for table appcenter_action_role_profile
+--
+
+DROP TABLE IF EXISTS appcenter_action_role_profile;
+CREATE TABLE appcenter_action_role_profile (
+code_action_role varchar(50) NOT NULL,
+code_profile varchar(50) default '' NOT NULL,
+code_resource varchar(50) default '' NOT NULL,
+PRIMARY KEY (code_profile, code_action_role, code_resource)
+);
+
+--
+-- Structure for table appcenter_profile
+--
+
+DROP TABLE IF EXISTS appcenter_profile;
+CREATE TABLE appcenter_profile (
+id_profile int AUTO_INCREMENT,
+code varchar(50) NOT NULL,
+label varchar(255) default '' NOT NULL,
+PRIMARY KEY (id_profile),
+  UNIQUE KEY `IDX_PROFILE` (`code`)
+);
+
+--
+-- Structure for table appcenter_resource
+--
+
+DROP TABLE IF EXISTS appcenter_resource;
+CREATE TABLE appcenter_resource (
+id_resource int AUTO_INCREMENT,
+code varchar(50) NOT NULL,
+label varchar(255) NOT NULL,
+resource_type varchar(50) default '' NOT NULL,
+PRIMARY KEY (id_resource),
+  UNIQUE KEY `IDX_RESOURCE` (`code`)
+);

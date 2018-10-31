@@ -1,0 +1,44 @@
+<#include "manageprofile_tabs.html" />
+<@tabs2 tab="profile" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_profile.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_profile' action='jsp/admin/plugins/appcenter/ManageProfiles.jsp'>
+			<@button type='submit' name='view_createProfile' buttonIcon='plus' title='#i18n{appcenter.manage_profiles.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_profiles.columnCode}</th>
+            <th>#i18n{appcenter.manage_profiles.columnLabel}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list profile_list as profile >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${profile.code}
+            </td>
+            <td>
+                ${profile.label}
+            </td>
+        <td>
+			<@aButton href='jsp/admin/plugins/appcenter/ManageProfiles.jsp?view=modifyProfile&id=${profile.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+						
+			<@aButton href='jsp/admin/plugins/appcenter/ManageProfiles.jsp?action=confirmRemoveProfile&id=${profile.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

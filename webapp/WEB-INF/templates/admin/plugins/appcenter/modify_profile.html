@@ -1,0 +1,20 @@
+<#include "manageprofile_tabs.html" />
+<@tabs2 tab="profile" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_profile.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_profile" action="jsp/admin/plugins/appcenter/ManageProfiles.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${profile.id}"/>
+			
+				<@formGroup labelKey='#i18n{appcenter.modify_profile.labelCode}' helpKey='#i18n{appcenter.modify_profile.labelCode.help}' mandatory=true>
+					<@input type='text' name='code' value='${profile.code}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_profile.labelLabel}' helpKey='#i18n{appcenter.modify_profile.labelLabel.help}' mandatory=true>
+					<@input type='text' name='label' value='${profile.label}' />
+				</@formGroup>
+        <@actionButtons button1Name="action_modifyProfile" button2Name="view_manageProfile"/>
+    </@tform>
+	</@boxBody>
+</@box>

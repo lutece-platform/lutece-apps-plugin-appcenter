@@ -33,6 +33,46 @@
             <feature-url>jsp/admin/plugins/appcenter/ManageApplications.jsp</feature-url>
             <feature-icon-url></feature-icon-url>
       </admin-feature>
+	<admin-feature>
+            <feature-id>APPCENTER_RESOURCE_MANAGEMENT</feature-id>
+            <feature-title>appcenter.adminFeature.ManageResource.name</feature-title>
+            <feature-description>appcenter.adminFeature.ManageResource.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/appcenter/ManageResources.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+      </admin-feature>
+        <admin-feature>
+            <feature-id>APPCENTER_ACTION_ROLES_MANAGEMENT</feature-id>
+            <feature-title>appcenter.adminFeature.ManageActionRoles.name</feature-title>
+            <feature-description>appcenter.adminFeature.ManageActionRoles.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/appcenter/ManageActionRoles.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+      </admin-feature>
+        <admin-feature>
+            <feature-id>APPCENTER_PROFILE_MANAGEMENT</feature-id>
+            <feature-title>appcenter.adminFeature.ManageProfile.name</feature-title>
+            <feature-description>appcenter.adminFeature.ManageProfile.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/appcenter/ManageProfiles.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+      </admin-feature>
+        <admin-feature>
+            <feature-id>APPCENTER_USER_APPLICATION_PROFILE_MANAGEMENT</feature-id>
+            <feature-title>appcenter.adminFeature.ManageUserApplicationProfile.name</feature-title>
+            <feature-description>appcenter.adminFeature.ManageUserApplicationProfile.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/appcenter/ManageUserApplicationProfiles.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+      </admin-feature>
+        <admin-feature>
+            <feature-id>APPCENTER_ACTION_ROLES_PROFILE_MANAGEMENT</feature-id>
+            <feature-title>appcenter.adminFeature.ManageActionRolesProfile.name</feature-title>
+            <feature-description>appcenter.adminFeature.ManageActionRolesProfile.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/appcenter/ManageActionRoleProfiles.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+      </admin-feature>
     </admin-features>    
 
     <!-- XPages parameters -->

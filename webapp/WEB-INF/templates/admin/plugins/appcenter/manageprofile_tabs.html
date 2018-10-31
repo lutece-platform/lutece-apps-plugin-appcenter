@@ -1,0 +1,10 @@
+<#macro tabs2 tab >
+<@tabs>
+	<@listTabs>
+			<li <#if tab="profile">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/ManageProfiles.jsp">#i18n{appcenter.manage_profiles.pageTitle}</a>
+			</li>
+	</@listTabs>
+</@tabs>
+
+</#macro>

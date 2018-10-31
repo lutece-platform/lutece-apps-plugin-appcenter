@@ -17,6 +17,13 @@
     <bean id="appcenter.attributeDAO" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.business.AttributeDAO" />
     <bean id="appcenter.notifyDAO" class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigDAO" />
     <bean id="appcenter.demandTypeCategoryDAO" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.DemandTypeCategoryDAO" />
+
+    <bean id="appcenter.actionRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.ActionRoleDAO" />
+    <bean id="appcenter.userApplicationProfileDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationProfileDAO" />
+    <bean id="appcenter.actionRoleProfileDAO" class="fr.paris.lutece.plugins.appcenter.business.ActionRoleProfileDAO" />
+    <bean id="appcenter.profileDAO" class="fr.paris.lutece.plugins.appcenter.business.ProfileDAO" />
+    <bean id="appcenter.resourceDAO" class="fr.paris.lutece.plugins.appcenter.business.ResourceDAO" />
+
     <!-- Services -->
     
     <bean id="appcenter.taskCustomDemandStatusConfigService"

@@ -1,0 +1,48 @@
+<#include "manageresource_tabs.html" />
+<@tabs2 tab="resource" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_resource.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_resource' action='jsp/admin/plugins/appcenter/ManageResources.jsp'>
+			<@button type='submit' name='view_createResource' buttonIcon='plus' title='#i18n{appcenter.manage_resources.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_resources.columnCode}</th>
+            <th>#i18n{appcenter.manage_resources.columnLabel}</th>
+            <th>#i18n{appcenter.manage_resources.columnResourceType}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list resource_list as resource >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${resource.code}
+            </td>
+            <td>
+                ${resource.label}
+            </td>
+            <td>
+                ${resource.resourceType}
+            </td>
+        <td>
+			<@aButton href='jsp/admin/plugins/appcenter/ManageResources.jsp?view=modifyResource&id=${resource.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+						
+			<@aButton href='jsp/admin/plugins/appcenter/ManageResources.jsp?action=confirmRemoveResource&id=${resource.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

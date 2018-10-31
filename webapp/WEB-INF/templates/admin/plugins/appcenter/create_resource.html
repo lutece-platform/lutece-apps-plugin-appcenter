@@ -1,0 +1,24 @@
+<#include "manageresource_tabs.html" />
+<@tabs2 tab="resource" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_resource.title}' />
+	<@boxBody>
+    <@tform name='create_resource' action='jsp/admin/plugins/appcenter/ManageResources.jsp'>
+
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+        
+				<@formGroup labelKey='#i18n{appcenter.create_resource.labelCode}' helpKey='#i18n{appcenter.create_resource.labelCode.help}' mandatory=true>
+					<@input type='text' name='code' value='${resource.code!\'\'}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_resource.labelLabel}' helpKey='#i18n{appcenter.create_resource.labelLabel.help}' mandatory=true>
+					<@input type='text' name='label' value='${resource.label!\'\'}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_resource.labelResourceType}' helpKey='#i18n{appcenter.create_resource.labelResourceType.help}' mandatory=true>
+					<@input type='text' name='resource_type' value='${resource.resourceType!\'\'}' />
+				</@formGroup>
+				
+				<@actionButtons button1Name="action_createResource" button2Name="view_manageResource"/>
+    </@tform>
+	</@boxBody>
+</@box>
