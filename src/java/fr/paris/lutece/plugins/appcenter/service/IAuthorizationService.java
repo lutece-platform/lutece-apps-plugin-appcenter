@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,38 +31,23 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.ActionRole;
-import fr.paris.lutece.plugins.appcenter.business.ActionRoleHome;
-import fr.paris.lutece.plugins.appcenter.business.Profile;
-import fr.paris.lutece.plugins.appcenter.business.ProfileHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
 
-/**
- * RoleService
- */
-public class AuthorizationService implements IAuthorizationService
+public interface IAuthorizationService 
 {
-
     /**
-     * {@inheritDoc}
+     * Check if a user is authorized to access to given action role with given application and ressource
+     * @param user
+     *          The user
+     * @param idApplication
+     *          The application id
+     * @param codeActionRole
+     *          The action role code
+     * @param strResource
+     *          The ressource
+     * @return true if the user is authorized, false otherwise
      */
-    @Override
-    public boolean isAuthorized( User user, int idApplication, String codeActionRole, String strResource ) 
-    {   
-        if (user == null) return false;
-        
-        Profile profile = ProfileHome.findByUserIdAndApplicationId( user.getId( ), idApplication ) ;
-        if (profile != null)
-        {
-            
-            ActionRole actionRole = ActionRoleHome.findByCodeAndProfileAndResource( codeActionRole, profile.getId( ), strResource );
-            if (actionRole != null ) return true;
-        }
-        
-        return false ;
-    }
-
+    boolean isAuthorized( User user, int idApplication, String codeActionRole, String strResource ); 
 }
