@@ -14,10 +14,7 @@
     <bean id="appcenter.userApplicationDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationDAO" />
     <bean id="appcenter.demandDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandDAO" />
     <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
-    <bean id="appcenter.attributeDAO" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.business.AttributeDAO" />
     <bean id="appcenter.notifyDAO" class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigDAO" />
-    <bean id="appcenter.demandTypeCategoryDAO" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.business.DemandTypeCategoryDAO" />
-
     <bean id="appcenter.actionRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.ActionRoleDAO" />
     <bean id="appcenter.userApplicationProfileDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationProfileDAO" />
     <bean id="appcenter.actionRoleProfileDAO" class="fr.paris.lutece.plugins.appcenter.business.ActionRoleProfileDAO" />
@@ -31,12 +28,8 @@
         p:taskConfigDAO-ref="appcenter.customDemandStatusDAO" />
     <bean id="appcenter.taskNotifyConfigService"
         class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
-        p:taskConfigDAO-ref="appcenter.notifyDAO" />
-    
-    <bean id="appcenter.supportAsynchronousUploadHandler" class="fr.paris.lutece.plugins.appcenter.modules.support.service.SupportAsynchronousUploadHandler" />
-    
-    <!-- Provider -->
-    <bean id="appcenter.attributesProvider" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.service.LocalAttributesProvider" />    
+        p:taskConfigDAO-ref="appcenter.notifyDAO" />    
+   
     
     <!-- Task Config -->
         <bean id="appcenter.customDemandStatusTaskConfig"
@@ -47,59 +40,7 @@
         class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfig"
         scope="prototype" /> 
     
-    <!-- Tasks -->
-    <bean id="appcenter.taskTypeOpenam" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskOpenam"
-            p:titleI18nKey="module.appcenter.openam.task_title"
-            p:beanName="appcenter.taskOpenam"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-
-    <bean id="appcenter.taskOpenam" class="fr.paris.lutece.plugins.appcenter.modules.openam.service.OpenamTask" scope="prototype" />
-    <bean id="appcenter.OpenamTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.openam.web.OpenamTaskComponent"
-     p:taskType-ref="appcenter.taskTypeOpenam"
-     />
-
-    <bean id="appcenter.taskTypeMonCompteSettings" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskMonCompteSettings"
-            p:titleI18nKey="module.appcenter.moncomptesettings.task_title"
-            p:beanName="appcenter.taskMonCompteSettings"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-
-    <bean id="appcenter.taskMonCompteSettings" class="fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.service.MonCompteSettingsTask" scope="prototype" />
-    <bean id="appcenter.MonCompteSettingsTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.moncomptesettings.web.MonCompteSettingsTaskComponent"
-     p:taskType-ref="appcenter.taskTypeMonCompteSettings"
-     />
-    
-    <bean id="appcenter.taskTypeSources" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskSources"
-            p:titleI18nKey="appcenter.sources.task_title"
-            p:beanName="appcenter.taskSources"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-
-    <bean id="appcenter.taskSources" class="fr.paris.lutece.plugins.appcenter.modules.sources.service.SourcesTask" scope="prototype" />
-    <bean id="appcenter.SourcesTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.sources.web.SourcesTaskComponent"
-     p:taskType-ref="appcenter.taskTypeSources"
-     />
-    
-    <bean id="appcenter.taskTypeIdentitystore" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskIdentitystore"
-            p:titleI18nKey="module.appcenter.identitystore.task_title"
-            p:beanName="appcenter.taskIdentitystore"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-
-    <bean id="appcenter.taskIdentitystore" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.service.IdentitystoreTask" scope="prototype" />
-    <bean id="appcenter.IdentitystoreTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.identitystore.web.IdentitystoreTaskComponent"
-     p:taskType-ref="appcenter.taskTypeIdentitystore"
-     />
-    
+    <!-- Generic Tasks for Appcenter -->
     <bean id="appcenter.taskTypeCustomDemandStatus" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
             p:key="taskCustomDemandStatus"
             p:titleI18nKey="appcenter.customDemandStatus.task_title"
@@ -128,30 +69,6 @@
      p:taskConfigService-ref="appcenter.taskNotifyConfigService"
     />
     
-    <bean id="appcenter.taskTypeNotificationGru" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskNotificationGru"
-            p:titleI18nKey="module.appcenter.notificationgru.notificationGru.task_title"
-            p:beanName="appcenter.taskNotificationGru"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-    <bean id="appcenter.taskNotificationGru" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.service.NotificationGruTask" scope="prototype" />
-    <bean id="appcenter.NotificationGruTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.notificationgru.web.NotificationGruTaskComponent"
-     p:taskType-ref="appcenter.taskTypeNotificationGru"
-    />
-
-    <bean id="appcenter.taskTypeJob" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskJob"
-            p:titleI18nKey="module.appcenter.jobs.task_title"
-            p:beanName="appcenter.taskJob"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-    <bean id="appcenter.taskJob" class="fr.paris.lutece.plugins.appcenter.modules.jobs.service.JobTask" scope="prototype" />
-    <bean id="appcenter.JobTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.jobs.web.JobTaskComponent"
-     p:taskType-ref="appcenter.taskTypeJob"
-    />
-    
     <bean id="appcenter.taskCloseDemandType" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
         p:key="taskCloseDemand"
         p:titleI18nKey="appcenter.taskCloseDemand.title"
@@ -160,54 +77,5 @@
         p:formTaskRequired="true"
         p:taskForAutomaticAction="false" />
     <bean id="appcenter.taskCloseDemand" class="fr.paris.lutece.plugins.appcenter.service.task.TaskCloseDemand" scope="prototype" />
-    
-    <bean id="appcenter.taskTypeFastDeployApplication" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskFastDeployApplication"
-            p:titleI18nKey="module.appcenter.fastdeployapplication.taskApplication.task_title"
-            p:beanName="appcenter.taskFastDeployApplication"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-
-    <bean id="appcenter.taskFastDeployApplication" class="fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.service.FastDeployApplicationTask" scope="prototype" />
-    <bean id="appcenter.fastDeployApplicationTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.fastdeployapplication.web.FastDeployApplicationTaskComponent"
-     p:taskType-ref="appcenter.taskTypeFastDeployApplication"
-     />
-
-    <bean id="appcenter.taskTypeGuichetPro" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskGuichetPro"
-            p:titleI18nKey="module.appcenter.guichetpro.task_title"
-            p:beanName="appcenter.taskGuichetPro"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-    <bean id="appcenter.taskGuichetPro" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.service.GuichetProTask" scope="prototype" />
-    <bean id="appcenter.GuichetProTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.guichetpro.web.GuichetProTaskComponent"
-     p:taskType-ref="appcenter.taskTypeGuichetPro"
-    />
-
-    <bean id="appcenter.taskTypeAppCode" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskAppCode"
-            p:titleI18nKey="module.appcenter.appcode.task_title"
-            p:beanName="appcenter.taskAppCode"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-    <bean id="appcenter.taskAppCode" class="fr.paris.lutece.plugins.appcenter.modules.appcode.service.AppCodeTask" scope="prototype" />
-    <bean id="appcenter.AppCodeTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.appcode.web.AppCodeTaskComponent"
-     p:taskType-ref="appcenter.taskTypeAppCode"
-    />
-
-    <bean id="appcenter.taskTypeSupport" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-            p:key="taskSupport"
-            p:titleI18nKey="module.appcenter.support.task_title"
-            p:beanName="appcenter.taskSupport"
-            p:configRequired="false"
-            p:formTaskRequired="true"
-            p:taskForAutomaticAction="false" />
-    <bean id="appcenter.taskSupport" class="fr.paris.lutece.plugins.appcenter.modules.support.service.SupportTask" scope="prototype" />
-    <bean id="appcenter.SupportTaskComponent" class="fr.paris.lutece.plugins.appcenter.modules.support.web.SupportTaskComponent"
-     p:taskType-ref="appcenter.taskTypeSupport"
-    />
     
 </beans>

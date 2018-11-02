@@ -126,19 +126,6 @@ sender_name varchar(255) NOT NULL DEFAULT '',
 PRIMARY KEY ( id_task )
 );
 
---
--- Structure for table appcenter_attribute
---
-
-DROP TABLE IF EXISTS appcenter_attribute;
-CREATE TABLE appcenter_attribute (
-id_attribute int AUTO_INCREMENT,
-key_name varchar(255) default '' NOT NULL,
-label varchar(255) default '' NOT NULL,
-description varchar(255) default '',
-PRIMARY KEY (id_attribute)
-);
-
 DROP TABLE IF EXISTS appcenter_documentation;
 CREATE TABLE appcenter_documentation (
 id_documentation int AUTO_INCREMENT,
@@ -147,19 +134,6 @@ label long varchar,
 url long varchar,
 category varchar(255) default '',
 PRIMARY KEY (id_documentation)
-);
-
-
---
--- Structure for table appcenter_demand_type_category
---
-
-DROP TABLE IF EXISTS appcenter_demand_type_category;
-CREATE TABLE appcenter_demand_type_category (
-id_demand_type_category int AUTO_INCREMENT,
-name varchar(50) default '' NOT NULL,
-description varchar(255) default '',
-PRIMARY KEY (id_demand_type_category)
 );
 
 
