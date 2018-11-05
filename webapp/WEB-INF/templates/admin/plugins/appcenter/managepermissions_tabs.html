@@ -1,0 +1,10 @@
+<#macro tabs2 tab >
+<@tabs>
+	<@listTabs>
+			<li <#if tab="permission">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/ManagePermissions.jsp">#i18n{appcenter.manage_permissions.pageTitle}</a>
+			</li>
+	</@listTabs>
+</@tabs>
+
+</#macro>

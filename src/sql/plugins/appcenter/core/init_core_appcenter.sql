@@ -46,59 +46,59 @@ INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_RESOURCE_MANAG
 --
 -- Data for table core_admin_right
 --
-DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_ACTION_ROLES_MANAGEMENT';
+DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_PERMISSIONS_MANAGEMENT';
 INSERT INTO core_admin_right (id_right,name,level_right,admin_url,description,is_updatable,plugin_name,id_feature_group,icon_url,documentation_url, id_order ) VALUES 
-('APPCENTER_ACTION_ROLES_MANAGEMENT','appcenter.adminFeature.ManageActionRoles.name',1,'jsp/admin/plugins/appcenter/ManageActionRoles.jsp','appcenter.adminFeature.ManageActionRoles.description',0,'appcenter',NULL,NULL,NULL,4);
+('APPCENTER_PERMISSIONS_MANAGEMENT','appcenter.adminFeature.ManagePermissions.name',1,'jsp/admin/plugins/appcenter/ManagePermissions.jsp','appcenter.adminFeature.ManagePermissions.description',0,'appcenter',NULL,NULL,NULL,4);
 
 
 --
 -- Data for table core_user_right
 --
-DELETE FROM core_user_right WHERE id_right = 'APPCENTER_ACTION_ROLES_MANAGEMENT';
-INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_ACTION_ROLES_MANAGEMENT',1);
+DELETE FROM core_user_right WHERE id_right = 'APPCENTER_PERMISSIONS_MANAGEMENT';
+INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_PERMISSIONS_MANAGEMENT',1);
 
 
 --
 -- Data for table core_admin_right
 --
-DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_PROFILE_MANAGEMENT';
+DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_ROLE_MANAGEMENT';
 INSERT INTO core_admin_right (id_right,name,level_right,admin_url,description,is_updatable,plugin_name,id_feature_group,icon_url,documentation_url, id_order ) VALUES 
-('APPCENTER_PROFILE_MANAGEMENT','appcenter.adminFeature.ManageProfile.name',1,'jsp/admin/plugins/appcenter/ManageProfiles.jsp','appcenter.adminFeature.ManageProfile.description',0,'appcenter',NULL,NULL,NULL,4);
+('APPCENTER_ROLE_MANAGEMENT','appcenter.adminFeature.ManageRole.name',1,'jsp/admin/plugins/appcenter/ManageRoles.jsp','appcenter.adminFeature.ManageRole.description',0,'appcenter',NULL,NULL,NULL,4);
 
 
 --
 -- Data for table core_user_right
 --
-DELETE FROM core_user_right WHERE id_right = 'APPCENTER_PROFILE_MANAGEMENT';
-INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_PROFILE_MANAGEMENT',1);
+DELETE FROM core_user_right WHERE id_right = 'APPCENTER_ROLE_MANAGEMENT';
+INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_ROLE_MANAGEMENT',1);
 
 
 --
 -- Data for table core_admin_right
 --
-DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_USER_APPLICATION_PROFILE_MANAGEMENT';
+DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_USER_APPLICATION_ROLE_MANAGEMENT';
 INSERT INTO core_admin_right (id_right,name,level_right,admin_url,description,is_updatable,plugin_name,id_feature_group,icon_url,documentation_url, id_order ) VALUES 
-('APPCENTER_USER_APPLICATION_PROFILE_MANAGEMENT','appcenter.adminFeature.ManageUserApplicationProfile.name',1,'jsp/admin/plugins/appcenter/ManageUserApplicationProfiles.jsp','appcenter.adminFeature.ManageUserApplicationProfile.description',0,'appcenter',NULL,NULL,NULL,4);
+('APPCENTER_USER_APPLICATION_ROLE_MANAGEMENT','appcenter.adminFeature.ManageUserApplicationRole.name',1,'jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp','appcenter.adminFeature.ManageUserApplicationRole.description',0,'appcenter',NULL,NULL,NULL,4);
 
 
 --
 -- Data for table core_user_right
 --
-DELETE FROM core_user_right WHERE id_right = 'APPCENTER_USER_APPLICATION_PROFILE_MANAGEMENT';
-INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_USER_APPLICATION_PROFILE_MANAGEMENT',1);
+DELETE FROM core_user_right WHERE id_right = 'APPCENTER_USER_APPLICATION_ROLE_MANAGEMENT';
+INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_USER_APPLICATION_ROLE_MANAGEMENT',1);
 
 
 --
 -- Data for table core_admin_right
 --
-DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_ACTION_ROLES_PROFILE_MANAGEMENT';
+DELETE FROM core_admin_right WHERE id_right = 'APPCENTER_PERMISSIONS_ROLE_MANAGEMENT';
 INSERT INTO core_admin_right (id_right,name,level_right,admin_url,description,is_updatable,plugin_name,id_feature_group,icon_url,documentation_url, id_order ) VALUES 
-('APPCENTER_ACTION_ROLES_PROFILE_MANAGEMENT','appcenter.adminFeature.ManageActionRolesProfile.name',1,'jsp/admin/plugins/appcenter/ManageActionRoleProfiles.jsp','appcenter.adminFeature.ManageActionRolesProfile.description',0,'appcenter',NULL,NULL,NULL,4);
+('APPCENTER_PERMISSIONS_ROLE_MANAGEMENT','appcenter.adminFeature.ManagePermissionsRole.name',1,'jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp','appcenter.adminFeature.ManagePermissionsRole.description',0,'appcenter',NULL,NULL,NULL,4);
 
 
 --
 -- Data for table core_user_right
 --
-DELETE FROM core_user_right WHERE id_right = 'APPCENTER_ACTION_ROLES_PROFILE_MANAGEMENT';
-INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_ACTION_ROLES_PROFILE_MANAGEMENT',1);
+DELETE FROM core_user_right WHERE id_right = 'APPCENTER_PERMISSIONS_ROLE_MANAGEMENT';
+INSERT INTO core_user_right (id_right,id_user) VALUES ('APPCENTER_PERMISSIONS_ROLE_MANAGEMENT',1);
 

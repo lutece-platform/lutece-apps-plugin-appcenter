@@ -1,0 +1,10 @@
+<#macro tabs2 tab >
+<@tabs>
+	<@listTabs>
+			<li <#if tab="role">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/ManageRoles.jsp">#i18n{appcenter.manage_roles.pageTitle}</a>
+			</li>
+	</@listTabs>
+</@tabs>
+
+</#macro>

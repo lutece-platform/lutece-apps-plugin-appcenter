@@ -1,0 +1,47 @@
+<#include "manageuserapplicationrole_tabs.html" />
+<@tabs2 tab="userapplicationrole" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_userapplicationrole.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
+			<@button type='submit' name='view_createUserApplicationRole' buttonIcon='plus' title='#i18n{appcenter.manage_userapplicationroles.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+
+            <th>#i18n{appcenter.manage_userapplicationroles.columnIdRole}</th>
+            <th>#i18n{appcenter.manage_userapplicationroles.columnIdApplication}</th>
+            <th>#i18n{appcenter.manage_userapplicationroles.columnIdUser}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list userapplicationrole_list as userapplicationrole >
+        <tr>
+
+            <td>
+                ${userapplicationrole.idRole}
+            </td>
+            <td>
+                ${userapplicationrole.idApplication}
+            </td>
+            <td>
+                ${userapplicationrole.idUser}
+            </td>
+        <td>
+						
+			<@aButton href='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp?action=confirmRemoveUserApplicationRole&idRole=${userapplicationrole.idRole}&idApplication=${userapplicationrole.idApplication}&idUser=${userapplicationrole.idUser}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

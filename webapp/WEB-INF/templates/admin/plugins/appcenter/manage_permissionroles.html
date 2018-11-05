@@ -1,0 +1,47 @@
+<#include "managepermissionsrole_tabs.html" />
+<@tabs2 tab="permissionrole" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_permissionrole.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_permissionrole' action='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp'>
+			<@button type='submit' name='view_createPermissionRole' buttonIcon='plus' title='#i18n{appcenter.manage_permissionroles.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            
+            <th>#i18n{appcenter.manage_permissionroles.columnCodeRole}</th>
+            <th>#i18n{appcenter.manage_permissionroles.columnCodePermission}</th>
+            <th>#i18n{appcenter.manage_permissionroles.columnCodeResource}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list permissionrole_list as permissionrole >
+        <tr>
+            
+            <td>
+                ${permissionrole.codeRole}
+            </td>
+            <td>
+                ${permissionrole.codePermission}
+            </td>
+            <td>
+                ${permissionrole.codeResource}
+            </td>
+        <td>
+					
+			<@aButton href='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp?action=confirmRemovePermissionRole&codePermission=${permissionrole.codePermission}&codeRole=${permissionrole.codeRole}&codeResource=${permissionrole.codeResource}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

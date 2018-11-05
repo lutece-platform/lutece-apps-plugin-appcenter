@@ -51,7 +51,7 @@ import javax.servlet.http.HttpServletRequest;
  * This class provides the user interface to manage Resource features ( manage, create, modify, remove )
  */
 @Controller( controllerJsp = "ManageResources.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_RESOURCE_MANAGEMENT" )
-public class ResourceJspBean extends AbstractManageResourceJspBean
+public class ResourceJspBean extends ManageAppCenterJspBean
 {
     // Templates
     private static final String TEMPLATE_MANAGE_RESOURCES = "/admin/plugins/appcenter/manage_resources.html";

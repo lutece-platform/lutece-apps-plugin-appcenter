@@ -1,0 +1,24 @@
+<#include "managepermissionsrole_tabs.html" />
+<@tabs2 tab="permissionrole" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_permissionrole.title}' />
+	<@boxBody>
+    <@tform name='create_permissionrole' action='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp'>
+
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+        
+				<@formGroup labelKey='#i18n{appcenter.create_permissionrole.labelCodePermission}' helpKey='#i18n{appcenter.create_permissionrole.labelCodePermission.help}' mandatory=true>
+					<@input type='text' name='code_permission' value='${permissionrole.codePermission!\'\'}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_permissionrole.labelCodeRole}' helpKey='#i18n{appcenter.create_permissionrole.labelCodeRole.help}' mandatory=true>
+					<@input type='text' name='code_role' value='${permissionrole.codeRole!\'\'}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_permissionrole.labelCodeResource}' helpKey='#i18n{appcenter.create_permissionrole.labelCodeResource.help}' mandatory=true>
+					<@input type='text' name='code_resource' value='${permissionrole.codeResource!\'\'}' />
+				</@formGroup>
+				
+				<@actionButtons button1Name="action_createPermissionRole" button2Name="view_managePermissionRole"/>
+    </@tform>
+	</@boxBody>
+</@box>

@@ -1,0 +1,44 @@
+<#include "managerole_tabs.html" />
+<@tabs2 tab="role" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_role.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_role' action='jsp/admin/plugins/appcenter/ManageRoles.jsp'>
+			<@button type='submit' name='view_createRole' buttonIcon='plus' title='#i18n{appcenter.manage_roles.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{appcenter.manage_roles.columnCode}</th>
+            <th>#i18n{appcenter.manage_roles.columnLabel}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list role_list as role >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${role.code}
+            </td>
+            <td>
+                ${role.label}
+            </td>
+        <td>
+			<@aButton href='jsp/admin/plugins/appcenter/ManageRoles.jsp?view=modifyRole&id=${role.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+						
+			<@aButton href='jsp/admin/plugins/appcenter/ManageRoles.jsp?action=confirmRemoveRole&id=${role.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

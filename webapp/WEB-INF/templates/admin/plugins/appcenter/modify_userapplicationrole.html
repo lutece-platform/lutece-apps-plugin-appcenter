@@ -1,0 +1,23 @@
+<#include "manageuserapplicationrole_tabs.html" />
+<@tabs2 tab="userapplicationrole" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_userapplicationrole.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_userapplicationrole" action="jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp">
+			<@messages errors=errors />
+			<input type="hidden" id="id" name="id" value="${userapplicationrole.id}"/>
+			
+				<@formGroup labelKey='#i18n{appcenter.modify_userapplicationrole.labelIdRole}' helpKey='#i18n{appcenter.modify_userapplicationrole.labelIdRole.help}' mandatory=true>
+					<@input type='text' name='id_role' value='${userapplicationrole.idRole}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_userapplicationrole.labelIdApplication}' helpKey='#i18n{appcenter.modify_userapplicationrole.labelIdApplication.help}' mandatory=true>
+					<@input type='text' name='id_application' value='${userapplicationrole.idApplication}' />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_userapplicationrole.labelIdUser}' helpKey='#i18n{appcenter.modify_userapplicationrole.labelIdUser.help}' mandatory=true>
+					<@input type='text' name='id_user' value='${userapplicationrole.idUser}' />
+				</@formGroup>
+        <@actionButtons button1Name="action_modifyUserApplicationRole" button2Name="view_manageUserApplicationRole"/>
+    </@tform>
+	</@boxBody>
+</@box>

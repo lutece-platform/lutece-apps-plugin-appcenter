@@ -138,54 +138,54 @@ PRIMARY KEY (id_documentation)
 
 
 --
--- Structure for table appcenter_action_role
+-- Structure for table appcenter_permission
 --
 
-DROP TABLE IF EXISTS appcenter_action_role;
-CREATE TABLE appcenter_action_role (
+DROP TABLE IF EXISTS appcenter_permission;
+CREATE TABLE appcenter_permission (
 id_action int AUTO_INCREMENT,
 code varchar(50) default '' NOT NULL,
 label varchar(255) default '' NOT NULL,
 resource_type varchar(50) default '' NOT NULL,
 PRIMARY KEY (id_action),
-  UNIQUE KEY `IDX_ACTION_ROLE` (`code`)
+  UNIQUE KEY `IDX_PERMISSION` (`code`)
 );
 
 --
--- Structure for table appcenter_user_application_profile
+-- Structure for table appcenter_user_application_role
 --
 
-DROP TABLE IF EXISTS appcenter_user_application_profile;
-CREATE TABLE appcenter_user_application_profile (
-id_profile int default '0' NOT NULL,
+DROP TABLE IF EXISTS appcenter_user_application_role;
+CREATE TABLE appcenter_user_application_role (
+id_role int default '0' NOT NULL,
 id_application int default '0' NOT NULL,
 id_user varchar(60) default '' NOT NULL,
-PRIMARY KEY (id_user, id_profile, id_application)
+PRIMARY KEY (id_user, id_role, id_application)
 );
 
 --
--- Structure for table appcenter_action_role_profile
+-- Structure for table appcenter_permission_role
 --
 
-DROP TABLE IF EXISTS appcenter_action_role_profile;
-CREATE TABLE appcenter_action_role_profile (
-code_action_role varchar(50) NOT NULL,
-code_profile varchar(50) default '' NOT NULL,
+DROP TABLE IF EXISTS appcenter_permission_role;
+CREATE TABLE appcenter_permission_role (
+code_permission varchar(50) NOT NULL,
+code_role varchar(50) default '' NOT NULL,
 code_resource varchar(50) default '' NOT NULL,
-PRIMARY KEY (code_profile, code_action_role, code_resource)
+PRIMARY KEY (code_role, code_permission, code_resource)
 );
 
 --
--- Structure for table appcenter_profile
+-- Structure for table appcenter_role
 --
 
-DROP TABLE IF EXISTS appcenter_profile;
-CREATE TABLE appcenter_profile (
-id_profile int AUTO_INCREMENT,
+DROP TABLE IF EXISTS appcenter_role;
+CREATE TABLE appcenter_role (
+id_role int AUTO_INCREMENT,
 code varchar(50) NOT NULL,
 label varchar(255) default '' NOT NULL,
-PRIMARY KEY (id_profile),
-  UNIQUE KEY `IDX_PROFILE` (`code`)
+PRIMARY KEY (id_role),
+  UNIQUE KEY `IDX_ROLE` (`code`)
 );
 
 --
