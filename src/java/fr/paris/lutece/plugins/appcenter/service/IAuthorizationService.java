@@ -33,21 +33,21 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.User;
-
 public interface IAuthorizationService 
 {
     /**
      * Check if a user is authorized to access to given action role with given application and ressource
-     * @param user
-     *          The user
+     * @param strIdUser
+     *          The Lutece user id
      * @param idApplication
      *          The application id
-     * @param codeActionRole
+     * @param strPermissionCode
      *          The action role code
+     * @param strResourceType
+     *          The resource Type
      * @param strResource
      *          The ressource
      * @return true if the user is authorized, false otherwise
      */
-    boolean isAuthorized( User user, int idApplication, String codeActionRole, String strResource ); 
+    boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource ); 
 }

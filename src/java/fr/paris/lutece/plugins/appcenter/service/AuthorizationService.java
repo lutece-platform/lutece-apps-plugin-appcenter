@@ -34,32 +34,31 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.ActionRole;
-import fr.paris.lutece.plugins.appcenter.business.ActionRoleHome;
-import fr.paris.lutece.plugins.appcenter.business.Profile;
-import fr.paris.lutece.plugins.appcenter.business.ProfileHome;
-import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.business.Permission;
+import fr.paris.lutece.plugins.appcenter.business.PermissionHome;
+import fr.paris.lutece.plugins.appcenter.business.Role;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 
 /**
- * RoleService
+ * AuthorizationService
  */
 public class AuthorizationService implements IAuthorizationService
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritDoc } 
      */
     @Override
-    public boolean isAuthorized( User user, int idApplication, String codeActionRole, String strResource ) 
-    {   
-        if (user == null) return false;
-        
-        Profile profile = ProfileHome.findByUserIdAndApplicationId( user.getId( ), idApplication ) ;
-        if (profile != null)
+    public boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource) {
+
+        if ( strIdUser != null )
         {
-            
-            ActionRole actionRole = ActionRoleHome.findByCodeAndProfileAndResource( codeActionRole, profile.getId( ), strResource );
-            if (actionRole != null ) return true;
+            Role role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication ) ;
+            if (role != null)
+            {
+
+                Permission permission = PermissionHome.findByCodeAndRoleAndResource( strPermissionCode, role.getId( ), strResource );
+                if (permission != null ) return true;
+            }
         }
         
         return false ;
