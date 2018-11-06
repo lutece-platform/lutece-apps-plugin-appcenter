@@ -77,7 +77,7 @@ import javax.servlet.http.HttpSession;
  * This class provides the user interface to manage Application xpages ( manage, createOrModify, modify, remove )
  */
 @Controller( xpageName = "application", pageTitleI18nKey = "appcenter.xpage.application.pageTitle", pagePathI18nKey = "appcenter.xpage.application.pagePathLabel" )
-public class ApplicationXPage extends AppCenterXPage
+public class ApplicationXPage extends AppCenterDemandXPage
 {
     
     //Markers

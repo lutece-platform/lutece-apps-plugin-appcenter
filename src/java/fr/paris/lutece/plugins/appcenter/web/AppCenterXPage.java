@@ -39,22 +39,17 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
-import fr.paris.lutece.plugins.appcenter.business.ApplicationDemandTypesEnable;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
-import fr.paris.lutece.plugins.appcenter.business.Demand;
-import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
-import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
-import fr.paris.lutece.plugins.appcenter.web.Constants;
-import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -63,9 +58,7 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -74,7 +67,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -92,9 +84,7 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_APPLICATION = "application";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
-    private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
-    private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     private static final String MARK_ROLES_LIST = "roles_list";
 
     
@@ -103,6 +93,8 @@ public abstract class AppCenterXPage extends MVCApplication
     
 
     private static final long serialVersionUID = -490960650523760757L;
+    
+    protected Application _application;
     
     
     /**
@@ -152,43 +144,6 @@ public abstract class AppCenterXPage extends MVCApplication
     }
 
     /**
-     * Add a demand
-     * 
-     * @param <T>
-     *            The object template
-     * @param request
-     *            The HTTP request
-     * @param application
-     *            The aapplication
-     * @param model
-     *            The model
-     */
-    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
-    {
-        List<T> listDemand = DemandHome.getListFullDemandsByIdApplication( application.getId( ) );
-        
-        model.put( MARK_ACTIVE_DEMAND_TYPE, getDemandType( ) );
-        model.put( Constants.MARK_DEMANDS, listDemand );
-        
-        Map<String, Object> mapStates = new HashMap<>( );
-        Map<String, Object> mapHistories = new HashMap<>( );
-        for ( T demand : listDemand )
-        {
-            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
-            
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId( ) ), state );
-
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
-                    request, request.getLocale( ) );
-            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
-        }
-        
-        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
-        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
-    }
-
-    /**
      * Get a message from message bundle files
      * 
      * @param strMessageKey
@@ -214,33 +169,7 @@ public abstract class AppCenterXPage extends MVCApplication
                     );
     }
     
-  /**
-   * Populate demand
-   * @param demand the demande
-   * @param request the request
-   */
-    protected <D extends Demand> void populate( D demand, HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
-    {
-       
-    	//Set Id Application
-    	demand.setIdApplication(getApplication(request).getId());
-    	//Set the demand owner
-        LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
-        demand.setIdUserFront( (user != null) ? UserService.getEmailUser( user ) : StringUtils.EMPTY );
-        if ( demand.isDependingOfEnvironment() )
-        {
-            //Get the active environment in session
-            HttpSession session = request.getSession( true );
-            Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
-            if ( environment != null )
-            {
-                demand.setEnvironment( Environment.getEnvironment( environment.getPrefix( ) ) );
-            }
-        }
-        super.populate(demand, request);
-    }
-    
-    
+
     protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
         //Fill the active environment if it is stored in session
@@ -252,25 +181,16 @@ public abstract class AppCenterXPage extends MVCApplication
         }
         
         //Fill with application
-        Application application = getApplication( request );
-        model.put( MARK_APPLICATION, application );
+        _application = getApplication( request );
         
-        //Fill the active demand types
-        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
-
-        
-        //Add the demands
-        addListDemand( request, application, model );
-        
-        //Add the application Datas relative to the demand type
-        addDatas( request, application, model ,getDatasName(), getDatasClass() );
+        model.put( MARK_APPLICATION, _application );
         
         //Add the user
-        User user = UserService.getCurrentUser( request, application.getId( ) );
+        User user = UserService.getCurrentUser( request, _application.getId( ) );
         model.put( Constants.MARK_USER, user );
 
         //Fill permissions for the user role
-        int nUserRole = ApplicationHome.getUserRole( application.getId( ), user.getId( ) );
+        int nUserRole = ApplicationHome.getUserRole( _application.getId( ), user.getId( ) );
         fillPermissionsForRole( model, nUserRole);
 
         ReferenceList rolesList = RoleService.getRolesList( nUserRole );
@@ -348,11 +268,5 @@ public abstract class AppCenterXPage extends MVCApplication
             String strMarkIsRoleWithPermission = Constants.MARK_IS_ROLE + Permission.replaceFirst( Constants.PROPERTY_MAPPING_XPAGE_ROLE, "" );
             model.put( strMarkIsRoleWithPermission, hasRoleFor( nUserRole, Permission ));
         }
-    }
-    
-    protected abstract String getDemandType( );
-    protected abstract Class getDemandClass( );
-    protected abstract String getDatasName( );
-    protected abstract Class getDatasClass( );
-    
+    }    
 }
