@@ -188,6 +188,9 @@ public abstract class AppCenterXPage extends MVCApplication
         //Add the user
         User user = UserService.getCurrentUser( request, _application.getId( ) );
         model.put( Constants.MARK_USER, user );
+        
+        //Add the category action list
+        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, AppCenterService.getCategoryActionsList( ) );
 
         //Fill permissions for the user role
         int nUserRole = ApplicationHome.getUserRole( _application.getId( ), user.getId( ) );

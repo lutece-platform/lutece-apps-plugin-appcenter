@@ -36,9 +36,25 @@
                         </#if> -->
 			</#if>
 		</div>
+             <#list list_category_actions as category_actions> 
+             <div class="btn-group">
+                 
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                        <i class="category_actions.cssClass"></i> #i18n{${category_actions.labelKey}}
+                    </button> 
+                    <ul class="dropdown-menu">
+                        <#list category_actions.listActions as action>
+                            <li>
+                                <i class="${action.cssClass}"/><a href="${action.url}">#i18n{${action.labelKey}}</a>
+                            </li> 
+                        </#list>
+                    </ul>
+            </div>
+            </#list>
+
 		<h1>${application.code!} <#if application.code?has_content> - </#if> ${application.name}</h1>
 	</div>
-
+        
 	<@messages errors=errors />
 	<@messages infos=infos />
 	</div>
