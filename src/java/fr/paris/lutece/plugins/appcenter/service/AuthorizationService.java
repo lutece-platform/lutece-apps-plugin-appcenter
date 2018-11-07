@@ -34,10 +34,11 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.Permission;
-import fr.paris.lutece.plugins.appcenter.business.PermissionHome;
+import fr.paris.lutece.plugins.appcenter.business.PermissionRole;
+import fr.paris.lutece.plugins.appcenter.business.PermissionRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.Role;
 import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+import java.util.List;
 
 /**
  * AuthorizationService
@@ -52,12 +53,19 @@ public class AuthorizationService implements IAuthorizationService
 
         if ( strIdUser != null )
         {
+            //Récupération du role de l'utilisateur, pour l'application
             Role role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication ) ;
-            if (role != null)
+            if ( role != null)
             {
-
-                Permission permission = PermissionHome.findByCodeAndRoleAndResource( strPermissionCode, role.getId( ), strResource );
-                if (permission != null ) return true;
+                List<PermissionRole> listPermissionRole = PermissionRoleHome.getPermissionRolesListByCodeAndIdRole( strPermissionCode, role.getId( ) );
+                
+                for ( PermissionRole permissionRole : listPermissionRole )
+                {
+                    if ( permissionRole.getCodeResource().equals("*") || permissionRole.getCodeResource().equals( strResource ) )
+                    {
+                        return true;
+                    }
+                }
             }
         }
         

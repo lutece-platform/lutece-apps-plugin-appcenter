@@ -31,23 +31,13 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.service;
+package fr.paris.lutece.plugins.appcenter.business;
 
-public interface IAuthorizationService 
+import java.util.Collection;
+
+public interface IAppCenterResourceType 
 {
-    /**
-     * Check if a user is authorized to access to given permission with given application and ressource
-     * @param strIdUser
-     *          The Lutece user id
-     * @param idApplication
-     *          The application id
-     * @param strPermissionCode
-     *          The permission code
-     * @param strResourceType
-     *          The resource Type
-     * @param strResource
-     *          The ressource
-     * @return true if the user is authorized, false otherwise
-     */
-    boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource ); 
+    public String getRessourceTypeKey( ); 
+    public boolean hasMultipleValues();
+    public Collection<String> getResourceTypeValues( ); 
 }

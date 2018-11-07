@@ -31,23 +31,44 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.appcenter.service;
+package fr.paris.lutece.plugins.appcenter.business;
 
-public interface IAuthorizationService 
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class EnvironmentType implements IAppCenterResourceType
 {
     /**
-     * Check if a user is authorized to access to given permission with given application and ressource
-     * @param strIdUser
-     *          The Lutece user id
-     * @param idApplication
-     *          The application id
-     * @param strPermissionCode
-     *          The permission code
-     * @param strResourceType
-     *          The resource Type
-     * @param strResource
-     *          The ressource
-     * @return true if the user is authorized, false otherwise
+     * {@inheritDoc }
      */
-    boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource ); 
+    @Override
+    public String getRessourceTypeKey() 
+    {
+        return "ENV";
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Collection<String> getResourceTypeValues() 
+    {
+        Collection<String> colEnvi = new ArrayList<>();
+        for ( Environment envi : Environment.values( ) )
+        {
+            colEnvi.add( envi.getPrefix( ) );
+        }
+        return colEnvi;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean hasMultipleValues() 
+    {
+        return true;
+    }
+
+    
 }

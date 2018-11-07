@@ -1,10 +1,10 @@
-<#include "managepermissionsrole_tabs.html" />
+<#include "manageappcenter_tabs.html" />
 <@tabs2 tab="permissionrole" />
 
 <@box>
 	<@boxHeader title='#i18n{appcenter.manage_permissionrole.title}' boxTools=true>
 		<@tform class='form-inline pull-right' name='manage_permissionrole' action='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp'>
-			<@button type='submit' name='view_createPermissionRole' buttonIcon='plus' title='#i18n{appcenter.manage_permissionroles.buttonAdd}' />
+                    <@button type='submit' name='view_createPermissionRole' buttonIcon='plus' title='#i18n{appcenter.manage_permissionroles.buttonAdd}' />
 		</@tform>
 	</@boxHeader>
 	<@boxBody>    
@@ -14,7 +14,6 @@
     <@table>
         <tr>
             
-            <th>#i18n{appcenter.manage_permissionroles.columnCodeRole}</th>
             <th>#i18n{appcenter.manage_permissionroles.columnCodePermission}</th>
             <th>#i18n{appcenter.manage_permissionroles.columnCodeResource}</th>
             <th>#i18n{portal.util.labelActions}</th>
@@ -22,10 +21,6 @@
         <@tableHeadBodySeparator />
             <#list permissionrole_list as permissionrole >
         <tr>
-            
-            <td>
-                ${permissionrole.codeRole}
-            </td>
             <td>
                 ${permissionrole.codePermission}
             </td>
@@ -34,7 +29,7 @@
             </td>
         <td>
 					
-			<@aButton href='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp?action=confirmRemovePermissionRole&codePermission=${permissionrole.codePermission}&codeRole=${permissionrole.codeRole}&codeResource=${permissionrole.codeResource}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+			<@aButton href='jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp?action=confirmRemovePermissionRole&code_permission=${permissionrole.codePermission}&id_role=${permissionrole.idRole}&code_resource=${permissionrole.codeResource}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
 
         </td>
         </tr>

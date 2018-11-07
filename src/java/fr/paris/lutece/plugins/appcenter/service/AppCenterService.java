@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
+import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.CategoryAction;
+import fr.paris.lutece.plugins.appcenter.business.EnvironmentType;
 import fr.paris.lutece.plugins.appcenter.business.Permission;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppCenterService 
@@ -46,7 +49,21 @@ public class AppCenterService
      */
     public static List<Permission> getPermissionList( )
     {
-        return SpringContextService.getBeansOfType( Permission.class );
+        List<Permission> listPermission = new ArrayList<>();
+        
+        Permission permissionViewApp = new Permission();
+        permissionViewApp.setCode( "PERMISSION_VIEW_APP");
+        permissionViewApp.setLabel( "Permission vue app" );
+        permissionViewApp.setResourceTypeClass( Application.class );
+        listPermission.add(permissionViewApp);
+        
+        Permission permissionDeployApp = new Permission();
+        permissionDeployApp.setCode( "PERMISSION_DEPLOY_APP");
+        permissionDeployApp.setLabel( "Permission de déployer app" );
+        permissionDeployApp.setResourceTypeClass( EnvironmentType.class );
+        listPermission.add(permissionDeployApp);
+        
+        return listPermission;
     }
     
     /**

@@ -55,11 +55,11 @@ public interface IPermissionRoleDAO
     /**
      * Delete a record from the table
      * @param strpermissionCode
-     * @param strRoleCode
+     * @param nIdRole
      * @param strResourceCode
      * @param plugin the Plugin
      */
-    void delete( String strpermissionCode, String strRoleCode, String strResourceCode,  Plugin plugin );
+    void delete( String strpermissionCode, int nIdRole, String strResourceCode,  Plugin plugin );
 
     ///////////////////////////////////////////////////////////////////////////
     // Finders
@@ -67,12 +67,12 @@ public interface IPermissionRoleDAO
     /**
      * Load the data from the table
      * @param strpermissionCode
-     * @param strRoleCode
+     * @param nIdRole
      * @param strResourceCode
      * @param plugin the Plugin
      * @return The instance of the permissionRole
      */
-    PermissionRole load( String strpermissionCode, String strRoleCode, String strResourceCode, Plugin plugin );
+    PermissionRole load( String strpermissionCode, int nIdRole, String strResourceCode, Plugin plugin );
 
     /**
      * Load the data of all the permissionRole objects and returns them as a list
@@ -88,4 +88,13 @@ public interface IPermissionRoleDAO
      * @return The referenceList which contains the data of all the permissionRole objects
      */
     ReferenceList selectPermissionRolesReferenceList( Plugin plugin );
+    
+    /**
+     * Load the data of all the permissionRole objects by id roleand returns them as a list
+     * @param nIdRole
+     *              The id Role
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the permissionRole objects by id role
+     */
+    List<PermissionRole> selectPermissionRolesListByIdRole( int nIdRole,  Plugin plugin );
 }

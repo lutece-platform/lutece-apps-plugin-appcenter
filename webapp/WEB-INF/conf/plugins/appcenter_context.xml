@@ -15,11 +15,9 @@
     <bean id="appcenter.demandDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandDAO" />
     <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
     <bean id="appcenter.notifyDAO" class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigDAO" />
-    <bean id="appcenter.permissionDAO" class="fr.paris.lutece.plugins.appcenter.business.PermissionDAO" />
     <bean id="appcenter.userApplicationRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleDAO" />
     <bean id="appcenter.permissionRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.PermissionRoleDAO" />
     <bean id="appcenter.roleDAO" class="fr.paris.lutece.plugins.appcenter.business.RoleDAO" />
-    <bean id="appcenter.resourceDAO" class="fr.paris.lutece.plugins.appcenter.business.ResourceDAO" />
 
     <!-- Services -->
     

@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides the user interface to manage Role features ( manage, create, modify, remove )
  */
-@Controller( controllerJsp = "ManageRoles.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_ROLE_MANAGEMENT" )
+@Controller( controllerJsp = "ManageRoles.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_MANAGEMENT" )
 public class RoleJspBean extends ManageAppCenterJspBean
 {
     // Templates

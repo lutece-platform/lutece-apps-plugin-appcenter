@@ -36,12 +36,14 @@ package fr.paris.lutece.plugins.appcenter.business;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * This is the business class for the object Application
  */
-public class Application implements Serializable
+public class Application implements Serializable, IAppCenterResourceType
 {
     private static final long serialVersionUID = 1L;
     private static final String EMPTY_JSON_OBJECT = "{}";
@@ -200,5 +202,34 @@ public class Application implements Serializable
     public void setListEnvironment( List<Environment> listEnvironment )
     {
         _listEnvironment = listEnvironment;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getRessourceTypeKey() 
+    {
+        return "APP";
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Collection<String> getResourceTypeValues() 
+    {
+        Collection<String> listResourceTypeValues = new ArrayList<>();
+        listResourceTypeValues.add( getRessourceTypeKey( ) );
+        return listResourceTypeValues; 
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean hasMultipleValues() 
+    {
+        return false;
     }
 }

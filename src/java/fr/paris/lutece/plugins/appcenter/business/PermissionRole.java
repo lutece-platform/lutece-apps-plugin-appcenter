@@ -49,12 +49,9 @@ public class PermissionRole implements Serializable
     @NotEmpty( message = "#i18n{appcenter.validation.permissionrole.CodePermission.notEmpty}" )
     private String _strCodePermission;
     
-    @NotEmpty( message = "#i18n{appcenter.validation.permissionrole.CodeRole.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{appcenter.validation.permissionrole.CodeRole.size}" ) 
-    private String _strCodeRole;
+    private int _nIdRole;
     
     @NotEmpty( message = "#i18n{appcenter.validation.permissionrole.CodeResource.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{appcenter.validation.permissionrole.CodeResource.size}" ) 
     private String _strCodeResource;
 
     
@@ -77,21 +74,21 @@ public class PermissionRole implements Serializable
     }
     
     /**
-     * Returns the CodeRole
-     * @return The CodeRole
+     * Returns the IdRole
+     * @return The IdRole
      */
-    public String getCodeRole( )
+    public int getIdRole( )
     {
-        return _strCodeRole;
+        return _nIdRole;
     }
 
     /**
-     * Sets the CodeRole
-     * @param strCodeRole The CodeRole
+     * Sets the IdRole
+     * @param nIdRole The IdRole
      */ 
-    public void setCodeRole( String strCodeRole )
+    public void setIdRole( int nIdRole )
     {
-        _strCodeRole = strCodeRole;
+        _nIdRole = nIdRole;
     }
     
     /**

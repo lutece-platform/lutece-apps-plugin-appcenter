@@ -36,12 +36,17 @@ package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.PermissionRole;
 import fr.paris.lutece.plugins.appcenter.business.PermissionRoleHome;
+import fr.paris.lutece.plugins.appcenter.business.Role;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
@@ -50,63 +55,75 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides the user interface to manage PermissionRole features ( manage, create, modify, remove )
  */
-@Controller( controllerJsp = "ManagePermissionRoles.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_PERMISSIONS_ROLE_MANAGEMENT" )
+@Controller( controllerJsp = "ManagePermissionRoles.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_MANAGEMENT" )
 public class PermissionRoleJspBean extends ManageAppCenterJspBean
 {
     // Templates
-    private static final String TEMPLATE_MANAGE_ACTIONROLEROLES = "/admin/plugins/appcenter/manage_permissionroles.html";
-    private static final String TEMPLATE_CREATE_ACTIONROLEROLE = "/admin/plugins/appcenter/create_permissionrole.html";
+    private static final String TEMPLATE_MANAGE_PERMISSIONROLES = "/admin/plugins/appcenter/manage_permissionroles.html";
+    private static final String TEMPLATE_CREATE_PERMISSIONROLE = "/admin/plugins/appcenter/create_permissionrole.html";
 
     // Parameters
-    private static final String PARAMETER_CODE_ACTIONROLE = "codePermission";
-    private static final String PARAMETER_CODE_ROLE = "codeRole";
-    private static final String PARAMETER_CODE_RESOURCE = "codeResource";
+    private static final String PARAMETER_CODE_PERMISSION = "code_permission";
+    private static final String PARAMETER_CODE_RESOURCE = "code_resource";
+    private static final String PARAMETER_ID_ROLE = "id_role";
 
     // Properties for page titles
-    private static final String PROPERTY_PAGE_TITLE_MANAGE_ACTIONROLEROLES = "appcenter.manage_permissionroles.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_CREATE_ACTIONROLEROLE = "appcenter.create_permissionrole.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MANAGE_PERMISSIONROLES = "appcenter.manage_permissionroles.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_PERMISSIONROLE = "appcenter.create_permissionrole.pageTitle";
 
     // Markers
-    private static final String MARK_ACTIONROLEROLE_LIST = "permissionrole_list";
-    private static final String MARK_ACTIONROLEROLE = "permissionrole";
+    private static final String MARK_PERMISSIONROLE_LIST = "permissionrole_list";
+    private static final String MARK_PERMISSIONROLE = "permissionrole";
+    private static final String MARK_PERMISSION_LIST = "permission_list";
 
-    private static final String JSP_MANAGE_ACTIONROLEROLES = "jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp";
+    private static final String JSP_MANAGE_PERMISSIONROLES = "jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp";
 
     // Properties
-    private static final String MESSAGE_CONFIRM_REMOVE_ACTIONROLEROLE = "appcenter.message.confirmRemovePermissionRole";
+    private static final String MESSAGE_CONFIRM_REMOVE_PERMISSIONROLE = "appcenter.message.confirmRemovePermissionRole";
 
     // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.permissionrole.attribute.";
 
     // Views
-    private static final String VIEW_MANAGE_ACTIONROLEROLES = "managePermissionRoles";
-    private static final String VIEW_CREATE_ACTIONROLEROLE = "createPermissionRole";
+    private static final String VIEW_MANAGE_PERMISSIONROLES = "managePermissionRoles";
+    private static final String VIEW_CREATE_PERMISSIONROLE = "createPermissionRole";
 
     // Actions
-    private static final String ACTION_CREATE_ACTIONROLEROLE = "createPermissionRole";
-    private static final String ACTION_REMOVE_ACTIONROLEROLE = "removePermissionRole";
-    private static final String ACTION_CONFIRM_REMOVE_ACTIONROLEROLE = "confirmRemovePermissionRole";
+    private static final String ACTION_CREATE_PERMISSIONROLE = "createPermissionRole";
+    private static final String ACTION_REMOVE_PERMISSIONROLE = "removePermissionRole";
+    private static final String ACTION_CONFIRM_REMOVE_PERMISSIONROLE = "confirmRemovePermissionRole";
 
     // Infos
-    private static final String INFO_ACTIONROLEROLE_CREATED = "appcenter.info.permissionrole.created";
-    private static final String INFO_ACTIONROLEROLE_REMOVED = "appcenter.info.permissionrole.removed";
+    private static final String INFO_PERMISSIONROLE_CREATED = "appcenter.info.permissionrole.created";
+    private static final String INFO_PERMISSIONROLE_REMOVED = "appcenter.info.permissionrole.removed";
     
     // Session variable to store working values
     private PermissionRole _permissionrole;
+    private Role _role;
     
     /**
      * Build the Manage View
      * @param request The HTTP request
      * @return The page
      */
-    @View( value = VIEW_MANAGE_ACTIONROLEROLES, defaultView = true )
+    @View( value = VIEW_MANAGE_PERMISSIONROLES, defaultView = true )
     public String getManagePermissionRoles( HttpServletRequest request )
     {
         _permissionrole = null;
-        List<PermissionRole> listPermissionRoles = PermissionRoleHome.getPermissionRolesList(  );
-        Map<String, Object> model = getPaginatedListModel( request, MARK_ACTIONROLEROLE_LIST, listPermissionRoles, JSP_MANAGE_ACTIONROLEROLES );
-
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_ACTIONROLEROLES, TEMPLATE_MANAGE_ACTIONROLEROLES, model );
+        
+        String strIdRole = request.getParameter( PARAMETER_ID_ROLE );
+        
+        if ( strIdRole != null )
+        {
+            _role = RoleHome.findByPrimaryKey( Integer.parseInt( strIdRole ) );
+        }
+        if ( _role != null )
+        {
+            List<PermissionRole> listPermissionRoles = listPermissionRoles = PermissionRoleHome.getPermissionRolesListByIdRole( _role.getId() );
+            Map<String, Object> model = getPaginatedListModel( request, MARK_PERMISSIONROLE_LIST, listPermissionRoles, JSP_MANAGE_PERMISSIONROLES );
+            return getPage( PROPERTY_PAGE_TITLE_MANAGE_PERMISSIONROLES, TEMPLATE_MANAGE_PERMISSIONROLES, model );
+        }
+        return redirect(request, "/jsp/admin/plugins/appcenter/ManageRoles.jsp");
     }
 
     /**
@@ -115,15 +132,17 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
      * @param request The Http request
      * @return the html code of the permissionrole form
      */
-    @View( VIEW_CREATE_ACTIONROLEROLE )
+    @View( VIEW_CREATE_PERMISSIONROLE )
     public String getCreatePermissionRole( HttpServletRequest request )
     {
         _permissionrole = ( _permissionrole != null ) ? _permissionrole : new PermissionRole(  );
 
         Map<String, Object> model = getModel(  );
-        model.put( MARK_ACTIONROLEROLE, _permissionrole );
+        model.put( MARK_PERMISSION_LIST, AppCenterService.getPermissionList( ) );
+        
+        model.put( MARK_PERMISSIONROLE, _permissionrole );
 
-        return getPage( PROPERTY_PAGE_TITLE_CREATE_ACTIONROLEROLE, TEMPLATE_CREATE_ACTIONROLEROLE, model );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_PERMISSIONROLE, TEMPLATE_CREATE_PERMISSIONROLE, model );
     }
 
     /**
@@ -132,21 +151,24 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
      * @param request The Http Request
      * @return The Jsp URL of the process result
      */
-    @Action( ACTION_CREATE_ACTIONROLEROLE )
+    @Action( ACTION_CREATE_PERMISSIONROLE )
     public String doCreatePermissionRole( HttpServletRequest request )
     {
         populate( _permissionrole, request, request.getLocale( ) );
-
+        if ( _role != null )
+        {
+            _permissionrole.setIdRole( _role.getId( ) );
+        }
         // Check constraints
         if ( !validateBean( _permissionrole, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
-            return redirectView( request, VIEW_CREATE_ACTIONROLEROLE );
+            return redirectView( request, VIEW_CREATE_PERMISSIONROLE );
         }
 
         PermissionRoleHome.create( _permissionrole );
-        addInfo( INFO_ACTIONROLEROLE_CREATED, getLocale(  ) );
-
-        return redirectView( request, VIEW_MANAGE_ACTIONROLEROLES );
+        addInfo( INFO_PERMISSIONROLE_CREATED, getLocale(  ) );
+        
+        return redirectView( request, VIEW_MANAGE_PERMISSIONROLES );
     }
 
     /**
@@ -156,20 +178,20 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
      * @param request The Http request
      * @return the html code to confirm
      */
-    @Action( ACTION_CONFIRM_REMOVE_ACTIONROLEROLE )
+    @Action( ACTION_CONFIRM_REMOVE_PERMISSIONROLE )
     public String getConfirmRemovePermissionRole( HttpServletRequest request )
     {
-        String strPermissionCode = request.getParameter( PARAMETER_CODE_ACTIONROLE );
-        String strRoleCode = request.getParameter( PARAMETER_CODE_ROLE );
+        String strPermissionCode = request.getParameter( PARAMETER_CODE_PERMISSION );
+        String strIdRole = request.getParameter( PARAMETER_ID_ROLE );
         String strResourceCode = request.getParameter( PARAMETER_CODE_RESOURCE );
         
-        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_ACTIONROLEROLE ) );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_PERMISSIONROLE ) );
         
-        url.addParameter( PARAMETER_CODE_ACTIONROLE, strPermissionCode );
-        url.addParameter( PARAMETER_CODE_ROLE, strRoleCode );
+        url.addParameter( PARAMETER_CODE_PERMISSION, strPermissionCode );
+        url.addParameter( PARAMETER_ID_ROLE, strIdRole );
         url.addParameter( PARAMETER_CODE_RESOURCE, strResourceCode );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_ACTIONROLEROLE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_PERMISSIONROLE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -180,18 +202,18 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
      * @param request The Http request
      * @return the jsp URL to display the form to manage permissionroles
      */
-    @Action( ACTION_REMOVE_ACTIONROLEROLE )
+    @Action( ACTION_REMOVE_PERMISSIONROLE )
     public String doRemovePermissionRole( HttpServletRequest request )
     {
-        String strPermissionCode = request.getParameter( PARAMETER_CODE_ACTIONROLE );
-        String strRoleCode = request.getParameter( PARAMETER_CODE_ROLE );
+        String strPermissionCode = request.getParameter( PARAMETER_CODE_PERMISSION );
+        String strIdRole = request.getParameter( PARAMETER_ID_ROLE );
         String strResourceCode = request.getParameter( PARAMETER_CODE_RESOURCE );
         
         
-        PermissionRoleHome.remove( strPermissionCode, strRoleCode, strResourceCode );
-        addInfo( INFO_ACTIONROLEROLE_REMOVED, getLocale(  ) );
+        PermissionRoleHome.remove( strPermissionCode, Integer.parseInt( strIdRole ), strResourceCode );
+        addInfo( INFO_PERMISSIONROLE_REMOVED, getLocale(  ) );
 
-        return redirectView( request, VIEW_MANAGE_ACTIONROLEROLES );
+        return redirectView( request, VIEW_MANAGE_PERMISSIONROLES );
     }
 
 

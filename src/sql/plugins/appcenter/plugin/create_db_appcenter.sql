@@ -136,21 +136,6 @@ category varchar(255) default '',
 PRIMARY KEY (id_documentation)
 );
 
-
---
--- Structure for table appcenter_permission
---
-
-DROP TABLE IF EXISTS appcenter_permission;
-CREATE TABLE appcenter_permission (
-id_action int AUTO_INCREMENT,
-code varchar(50) default '' NOT NULL,
-label varchar(255) default '' NOT NULL,
-resource_type varchar(50) default '' NOT NULL,
-PRIMARY KEY (id_action),
-  UNIQUE KEY `IDX_PERMISSION` (`code`)
-);
-
 --
 -- Structure for table appcenter_user_application_role
 --
@@ -170,9 +155,9 @@ PRIMARY KEY (id_user, id_role, id_application)
 DROP TABLE IF EXISTS appcenter_permission_role;
 CREATE TABLE appcenter_permission_role (
 code_permission varchar(50) NOT NULL,
-code_role varchar(50) default '' NOT NULL,
+id_role int default '0' NOT NULL,
 code_resource varchar(50) default '' NOT NULL,
-PRIMARY KEY (code_role, code_permission, code_resource)
+PRIMARY KEY (id_role, code_permission, code_resource)
 );
 
 --
@@ -186,18 +171,4 @@ code varchar(50) NOT NULL,
 label varchar(255) default '' NOT NULL,
 PRIMARY KEY (id_role),
   UNIQUE KEY `IDX_ROLE` (`code`)
-);
-
---
--- Structure for table appcenter_resource
---
-
-DROP TABLE IF EXISTS appcenter_resource;
-CREATE TABLE appcenter_resource (
-id_resource int AUTO_INCREMENT,
-code varchar(50) NOT NULL,
-label varchar(255) NOT NULL,
-resource_type varchar(50) default '' NOT NULL,
-PRIMARY KEY (id_resource),
-  UNIQUE KEY `IDX_RESOURCE` (`code`)
 );

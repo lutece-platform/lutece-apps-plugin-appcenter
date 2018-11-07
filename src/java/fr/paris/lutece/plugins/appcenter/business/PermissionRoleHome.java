@@ -72,24 +72,24 @@ public final class PermissionRoleHome
     /**
      * Remove the permissionRole whose identifier is specified in parameter
      * @param strPermissionCode
-     * @param strRoleCode
+     * @param nIdRole
      * @param strResourceCode
      */
-    public static void remove( String strPermissionCode, String strRoleCode, String strResourceCode )
+    public static void remove( String strPermissionCode, int nIdRole, String strResourceCode )
     {
-        _dao.delete(  strPermissionCode,  strRoleCode,  strResourceCode, _plugin );
+        _dao.delete(  strPermissionCode,  nIdRole,  strResourceCode, _plugin );
     }
 
     /**
      * Returns an instance of a permissionRole whose identifier is specified in parameter
      * @param strPermissionCode
-     * @param strRoleCode
+     * @param nIdRole
      * @param strResourceCode
      * @return an instance of PermissionRole
      */
-    public static PermissionRole findByPrimaryKey( String strPermissionCode, String strRoleCode, String strResourceCode )
+    public static PermissionRole findByPrimaryKey( String strPermissionCode, int nIdRole, String strResourceCode )
     {
-        return _dao.load( strPermissionCode, strRoleCode, strResourceCode, _plugin );
+        return _dao.load( strPermissionCode, nIdRole, strResourceCode, _plugin );
     }
 
     /**
@@ -109,6 +109,30 @@ public final class PermissionRoleHome
     public static ReferenceList getPermissionRolesReferenceList( )
     {
         return _dao.selectPermissionRolesReferenceList( _plugin );
+    }
+    
+    /**
+     * Load the data of all the permissionRole objects by id role and returns them as a list
+     * @param nIdRole
+     *              The id Role
+     * @return the list which contains the data of all the permissionRole objects by id role
+     */
+    public static List<PermissionRole> getPermissionRolesListByIdRole( int nIdRole )
+    {
+        return _dao.selectPermissionRolesListByIdRole( nIdRole,  _plugin );
+    }
+    
+    /**
+     * Load the data of all the permissionRole objects by id role and returns them as a list
+     * @param strPermissionCode
+     * @param nIdRole
+     *              The id Role
+     * @return the list which contains the data of all the permissionRole objects by id role
+     */
+    public static List<PermissionRole> getPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole )
+    {
+        //return _dao.selectPermissionRolesListByIdRole( strPermissionCode, nIdRole,  _plugin );
+        return null;
     }
 }
 

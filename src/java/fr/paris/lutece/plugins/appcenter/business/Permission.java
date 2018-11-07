@@ -33,9 +33,11 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * This is the business class for the object Permission
@@ -43,40 +45,11 @@ import java.io.Serializable;
 public class Permission implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
-    // Variables declarations 
-    private int _nId;
     
-    @NotEmpty( message = "#i18n{appcenter.validation.permission.Code.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{appcenter.validation.permission.Code.size}" ) 
     private String _strCode;
-    
-    @NotEmpty( message = "#i18n{appcenter.validation.permission.Label.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{appcenter.validation.permission.Label.size}" ) 
     private String _strLabel;
-    
-    @NotEmpty( message = "#i18n{appcenter.validation.permission.ResourceType.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{appcenter.validation.permission.ResourceType.size}" ) 
-    private String _strResourceType;
+    private Class _resourceTypeClass;
 
-    /**
-     * Returns the Id
-     * @return The Id
-     */
-    public int getId( )
-    {
-        return _nId;
-    }
-
-    /**
-     * Sets the Id
-     * @param nId The Id
-     */ 
-    public void setId( int nId )
-    {
-        _nId = nId;
-    }
-    
     /**
      * Returns the Code
      * @return The Code
@@ -114,20 +87,46 @@ public class Permission implements Serializable
     }
     
     /**
-     * Returns the ResourceType
-     * @return The ResourceType
-     */
-    public String getResourceType( )
-    {
-        return _strResourceType;
-    }
-
-    /**
      * Sets the ResourceType
-     * @param strResourceType The ResourceType
+     * @param resourceTypeClass The ResourceType class
      */ 
-    public void setResourceType( String strResourceType )
+    public void setResourceTypeClass( Class resourceTypeClass )
     {
-        _strResourceType = strResourceType;
+        _resourceTypeClass = resourceTypeClass;
+    }
+    
+    public String getResourceTypeKey()
+    {
+        try
+        {
+            IAppCenterResourceType resourceType = (IAppCenterResourceType)_resourceTypeClass.newInstance();
+            return resourceType.getRessourceTypeKey();
+        }
+        catch ( InstantiationException|IllegalAccessException e  )
+        {
+            AppLogService.error( "Unable to instantiate resource type", e);
+            return null;
+        }
+                
+        
+    }
+    
+    public Collection<String> getResourceTypeValues()
+    {
+        try
+        {
+            IAppCenterResourceType resourceType = (IAppCenterResourceType)_resourceTypeClass.newInstance();
+            Collection<String> listResourceTypeValues = resourceType.getResourceTypeValues( );
+            if ( resourceType.hasMultipleValues( ) )
+            {
+                listResourceTypeValues.add("*");
+            }
+            return listResourceTypeValues;
+        }
+        catch ( InstantiationException|IllegalAccessException e )
+        {
+            AppLogService.error( "Unable to instantiate resource type", e);
+            return null;
+        }
     }
 }

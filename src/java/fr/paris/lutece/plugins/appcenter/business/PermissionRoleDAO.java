@@ -48,10 +48,11 @@ import java.util.List;
 public final class PermissionRoleDAO implements IPermissionRoleDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT code_permission, code_role, code_resource FROM appcenter_permission_role WHERE code_permission,  = ? and code_role = ? and code_resource = ? ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_permission_role ( code_permission, code_role, code_resource ) VALUES ( ?, ?, ? ) ";
-    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_permission_role WHERE code_permission= ? and code_role = ? and code_resource = ? ";
-    private static final String SQL_QUERY_SELECTALL = "SELECT code_permission, code_role, code_resource FROM appcenter_permission_role ORDER BY code_role, code_permission, code_resource ";
+    private static final String SQL_QUERY_SELECT = "SELECT code_permission, id_role, code_resource FROM appcenter_permission_role WHERE code_permission,  = ? and id_role = ? and code_resource = ? ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource ) VALUES ( ?, ?, ? ) ";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_permission_role WHERE code_permission= ? and id_role = ? and code_resource = ? ";
+    private static final String SQL_QUERY_SELECTALL = "SELECT code_permission, id_role, code_resource FROM appcenter_permission_role ";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_CODE = SQL_QUERY_SELECTALL + " WHERE id_role = ? ORDER BY code_permission, code_resource";
 
     /**
      * {@inheritDoc }
@@ -64,7 +65,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++ , permissionRole.getCodePermission( ) );
-            daoUtil.setString( nIndex++ , permissionRole.getCodeRole( ) );
+            daoUtil.setInt( nIndex++ , permissionRole.getIdRole( ) );
             daoUtil.setString( nIndex++ , permissionRole.getCodeResource( ) );
             
             daoUtil.executeUpdate( );
@@ -80,11 +81,11 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
      * {@inheritDoc }
      */
     @Override
-    public PermissionRole load( String strPermissionCode, String strRoleCode, String strResourceCode,  Plugin plugin )
+    public PermissionRole load( String strPermissionCode, int strIdRole, String strResourceCode,  Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setString(1 , strPermissionCode );
-        daoUtil.setString(2 , strRoleCode );
+        daoUtil.setInt(2 , strIdRole );
         daoUtil.setString(3 , strResourceCode );
         
         daoUtil.executeQuery( );
@@ -96,7 +97,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
             int nIndex = 1;
             
             permissionRole.setCodePermission( daoUtil.getString( nIndex++ ) );
-            permissionRole.setCodeRole( daoUtil.getString( nIndex++ ) );
+            permissionRole.setIdRole( daoUtil.getInt( nIndex++ ) );
             permissionRole.setCodeResource( daoUtil.getString( nIndex++ ) );
         }
 
@@ -108,12 +109,12 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
      * {@inheritDoc }
      */
     @Override
-    public void delete( String strPermissionCode, String strRoleCode, String strResourceCode,  Plugin plugin )
+    public void delete( String strPermissionCode, int nIdRole, String strResourceCode,  Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         
         daoUtil.setString(1 , strPermissionCode );
-        daoUtil.setString(2 , strRoleCode );
+        daoUtil.setInt(2 , nIdRole );
         daoUtil.setString(3 , strResourceCode );
         
         daoUtil.executeUpdate( );
@@ -127,7 +128,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
     @Override
     public List<PermissionRole> selectPermissionRolesList( Plugin plugin )
     {
-        List<PermissionRole> permissionRoleList = new ArrayList<PermissionRole>(  );
+        List<PermissionRole> permissionRoleList = new ArrayList<>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery(  );
 
@@ -137,7 +138,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
             int nIndex = 1;
             
             permissionRole.setCodePermission( daoUtil.getString( nIndex++ ) );
-            permissionRole.setCodeRole( daoUtil.getString( nIndex++ ) );
+            permissionRole.setIdRole( daoUtil.getInt( nIndex++ ) );
             permissionRole.setCodeResource( daoUtil.getString( nIndex++ ) );
 
             permissionRoleList.add( permissionRole );
@@ -161,6 +162,33 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
         while ( daoUtil.next(  ) )
         {
             permissionRoleList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+        }
+
+        daoUtil.free( );
+        return permissionRoleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<PermissionRole> selectPermissionRolesListByIdRole(int nIdRole, Plugin plugin) 
+    {
+        List<PermissionRole> permissionRoleList = new ArrayList<>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CODE, plugin );
+        daoUtil.setInt( 1 , nIdRole );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            PermissionRole permissionRole = new PermissionRole(  );
+            int nIndex = 1;
+            
+            permissionRole.setCodePermission( daoUtil.getString( nIndex++ ) );
+            permissionRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            permissionRole.setCodeResource( daoUtil.getString( nIndex++ ) );
+
+            permissionRoleList.add( permissionRole );
         }
 
         daoUtil.free( );

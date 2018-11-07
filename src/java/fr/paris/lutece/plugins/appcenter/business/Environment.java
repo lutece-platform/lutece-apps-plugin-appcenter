@@ -107,5 +107,4 @@ public enum Environment implements Serializable
     {
         return I18nService.getLocalizedString( getLabelKey(), Locale.getDefault( ) );
     }
-
 }

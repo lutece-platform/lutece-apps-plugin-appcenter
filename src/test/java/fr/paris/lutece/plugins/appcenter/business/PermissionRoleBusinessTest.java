@@ -44,8 +44,8 @@ public class PermissionRoleBusinessTest extends LuteceTestCase
 {
     private static final String CODEACTIONROLE1 = "CodePermission1";
     private static final String CODEACTIONROLE2 = "CodePermission2";
-    private static final String CODEROLE1 = "CodeRole1";
-    private static final String CODEROLE2 = "CodeRole2";
+    private static final int CODEROLE1 = 1;
+    private static final int CODEROLE2 = 2;
     private static final String CODERESOURCE1 = "CodeResource1";
     private static final String CODERESOURCE2 = "CodeResource2";
 
@@ -57,31 +57,31 @@ public class PermissionRoleBusinessTest extends LuteceTestCase
         // Initialize an object
         PermissionRole permissionRole = new PermissionRole();
         permissionRole.setCodePermission( CODEACTIONROLE1 );
-        permissionRole.setCodeRole( CODEROLE1 );
+        permissionRole.setIdRole( CODEROLE1 );
         permissionRole.setCodeResource( CODERESOURCE1 );
 
         // Create test
         PermissionRoleHome.create( permissionRole );
-        PermissionRole permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getCodeRole( ), permissionRole.getCodeResource( )  );
+        PermissionRole permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getIdRole(), permissionRole.getCodeResource( )  );
         assertEquals( permissionRoleStored.getCodePermission() , permissionRole.getCodePermission( ) );
-        assertEquals( permissionRoleStored.getCodeRole() , permissionRole.getCodeRole( ) );
+        assertEquals( permissionRoleStored.getIdRole(), permissionRole.getIdRole());
         assertEquals( permissionRoleStored.getCodeResource() , permissionRole.getCodeResource( ) );
 
         // Update test
         permissionRole.setCodePermission( CODEACTIONROLE2 );
-        permissionRole.setCodeRole( CODEROLE2 );
+        permissionRole.setIdRole(CODEROLE2 );
         permissionRole.setCodeResource( CODERESOURCE2 );
-        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getCodeRole( ), permissionRole.getCodeResource( )  );
+        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getIdRole(), permissionRole.getCodeResource( )  );
         assertEquals( permissionRoleStored.getCodePermission() , permissionRole.getCodePermission( ) );
-        assertEquals( permissionRoleStored.getCodeRole() , permissionRole.getCodeRole( ) );
+        assertEquals( permissionRoleStored.getIdRole(), permissionRole.getIdRole());
         assertEquals( permissionRoleStored.getCodeResource() , permissionRole.getCodeResource( ) );
 
         // List test
         PermissionRoleHome.getPermissionRolesList();
 
         // Delete test
-        PermissionRoleHome.remove( permissionRole.getCodePermission( ) , permissionRole.getCodeRole( ), permissionRole.getCodeResource( ) );
-        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getCodeRole( ), permissionRole.getCodeResource( ) );
+        PermissionRoleHome.remove( permissionRole.getCodePermission( ) , permissionRole.getIdRole(), permissionRole.getCodeResource( ) );
+        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ) , permissionRole.getIdRole(), permissionRole.getCodeResource( ) );
         assertNull( permissionRoleStored );
         
     }

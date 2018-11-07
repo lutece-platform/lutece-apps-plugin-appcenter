@@ -33,46 +33,6 @@
             <feature-url>jsp/admin/plugins/appcenter/ManageApplications.jsp</feature-url>
             <feature-icon-url></feature-icon-url>
       </admin-feature>
-	<admin-feature>
-            <feature-id>APPCENTER_RESOURCE_MANAGEMENT</feature-id>
-            <feature-title>appcenter.adminFeature.ManageResource.name</feature-title>
-            <feature-description>appcenter.adminFeature.ManageResource.description</feature-description>
-            <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/appcenter/ManageResources.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
-      </admin-feature>
-        <admin-feature>
-            <feature-id>APPCENTER_PERMISSIONS_MANAGEMENT</feature-id>
-            <feature-title>appcenter.adminFeature.ManagePermissions.name</feature-title>
-            <feature-description>appcenter.adminFeature.ManagePermissions.description</feature-description>
-            <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/appcenter/ManagePermissions.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
-      </admin-feature>
-        <admin-feature>
-            <feature-id>APPCENTER_ROLE_MANAGEMENT</feature-id>
-            <feature-title>appcenter.adminFeature.ManageRole.name</feature-title>
-            <feature-description>appcenter.adminFeature.ManageRole.description</feature-description>
-            <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/appcenter/ManageRoles.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
-      </admin-feature>
-        <admin-feature>
-            <feature-id>APPCENTER_USER_APPLICATION_ROLE_MANAGEMENT</feature-id>
-            <feature-title>appcenter.adminFeature.ManageUserApplicationRole.name</feature-title>
-            <feature-description>appcenter.adminFeature.ManageUserApplicationRole.description</feature-description>
-            <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
-      </admin-feature>
-        <admin-feature>
-            <feature-id>APPCENTER_PERMISSIONS_ROLE_MANAGEMENT</feature-id>
-            <feature-title>appcenter.adminFeature.ManagePermissionsRole.name</feature-title>
-            <feature-description>appcenter.adminFeature.ManagePermissionsRole.description</feature-description>
-            <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/appcenter/ManagePermissionRoles.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
-      </admin-feature>
     </admin-features>    
 
     <!-- XPages parameters -->
