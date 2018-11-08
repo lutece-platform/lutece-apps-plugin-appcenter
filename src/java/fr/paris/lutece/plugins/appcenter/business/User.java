@@ -35,7 +35,7 @@
 
 package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.util.ReferenceList;
+import java.util.List;
 
 /**
  * This is the business class for the object User
@@ -44,7 +44,8 @@ public class User
 {
    // Variables declarations 
     private String _strId;
-    private boolean _bAdmin;
+    
+    private List<UserApplicationRole> _listUserApplicationRoles;
     
     
        /**
@@ -64,22 +65,24 @@ public class User
     {
         _strId = strId;
     }
-    
-       /**
-        * Returns the Admin
-        * @return The Admin
-        */ 
-    public boolean isAdmin()
+
+    /**
+     * Get the user application roles
+     * @return the 
+     */
+    public List<UserApplicationRole> getListUserApplicationRoles()
     {
-        return _bAdmin;
+        return _listUserApplicationRoles;
+    }
+
+    /**
+     * Set the user applcation roles list
+     * @param listUserApplicationRoles The user application roles list
+     */
+    public void setListUserApplicationRoles(List<UserApplicationRole> listUserApplicationRoles)
+    {
+        _listUserApplicationRoles = listUserApplicationRoles;
     }
     
-       /**
-        * Sets the Admin
-        * @param Admin The Admin
-        */ 
-    public void setAdmin( boolean Admin )
-    {
-        _bAdmin = Admin;
-    }
+    
 }

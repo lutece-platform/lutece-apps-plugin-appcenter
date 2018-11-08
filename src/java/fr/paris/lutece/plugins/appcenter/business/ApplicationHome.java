@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -124,7 +123,7 @@ public final class ApplicationHome
         Application application = _dao.load( nKey, _plugin );
         if( application != null )
         {
-            application.setAuthorizations( UserApplicationHome.findByApplication( application.getId() ));
+            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ));
         }
         return application;
     }
@@ -160,34 +159,4 @@ public final class ApplicationHome
     {
         return _dao.selectByUserId( strUserId, _plugin );
     }
-
-    /**
-     * Checks if an application is authorized for a given user
-     * 
-     * @param nApplicationId
-     *            The application Id
-     * @param strUserId
-     *            The user Id
-     * @return true if authorized
-     */
-    public static boolean isAuthorized( int nApplicationId, String strUserId )
-    {
-        int nRole =  _dao.getUserRole( nApplicationId, strUserId, RoleService.ROLE_NONE, _plugin );
-        return nRole != RoleService.ROLE_NONE;
-    }
-
-    /**
-     * Get the role of the user for a given application
-     * 
-     * @param nApplicationId
-     *            The application Id
-     * @param strUserId
-     *            The user Id
-     * @return The role
-     */
-    public static int getUserRole( int nApplicationId, String strUserId )
-    {
-        return _dao.getUserRole( nApplicationId, strUserId, RoleService.ROLE_NONE, _plugin );
-    }
-
 }

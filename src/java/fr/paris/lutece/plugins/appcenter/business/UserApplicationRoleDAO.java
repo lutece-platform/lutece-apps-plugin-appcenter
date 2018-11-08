@@ -52,6 +52,9 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application_role ( id_role, id_application, id_user ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_user = ? ";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION = SQL_QUERY_SELECTALL + " WHERE id_application = ? ";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION_AND_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_application = ? AND id_user = ? ";
 
     /**
      * {@inheritDoc }
@@ -165,5 +168,87 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
 
         daoUtil.free( );
         return userApplicationRoleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<UserApplicationRole> selectUserApplicationRolesListByIdUser( String strIdUser, Plugin plugin)
+    {
+        List<UserApplicationRole> userApplicationRoleList = new ArrayList<>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_USER, plugin );
+        daoUtil.setString( 1 , strIdUser );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            UserApplicationRole userApplicationRole = new UserApplicationRole(  );
+            int nIndex = 1;
+            
+            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
+
+            userApplicationRoleList.add( userApplicationRole );
+        }
+
+        daoUtil.free( );
+        return userApplicationRoleList;    
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<UserApplicationRole> selectUserApplicationRolesListByIdApplication( int nIdApplication, Plugin plugin)
+    {
+        List<UserApplicationRole> userApplicationRoleList = new ArrayList<>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_APPLICATION, plugin );
+        daoUtil.setInt( 1 , nIdApplication );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            UserApplicationRole userApplicationRole = new UserApplicationRole(  );
+            int nIndex = 1;
+            
+            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
+
+            userApplicationRoleList.add( userApplicationRole );
+        }
+
+        daoUtil.free( );
+        return userApplicationRoleList; 
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<UserApplicationRole> selectUserApplicationRolesListByIdApplicationAndIdUser( int nIdApplication, String strIdUser, Plugin plugin)
+    {
+        List<UserApplicationRole> userApplicationRoleList = new ArrayList<>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_APPLICATION_AND_ID_USER, plugin );
+        daoUtil.setInt( 1 , nIdApplication );
+        daoUtil.setString( 2 , strIdUser );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            UserApplicationRole userApplicationRole = new UserApplicationRole(  );
+            int nIndex = 1;
+            
+            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
+
+            userApplicationRoleList.add( userApplicationRole );
+        }
+
+        daoUtil.free( );
+        return userApplicationRoleList; 
     }
 }

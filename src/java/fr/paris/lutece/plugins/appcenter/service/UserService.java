@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -43,6 +44,7 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -104,7 +106,7 @@ public class UserService
      * @param nApplicationId The applcation Id
      * @return The user Id
      */
-    public static User getCurrentUser( HttpServletRequest request , int nApplicationId )
+    public static User getCurrentUser( HttpServletRequest request )
     {
         User user = new User();
         if ( SecurityService.isAuthenticationEnable( ) )
@@ -113,15 +115,12 @@ public class UserService
             if( luteceUser != null )
             {
                 user.setId( getEmailUser( luteceUser ) );
-                int nRole = ApplicationHome.getUserRole( nApplicationId, getEmailUser( luteceUser ) );
-                boolean bAdmin = (nRole == RoleService.ROLE_ADMIN ) || ( nRole == RoleService.ROLE_OWNER );
-                user.setAdmin( bAdmin );
+                user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
             }
         }
         else
         {
             user.setId( MOCK_USER );
-            user.setAdmin( true );
         }
         return user;
 
@@ -159,6 +158,23 @@ public class UserService
         ReferenceList list = new ReferenceList( );
         list.addItem( MOCK_USER, MOCK_USER );
         return list;
+    }
+    
+    /**
+     * Get the user in the application context (with his specific role for the application)
+     * @param request
+     * @param nIdApplication
+     * @return 
+     */
+    public static User getCurrentUserInAppContext( HttpServletRequest request, int nIdApplication )
+    {
+        User user = getCurrentUser( request );
+        user.setListUserApplicationRoles(
+                user.getListUserApplicationRoles()
+                    .stream()
+                    .filter( userApplicationRole -> userApplicationRole.getIdApplication() == nIdApplication)
+                    .collect( Collectors.toList( ) ) );
+        return user;
     }
 
 }

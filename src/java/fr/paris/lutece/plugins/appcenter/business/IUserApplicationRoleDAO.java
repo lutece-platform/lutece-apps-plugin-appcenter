@@ -79,6 +79,30 @@ public interface IUserApplicationRoleDAO
      */
     List<UserApplicationRole> selectUserApplicationRolesList( Plugin plugin );
     
+    /**
+     * Load the data of all the userApplicationRole objects by id user and returns them as a list
+     * @param nIdUser
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the userApplicationRole objects by id user
+     */
+    List<UserApplicationRole> selectUserApplicationRolesListByIdUser( String nIdUser, Plugin plugin );
+    
+        /**
+     * Load the data of all the userApplicationRole objects by id user and returns them as a list
+     * @param nIdApplication
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the userApplicationRole objects by id user
+     */
+    List<UserApplicationRole> selectUserApplicationRolesListByIdApplication( int strIdApplication, Plugin plugin );
+    
+        /**
+     * Load the data of all the userApplicationRole objects by id user and returns them as a list
+     * @param nIdApplication
+     * @param plugin the Plugin
+     * @return The list which contains the data of all the userApplicationRole objects by id user
+     */
+    List<UserApplicationRole> selectUserApplicationRolesListByIdApplicationAndIdUser( int strIdApplication, String strIdUser, Plugin plugin );
+    
     
     /**
      * Load the data of all the userApplicationRole objects and returns them as a referenceList

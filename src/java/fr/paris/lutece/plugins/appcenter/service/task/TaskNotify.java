@@ -40,8 +40,10 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
-import fr.paris.lutece.plugins.appcenter.business.UserApplication;
-import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Role;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfig;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigHome;
 import fr.paris.lutece.plugins.appcenter.service.AppcenterPlugin;
@@ -148,31 +150,28 @@ public class TaskNotify extends SimpleTask
      */
     private String getRecipients( NotifyTaskConfig config, Demand demand )
     {
-        List<UserApplication> userAppList = UserApplicationHome.findByApplication( demand.getIdApplication() );
+        List<UserApplicationRole> userAppList = UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( demand.getIdApplication() );
         List<String> listEmailAddresses = new ArrayList<>();
         switch ( config.getNotificationType( ) )
         {
             case "owner" : 
                 return demand.getIdUserFront( ); 
             case "ownerApp" :
-                for ( UserApplication userApp : userAppList )
+                for ( UserApplicationRole userApp : userAppList )
                 {
-                    if ( userApp.getUserRole() == 2 )
+                    Role role = RoleHome.findByPrimaryKey( userApp.getIdRole( ) );
+                    if ( role.getCode() == "app_owner" )
                     {
-                        listEmailAddresses.add( userApp.getUserId( ) );
+                        listEmailAddresses.add( userApp.getIdUser( ) );
                         break;
                     }
                 }
                 break;
             case "all" : 
-                for ( UserApplication userApp : userAppList )
+                for ( UserApplicationRole userApp : userAppList )
                 {
-                    if ( userApp.getUserRole() == 3 || userApp.getUserRole() == 2 || userApp.getUserRole() == 4  )
-                    {
-                        listEmailAddresses.add( userApp.getUserId( ) );
-                        break;
-                    }
-                }
+                    listEmailAddresses.add( userApp.getIdUser( ) );
+                } 
             case "mailing_list" : 
                 Collection<Recipient> colRec =  AdminMailingListService.getRecipients( config.getIdMailingList( )  );
                 for ( Recipient recipient : colRec )

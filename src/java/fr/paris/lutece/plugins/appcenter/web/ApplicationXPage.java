@@ -42,12 +42,11 @@ import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
-import fr.paris.lutece.plugins.appcenter.business.UserApplication;
-import fr.paris.lutece.plugins.appcenter.business.UserApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
-import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
@@ -218,11 +217,11 @@ public class ApplicationXPage extends AppCenterDemandXPage
         
         
         
-        UserApplication authorization = new UserApplication( );
-        authorization.setId( _application.getId( ) );
-        authorization.setUserId( UserService.getCurrentUserId( request ) );
-        authorization.setUserRole( RoleService.ROLE_OWNER );
-        UserApplicationHome.createOrModify( authorization );
+        UserApplicationRole authorization = new UserApplicationRole( );
+        authorization.setIdApplication( _application.getId( ) );
+        authorization.setIdUser(UserService.getCurrentUserInAppContext( request, _application.getId( ) ).getId( ) );
+        authorization.setIdRole( RoleService.getOwnerRole().getId( ) );
+        UserApplicationRoleHome.create( authorization );
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
 
@@ -340,7 +339,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
-        model.put( MARK_USER, UserService.getCurrentUser( request, _application.getId( ) ));
+        model.put( MARK_USER, UserService.getCurrentUserInAppContext(request, _application.getId( ) ));
 
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
     }

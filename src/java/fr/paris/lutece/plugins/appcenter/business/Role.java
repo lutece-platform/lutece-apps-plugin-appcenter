@@ -53,7 +53,7 @@ public class Role implements Serializable
     @NotEmpty( message = "#i18n{appcenter.validation.role.Label.notEmpty}" )
     @Size( max = 255 , message = "#i18n{appcenter.validation.role.Label.size}" ) 
     private String _strLabel;
-
+    
     /**
      * Returns the Id
      * @return The Id

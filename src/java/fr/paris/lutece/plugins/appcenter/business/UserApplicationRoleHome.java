@@ -102,6 +102,33 @@ public final class UserApplicationRoleHome
         return _dao.selectUserApplicationRolesList( _plugin );
     }
     
+    /**
+     * Load the data of all the userApplicationRole objects by id user and returns them as a list
+     * @return the list which contains the data of all the userApplicationRole objects by id user
+     */
+    public static List<UserApplicationRole> getUserApplicationRolesListByIdUser( String strIdUser )
+    {
+        return _dao.selectUserApplicationRolesListByIdUser( strIdUser, _plugin );
+    }
+    
+    /**
+     * Load the data of all the userApplicationRole objects by id application and returns them as a list
+     * @return the list which contains the data of all the userApplicationRole objects by id application
+     */
+    public static List<UserApplicationRole> getUserApplicationRolesListByIdApplication( int nIdApplication )
+    {
+        return _dao.selectUserApplicationRolesListByIdApplication( nIdApplication, _plugin );
+    }
+    
+    /**
+     * Load the data of all the userApplicationRole objects by id application and returns them as a list
+     * @return the list which contains the data of all the userApplicationRole objects by id application
+     */
+    public static List<UserApplicationRole> getUserApplicationRolesListByIdApplicationAndIdUser( int nIdApplication, String strIdUser )
+    {
+        return _dao.selectUserApplicationRolesListByIdApplicationAndIdUser( nIdApplication, strIdUser,  _plugin );
+    }
+    
     
     /**
      * Load the data of all the userApplicationRole objects and returns them as a referenceList

@@ -65,7 +65,7 @@ public class Application implements Serializable
 
     private String _strApplicationData;
     
-    private List<UserApplication> _listAuthorizations;
+    private List<UserApplicationRole> _listAuthorizations;
     
     private List<Environment> _listEnvironment;
 
@@ -157,7 +157,7 @@ public class Application implements Serializable
      * Set authorizations
      * @param listAuthorizations The authorization list 
      */
-    public void setAuthorizations( List<UserApplication> listAuthorizations )
+    public void setAuthorizations( List<UserApplicationRole> listAuthorizations )
     {
         _listAuthorizations = listAuthorizations;
     }
@@ -166,7 +166,7 @@ public class Application implements Serializable
      * Get authorizations
      * @return The authorization list 
      */
-    public List<UserApplication> getAuthorizations( )
+    public List<UserApplicationRole> getAuthorizations( )
     {
         return _listAuthorizations;
     }

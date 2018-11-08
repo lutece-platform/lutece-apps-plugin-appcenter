@@ -47,7 +47,7 @@ import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
-import fr.paris.lutece.plugins.appcenter.service.RoleService;
+import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -111,10 +111,10 @@ public abstract class AppCenterXPage extends MVCApplication
     protected Application getApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         Application application = null;
-        LuteceUser user = null;
+        User user = null;
         if ( SecurityService.isAuthenticationEnable( ) )
         {
-            user = SecurityService.getInstance( ).getRemoteUser( request );
+            user = UserService.getCurrentUser(request);
             if ( user == null )
             {
                 throw new UserNotSignedException( );
@@ -129,7 +129,7 @@ public abstract class AppCenterXPage extends MVCApplication
             {
                 SiteMessageService.setMessage( request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
             }
-            if ( user != null && !ApplicationHome.isAuthorized( nId, UserService.getEmailUser( user ) ) )
+            if ( user != null && !AuthorizationService.isAuthorized( user.getId(), nId, "PERMISSION_VIEW_APP", "APP","*" ) )
             {
                 SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
             }
@@ -186,19 +186,11 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( MARK_APPLICATION, _application );
         
         //Add the user
-        User user = UserService.getCurrentUser( request, _application.getId( ) );
+        User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );
         model.put( Constants.MARK_USER, user );
         
         //Add the category action list
         model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsList( ) );
-
-        //Fill permissions for the user role
-        int nUserRole = ApplicationHome.getUserRole( _application.getId( ), user.getId( ) );
-        fillPermissionsForRole( model, nUserRole);
-
-        ReferenceList rolesList = RoleService.getRolesList( nUserRole );
-        AppCenterUtils.addEmptyItem( rolesList, getLocale( request ) );
-        model.put( MARK_ROLES_LIST, rolesList );
     }
     
     protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )
@@ -225,51 +217,4 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( Constants.MARK_DATAS, applicationDatas );
         
     }
-    
-    protected int checkRole( HttpServletRequest request, String strPropertyMappingXPageRole ) throws SiteMessageException
-    {
-        int nId = Integer.parseInt( request.getParameter( Constants.PARAM_ID_APPLICATION ) );
-        String strUserId = UserService.getCurrentUserId( request );
-        int nUserRole = ApplicationHome.getUserRole( nId, strUserId );
-
-        if ( !hasRoleFor( nUserRole, strPropertyMappingXPageRole ) )
-        {            
-            SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
-        }
-        
-        return nUserRole;
-    }
-    
-    private boolean hasRoleFor( int nUserRole, String strPropertyMappingXPageRole )
-    {
-        String strMappingXPageRole = AppPropertiesService.getProperty( strPropertyMappingXPageRole );
-
-        if ( strMappingXPageRole != null )
-        {
-            String [ ] tabXPageRole = strMappingXPageRole.split( "," );
-
-            for ( String strRole : tabXPageRole )
-            {
-                if ( Integer.parseInt( strRole ) == nUserRole )
-                {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-        
-        return true;
-    }
-    
-    private void fillPermissionsForRole( Map<String,Object> model, int nUserRole )
-    {
-        List<String> listPermissions = AppPropertiesService.getKeys( Constants.PROPERTY_MAPPING_XPAGE_ROLE );
-        
-        for (String Permission : listPermissions)
-        {
-            String strMarkIsRoleWithPermission = Constants.MARK_IS_ROLE + Permission.replaceFirst( Constants.PROPERTY_MAPPING_XPAGE_ROLE, "" );
-            model.put( strMarkIsRoleWithPermission, hasRoleFor( nUserRole, Permission ));
-        }
-    }    
 }

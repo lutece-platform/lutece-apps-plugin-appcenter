@@ -43,13 +43,9 @@ import java.util.List;
 /**
  * AuthorizationService
  */
-public class AuthorizationService implements IAuthorizationService
+public class AuthorizationService
 {
-    /**
-     * {@inheritDoc } 
-     */
-    @Override
-    public boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource) {
+    public static boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource) {
 
         if ( strIdUser != null )
         {
