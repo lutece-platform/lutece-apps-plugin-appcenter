@@ -6,8 +6,9 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Permission;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class PermissionService
 {
@@ -15,22 +16,13 @@ public class PermissionService
      * Get the permission list
      * @return the permission list
      */
-    public static List<Permission> getPermissionList( )
+    public static Collection<Permission> getPermissionList( )
     {
-        List<Permission> listPermission = new ArrayList<>();
-        
-        Permission permissionViewApp = new Permission();
-        permissionViewApp.setCode( "PERMISSION_VIEW_APP");
-        permissionViewApp.setLabel( "Permission vue app" );
-        permissionViewApp.setResourceTypeKey( "APP" );
-        listPermission.add(permissionViewApp);
-        
-        Permission permissionDeployApp = new Permission();
-        permissionDeployApp.setCode( "PERMISSION_DEPLOY_APP");
-        permissionDeployApp.setLabel( "Permission de déployer app" );
-        permissionDeployApp.setResourceTypeKey( "ENV" );
-        listPermission.add(permissionDeployApp);
-        
-        return listPermission;
+        Collection<Permission> colPermissions = new ArrayList<>();
+        for ( IPermissionProvider permissionProvider : SpringContextService.getBeansOfType( IPermissionProvider.class) )
+        {
+            colPermissions.addAll( permissionProvider.providePermissionList( ) );
+        }
+        return colPermissions;
     }
 }

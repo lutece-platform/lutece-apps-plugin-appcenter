@@ -29,8 +29,11 @@
         p:taskConfigDAO-ref="appcenter.customDemandStatusDAO" />
     <bean id="appcenter.taskNotifyConfigService"
         class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
-        p:taskConfigDAO-ref="appcenter.notifyDAO" />    
-   
+        p:taskConfigDAO-ref="appcenter.notifyDAO" /> 
+    
+    <!-- Providers -->
+    
+    <bean id="appcenter.applicationPermissionProvider" class="fr.paris.lutece.plugins.appcenter.service.ApplicationPermissionProvider"/>   
     
     <!-- Task Config -->
         <bean id="appcenter.customDemandStatusTaskConfig"
