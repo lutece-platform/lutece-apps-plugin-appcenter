@@ -45,7 +45,7 @@ import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.User;
-import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
+import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
@@ -190,7 +190,7 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( Constants.MARK_USER, user );
         
         //Add the category action list
-        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, AppCenterService.getCategoryActionsList( ) );
+        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsList( ) );
 
         //Fill permissions for the user role
         int nUserRole = ApplicationHome.getUserRole( _application.getId( ), user.getId( ) );

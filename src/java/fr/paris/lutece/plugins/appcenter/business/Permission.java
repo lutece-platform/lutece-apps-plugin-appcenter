@@ -34,12 +34,8 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.IAppCenterResourceType;
-import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.plugins.appcenter.service.ResourceTypeService;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * This is the business class for the object Permission
@@ -103,6 +99,6 @@ public class Permission implements Serializable
      */
     public IAppCenterResourceType getResourceType( )
     {
-        return AppCenterService.getResourceType( _resourceTypeKey );
+        return ResourceTypeService.getResourceType( _resourceTypeKey );
     }
 }

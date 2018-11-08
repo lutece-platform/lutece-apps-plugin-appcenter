@@ -38,7 +38,7 @@ import fr.paris.lutece.plugins.appcenter.business.PermissionRole;
 import fr.paris.lutece.plugins.appcenter.business.PermissionRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.Role;
 import fr.paris.lutece.plugins.appcenter.business.RoleHome;
-import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
+import fr.paris.lutece.plugins.appcenter.service.PermissionService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -140,7 +140,7 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
         _permissionrole = ( _permissionrole != null ) ? _permissionrole : new PermissionRole(  );
 
         Map<String, Object> model = getModel(  );
-        model.put( MARK_PERMISSION_LIST, AppCenterService.getPermissionList( ) );
+        model.put( MARK_PERMISSION_LIST, PermissionService.getPermissionList( ) );
         
         model.put( MARK_PERMISSIONROLE, _permissionrole );
 
