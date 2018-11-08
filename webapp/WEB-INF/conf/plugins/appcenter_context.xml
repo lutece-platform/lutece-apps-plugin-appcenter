@@ -14,7 +14,6 @@
     <bean id="appcenter.demandTypeDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandTypeDAO" />
     <bean id="appcenter.categoryDemandTypeDAO" class="fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeDAO" />
     <bean id="appcenter.applicationDAO" class="fr.paris.lutece.plugins.appcenter.business.ApplicationDAO" />
-    <bean id="appcenter.userApplicationDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationDAO" />
     <bean id="appcenter.demandDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandDAO" />
     <bean id="appcenter.customDemandStatusDAO" class="fr.paris.lutece.plugins.appcenter.business.task.CustomDemandStatusTaskConfigDAO" />
     <bean id="appcenter.notifyDAO" class="fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigDAO" />

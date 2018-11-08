@@ -203,7 +203,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
     public List<PermissionRole> selectPermissionRolesListByCodeAndIdRole(String strPermissionCode, int nIdRole, Plugin plugin)
     {
         List<PermissionRole> permissionRoleList = new ArrayList<>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CODE, plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CODE_AND_CODE_PERMISSION, plugin );
         daoUtil.setInt( 1 , nIdRole );
         daoUtil.setString( 2 , strPermissionCode );
         daoUtil.executeQuery(  );

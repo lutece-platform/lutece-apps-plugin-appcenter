@@ -49,15 +49,13 @@ import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
-import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
-import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +83,6 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
-    private static final String MARK_ROLES_LIST = "roles_list";
 
     
     //Session
@@ -129,10 +126,6 @@ public abstract class AppCenterXPage extends MVCApplication
             {
                 SiteMessageService.setMessage( request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
             }
-            if ( user != null && !AuthorizationService.isAuthorized( user.getId(), nId, "PERMISSION_VIEW_APP", "APP","*" ) )
-            {
-                SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
-            }
         }
         catch( NumberFormatException e )
         {
@@ -170,7 +163,7 @@ public abstract class AppCenterXPage extends MVCApplication
     }
     
 
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
+    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
         //Fill the active environment if it is stored in session
         HttpSession session = request.getSession( true );
@@ -216,5 +209,16 @@ public abstract class AppCenterXPage extends MVCApplication
         }
         model.put( Constants.MARK_DATAS, applicationDatas );
         
+    }
+    
+    protected void checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
+    {
+        Application application = getApplication( request );
+        User user = UserService.getCurrentUserInAppContext(request, application.getId( ) );
+        
+        if ( !AuthorizationService.isAuthorized( user.getId(), application.getId(), strPermissionCode, strResourceCode ) )
+        {
+            throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
+        }
     }
 }

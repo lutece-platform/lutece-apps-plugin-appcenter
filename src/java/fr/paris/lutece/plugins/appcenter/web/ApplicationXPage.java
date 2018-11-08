@@ -47,6 +47,7 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
@@ -60,6 +61,7 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.ReferenceList;
@@ -131,6 +133,17 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
 
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
+    
+    //Permissions
+    private static final String PERMISSION_VIEW_APPLICATION = "PERMISSION_VIEW_APPLICATION";
+    private static final String PERMISSION_REMOVE_APPLICATION = "PERMISSION_REMOVE_APPLICATION";
+    private static final String PERMISSION_MODIFY_APPLICATION = "PERMISSION_MODIFY_APPLICATION";
+    private static final String PERMISSION_CREATE_APPLICATION = "PERMISSION_CREATE_APPLICATION";
+
+    private static final String PERMISSION_VIEW_DEMANDS = "PERMISSION_VIEW_DEMANDS";
+    
+    private static final String PERMISSION_ADD_USERS = "PERMISSION_ADD_USERS";
+    private static final String PERMISSION_REMOVE_USER = "PERMISSION_REMOVE_USER";
     
 
     // Session variable to store working values
@@ -220,7 +233,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         UserApplicationRole authorization = new UserApplicationRole( );
         authorization.setIdApplication( _application.getId( ) );
         authorization.setIdUser(UserService.getCurrentUserInAppContext( request, _application.getId( ) ).getId( ) );
-        authorization.setIdRole( RoleService.getOwnerRole().getId( ) );
+        authorization.setIdRole( RoleService.getAppOwnerRole( ).getId( ) );
         UserApplicationRoleHome.create( authorization );
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
@@ -237,9 +250,9 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      */
     @Action( ACTION_CONFIRM_REMOVE_APPLICATION )
-    public XPage getConfirmRemoveApplication( HttpServletRequest request ) throws SiteMessageException
+    public XPage getConfirmRemoveApplication( HttpServletRequest request ) throws SiteMessageException, AccessDeniedException, UserNotSignedException
     {
-        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_APPLICATION.toLowerCase( ) );
+        checkPermission( request, PERMISSION_REMOVE_APPLICATION, null);
         
         int nId = Integer.parseInt( request.getParameter(PARAM_ID_APPLICATION ) );
 
@@ -260,9 +273,9 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @return the jsp URL to display the form to manage applications
      */
     @Action( ACTION_REMOVE_APPLICATION )
-    public XPage doRemoveApplication( HttpServletRequest request ) throws SiteMessageException
+    public XPage doRemoveApplication( HttpServletRequest request ) throws SiteMessageException, AccessDeniedException, UserNotSignedException
     {
-        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_APPLICATION.toLowerCase( ) );
+        checkPermission( request, PERMISSION_REMOVE_APPLICATION, null);
         
         int nId = Integer.parseInt( request.getParameter(PARAM_ID_APPLICATION ) );
         ApplicationHome.remove( nId );
@@ -282,9 +295,10 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      */
     @View( VIEW_MODIFY_APPLICATION )
-    public XPage getModifyApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage getModifyApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException, AccessDeniedException
     {
         _application = getApplication( request );
+        checkPermission( request, PERMISSION_MODIFY_APPLICATION, null);
         
         //Set the active environment
         String strActiveEnvi = request.getParameter( PARAMETER_ACTIVE_ENVIRONMENT );
@@ -318,7 +332,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
         model.put( MARK_DEMANDS, listFullDemands  );
-        model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
+        model.put( MARK_USERS_LIST, UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( _application.getId( ) ) );
         if ( _activeEnvironment != null )
         {
             model.put( MARK_ACTIVE_ENVIRONMENT, _activeEnvironment );
@@ -345,11 +359,11 @@ public class ApplicationXPage extends AppCenterDemandXPage
     }
     
     @View( VIEW_DEMANDS )
-    public XPage getViewDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage getViewDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException, AccessDeniedException
     {
         _application = getApplication( request );
         
-        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + VIEW_DEMANDS.toLowerCase( ) );
+        checkPermission( request, PERMISSION_VIEW_DEMANDS, null);
         
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
@@ -360,7 +374,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
         model.put( MARK_DEMANDS, listFullDemands  );
-        model.put( MARK_USERS_LIST, UserApplicationHome.findByApplication( _application.getId( ) ) );
+        model.put( MARK_USERS_LIST, UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( _application.getId( ) ) );
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
         for ( Demand demand : listFullDemands )
@@ -377,7 +391,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
-        model.put( MARK_USER, UserService.getCurrentUser( request, _application.getId( ) ));
+        model.put( MARK_USER, UserService.getCurrentUserInAppContext( request, _application.getId( ) ));
 
         return getXPage( TEMPLATE_VIEW_DEMANDS, request.getLocale( ), model );
     }
@@ -390,9 +404,9 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_APPLICATION )
-    public XPage doModifyApplication( HttpServletRequest request ) throws SiteMessageException
+    public XPage doModifyApplication( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_MODIFY_APPLICATION.toLowerCase( ) );
+        checkPermission( request, PERMISSION_MODIFY_APPLICATION, null);
         
         populate( _application, request );
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
@@ -435,32 +449,25 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      */
     @Action( ACTION_ADD_USER )
-    public XPage doAddUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage doAddUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        int nUserRole = checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_ADD_USER.toLowerCase( ) );
+        checkPermission( request, PERMISSION_ADD_USERS, null);
         
         _application = getApplication( request );
 
-        UserApplication authorization = new UserApplication();
+        UserApplicationRole authorization = new UserApplicationRole();
         
         populate( authorization, request );
-        authorization.setId( _application.getId() );
+        authorization.setIdApplication(_application.getId() );
         
         // Check constraints
-        // Also check user role parameter because populate method init the field to 0 in authorization
         if ( !validateBean( authorization ) || request.getParameter( PARAM_USER_ROLE ).isEmpty( ) )
         {
             addError( ERROR_INVALID_VALUE, getLocale( request ) );
             return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
         }
         
-        if ( nUserRole != RoleService.ROLE_ADMIN && authorization.getUserRole( ) <= nUserRole )
-        {
-            addError( ERROR_USER_ROLE_NOT_AUTHORIZED, getLocale( request ) );
-            return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
-        }
-        
-        UserApplicationHome.createOrModify( authorization );
+        UserApplicationRoleHome.create( authorization );
         
         addInfo( INFO_USER_ADDED, getLocale( request ) );
 
@@ -476,13 +483,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @throws fr.paris.lutece.portal.service.message.SiteMessageException
      */
     @Action( ACTION_REMOVE_USER )
-    public XPage doRemoveUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    public XPage doRemoveUser( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        checkRole( request , Constants.PROPERTY_MAPPING_XPAGE_ROLE + ACTION_REMOVE_USER.toLowerCase( ) );
+        checkPermission( request, PERMISSION_REMOVE_USER, null);
         
         Application application = getApplication( request );
         String strUserEmail = request.getParameter( PARAM_USER_EMAIL );
-        UserApplicationHome.remove( application.getId() , strUserEmail );
+        UserApplicationRoleHome.removeByApplicationIdAndUserId( application.getId() , strUserEmail );
         
         addInfo( INFO_USER_REMOVED, getLocale( request ) );
 

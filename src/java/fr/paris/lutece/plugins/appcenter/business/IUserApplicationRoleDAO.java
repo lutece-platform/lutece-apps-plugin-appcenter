@@ -58,6 +58,17 @@ public interface IUserApplicationRoleDAO
      * @param plugin the Plugin
      */
     void delete( int nRoleId, int nApplicationId, String strUserId, Plugin plugin );
+    
+    /**
+     * Delete records from the table, identified by given id user and id application
+     * @param nApplicationId
+     *              The id application
+     * @param strUserId
+     *              The user id
+     * @param plugin 
+     *              The plugin
+     */
+    void deleteByApplicationIdAndUserId( int nApplicationId, String strUserId, Plugin plugin );
 
     ///////////////////////////////////////////////////////////////////////////
     // Finders

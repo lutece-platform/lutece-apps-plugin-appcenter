@@ -21,11 +21,41 @@ public class ApplicationPermissionProvider implements IPermissionProvider
         List<Permission> listPermission = new ArrayList<>();
         
         Permission permissionViewApp = new Permission();
-        permissionViewApp.setCode( "PERMISSION_VIEW_APP");
-        permissionViewApp.setLabel( "Permission vue app" );
+        permissionViewApp.setCode( "PERMISSION_VIEW_APPLICATION");
+        permissionViewApp.setLabel( "Permission de voir l'application" );
         permissionViewApp.setResourceTypeKey( "APP" );
         listPermission.add(permissionViewApp);
                 
+        Permission permissionCreateApp = new Permission();
+        permissionCreateApp.setCode( "PERMISSION_CREATE_APPLICATION");
+        permissionCreateApp.setLabel( "Permission de creer des applications" );
+        permissionCreateApp.setResourceTypeKey( "APP" );
+        listPermission.add(permissionCreateApp);
+        
+        Permission permissionModifyApp = new Permission();
+        permissionModifyApp.setCode( "PERMISSION_MODIFY_APPLICATION");
+        permissionModifyApp.setLabel( "Permission de modifier les applications" );
+        permissionModifyApp.setResourceTypeKey( "APP" );
+        listPermission.add(permissionModifyApp);
+        
+        Permission permissionAddUsers = new Permission();
+        permissionAddUsers.setCode( "PERMISSION_ADD_USERS");
+        permissionAddUsers.setLabel( "Permission d'ajouter des utilisateurs a une application" );
+        permissionAddUsers.setResourceTypeKey( "APP" );
+        listPermission.add(permissionAddUsers);
+        
+        Permission permissionRemoveUser = new Permission();
+        permissionRemoveUser.setCode( "PERMISSION_REMOVE_USER");
+        permissionRemoveUser.setLabel( "Permission de supprimer un utilisateur a une application" );
+        permissionRemoveUser.setResourceTypeKey( "APP" );
+        listPermission.add(permissionRemoveUser);
+        
+        Permission permissionViewDemands = new Permission();
+        permissionViewDemands.setCode( "PERMISSION_VIEW_DEMANDS");
+        permissionViewDemands.setLabel( "Permission de voir les demandes" );
+        permissionViewDemands.setResourceTypeKey( "APP" );
+        listPermission.add(permissionViewDemands);
+        
         return listPermission;
     }
     

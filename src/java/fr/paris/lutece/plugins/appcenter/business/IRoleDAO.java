@@ -74,6 +74,14 @@ public interface IRoleDAO
      * @return The instance of the role
      */
     Role load( int nKey, Plugin plugin );
+    
+      /**
+     * Load the data from the table identified by the code
+     * @param strCode The code of the role
+     * @param plugin the Plugin
+     * @return The instance of the role
+     */
+    Role loadByCode( String strCode, Plugin plugin );
 
     /**
      * Load the role of a user from the table

@@ -80,6 +80,16 @@ public final class UserApplicationRoleHome
     {
         _dao.delete( nRoleId, nApplicationId, strUserId, _plugin );
     }
+    
+    /**
+     * Remove the userApplicationRole whose identifier is specified in parameter
+     * @param nApplicationId
+     * @param strUserId
+     */
+    public static void removeByApplicationIdAndUserId( int nApplicationId, String strUserId )
+    {
+        _dao.deleteByApplicationIdAndUserId( nApplicationId, strUserId, _plugin );
+    }
 
     /**
      * Returns an instance of a userApplicationRole whose identifier is specified in parameter

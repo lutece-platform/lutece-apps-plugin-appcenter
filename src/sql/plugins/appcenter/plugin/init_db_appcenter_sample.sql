@@ -9,7 +9,18 @@ INSERT INTO appcenter_category_demand_type ( id, label, question , is_depending_
 /*
 Authorizations management example
 */
-INSERT INTO appcenter_role (id_role,code,label) VALUES (1,'MOA','Chef de projet applicatif');
-INSERT INTO appcenter_role (id_role,code,label) VALUES (2,'MOE_DELEG','MOE déléguée (Prestataire)');
-INSERT INTO appcenter_role (id_role,code,label) VALUES (3,'MOE','MOE (BILD)');
-INSERT INTO appcenter_role (id_role,code,label) VALUES (4,'MOA_DELEG','MOA déléguée');
+INSERT INTO appcenter_role (id_role,code,label) VALUES (1,'app_owner','Propriétaire de l''application');
+INSERT INTO appcenter_role (id_role,code,label) VALUES (2,'MOA','Chef de projet applicatif');
+INSERT INTO appcenter_role (id_role,code,label) VALUES (3,'MOE_DELEG','MOE déléguée (Prestataire)');
+INSERT INTO appcenter_role (id_role,code,label) VALUES (4,'MOE','MOE (BILD)');
+INSERT INTO appcenter_role (id_role,code,label) VALUES (5,'MOA_DELEG','MOA déléguée');
+
+/*
+Permissions for the role owner
+*/
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_MODIFY_APPLICATION','1','APP');
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_CREATE_APPLICATION','1','APP');
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_APPLICATION','1','APP');
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_DEMANDS','1','APP');
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_ADD_USERS','1','APP');
+INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_REMOVE_USER','1','APP');

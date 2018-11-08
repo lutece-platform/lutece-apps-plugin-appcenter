@@ -49,6 +49,7 @@ public final class RoleDAO implements IRoleDAO
 {
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id_role, code, label FROM appcenter_role WHERE id_role = ?";
+    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT id_role, code, label FROM appcenter_role WHERE code = ?";
     private static final String SQL_QUERY_SELECT_BY_USER_AND_APPLICATION = "select p.id_role, p.code, p.label from appcenter_role p, appcenter_user_application_role ap where p.id_role = ap.id_role and id_user = ? and id_application = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_role ( code, label ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_role WHERE id_role = ? ";
@@ -225,5 +226,30 @@ public final class RoleDAO implements IRoleDAO
 
         daoUtil.free( );
         return roleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Role loadByCode( String strCode, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_CODE, plugin );
+        daoUtil.setString( 1 , strCode );
+        daoUtil.executeQuery( );
+        Role role = null;
+
+        if ( daoUtil.next( ) )
+        {
+            role = new Role();
+            int nIndex = 1;
+            
+            role.setId( daoUtil.getInt( nIndex++ ) );
+            role.setCode( daoUtil.getString( nIndex++ ) );
+            role.setLabel( daoUtil.getString( nIndex++ ) );
+        }
+
+        daoUtil.free( );
+        return role;
     }
 }

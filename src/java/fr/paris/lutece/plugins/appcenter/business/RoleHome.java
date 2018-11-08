@@ -98,6 +98,16 @@ public final class RoleHome
     {
         return _dao.load( nKey, _plugin );
     }
+    
+    /**
+     * Returns an instance of a role whose identifier is specified in parameter
+     * @param strCode The role code
+     * @return an instance of Role
+     */
+    public static Role findByCode( String strCode )
+    {
+        return _dao.loadByCode( strCode, _plugin );
+    }
 
     /**
      * Returns an instance of a role whose identifier is specified in parameter

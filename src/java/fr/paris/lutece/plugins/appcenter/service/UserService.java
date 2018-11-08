@@ -121,6 +121,7 @@ public class UserService
         else
         {
             user.setId( MOCK_USER );
+            
         }
         return user;
 
@@ -169,11 +170,16 @@ public class UserService
     public static User getCurrentUserInAppContext( HttpServletRequest request, int nIdApplication )
     {
         User user = getCurrentUser( request );
-        user.setListUserApplicationRoles(
-                user.getListUserApplicationRoles()
-                    .stream()
-                    .filter( userApplicationRole -> userApplicationRole.getIdApplication() == nIdApplication)
-                    .collect( Collectors.toList( ) ) );
+        if ( user.getListUserApplicationRoles() != null )
+        {
+            //Do a Home method instead
+            user.setListUserApplicationRoles(
+            user.getListUserApplicationRoles()
+                .stream()
+                .filter( userApplicationRole -> userApplicationRole.getIdApplication() == nIdApplication)
+                .collect( Collectors.toList( ) ) );
+            
+        }
         return user;
     }
 

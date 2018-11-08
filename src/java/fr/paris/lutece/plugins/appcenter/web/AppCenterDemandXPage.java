@@ -45,6 +45,7 @@ import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -139,7 +140,7 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
     }
     
     @Override
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
+    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
         super.fillAppCenterCommons( model, request);
         

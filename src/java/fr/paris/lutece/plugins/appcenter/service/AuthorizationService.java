@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class AuthorizationService
 {
-    public static boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResourceType, String strResource) {
+    public static boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResource) {
 
         if ( strIdUser != null )
         {
@@ -55,12 +55,19 @@ public class AuthorizationService
             {
                 List<PermissionRole> listPermissionRole = PermissionRoleHome.getPermissionRolesListByCodeAndIdRole( strPermissionCode, role.getId( ) );
                 
-                for ( PermissionRole permissionRole : listPermissionRole )
+                if ( !listPermissionRole.isEmpty() && strResource != null )
                 {
-                    if ( permissionRole.getCodeResource().equals("*") || permissionRole.getCodeResource().equals( strResource ) )
+                    for ( PermissionRole permissionRole : listPermissionRole )
                     {
-                        return true;
+                        if ( permissionRole.getCodeResource().equals("*") || permissionRole.getCodeResource().equals( strResource ) )
+                        {
+                            return true;
+                        }
                     }
+                }
+                else if ( !listPermissionRole.isEmpty() )
+                {
+                    return true;
                 }
             }
         }

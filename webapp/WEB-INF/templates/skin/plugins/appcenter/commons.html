@@ -13,28 +13,6 @@
                                         <span class="fa fa-question-circle-o"></span> Support Lutèce
                                 </a>
                         </#if>
-			<#if user.admin>
-			<!-- <#if is_role_for_action_modify_application?? && is_role_for_action_modify_application >
-                                <button id="buttonModifyApplication" type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalModify" title="#i18n{appcenter.modify_application.buttonModifyAppDescription}">
-                                        <span class="fa fa-edit"></span> Modifier
-                                </button>
-                        </#if>
-                        <#if is_role_for_action_add_user >
-                                <button type="button" class="btn btn-app" data-toggle="modal" data-target="#ModalAddUser" title="#i18n{appcenter.modify_application.buttonAddUser}">
-                                        <span class="fa fa-user-plus"></span> Utilisateurs
-                                </button>
-                        </#if>
-                        <#if is_role_for_view_demands >
-                                <a class="btn btn-app" href="jsp/site/Portal.jsp?page=application&view=viewDemands&id=${application.id}" title="Voir toutes les demandes">
-                                        <i class="fa fa-eye"></i> Demandes
-                                </a>
-                        </#if>
-                        <#if is_role_for_action_remove_user >
-                                <a class="btn btn-app btn-danger" href="jsp/site/Portal.jsp?page=application&action=confirmRemoveApplication&id=${application.id}" title="#i18n{portal.util.labelDelete}">
-                                        <span class="fa fa-trash"></span> #i18n{portal.util.labelDelete}
-                                </a>
-                        </#if> -->
-			</#if>
 		</div>
              <#list list_category_actions as category_actions> 
              <div class="btn-group">
@@ -163,12 +141,10 @@
 							<ul class="userList">
 							<#list application.authorizations as userAuthorized>
 								<li>
-									<@icon style="user" /> ${userAuthorized.userId} (${userAuthorized.userRoleName})
-									<#if user.admin>
-									<a class="text-danger" href='jsp/site/Portal.jsp?page=application&action=removeUser&id=${application.id}&user_email=${userAuthorized.userId}' title="#i18n{portal.util.labelDelete}">
+									<@icon style="user" /> ${userAuthorized.idUser} (${userAuthorized.idRole})
+									<a class="text-danger" href='jsp/site/Portal.jsp?page=application&action=removeUser&id=${application.id}&user_email=${userAuthorized.idUser}' title="#i18n{portal.util.labelDelete}">
 										<span class="fa fa-trash"></span>
-									</a> 
-									</#if>    
+									</a>  
 								</li>
 							</#list>
 							</ul>
@@ -259,21 +235,9 @@ $(function(){
 
 <#macro tabEnvis tab application errors infos user> 
 
-<#assign show_panel_one = (is_role_for_action_modify_application?? && is_role_for_action_modify_application)
-                        || (is_role_for_action_add_user?? && is_role_for_action_add_user)
-                        || (is_role_for_view_demands?? && is_role_for_view_demands )
-                        || (is_role_for_action_remove_application?? && is_role_for_action_remove_application ) >
-<#assign show_panel_two = (is_role_for_view_manage_app_code_demands?? && is_role_for_view_manage_app_code_demands )
-                        || (is_role_for_view_manage_sources?? && is_role_for_view_manage_sources )
-                        || (is_role_for_view_manage_jobs?? && is_role_for_view_manage_jobs )
-                        || (is_role_for_view_manage_applications?? && is_role_for_view_manage_applications ) >
-<#assign show_panel_three = (is_role_for_view_manage_environment_demands?? && is_role_for_view_manage_environment_demands )
-                        || (is_role_for_view_manage_guichet_pro_demands?? && is_role_for_view_manage_guichet_pro_demands )
-                        || (is_role_for_view_manage_identitystore?? && is_role_for_view_manage_identitystore )
-                        || (is_role_for_view_manage_moncomptesettings_demand?? && is_role_for_view_manage_moncomptesettings_demand )
-                        || (is_role_for_view_manage_notification_gru_demands?? && is_role_for_view_manage_notification_gru_demands )
-                        || (is_role_for_view_manage_agents?? && is_role_for_view_manage_agents )
-                        || (is_role_for_view_manage_wsso_demands?? && is_role_for_view_manage_wsso_demands ) >
+<#assign show_panel_one = true >
+<#assign show_panel_two = true >
+<#assign show_panel_three = true>
                         
 <div class="col-xs-12 col-sm-3">
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable=true">
@@ -287,7 +251,6 @@ $(function(){
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 					<ul class="list-group">
-						<#if is_role_for_action_modify_application >
                                                         <li class="list-group-item">
                                                                 <div class="row">
                                                                         <div class="col-xs-1">
@@ -299,7 +262,6 @@ $(function(){
                                                                 </div>
                                                         </li>
                                                 </#if>
-                                                <#if is_role_for_action_add_user >
                                                         <li class="list-group-item">
                                                                 <div class="row">
                                                                         <div class="col-xs-1">
@@ -311,8 +273,6 @@ $(function(){
                                                                                 </a>
                                                                         </div>
                                                         </li>
-                                                </#if>
-                                                <#if is_role_for_view_demands >
                                                         <li class="list-group-item">
                                                                 <div class="row">
                                                                         <div class="col-xs-1">
@@ -323,8 +283,6 @@ $(function(){
                                                                         </div>
                                                                 </div>
                                                         </li>
-                                                </#if>
-                                                <#if is_role_for_action_remove_application >
                                                         <li class="list-group-item">
                                                                 <div class="row">
                                                                         <div class="col-xs-1">
@@ -335,11 +293,9 @@ $(function(){
                                                                         </div>
                                                                 </div>
                                                         </li>
-                                                </#if>
 					</ul>
 				</div>
 			</div>
-		</#if>
 		<#if show_panel_two>
                         <div class="panel panel-<#if !active_environment?? || active_environment == ''>purple<#else>purple</#if>">
                                 <div class="panel-heading" role="tab" id="headingOne">

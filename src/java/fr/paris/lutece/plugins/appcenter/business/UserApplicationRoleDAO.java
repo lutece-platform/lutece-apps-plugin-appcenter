@@ -51,6 +51,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     private static final String SQL_QUERY_SELECT = "SELECT id_role, id_application, id_user FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application_role ( id_role, id_application, id_user ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ? ";
+    private static final String SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID = "DELETE FROM appcenter_user_application_role WHERE id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
     private static final String SQL_QUERY_SELECTALL_BY_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION = SQL_QUERY_SELECTALL + " WHERE id_application = ? ";
@@ -117,6 +118,20 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
         daoUtil.setInt( 1 , nRoleId );
         daoUtil.setInt( 2 , nApplicationId );
         daoUtil.setString(3 , strUserId );
+        
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void deleteByApplicationIdAndUserId( int nApplicationId, String strUserId, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID, plugin );
+        daoUtil.setInt( 1 , nApplicationId );
+        daoUtil.setString( 2 , strUserId );
         
         daoUtil.executeUpdate( );
         daoUtil.free( );
