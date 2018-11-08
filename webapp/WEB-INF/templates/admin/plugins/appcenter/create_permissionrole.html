@@ -19,8 +19,8 @@
 				<@formGroup labelKey='#i18n{appcenter.create_permissionrole.labelCodeResource}' helpKey='#i18n{appcenter.create_permissionrole.labelCodeResource.help}' mandatory=true>
 					<select id="code_resource" name="code_resource">
                                             <#list permission_list as permission>
-                                                <#list permission.resourceTypeValues as resourceTypeValue>
-                                                    <option id="${permission.code}_${resourceTypeValue}" value="${resourceTypeValue}" hidden >${resourceTypeValue}</option>
+                                                <#list permission.resourceType.resourceTypeValues as resourceTypeValue>
+                                                    <option id="${permission.code}_${resourceTypeValue.code}" value="${resourceTypeValue.code}" hidden >${resourceTypeValue.label}</option>
                                                 </#list>
                                             </#list>
                                         </select>

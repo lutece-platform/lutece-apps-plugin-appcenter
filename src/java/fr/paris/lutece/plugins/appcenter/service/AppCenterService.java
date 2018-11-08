@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.CategoryAction;
-import fr.paris.lutece.plugins.appcenter.business.EnvironmentType;
+import fr.paris.lutece.plugins.appcenter.business.resourcetype.IAppCenterResourceType;
 import fr.paris.lutece.plugins.appcenter.business.Permission;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
@@ -43,6 +42,7 @@ import java.util.List;
 
 public class AppCenterService 
 {
+    
     /**
      * Get the permission list
      * @return the permission list
@@ -54,16 +54,21 @@ public class AppCenterService
         Permission permissionViewApp = new Permission();
         permissionViewApp.setCode( "PERMISSION_VIEW_APP");
         permissionViewApp.setLabel( "Permission vue app" );
-        permissionViewApp.setResourceTypeClass( Application.class );
+        permissionViewApp.setResourceTypeKey( "APP" );
         listPermission.add(permissionViewApp);
         
         Permission permissionDeployApp = new Permission();
         permissionDeployApp.setCode( "PERMISSION_DEPLOY_APP");
         permissionDeployApp.setLabel( "Permission de déployer app" );
-        permissionDeployApp.setResourceTypeClass( EnvironmentType.class );
+        permissionDeployApp.setResourceTypeKey( "ENV" );
         listPermission.add(permissionDeployApp);
         
         return listPermission;
+    }
+    
+    private static List<IAppCenterResourceType> getResourceTypeList( )
+    {
+        return SpringContextService.getBeansOfType( IAppCenterResourceType.class );
     }
     
     /**
@@ -73,6 +78,23 @@ public class AppCenterService
     public static List<CategoryAction> getCategoryActionsList( )
     {
         return SpringContextService.getBeansOfType( CategoryAction.class );
+    }
+    
+    /**
+     * Get the IAppcenterResourceType from the resource type key
+     * @param strResourceTypeCode
+     * @return the IAppcenterResourceType from the given resource type key
+     */
+    public static IAppCenterResourceType getResourceType( String strResourceTypeCode )
+    {
+        for ( IAppCenterResourceType resourceType : getResourceTypeList( ) )
+        {
+            if ( strResourceTypeCode.equals( resourceType.getRessourceTypeKey( ) ) )
+            {
+                return resourceType;
+            }
+        }
+        return null;
     }
     
 }

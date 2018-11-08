@@ -41,12 +41,11 @@ import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
-import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
@@ -80,6 +79,7 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
 
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_PERMISSIONROLE = "appcenter.message.confirmRemovePermissionRole";
+    private static final String MESSAGE_PERMISSIONROLE_EXISTS = "appcenter.message.permissionRoleExists";
 
     // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.permissionrole.attribute.";
@@ -120,6 +120,8 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
         if ( _role != null )
         {
             List<PermissionRole> listPermissionRoles = listPermissionRoles = PermissionRoleHome.getPermissionRolesListByIdRole( _role.getId() );
+            
+            
             Map<String, Object> model = getPaginatedListModel( request, MARK_PERMISSIONROLE_LIST, listPermissionRoles, JSP_MANAGE_PERMISSIONROLES );
             return getPage( PROPERTY_PAGE_TITLE_MANAGE_PERMISSIONROLES, TEMPLATE_MANAGE_PERMISSIONROLES, model );
         }
@@ -164,10 +166,19 @@ public class PermissionRoleJspBean extends ManageAppCenterJspBean
         {
             return redirectView( request, VIEW_CREATE_PERMISSIONROLE );
         }
+        try
+        {
+            PermissionRoleHome.create( _permissionrole );
+        }
+        catch ( AppException e )
+        {
+            UrlItem url = new UrlItem( getViewFullUrl( VIEW_CREATE_PERMISSIONROLE ) );
+            String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_PERMISSIONROLE_EXISTS, url.getUrl(  ), AdminMessage.TYPE_ERROR );
 
-        PermissionRoleHome.create( _permissionrole );
-        addInfo( INFO_PERMISSIONROLE_CREATED, getLocale(  ) );
+        return redirect( request, strMessageUrl );
+        }
         
+        addInfo( INFO_PERMISSIONROLE_CREATED, getLocale(  ) );
         return redirectView( request, VIEW_MANAGE_PERMISSIONROLES );
     }
 

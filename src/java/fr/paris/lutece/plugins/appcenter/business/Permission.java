@@ -33,6 +33,8 @@
  */ 
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.business.resourcetype.IAppCenterResourceType;
+import fr.paris.lutece.plugins.appcenter.service.AppCenterService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
@@ -48,7 +50,7 @@ public class Permission implements Serializable
     
     private String _strCode;
     private String _strLabel;
-    private Class _resourceTypeClass;
+    private String _resourceTypeKey;
 
     /**
      * Returns the Code
@@ -90,43 +92,17 @@ public class Permission implements Serializable
      * Sets the ResourceType
      * @param resourceTypeClass The ResourceType class
      */ 
-    public void setResourceTypeClass( Class resourceTypeClass )
+    public void setResourceTypeKey( String strResourceTypeKey )
     {
-        _resourceTypeClass = resourceTypeClass;
+        _resourceTypeKey = strResourceTypeKey;
     }
     
-    public String getResourceTypeKey()
+    /**
+     * Get the IAppcenterResourceType associated to this permission
+     * @return the IAppcenterResourceType associated to this permission
+     */
+    public IAppCenterResourceType getResourceType( )
     {
-        try
-        {
-            IAppCenterResourceType resourceType = (IAppCenterResourceType)_resourceTypeClass.newInstance();
-            return resourceType.getRessourceTypeKey();
-        }
-        catch ( InstantiationException|IllegalAccessException e  )
-        {
-            AppLogService.error( "Unable to instantiate resource type", e);
-            return null;
-        }
-                
-        
-    }
-    
-    public Collection<String> getResourceTypeValues()
-    {
-        try
-        {
-            IAppCenterResourceType resourceType = (IAppCenterResourceType)_resourceTypeClass.newInstance();
-            Collection<String> listResourceTypeValues = resourceType.getResourceTypeValues( );
-            if ( resourceType.hasMultipleValues( ) )
-            {
-                listResourceTypeValues.add("*");
-            }
-            return listResourceTypeValues;
-        }
-        catch ( InstantiationException|IllegalAccessException e )
-        {
-            AppLogService.error( "Unable to instantiate resource type", e);
-            return null;
-        }
+        return AppCenterService.getResourceType( _resourceTypeKey );
     }
 }
