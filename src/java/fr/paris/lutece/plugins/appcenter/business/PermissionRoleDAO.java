@@ -53,6 +53,7 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_permission_role WHERE code_permission= ? and id_role = ? and code_resource = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT code_permission, id_role, code_resource FROM appcenter_permission_role ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_CODE = SQL_QUERY_SELECTALL + " WHERE id_role = ? ORDER BY code_permission, code_resource";
+    private static final String SQL_QUERY_SELECTALL_BY_ID_CODE_AND_CODE_PERMISSION = SQL_QUERY_SELECTALL + " WHERE id_role = ? AND code_permission = ? ORDER BY code_permission, code_resource";
 
     /**
      * {@inheritDoc }
@@ -177,6 +178,34 @@ public final class PermissionRoleDAO implements IPermissionRoleDAO
         List<PermissionRole> permissionRoleList = new ArrayList<>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CODE, plugin );
         daoUtil.setInt( 1 , nIdRole );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            PermissionRole permissionRole = new PermissionRole(  );
+            int nIndex = 1;
+            
+            permissionRole.setCodePermission( daoUtil.getString( nIndex++ ) );
+            permissionRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            permissionRole.setCodeResource( daoUtil.getString( nIndex++ ) );
+
+            permissionRoleList.add( permissionRole );
+        }
+
+        daoUtil.free( );
+        return permissionRoleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<PermissionRole> selectPermissionRolesListByCodeAndIdRole(String strPermissionCode, int nIdRole, Plugin plugin)
+    {
+        List<PermissionRole> permissionRoleList = new ArrayList<>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CODE, plugin );
+        daoUtil.setInt( 1 , nIdRole );
+        daoUtil.setString( 2 , strPermissionCode );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )

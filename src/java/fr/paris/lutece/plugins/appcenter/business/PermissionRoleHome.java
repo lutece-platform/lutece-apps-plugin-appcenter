@@ -131,8 +131,7 @@ public final class PermissionRoleHome
      */
     public static List<PermissionRole> getPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole )
     {
-        //return _dao.selectPermissionRolesListByIdRole( strPermissionCode, nIdRole,  _plugin );
-        return null;
+        return _dao.selectPermissionRolesListByCodeAndIdRole( strPermissionCode, nIdRole, _plugin );
     }
 }
 

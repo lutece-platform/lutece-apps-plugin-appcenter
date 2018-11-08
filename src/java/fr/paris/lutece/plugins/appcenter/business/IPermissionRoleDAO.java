@@ -97,4 +97,13 @@ public interface IPermissionRoleDAO
      * @return The list which contains the data of all the permissionRole objects by id role
      */
     List<PermissionRole> selectPermissionRolesListByIdRole( int nIdRole,  Plugin plugin );
+    
+    /**
+     * Load the data of all the permissionRole objects by permissionCode and id role and return them as a List
+     * @param strPermissionCode
+     * @param nIdRole
+     * @param plugin
+     * @return The list which contains the data of all the permissionRole objects by id role and permission code
+     */
+    List<PermissionRole> selectPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole, Plugin plugin  );
 }
