@@ -221,7 +221,7 @@ public final class RoleDAO implements IRoleDAO
 
         while ( daoUtil.next(  ) )
         {
-            roleList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+            roleList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 3 ) );
         }
 
         daoUtil.free( );

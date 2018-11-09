@@ -35,7 +35,9 @@ package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.IAppCenterResourceType;
 import fr.paris.lutece.plugins.appcenter.service.ResourceTypeService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * This is the business class for the object Permission
@@ -72,8 +74,31 @@ public class Permission implements Serializable
      */
     public String getLabel( )
     {
-        return _strLabel;
+        String strLabel = I18nService.getLocalizedString( _strLabel, Locale.getDefault( ) );
+        if ( strLabel == null  )
+        {
+            return _strLabel;
+        }
+        return strLabel;
+        
     }
+    
+    /**
+     * Returns the Label
+     * @param locale
+     * @return The Label
+     */
+    public String getLabel( Locale locale )
+    {
+        String strLabel = I18nService.getLocalizedString( _strLabel, locale );
+        if ( strLabel == null  )
+        {
+            return _strLabel;
+        }
+        return strLabel;
+    }
+    
+    
 
     /**
      * Sets the Label

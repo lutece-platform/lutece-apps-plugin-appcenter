@@ -44,6 +44,7 @@ import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
@@ -91,47 +92,17 @@ public abstract class AppCenterXPage extends MVCApplication
     
     protected Application _application;
     
-    
     /**
      * Get the current application
      * 
      * @param request
      *            The HTTP request
      * @return The application
-     * @throws UserNotSignedException
-     *             If the user is not signed
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
-     *             if an error occurs
      */
-    protected Application getApplication( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    protected Application getApplication( HttpServletRequest request )
     {
-        Application application = null;
-        User user = null;
-        if ( SecurityService.isAuthenticationEnable( ) )
-        {
-            user = UserService.getCurrentUser(request);
-            if ( user == null )
-            {
-                throw new UserNotSignedException( );
-            }
-        }
-
-        try
-        {
-            int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
-            application = ApplicationHome.findByPrimaryKey( nId );
-            if ( application == null )
-            {
-                SiteMessageService.setMessage( request, ERROR_APP_NOT_FOUND, SiteMessage.TYPE_ERROR );
-            }
-        }
-        catch( NumberFormatException e )
-        {
-            SiteMessageService.setMessage( request, ERROR_INVALID_APP_ID, SiteMessage.TYPE_ERROR );
-        }
-
-        return application;
-
+        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
+        return ApplicationHome.findByPrimaryKey( nId );
     }
     
     /**
@@ -169,10 +140,12 @@ public abstract class AppCenterXPage extends MVCApplication
                             .stream()
                             .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
                     );
+        model.put( Constants.MARK_ROLES_LIST, RoleHome.getRolesReferenceList( ) );
+
     }
     
 
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
+    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
         //Fill the active environment if it is stored in session
         HttpSession session = request.getSession( true );
@@ -220,14 +193,40 @@ public abstract class AppCenterXPage extends MVCApplication
         
     }
     
+    /**
+     * Check a permission for a user, on given resource code. 
+     * Ex: PERMISSION_DEPLY_APPLI for user john.doe@paris.fr on resource REC (environement)
+     * @param request
+     * @param strPermissionCode
+     * @param strResourceCode
+     * @throws SiteMessageException
+     * @throws UserNotSignedException
+     * @throws AccessDeniedException 
+     */
     protected void checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        Application application = getApplication( request );
-        User user = UserService.getCurrentUserInAppContext(request, application.getId( ) );
-        
-        if ( !AuthorizationService.isAuthorized( user.getId(), application.getId(), strPermissionCode, strResourceCode ) )
+        if ( _application == null )
         {
             throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }
+        else
+        {
+            User user = UserService.getCurrentUserInAppContext(request, _application.getId( ) );
+            if ( !AuthorizationService.isAuthorized( user.getId(), _application.getId(), strPermissionCode, strResourceCode ) )
+            {
+                throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
+            }
+        }
+        
+    }
+    
+    /**
+     * Get an authorized site message
+     * @param request
+     * @throws SiteMessageException 
+     */
+    protected void getUnauthorizedAccessMessage( HttpServletRequest request ) throws SiteMessageException
+    {
+        SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
     }
 }

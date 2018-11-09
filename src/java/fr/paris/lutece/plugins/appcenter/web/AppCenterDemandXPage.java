@@ -136,7 +136,7 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
     }
     
     @Override
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
+    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
         super.fillAppCenterCommons( model, request);
         

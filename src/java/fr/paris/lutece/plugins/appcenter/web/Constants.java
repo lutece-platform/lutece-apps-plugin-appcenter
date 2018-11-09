@@ -46,7 +46,7 @@ public class Constants
     public static final String PARAM_ID_APPLICATION = "id";
     public static final String PARAM_ACTION = "action";
     public static final String PARAM_PAGE = "page";
-    public static final String PARAM_USER_ROLE = "user_role";
+    public static final String PARAM_USER_ROLE = "id_role";
     public static final String PARAM_USER_EMAIL = "user_email";
 
     // Markers

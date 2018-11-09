@@ -141,7 +141,7 @@
 							<ul class="userList">
 							<#list application.authorizations as userAuthorized>
 								<li>
-									<@icon style="user" /> ${userAuthorized.idUser} (${userAuthorized.idRole})
+									<@icon style="user" /> ${userAuthorized.idUser} ( ${getRoleLabel( userAuthorized.idRole )!''})
 									<a class="text-danger" href='jsp/site/Portal.jsp?page=application&action=removeUser&id=${application.id}&user_email=${userAuthorized.idUser}' title="#i18n{portal.util.labelDelete}">
 										<span class="fa fa-trash"></span>
 									</a>  
@@ -151,14 +151,14 @@
 						</div>
 					
 						<div class="form-group">
-							<label for="user_email" class="col-form-label">#i18n{appcenter.modify_application.labelUserEmail} <@icon style="asterisk" />
+							<label for="id_user" class="col-form-label">#i18n{appcenter.modify_application.labelUserEmail} <@icon style="asterisk" />
 							</label>
-							<input type="text" id="user_id" name="user_id" maxlength="50" value="" class="form-control" required />
+							<input type="text" id="id_user" name="id_user" maxlength="50" value="" class="form-control" required />
 						</div>
 						<div class="form-group">
-							<label for="user_role" class="col-form-label">#i18n{appcenter.modify_application.labelRole} <@icon style="asterisk" />
+							<label for="id_role" class="col-form-label">#i18n{appcenter.modify_application.labelRole} <@icon style="asterisk" />
 							</label>
-							<select id="user_role" name="user_role" class="form-control">
+							<select id="id_role" name="id_role" class="form-control">
 								<#if roles_list?has_content>
 								<#list roles_list as item>
         								<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
@@ -437,6 +437,14 @@ $(function(){
         </#if>
     </#list>
 </#macro>
+        
+<#function getRoleLabel id >
+    <#list roles_list as role>
+        <#if role.code?string == id?string>
+            <#return role.name>
+        </#if>
+    </#list>
+</#function>
 
 <#macro printDemandInList demand>
     <div class="panel">

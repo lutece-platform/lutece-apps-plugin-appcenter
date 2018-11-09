@@ -26,12 +26,6 @@ public class ApplicationPermissionProvider implements IPermissionProvider
         permissionViewApp.setResourceTypeKey( "APP" );
         listPermission.add(permissionViewApp);
                 
-        Permission permissionCreateApp = new Permission();
-        permissionCreateApp.setCode( "PERMISSION_CREATE_APPLICATION");
-        permissionCreateApp.setLabel( "Permission de creer des applications" );
-        permissionCreateApp.setResourceTypeKey( "APP" );
-        listPermission.add(permissionCreateApp);
-        
         Permission permissionModifyApp = new Permission();
         permissionModifyApp.setCode( "PERMISSION_MODIFY_APPLICATION");
         permissionModifyApp.setLabel( "Permission de modifier les applications" );
