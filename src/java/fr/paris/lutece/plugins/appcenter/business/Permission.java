@@ -75,7 +75,7 @@ public class Permission implements Serializable
     public String getLabel( )
     {
         String strLabel = I18nService.getLocalizedString( _strLabel, Locale.getDefault( ) );
-        if ( strLabel == null  )
+        if ( strLabel.isEmpty( )  )
         {
             return _strLabel;
         }
@@ -91,7 +91,7 @@ public class Permission implements Serializable
     public String getLabel( Locale locale )
     {
         String strLabel = I18nService.getLocalizedString( _strLabel, locale );
-        if ( strLabel == null  )
+        if ( strLabel.isEmpty( )  )
         {
             return _strLabel;
         }
