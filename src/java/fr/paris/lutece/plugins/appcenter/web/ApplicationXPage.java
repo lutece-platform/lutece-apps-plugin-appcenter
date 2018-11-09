@@ -130,7 +130,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
     
     //Session
-    private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
+    public static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
 
     private static final String MESSAGE_INVALID_ROLE_LEVEL = "appcenter.error.invalidRoleLevel";
     

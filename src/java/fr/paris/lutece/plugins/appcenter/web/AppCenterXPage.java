@@ -85,8 +85,6 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
 
     
-    //Session
-    private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
     
 
     private static final long serialVersionUID = -490960650523760757L;
@@ -135,6 +133,17 @@ public abstract class AppCenterXPage extends MVCApplication
         return application;
 
     }
+    
+    /**
+     * return the current environment choose
+     */
+    protected Environment getActiveEnvironment( HttpServletRequest request)
+    {
+        HttpSession session = request.getSession( true );
+        Environment environment = (Environment)session.getAttribute( ApplicationXPage.SESSION_ACTIVE_ENVIRONMENT );
+        return environment;
+        
+    }
 
     /**
      * Get a message from message bundle files
@@ -167,7 +176,7 @@ public abstract class AppCenterXPage extends MVCApplication
     {
         //Fill the active environment if it is stored in session
         HttpSession session = request.getSession( true );
-        Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+        Environment environment = getActiveEnvironment( request );
         if ( environment != null )
         {
             model.put( MARK_ACTIVE_ENVIRONMENT, environment );
@@ -191,7 +200,7 @@ public abstract class AppCenterXPage extends MVCApplication
         ApplicationDatas applicationDatas = (ApplicationDatas)ApplicationService.loadApplicationDataSubset( application, strDatasName, datasClass );
         List<ApplicationData> listFilteredApplicationData = new ArrayList<>( );
         HttpSession session = request.getSession( true );
-        Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+        Environment environment = getActiveEnvironment( request );
         if ( environment != null && applicationDatas != null )
         {
             for ( T appData : (List<T>)applicationDatas.getListData( ) )

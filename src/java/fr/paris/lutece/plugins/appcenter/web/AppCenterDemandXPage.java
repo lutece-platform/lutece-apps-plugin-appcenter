@@ -67,10 +67,6 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     
-    //Session
-    private static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
-    
-
     private static final long serialVersionUID = -490960650523760757L;
     
     
@@ -130,7 +126,7 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
         {
             //Get the active environment in session
             HttpSession session = request.getSession( true );
-            Environment environment = (Environment)session.getAttribute( SESSION_ACTIVE_ENVIRONMENT );
+            Environment environment = getActiveEnvironment( request );
             if ( environment != null )
             {
                 demand.setEnvironment( Environment.getEnvironment( environment.getPrefix( ) ) );
