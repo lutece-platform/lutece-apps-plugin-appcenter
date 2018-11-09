@@ -55,7 +55,6 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
-import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.List;
@@ -64,6 +63,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
@@ -194,20 +194,26 @@ public abstract class AppCenterXPage extends MVCApplication
     }
     
     /**
-     * Check a permission for a user, on given resource code. 
-     * Ex: PERMISSION_DEPLY_APPLI for user john.doe@paris.fr on resource REC (environement)
+     * Check a permission for a user, on given resource code.Ex: PERMISSION_DEPLY_APPLI for user john.doe@paris.fr on resource REC (environement)
      * @param request
      * @param strPermissionCode
      * @param strResourceCode
+     * @return 
      * @throws SiteMessageException
      * @throws UserNotSignedException
      * @throws AccessDeniedException 
      */
-    protected void checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
+    protected boolean checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
         if ( _application == null )
         {
-            throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
+            _application = getApplication(request);
+            {
+                if ( _application == null )
+                {
+                    throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
+                }
+            }
         }
         else
         {
@@ -217,7 +223,7 @@ public abstract class AppCenterXPage extends MVCApplication
                 throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
             }
         }
-        
+        return true;
     }
     
     /**
@@ -228,5 +234,27 @@ public abstract class AppCenterXPage extends MVCApplication
     protected void getUnauthorizedAccessMessage( HttpServletRequest request ) throws SiteMessageException
     {
         SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
+    }
+    
+    /**
+     * fill the model with the permissions for displaying buttons in the XPages
+     * @param model
+     * @param request
+     * @param strPermission
+     * @param strResourceCode 
+     */
+    protected void fillDisplayPermission( Map<String,Object> model, HttpServletRequest request, String strPermission , String strResourceCode )
+    {
+        try
+        {
+           if ( checkPermission( request, strPermission, strResourceCode) )
+            {
+                model.put( strPermission, true);
+            } 
+        }
+        catch ( Exception e )
+        {
+            
+        }
     }
 }
