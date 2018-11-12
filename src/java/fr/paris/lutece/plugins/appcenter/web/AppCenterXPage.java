@@ -169,7 +169,10 @@ public abstract class AppCenterXPage extends MVCApplication
         //Build the ResourceType config 
         ResourceTypeConfig resourceTypeConfig = new ResourceTypeConfig();
         resourceTypeConfig.addResourceTypeConfig("APP", "APP");
-        resourceTypeConfig.addResourceTypeConfig("ENV", getActiveEnvironment( request ).getPrefix( ) );
+        if ( getActiveEnvironment( request ) != null )
+        {
+            resourceTypeConfig.addResourceTypeConfig("ENV", getActiveEnvironment( request ).getPrefix( ) );
+        }
         model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsListOfUserForApplication(request, _application.getId(), resourceTypeConfig));
     }
     
@@ -210,23 +213,17 @@ public abstract class AppCenterXPage extends MVCApplication
      */
     protected boolean checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
+        _application = getApplication(request);
+        
         if ( _application == null )
         {
-            _application = getApplication(request);
-            {
-                if ( _application == null )
-                {
-                    throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
-                }
-            }
+            throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }
-        else
+
+        User user = UserService.getCurrentUserInAppContext(request, _application.getId( ) );
+        if ( !AuthorizationService.isAuthorized( user.getId(), _application.getId(), strPermissionCode, strResourceCode ) )
         {
-            User user = UserService.getCurrentUserInAppContext(request, _application.getId( ) );
-            if ( !AuthorizationService.isAuthorized( user.getId(), _application.getId(), strPermissionCode, strResourceCode ) )
-            {
-                throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
-            }
+            throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }
         return true;
     }

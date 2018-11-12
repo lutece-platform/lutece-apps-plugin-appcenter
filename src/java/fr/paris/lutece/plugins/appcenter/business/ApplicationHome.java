@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -155,8 +157,17 @@ public final class ApplicationHome
      *            The user ID
      * @return The list of apps
      */
-    public static List<AuthorizedApp> getApplicationsByUser( String strUserId )
+    public static List<Application> getApplicationsByUser( String strUserId )
     {
-        return _dao.selectByUserId( strUserId, _plugin );
+        List<Application> listApplications = getApplicationsList();
+        List<Application> listAuthorizedApplications = new ArrayList<>();
+        for ( Application app : listApplications )
+        {
+            if ( AuthorizationService.isAuthorized(strUserId, app.getId(), "PERMISSION_VIEW_APPLICATION", null ) )
+            {
+                listAuthorizedApplications.add(app);
+            }
+        }
+        return listAuthorizedApplications;
     }
 }

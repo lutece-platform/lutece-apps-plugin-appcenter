@@ -97,17 +97,6 @@ public interface IApplicationDAO
     List<Application> selectApplicationsList( Plugin plugin );
 
     /**
-     * Get authorized app for a given user
-     * 
-     * @param strUserId
-     *            The user ID
-     * @param plugin
-     *            The plugin
-     * @return The list of apps
-     */
-    List<AuthorizedApp> selectByUserId( String strUserId, Plugin plugin );
-
-    /**
      * Load the data of all the application objects and returns them as a referenceList
      * 
      * @param plugin

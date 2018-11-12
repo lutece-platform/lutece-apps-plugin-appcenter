@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class AbstractAppCenterResourceType implements IAppCenterResourceType
 {
     private static final String CONSTANT_WILDCARD = "*";
-    private static final String CONSTANT_RESOURCE_TYPE_VALUE_CODE_WILDCARD = "WILDCARD";
+    private static final String CONSTANT_RESOURCE_TYPE_VALUE_CODE_WILDCARD = "*";
     protected List<ResourceTypeValue> _listResourceTypeValues = new ArrayList<>()  ;
     
     /**
