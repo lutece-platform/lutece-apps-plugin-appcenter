@@ -49,6 +49,7 @@ import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
+import fr.paris.lutece.plugins.appcenter.service.ResourceTypeConfig;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -165,7 +166,11 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( Constants.MARK_USER, user );
         
         //Add the category action list
-        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsList( ) );
+        //Build the ResourceType config 
+        ResourceTypeConfig resourceTypeConfig = new ResourceTypeConfig();
+        resourceTypeConfig.addResourceTypeConfig("APP", "APP");
+        resourceTypeConfig.addResourceTypeConfig("ENV", getActiveEnvironment( request ).getPrefix( ) );
+        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsListOfUserForApplication(request, _application.getId(), resourceTypeConfig));
     }
     
     protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )

@@ -25,4 +25,21 @@ public class PermissionService
         }
         return colPermissions;
     }
+    
+    /**
+     * Get permission by its cde
+     * @param strPermissionCode
+     * @return the permission for given permission code
+     */
+    public static Permission getPermissionByCode( String strPermissionCode )
+    {
+        for ( Permission permission : getPermissionList( ) )
+        {
+            if ( permission.getCode().equals( strPermissionCode ) )
+            {
+                return permission;
+            }
+        }
+        return null;
+    }
 }
