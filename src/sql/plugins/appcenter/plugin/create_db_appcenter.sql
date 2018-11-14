@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS appcenter_user_application_role;
 CREATE TABLE appcenter_user_application_role (
 id_role int default '0' NOT NULL,
 id_application int default '0' NOT NULL,
-id_user varchar(60) default '' NOT NULL,
+id_user varchar(255) default '' NOT NULL,
 PRIMARY KEY (id_user, id_role, id_application)
 );
 
