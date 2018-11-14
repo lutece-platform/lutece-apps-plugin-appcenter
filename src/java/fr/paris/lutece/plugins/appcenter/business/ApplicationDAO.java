@@ -54,8 +54,8 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , code = ?  WHERE id_application = ?";
     private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data, code FROM appcenter_application";
-    private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application WHERE id_application = ? ";
-    private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT user_role FROM appcenter_user_application WHERE id_application = ? AND user_id = ? ";
+    private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application_role WHERE id_application = ? ";
+    private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT id_role FROM appcenter_user_application_role WHERE id_application = ? AND id_user = ? ";
     private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ENVIRONMENT = " DELETE FROM appcenter_application_environment WHERE id_application = ? ";
     

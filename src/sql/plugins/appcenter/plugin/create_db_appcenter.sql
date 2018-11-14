@@ -58,18 +58,6 @@ PRIMARY KEY (id_application_environment)
 );
 
 --
--- Structure for table appcenter_user_application
---
-
-DROP TABLE IF EXISTS appcenter_user_application;
-CREATE TABLE appcenter_user_application (
-id_application int(6) NOT NULL,
-user_id varchar(50) default '' NOT NULL,
-user_role int(11) default '0' NOT NULL,
-PRIMARY KEY ( id_application , user_id )
-);
-
---
 -- Structure for table appcenter_demand
 --
 
