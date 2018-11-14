@@ -25,6 +25,12 @@ public class ApplicationPermissionProvider implements IPermissionProvider
         permissionViewApp.setLabel( "Permission de voir l'application" );
         permissionViewApp.setResourceTypeKey( "APP" );
         listPermission.add(permissionViewApp);
+        
+        Permission permissionRemoveApp = new Permission();
+        permissionRemoveApp.setCode( "PERMISSION_REMOVE_APPLICATION");
+        permissionRemoveApp.setLabel( "Permission de supprimer l'application" );
+        permissionRemoveApp.setResourceTypeKey( "APP" );
+        listPermission.add(permissionRemoveApp);
                 
         Permission permissionModifyApp = new Permission();
         permissionModifyApp.setCode( "PERMISSION_MODIFY_APPLICATION");
