@@ -12,16 +12,3 @@ Authorizations management example
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (1,'project_manager','Chef de projet');
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (2,'project_manager_deleg','Chef de projet délégué');
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (3,'project_developer','Développeur');
-
-/*
-Permissions for the roles
-*/
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_MODIFY_APPLICATION','1','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_APPLICATION','1','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_DEMANDS','1','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_ADD_USERS','1','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_REMOVE_USER','1','APP');
-
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_MODIFY_APPLICATION','2','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_APPLICATION','2','APP');
-INSERT INTO appcenter_permission_role ( code_permission, id_role, code_resource) VALUES ( 'PERMISSION_VIEW_DEMANDS','2','APP');
