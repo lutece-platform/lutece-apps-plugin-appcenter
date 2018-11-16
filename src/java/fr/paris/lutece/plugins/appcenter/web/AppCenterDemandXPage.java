@@ -64,48 +64,13 @@ import org.apache.commons.lang.StringUtils;
  */
 public abstract class AppCenterDemandXPage extends AppCenterXPage
 {
-    private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
-    private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+
+ 
     
     private static final long serialVersionUID = -490960650523760757L;
     
     
-    /**
-     * Add a demand
-     * 
-     * @param <T>
-     *            The object template
-     * @param request
-     *            The HTTP request
-     * @param application
-     *            The aapplication
-     * @param model
-     *            The model
-     */
-    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
-    {
-        List<T> listDemand = DemandHome.getListFullDemandsByIdApplication( application.getId( ) );
-        
-        model.put( MARK_ACTIVE_DEMAND_TYPE, getDemandType( ) );
-        model.put( Constants.MARK_DEMANDS, listDemand );
-        
-        Map<String, Object> mapStates = new HashMap<>( );
-        Map<String, Object> mapHistories = new HashMap<>( );
-        for ( T demand : listDemand )
-        {
-            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
-            
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
-            mapStates.put( Integer.toString( demand.getId( ) ), state );
-
-            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
-                    request, request.getLocale( ) );
-            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
-        }
-        
-        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
-        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
-    }
+    
     
 
   /**
@@ -140,18 +105,13 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
     {
         super.fillAppCenterCommons( model, request);
         
-        //Fill the active demand types
-        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
         
-        //Add the demands
-        addListDemand( request, _application, model );
         
         //Add the application Datas relative to the demand type
         addDatas( request, _application, model ,getDatasName(), getDatasClass() );
        
     }
     
-    protected abstract String getDemandType( );
     protected abstract Class getDemandClass( );
     protected abstract String getDatasName( );
     protected abstract Class getDatasClass( );

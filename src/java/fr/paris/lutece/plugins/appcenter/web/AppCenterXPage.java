@@ -39,8 +39,11 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDemandTypesEnable;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.CategoryDemandTypeHome;
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
@@ -49,14 +52,17 @@ import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.ResourceTypeConfig;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +91,8 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
+    private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+    private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
 
     
     
@@ -102,8 +110,54 @@ public abstract class AppCenterXPage extends MVCApplication
      */
     protected Application getApplication( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
-        return ApplicationHome.findByPrimaryKey( nId );
+        try
+        {
+            int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
+            _application =  ApplicationHome.findByPrimaryKey( nId );  
+        }
+        catch( NumberFormatException e )
+        {
+            
+        }
+          
+        return _application;
+    }
+    
+    /**
+     * Add a demand
+     * 
+     * @param <T>
+     *            The object template
+     * @param request
+     *            The HTTP request
+     * @param application
+     *            The aapplication
+     * @param model
+     *            The model
+     */
+    protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
+    {
+        List<T> listDemand = DemandHome.getListFullDemandsByIdApplication( application.getId( ) );
+        
+        model.put( MARK_ACTIVE_DEMAND_TYPE, getDemandType( ) );
+        model.put( Constants.MARK_DEMANDS, listDemand );
+        
+        Map<String, Object> mapStates = new HashMap<>( );
+        Map<String, Object> mapHistories = new HashMap<>( );
+        for ( T demand : listDemand )
+        {
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+            
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+            mapStates.put( Integer.toString( demand.getId( ) ), state );
+
+            String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
+                    request, request.getLocale( ) );
+            mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
+        }
+        
+        model.put( Constants.MARK_DEMANDS_STATES, mapStates );
+        model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
     
     /**
@@ -174,6 +228,12 @@ public abstract class AppCenterXPage extends MVCApplication
             resourceTypeConfig.addResourceTypeConfig("ENV", getActiveEnvironment( request ).getPrefix( ) );
         }
         model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsListOfUserForApplication(request, _application.getId(), resourceTypeConfig));
+    
+        //Add the demands
+        addListDemand( request, _application, model );
+        
+        //Fill the active demand types
+        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
     }
     
     protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )
@@ -258,5 +318,10 @@ public abstract class AppCenterXPage extends MVCApplication
         {
             
         }
+    }
+    
+    protected String getDemandType( )
+    {
+        return "";
     }
 }

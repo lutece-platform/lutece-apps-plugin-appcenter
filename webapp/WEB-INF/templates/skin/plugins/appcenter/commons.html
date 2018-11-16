@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu">
                         <#list category_actions.listActions as action>
                             <li>
-                                <i class="${action.cssClass}"/><a href="${action.url}">#i18n{${action.labelKey}}</a>
+                                <i class="${action.cssClass}"/><a href="${action.url}&id=${application.id!''}">#i18n{${action.labelKey}}</a>
                             </li> 
                         </#list>
                     </ul>
