@@ -129,6 +129,23 @@ public final class ApplicationHome
         }
         return application;
     }
+    
+    /**
+     * Returns an instance of a application whose code is specified in parameter
+     * 
+     * @param strCode
+     *            The application code
+     * @return an instance of Application
+     */
+    public static Application findByCode( String strCode )
+    {
+        Application application = _dao.loadByCode( strCode, _plugin );
+        if( application != null )
+        {
+            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ));
+        }
+        return application;
+    }
 
     /**
      * Load the data of all the application objects and returns them as a list

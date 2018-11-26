@@ -86,6 +86,18 @@ public interface IApplicationDAO
      * @return The instance of the application
      */
     Application load( int nKey, Plugin plugin );
+    
+     /**
+     * Load the data from the table
+     * 
+     * @param strCode
+     *            The code of the application
+     * @param plugin
+     *            the Plugin
+     * @return The instance of the application
+     */
+    Application loadByCode( String strCode, Plugin plugin );
+
 
     /**
      * Load the data of all the application objects and returns them as a list

@@ -49,6 +49,7 @@ public final class ApplicationDAO implements IApplicationDAO
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_application";
     private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
+    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT appcenter_application.id_application, name, description, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.code = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data,code ) VALUES ( ?, ?, ?, ? , ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , code = ?  WHERE id_application = ?";
@@ -306,5 +307,57 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.free( );
         return nRole;
 
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Application loadByCode(String strCode, Plugin plugin) {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_CODE, plugin );
+        daoUtil.setString( 1, strCode );
+        daoUtil.executeQuery( );
+        Application application = null;
+        List<String> listEnvironmentCode = new ArrayList<>();
+        List<Environment> listEnvironment = new ArrayList<>();
+
+        if ( daoUtil.next( ) )
+        {
+            
+            application = new Application( );
+            int nIndex = 1;
+
+            application.setId( daoUtil.getInt( nIndex++ ) );
+            application.setName( daoUtil.getString( nIndex++ ) );
+            application.setDescription( daoUtil.getString( nIndex++ ) );
+            application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
+            String strEnviCode = daoUtil.getString( nIndex++ );
+            if ( strEnviCode != null )
+            {
+                listEnvironmentCode.add( strEnviCode );
+            }
+            while ( daoUtil.next( ) )
+            {
+                strEnviCode = daoUtil.getString( 6 );
+                if ( strEnviCode != null )
+                {
+                    listEnvironmentCode.add( strEnviCode );
+                }
+            }
+            for ( String enviCode : listEnvironmentCode )
+            {
+                Environment envi = Environment.getEnvironment( enviCode );
+                if ( envi != null )
+                {
+                    listEnvironment.add( envi );
+                }
+            }
+            application.setListEnvironment( listEnvironment );
+        }
+        
+        
+        daoUtil.free( );
+        return application;
     }
 }
