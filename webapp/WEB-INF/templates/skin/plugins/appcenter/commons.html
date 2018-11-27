@@ -22,9 +22,11 @@
                     </button> 
                     <ul class="dropdown-menu">
                         <#list category_actions.listActions as action>
-                            <li>
-                                <i class="${action.cssClass}"/><a href="${action.url}&id=${application.id!''}">#i18n{${action.labelKey}}</a>
-                            </li> 
+                            <#if (action.isDependingOfEnv() && active_environment?? && active_environment!='') || !action.isDependingOfEnv()>
+                                <li>
+                                    <i class="${action.cssClass}"/><a href="${action.url}&id=${application.id!''}">#i18n{${action.labelKey}}</a>
+                                </li>
+                            </#if>
                         </#list>
                     </ul>
             </div>

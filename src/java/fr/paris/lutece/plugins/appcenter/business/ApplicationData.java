@@ -40,7 +40,7 @@ import java.util.List;
 public class ApplicationData
 {
     
-	private Integer _nIdApplicationData;
+    private Integer _nIdApplicationData;
     private List<Integer> _listIdDemandAssociated=new ArrayList<Integer>();
     private String _strEnvironment;
 

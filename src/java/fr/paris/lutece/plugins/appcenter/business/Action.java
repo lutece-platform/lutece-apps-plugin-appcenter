@@ -39,13 +39,15 @@ public class Action
     private String _strLabelKey;
     private String _strCssClass;
     private String _strPermissionCode;
+    private boolean _bDependingOfEnv;
     
-    public Action( String strUrl, String strLabelKey, String strCssClass, String strPermissionCode)
+    public Action( String strUrl, String strLabelKey, String strCssClass, String strPermissionCode, boolean bDependingOfEnv )
     {
         _strUrl = strUrl;
         _strLabelKey = strLabelKey;
         _strCssClass = strCssClass;
         _strPermissionCode = strPermissionCode;
+        _bDependingOfEnv = bDependingOfEnv;
     }
 
     /**
@@ -111,5 +113,15 @@ public class Action
     public void setPermissionCode(String strPermissionCode) {
         _strPermissionCode = strPermissionCode;
     } 
+
+    public boolean isDependingOfEnv() {
+        return _bDependingOfEnv;
+    }
+
+    public void setDependingOfEnv(boolean bDependingOfEnv) {
+        _bDependingOfEnv = bDependingOfEnv;
+    }
+    
+    
     
 }
