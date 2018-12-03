@@ -71,4 +71,6 @@ public class Constants
     //Property
     public static final String PROPERTY_MAPPING_XPAGE_ROLE = "appcenter.mapping_xpage_role.";
     
+    //XPage
+    public static final String XPAGE_APPLICATION = "application";
 }

@@ -62,7 +62,9 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +121,12 @@ public abstract class AppCenterXPage extends MVCApplication
         {
             
         }
-          
+        
+        if ( _application == null )
+        {
+            redirect(request, AppPathService.getBaseUrl( request ) + AppPathService.getPortalUrl() + "?" + MVCUtils.PARAMETER_PAGE + "=" + Constants.XPAGE_APPLICATION);
+        }
+        
         return _application;
     }
     
@@ -212,7 +219,7 @@ public abstract class AppCenterXPage extends MVCApplication
         
         //Fill with application
         _application = getApplication( request );
-        
+                
         model.put( MARK_APPLICATION, _application );
         
         //Add the user
