@@ -3,8 +3,7 @@ INSERT INTO appcenter_category_demand_type ( id, label, question , is_depending_
     (2,'Livraison d''environnement','Livraison d''environnement',1,2),
     (3,'GRU','Votre application a t-elle besoin d''être rattachée à la GRU ?',1,3),
     (4,'Guichet Professionnel','Votre application a t-elle besoin d''être rattachée au Guichet Professionnel ?',1,4),
-    (5,'WSSO','Votre application a t-elle besoin d''être rattachée au WSSO ?',1,5),
-    (6,'Support','',0,6);
+    (5,'WSSO','Votre application a t-elle besoin d''être rattachée au WSSO ?',1,5);
 
 /*
 Authorizations management example
