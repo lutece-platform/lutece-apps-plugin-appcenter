@@ -425,7 +425,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     @Action( ACTION_MODIFY_APPLICATION )
     public XPage doModifyApplication( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        populate( _application, request );
+        
         try
         {
             checkPermission( request, PERMISSION_MODIFY_APPLICATION, null);
@@ -434,6 +434,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
         {
             getUnauthorizedAccessMessage( request );
         }
+        
+        populate( _application, request );
         
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
 
