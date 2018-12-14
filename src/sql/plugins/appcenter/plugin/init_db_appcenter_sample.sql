@@ -11,3 +11,5 @@ Authorizations management example
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (1,'project_manager','Chef de projet');
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (2,'project_manager_deleg','Chef de projet délégué');
 INSERT INTO `appcenter_role` (`id_role`,`code`,`label`) VALUES (3,'project_developer','Développeur');
+
+INSERT INTO appcenter_user VALUES ("john.doe@nowhere.com","");

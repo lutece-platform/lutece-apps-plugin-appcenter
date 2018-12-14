@@ -20,7 +20,8 @@
     <bean id="appcenter.userApplicationRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleDAO" />
     <bean id="appcenter.permissionRoleDAO" class="fr.paris.lutece.plugins.appcenter.business.PermissionRoleDAO" />
     <bean id="appcenter.roleDAO" class="fr.paris.lutece.plugins.appcenter.business.RoleDAO" />
-
+    <bean id="appcenter.userDAO" class="fr.paris.lutece.plugins.appcenter.business.UserDAO" />
+    
     <!-- Services -->
     
     <bean id="appcenter.taskCustomDemandStatusConfigService"

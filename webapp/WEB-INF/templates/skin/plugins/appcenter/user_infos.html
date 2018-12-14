@@ -1,0 +1,38 @@
+<form id="form-user-infos" method="post" action="jsp/site/Portal.jsp?page=user">
+    <@messages infos=infos />
+    <@messages errors=errors />
+    <div class="form-group row">
+        <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.user_infos.labelGitlabLogin}</label>
+        <div class="col-sm-12 col-md-6">
+            <input type="text" name="gitlab_login" value="${(gitlab_infos.gitlabLogin)!''}">
+            <small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.user_infos.labelGitlabLogin.help}</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.user_infos.labelGitlabPassword}</label>
+        <div class="col-sm-12 col-md-6">
+            <input type="password" name="gitlab_password" value="${(gitlab_infos.gitlabPassword)!''}">
+            <small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.user_infos.labelGitlabPassword.help}</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.user_infos.labelSvnLogin}</label>
+        <div class="col-sm-12 col-md-6">
+            <input type="text" name="svn_login" value="${(svn_infos.svnLogin)!''}">
+            <small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.user_infos.labelSvnLogin.help}</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="name" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.user_infos.labelSvnPassword}</label>
+        <div class="col-sm-12 col-md-6">
+            <input type="password" name="svn_password" value="${(svn_infos.svnPassword)!''}">
+            <small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.user_infos.labelSvnPassword.help}</small>
+        </div>
+    </div>
+      <div class="form-group row">
+            <div class="col-sm-12 col-md-10 ml-auto">
+                    <@button name='action_doSaveUserInfos' type='submit' tabIndex='3' title='#i18n{portal.util.labelValidate}' />
+                    
+            </div>
+    </div>
+</form>

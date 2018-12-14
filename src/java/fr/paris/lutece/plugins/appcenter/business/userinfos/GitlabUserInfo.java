@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,74 +31,46 @@
  *
  * License 1.0
  */
+package fr.paris.lutece.plugins.appcenter.business.userinfos;
+
+import fr.paris.lutece.plugins.appcenter.business.UserInfos;
+import org.apache.commons.lang.StringUtils;
 
 
-package fr.paris.lutece.plugins.appcenter.business;
 
-import java.util.List;
-
-/**
- * This is the business class for the object User
- */ 
-public class User
+public class GitlabUserInfo extends UserInfos
 {
-   // Variables declarations 
-    private String _strId;
-    
-    private List<UserApplicationRole> _listUserApplicationRoles;
-    
-    private String _userInfos;
-    
-       /**
-        * Returns the Id
-        * @return The Id
-        */ 
-    public String getId()
+    private String _strLogin; 
+    private String _strPassword;
+
+    public GitlabUserInfo() 
     {
-        return _strId;
+        _strLogin = StringUtils.EMPTY;
+        _strPassword = StringUtils.EMPTY;
     }
     
-       /**
-        * Sets the Id
-        * @param strId The Id
-        */ 
-    public void setId( String strId )
+    
+
+    public String getGitlabLogin() {
+        return _strLogin;
+    }
+
+    public void setGitlabLogin(String strLogin) {
+        _strLogin = strLogin;
+    }
+
+    public String getGitlabPassword() {
+        return _strPassword;
+    }
+
+    public void setGitlabPassword(String strPassword) {
+        _strPassword = strPassword;
+    }
+    
+    @Override
+    public String getName() 
     {
-        _strId = strId;
-    }
-
-    /**
-     * Get the user application roles
-     * @return the 
-     */
-    public List<UserApplicationRole> getListUserApplicationRoles()
-    {
-        return _listUserApplicationRoles;
-    }
-
-    /**
-     * Set the user applcation roles list
-     * @param listUserApplicationRoles The user application roles list
-     */
-    public void setListUserApplicationRoles(List<UserApplicationRole> listUserApplicationRoles)
-    {
-        _listUserApplicationRoles = listUserApplicationRoles;
-    }
-
-    /**
-     * Get the user infos
-     * @return 
-     */
-    public String getUserInfos() {
-        return _userInfos;
-    }
-
-    /**
-     * Set the user infos
-     * @param userInfos 
-     */
-    public void setUserInfos( String  userInfos) {
-        _userInfos = userInfos;
+       return "gitlab";
     }
     
     

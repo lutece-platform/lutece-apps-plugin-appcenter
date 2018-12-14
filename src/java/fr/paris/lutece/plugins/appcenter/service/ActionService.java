@@ -9,6 +9,7 @@ import fr.paris.lutece.plugins.appcenter.business.Action;
 import fr.paris.lutece.plugins.appcenter.business.CategoryAction;
 import fr.paris.lutece.plugins.appcenter.business.Permission;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ActionService
      * @param resourceTypeConfig
      * @return The list of authorized actions
      */
-    public static List<CategoryAction> getCategoryActionsListOfUserForApplication( HttpServletRequest request, int nIdApplication, ResourceTypeConfig resourceTypeConfig )
+    public static List<CategoryAction> getCategoryActionsListOfUserForApplication( HttpServletRequest request, int nIdApplication, ResourceTypeConfig resourceTypeConfig ) throws UserNotSignedException
     {
         List<CategoryAction> listCategories = getCategoryActionsList( );
         for ( CategoryAction catAction : listCategories )

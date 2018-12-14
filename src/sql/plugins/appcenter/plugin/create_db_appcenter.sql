@@ -160,3 +160,14 @@ label varchar(255) default '' NOT NULL,
 PRIMARY KEY (id_role),
   UNIQUE KEY `IDX_ROLE` (`code`)
 );
+
+--
+-- Structure for table appcenter_user
+--
+
+DROP TABLE IF EXISTS appcenter_user;
+CREATE TABLE appcenter_user (
+id_user varchar(255) default '',
+user_infos varchar(5000) default '{}',
+PRIMARY KEY (id_user)
+);

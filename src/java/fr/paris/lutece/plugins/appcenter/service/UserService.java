@@ -34,16 +34,22 @@
 
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
-import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
-import fr.paris.lutece.portal.service.admin.AdminUserService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.plugins.appcenter.business.UserHome;
+import fr.paris.lutece.plugins.appcenter.business.UserInfos;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.util.ReferenceList;
-import java.util.Locale;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +59,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UserService
 {
     private static final String MOCK_USER = "john.doe@nowhere.com";
+    private static final String CONSTANTE_EMPTY_JSON = "{}";
 
+    private static ObjectMapper _mapper = new ObjectMapper( );
+    
     /**
      * Get the list of available users
      * 
@@ -106,22 +115,37 @@ public class UserService
      * @param nApplicationId The applcation Id
      * @return The user Id
      */
-    public static User getCurrentUser( HttpServletRequest request )
+    public static User getCurrentUser( HttpServletRequest request ) throws UserNotSignedException
     {
         User user = new User();
+        
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
             if( luteceUser != null )
             {
-                user.setId( getEmailUser( luteceUser ) );
-                user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
+                user  = UserHome.findByPrimaryKey( getEmailUser( luteceUser ) );
+                if ( user == null )
+                {
+                    user = new User();
+                    user.setId( getEmailUser( luteceUser ) );
+                    user.setUserInfos( CONSTANTE_EMPTY_JSON );
+                    UserHome.create( user );
+                    user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
+                }
+            }
+            else
+            {
+                throw new UserNotSignedException();
             }
         }
         else
         {
-            user.setId( MOCK_USER );
-            
+            user  = UserHome.findByPrimaryKey( MOCK_USER);
+            if ( user != null )
+            {
+                user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
+            }
         }
         return user;
 
@@ -167,7 +191,7 @@ public class UserService
      * @param nIdApplication
      * @return 
      */
-    public static User getCurrentUserInAppContext( HttpServletRequest request, int nIdApplication )
+    public static User getCurrentUserInAppContext( HttpServletRequest request, int nIdApplication ) throws UserNotSignedException
     {
         User user = getCurrentUser( request );
         if ( user.getListUserApplicationRoles() != null )
@@ -182,5 +206,142 @@ public class UserService
         }
         return user;
     }
+    
+    /**
+     * Save a data subset into the global JSON data of an application
+     *
+     * @param user
+     * @param dataSubset
+     *            The data subset
+     */
+    public static void saveUserInfos( User user, DataSubset dataSubset )
+    {
+        try
+        {
+            String strUpdatedJson = getUserInfo( user, dataSubset );
+            UserHome.updateUserInfos( user.getId( ), strUpdatedJson );
+            user.setUserInfos( strUpdatedJson );
+        }
+        catch( IOException ex )
+        {
+            Logger.getLogger( UserService.class.getName( ) ).log( Level.SEVERE, null, ex );
+        }
+    }
+
+    /**
+     * Load a datasubset from the global JSON
+     * 
+     * @param <UI>
+     * @param <T>
+     *            The datasubset type
+     * @param user
+     * @param userInfosClass
+
+     * @return The data subset as an object
+     */
+    public static <T extends UserInfos> T loadUserInfosDataSubset( User user, Class<T> userInfosClass )
+    {
+        try
+        {
+            Method mGetDataSetName = userInfosClass.getMethod("getName");
+            String strDataSetName=(String)mGetDataSetName.invoke( userInfosClass.newInstance(), null );
+            String strUserInfosJson = user.getUserInfos( );
+            return getDataSubset( strUserInfosJson, strDataSetName, userInfosClass );
+        }
+        catch( IOException|NoSuchMethodException|SecurityException|IllegalAccessException|IllegalArgumentException|InvocationTargetException| InstantiationException ex )
+        {
+            Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Load a datasubset from the global JSON
+     * 
+     * @param <T>
+     *            The datasubset type
+     * @param user
+     * @param strDataSubsetName
+     *            The subset name
+     * @param valueType
+     *            The class of the data subset
+     * @return The data subset as an object
+     */
+    public static <T> T loadUserInfoSubset( User user, String strDataSubsetName, Class<T> valueType )
+    {
+        try
+        {
+            String strUserInfosJson = user.getUserInfos( );
+            return getDataSubset( strUserInfosJson, strDataSubsetName, valueType );
+        }
+        catch( IOException ex )
+        {
+            Logger.getLogger( UserService.class.getName( ) ).log( Level.SEVERE, null, ex );
+        }
+        return null;
+}
+
+    /**
+     * Build a global JSON data of an application by adding or replacing a data subset
+     * 
+     * @param application
+     *            The application
+     * @param dataSubset
+     *            The data subset
+     * @return The JSON
+     * @throws IOException
+     *             if an error occurs
+     */
+    static String getUserInfo( User user, DataSubset dataSubset ) throws IOException
+    {
+        String strUserInfos = user.getUserInfos( );
+        JsonNode nodeUserInfos;
+        if ( strUserInfos.isEmpty( ) )
+        {
+            nodeUserInfos = _mapper.createObjectNode();
+        }
+        else
+        {
+            nodeUserInfos = _mapper.readTree( strUserInfos );
+        }
+        
+        JsonNode nodeData = nodeUserInfos.get( dataSubset.getName( ) );
+        if ( nodeData != null )
+        {
+            ( (ObjectNode) nodeUserInfos ).replace( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
+        }
+        else
+        {
+            ( (ObjectNode) nodeUserInfos ).set( dataSubset.getName( ), _mapper.valueToTree( dataSubset ) );
+        }
+        return nodeUserInfos.toString( );
+    }
+
+    /**
+     * Load a datasubset from the global JSON
+     * 
+     * @param <T>
+     *            The datasubset type
+     * @param nodeUserInfos
+     *            The global JSON of the application
+     * @param strDataSubsetName
+     *            The subset name
+     * @param valueType
+     *            The class of the data subset
+     * @return The data subset as an object
+     */
+    static <T> T getDataSubset( String strUserInfosJson, String strDataSubsetName, Class<T> valueType ) throws IOException
+    {
+        JsonNode nodeUserInfos = _mapper.readTree( strUserInfosJson );
+        JsonNode nodeData = nodeUserInfos.get( strDataSubsetName );
+        if ( nodeData != null )
+        {
+            return _mapper.treeToValue( nodeData, valueType );
+        }
+        return null;
+
+    }
+	
 
 }

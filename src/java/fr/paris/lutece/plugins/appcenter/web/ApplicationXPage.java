@@ -42,14 +42,19 @@ import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
+import fr.paris.lutece.plugins.appcenter.business.UserHome;
+import fr.paris.lutece.plugins.appcenter.business.UserInfos;
+import fr.paris.lutece.plugins.appcenter.business.userinfos.GitlabUserInfo;
+import fr.paris.lutece.plugins.appcenter.business.userinfos.SvnUserInfo;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.CryptoUtil;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -92,13 +97,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String MARK_DEMAND_TYPES = "demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     
-    
+
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
     private static final String TEMPLATE_CREATE_APPLICATION = "/skin/plugins/appcenter/create_application.html";
     private static final String TEMPLATE_MODIFY_APPLICATION = "/skin/plugins/appcenter/modify_application.html";
     private static final String TEMPLATE_VIEW_DEMANDS = "/skin/plugins/appcenter/view_demands.html";
-
+    
     // Message
     private static final String MESSAGE_CONFIRM_REMOVE_APPLICATION = "appcenter.message.confirmRemoveApplication";
 
@@ -141,7 +146,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String PERMISSION_ADD_USERS = "PERMISSION_ADD_USERS";
     private static final String PERMISSION_REMOVE_USER = "PERMISSION_REMOVE_USER";
     
-
+    
     private Environment _activeEnvironment;
 
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
@@ -196,7 +201,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_CREATE_APPLICATION )
-    public XPage doCreateApplication( HttpServletRequest request )
+    public XPage doCreateApplication( HttpServletRequest request ) throws UserNotSignedException
     {
         populate( _application, request );    
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
@@ -222,12 +227,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
         ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
         
         
-        
+        User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );
         UserApplicationRole authorization = new UserApplicationRole( );
         authorization.setIdApplication( _application.getId( ) );
-        authorization.setIdUser(UserService.getCurrentUserInAppContext( request, _application.getId( ) ).getId( ) );
+        authorization.setIdUser( user.getId( ) );
         authorization.setIdRole( RoleService.getAppOwnerRole( ).getId( ) );
         UserApplicationRoleHome.create( authorization );
+        
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
 
@@ -537,7 +543,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
         return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
     }
-
+    
     @Override
     protected String getDemandType()
     {
