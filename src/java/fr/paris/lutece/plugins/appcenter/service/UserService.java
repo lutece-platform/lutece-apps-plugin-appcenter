@@ -164,7 +164,7 @@ public class UserService
 
         if( user != null )
         {
-            strUserEmail = user.getEmail( ) == null ? user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL ): user.getEmail( );
+            strUserEmail = ( user.getEmail() == null || user.getEmail( ).isEmpty() )  ? user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL ): user.getEmail( );
         }
 
         return strUserEmail;
