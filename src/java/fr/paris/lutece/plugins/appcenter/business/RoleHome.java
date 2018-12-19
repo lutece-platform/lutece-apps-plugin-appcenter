@@ -49,6 +49,8 @@ public final class RoleHome
     private static IRoleDAO _dao = SpringContextService.getBean( "appcenter.roleDAO" );
     private static Plugin _plugin = PluginService.getPlugin( "appcenter" );
 
+    public static final int GLOBAL_PERMISSION_WILDCARD_ID = 0 ;
+    
     /**
      * Private constructor - this class need not be instantiated
      */
@@ -111,13 +113,25 @@ public final class RoleHome
 
     /**
      * Returns an instance of a role whose identifier is specified in parameter
-     * @param nUserId
+     * @param strUserId
+     * @param nApplicationId
      * @return an instance of Role
      */
     public static Role findByUserIdAndApplicationId( String strUserId, int nApplicationId )
     {
         return _dao.loadByUserIdAndApplicationId( strUserId, nApplicationId, _plugin );
     }
+
+    
+    /**
+     * Returns  a global role of the user
+     * @param strUserId
+     * @return an instance of Role
+     */
+    public static Role findGlobalRoleByUserId( String strUserId )
+    {
+        return _dao.loadByUserIdAndApplicationId( strUserId, GLOBAL_PERMISSION_WILDCARD_ID, _plugin );
+    }            
             
     /**
      * Load the data of all the role objects and returns them as a list

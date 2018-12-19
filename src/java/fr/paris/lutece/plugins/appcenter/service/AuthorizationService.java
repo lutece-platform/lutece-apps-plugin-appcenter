@@ -49,8 +49,15 @@ public class AuthorizationService
 
         if ( strIdUser != null )
         {
-            //Récupération du role de l'utilisateur, pour l'application
-            Role role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication ) ;
+            // check global roles
+            Role role = RoleHome.findGlobalRoleByUserId( strIdUser ) ;
+            
+            if ( role == null ) {
+                // check application role
+                role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication ) ;
+            }
+                
+            
             if ( role != null)
             {
                 List<PermissionRole> listPermissionRole = PermissionRoleHome.getPermissionRolesListByCodeAndIdRole( strPermissionCode, role.getId( ) );
