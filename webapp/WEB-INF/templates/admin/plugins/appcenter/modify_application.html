@@ -9,13 +9,13 @@
 			<input type="hidden" id="id" name="id" value="${application.id}"/>
 			
 				<@formGroup labelKey='#i18n{appcenter.modify_application.labelName}' helpKey='#i18n{appcenter.modify_application.labelName.help}' mandatory=true>
-					<@input type='text' name='name' value='${application.name}' />
+					<@input type='text' name='name' value='${application.name!}' />
 				</@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.modify_application.labelDescription}' helpKey='#i18n{appcenter.modify_application.labelDescription.help}' >
-					<@input type='text' name='description' value='${application.description}' />
+					<@input type='text' name='description' value='${application.description!}' />
 				</@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.modify_application.labelApplicationData}' helpKey='#i18n{appcenter.modify_application.labelApplicationData.help}' >
-					<@input type='text' name='application_data' value='${application.ApplicationData}' />
+					<@input type='text' name='application_data' value='${application.ApplicationData!}' />
 				</@formGroup>
         <@actionButtons button1Name="action_modifyApplication" button2Name="view_manageApplication"/>
     </@tform>
