@@ -253,7 +253,7 @@ public abstract class AppCenterXPage extends MVCApplication
         {
             for ( T appData : (List<T>)applicationDatas.getListData( ) )
             {
-                if ( appData.getEnvironment( ).equals( environment.getPrefix( ) ) )
+                if ( appData.getEnvironment( )!= null && appData.getEnvironment( ).equals( environment.getPrefix( ) ) )
                 {
                     listFilteredApplicationData.add( appData );
                 }
