@@ -145,6 +145,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String PERMISSION_VIEW_DEMANDS = "PERMISSION_VIEW_DEMANDS";
     private static final String PERMISSION_ADD_USERS = "PERMISSION_ADD_USERS";
     private static final String PERMISSION_REMOVE_USER = "PERMISSION_REMOVE_USER";
+
+    private static final String JSON_EMPTY = "{}";
     
     
     private Environment _activeEnvironment;
@@ -205,6 +207,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     {
         populate( _application, request );    
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
+        _application.setApplicationData( JSON_EMPTY );
         
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
