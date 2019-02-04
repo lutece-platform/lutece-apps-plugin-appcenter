@@ -47,6 +47,8 @@ import java.util.Optional;
 public class DemandTypeService
 {
 
+    private static String KEY_SUPER_ADMIN_ROLE = "super_admin" ;
+    
     public static int getIdWorkflow( String strDemandTypeKey )
     {
         return DemandTypeHome.findByIdDemandType( strDemandTypeKey ).getIdWorkflow( );
@@ -88,30 +90,34 @@ public class DemandTypeService
     public static void filterWithRBAC( List<Demand> listDemands, ReferenceList demandTypeRefList, AdminUser user )
     {
         List<DemandType> listDemandTypes = DemandTypeHome.getDemandTypesList();
-        Collection<DemandType> listAuthorizedDemandType = RBACService.getAuthorizedCollection( listDemandTypes, DemandTypeIdService.DEMAND_TYPE_PERMISSION_VIEW, user);
         
-        listDemands.removeIf( demand -> 
-                        {
-                            for ( DemandType demType : listAuthorizedDemandType )
+        if ( !RBACService.isUserInRole( user, KEY_SUPER_ADMIN_ROLE ) )
+        {
+            Collection<DemandType> listAuthorizedDemandType = RBACService.getAuthorizedCollection( listDemandTypes, DemandTypeIdService.DEMAND_TYPE_PERMISSION_VIEW, user);
+
+            listDemands.removeIf( demand -> 
                             {
-                                if ( demType.getIdDemandType().equals( demand.getDemandType( ) ) )
+                                for ( DemandType demType : listAuthorizedDemandType )
                                 {
-                                    return false;
+                                    if ( demType.getIdDemandType().equals( demand.getDemandType( ) ) )
+                                    {
+                                        return false;
+                                    }
                                 }
-                            }
-                            return true;
-                        });
-        
-        demandTypeRefList.removeIf( item -> {
-                     for ( DemandType demType : listAuthorizedDemandType )
-                            {
-                                if ( demType.getIdDemandType().equals( item.getCode() ) )
+                                return true;
+                            });
+
+            demandTypeRefList.removeIf( item -> {
+                         for ( DemandType demType : listAuthorizedDemandType )
                                 {
-                                    return false;
+                                    if ( demType.getIdDemandType().equals( item.getCode() ) )
+                                    {
+                                        return false;
+                                    }
                                 }
-                            }
-                            return true;
-                 });
+                                return true;
+                     });
+        }
         
     }
     

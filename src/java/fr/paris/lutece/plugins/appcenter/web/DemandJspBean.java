@@ -144,7 +144,14 @@ public class DemandJspBean extends ManageAppCenterJspBean
     {
 
         //Initialize the demand filter
-        if ( _filter == null ){ _filter = new DemandFilter(); }
+        if ( _filter == null )
+        { 
+            _filter = new DemandFilter( );
+            
+            // open demands filter default
+            _filter.setHasIsClosed( true );
+            _filter.setIsClosed( false );
+        }
         
         List<Demand> listDemands = DemandHome.getDemandsListByFilter( _filter );
         int nIdWorkflow;
