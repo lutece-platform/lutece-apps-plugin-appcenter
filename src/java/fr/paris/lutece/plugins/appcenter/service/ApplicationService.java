@@ -54,8 +54,13 @@ import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Demand;
+import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.util.ReferenceList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Application Service
@@ -241,9 +246,26 @@ public class ApplicationService
 		return referenceList;
 	
 	}
-	
 
-    
-    
+    /**
+     * Remove the application whose identifier is specified in parameter with its dependencies
+     * 
+     * @param nId
+     *            The application Id
+     */
+    public static void remove( int nId )
+    {
+        List<Demand> demandList = DemandHome.getDemandsListByApplication( nId );
 
+        for (Demand demand : demandList)
+        {
+            List<Integer> idResourceList = new ArrayList<Integer>();
+            idResourceList.add( demand.getId( ) );
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+            WorkflowService.getInstance( ).doRemoveWorkFlowResourceByListId( idResourceList, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow );
+            DemandHome.remove( demand.getId( ) );
+        }
+
+        ApplicationHome.remove( nId );
+    }
 }

@@ -178,6 +178,12 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.executeUpdate( );
         daoUtil.free( );
 
+        //Delete the environments for the application
+        daoUtil = new DAOUtil( SQL_QUERY_DELETE_ENVIRONMENT, plugin );
+        daoUtil.setInt( 1, nKey );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+
         // Remove authorizations
         daoUtil = new DAOUtil( SQL_QUERY_DELETE_AUTHORIZED, plugin );
         daoUtil.setInt( 1, nKey );

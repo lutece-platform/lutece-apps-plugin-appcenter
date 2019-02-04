@@ -293,7 +293,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
             getUnauthorizedAccessMessage( request );
         }
         
-        ApplicationHome.remove( _application.getId( ) );
+        ApplicationService.remove( _application.getId( ) );
         addInfo( INFO_APPLICATION_REMOVED, getLocale( request ) );
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
