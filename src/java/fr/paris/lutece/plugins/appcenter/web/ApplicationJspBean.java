@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -185,7 +186,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String doRemoveApplication( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
-        ApplicationHome.remove( nId );
+        ApplicationService.remove( nId );
         addInfo( INFO_APPLICATION_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
