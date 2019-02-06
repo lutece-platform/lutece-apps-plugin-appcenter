@@ -229,7 +229,7 @@ public class ApplicationService
 		ReferenceList referenceList=null;
 		if(ads!=null && ads.getListData()!=null && !CollectionUtils.isEmpty(ads.getListData()))
 		{
-			Map<String,String> mapReferenceItem=  ads.getListData().stream().collect(Collectors.toMap(functionRefItemCode, functionRefItemName));
+			Map<String,String> mapReferenceItem = ads.getListData().stream().collect(Collectors.toMap(functionRefItemCode, functionRefItemName,(f, s) -> f));
 			referenceList=ReferenceList.convert(mapReferenceItem);
 		}
 		else
