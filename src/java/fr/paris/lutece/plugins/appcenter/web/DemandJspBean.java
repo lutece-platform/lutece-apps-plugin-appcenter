@@ -124,6 +124,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     
     //Constant
     private static final String CONSTANT_LABEL_DEMAND_TYPE = "labelDemandType";
+    private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
     private static final String CONSTANT_NAME_APPLICATION = "nameApplication";
     private static final String CONSTANT_WORKFLOW_STATE = "workflowState";
     private static final String CONSTANT_ID_USER_FRONT = "idUserFront";
@@ -224,6 +225,10 @@ public class DemandJspBean extends ManageAppCenterJspBean
             {
                 Comparator<Demand> c = null;
                 
+                if ( strSortedAttributeName.equals( CONSTANT_CODE_APPLICATION ) )
+                {
+                    c = Comparator.comparing( ( Demand x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getCode( ) );
+                }
                 if ( strSortedAttributeName.equals( CONSTANT_NAME_APPLICATION ) )
                 {
                     c = Comparator.comparing( ( Demand x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getName( ) );
