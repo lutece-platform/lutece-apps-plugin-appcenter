@@ -41,6 +41,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandFilter;
@@ -52,13 +53,19 @@ import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.xpages.XPageApplication;
+import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
@@ -67,6 +74,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * This class provides the user interface to manage Demand features ( manage, create, modify, remove )
@@ -110,6 +118,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String JSP_MANAGE_DEMANDS = "jsp/admin/plugins/appcenter/ManageDemands.jsp";
 
     // Properties
+    private static final String MESSAGE_CONFIRM_REMOVE_DEMAND = "appcenter.message.confirmRemoveDemand";
 
     // Views
     private static final String VIEW_MANAGE_DEMANDS = "manageDemands";
@@ -121,6 +130,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String ACTION_PROCESS_ACTION = "processAction";
     private static final String ACTION_SAVE_TASK_FORM = "saveTaskForm";
     private static final String ACTION_FILTER_DEMAND = "filterDemands";
+    private static final String ACTION_REMOVE_DEMAND = "removeDemand";
+    private static final String ACTION_CONFIRM_REMOVE_DEMAND = "confirmRemoveDemand";
     
     //Constant
     private static final String CONSTANT_LABEL_DEMAND_TYPE = "labelDemandType";
@@ -129,7 +140,10 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String CONSTANT_WORKFLOW_STATE = "workflowState";
     private static final String CONSTANT_ID_USER_FRONT = "idUserFront";
     private static final String CONSTANT_CREATION_DATE = "creationDate";
-    
+
+    // Infos
+    private static final String INFO_DEMAND_REMOVED = "appcenter.info.demand.removed";
+
     //Sessions variable
     private DemandFilter _filter;
 
@@ -434,5 +448,62 @@ public class DemandJspBean extends ManageAppCenterJspBean
         }
 
         return redirectView( request, VIEW_MANAGE_DEMANDS );
+    }
+
+    /**
+     * Manages the removal form of a application whose identifier is in the http request
+     *
+     * @param request
+     *            The Http request
+     * @return the html code to confirm
+     */
+    @Action( ACTION_CONFIRM_REMOVE_DEMAND )
+    public String getConfirmRemoveDemand( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_DEMAND ) );
+        url.addParameter( PARAMETER_ID_DEMAND, nId );
+
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_DEMAND, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+
+        return redirect( request, strMessageUrl );
+    }
+
+    /**
+     * Handles the removal form of a demand
+     *
+     * @param request
+     *            The Http request
+     * @return the jsp URL to display the form to manage demands
+     */
+    @Action( ACTION_REMOVE_DEMAND )
+    public String doRemoveDemand( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) );
+        DemandService.remove( nId );
+        addInfo( INFO_DEMAND_REMOVED, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_DEMANDS );
+    }
+
+    public static Class getClassApplicationDatasByDemandTypeKey( String strDemandTypeKey )
+    {
+        Collection<XPageApplicationEntry> listXPageApplicationEntry = XPageAppService.getXPageApplicationsList( );
+        XPageApplication xPageApplication = null;
+
+        for (XPageApplicationEntry xPageApplicationEntry : listXPageApplicationEntry)
+        {
+            xPageApplication = XPageAppService.getApplicationInstance( xPageApplicationEntry );
+            if ( xPageApplication instanceof AppCenterDemandXPage )
+            {
+                AppCenterDemandXPage appCenterDemandXPage = ( AppCenterDemandXPage ) xPageApplication;
+                if ( appCenterDemandXPage.getDemandType( ).equals( strDemandTypeKey ) )
+                {
+                    return appCenterDemandXPage.getDatasClass( );
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -37,12 +37,18 @@ package fr.paris.lutece.plugins.appcenter.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationData;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandFilter;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.web.DemandJspBean;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import javax.servlet.http.HttpServletRequest;
 /**
  * Demand Service
@@ -132,6 +138,65 @@ public class DemandService
         
         return filter;
     }
-     
+
+    /**
+     * Remove the application whose identifier is specified in parameter with its dependencies
+     * 
+     * @param nId
+     *            The application Id
+     */
+    public static void remove( int nId )
+    {
+        Demand demand = DemandHome.findByPrimaryKey( nId );
+        Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
+
+        Class applicationDatasClass = DemandJspBean.getClassApplicationDatasByDemandTypeKey( demand.getDemandType( ) );
+        ApplicationDatas datas = null;
+
+        if ( applicationDatasClass != null )
+        {
+            datas = ApplicationService.loadApplicationDataSubset( application, applicationDatasClass );
+        }
+
+        if ( datas != null && demand.getIdApplicationData( ) != null )
+        {
+            //Modify data
+            ListIterator<ApplicationData> itr = datas.getListData( ).listIterator( );
+            while( itr.hasNext( ) )
+            {
+                ApplicationData it = itr.next();
+                if( it.getIdApplicationData( ) == demand.getIdApplicationData( ) )
+                {
+                    List<Integer> listIdDemandAssociated = it.getListIdDemandAssociated( );
+
+                    if ( listIdDemandAssociated.contains( demand.getId( ) ) )
+                    {
+                        //remove the id in the list of demand associated
+                        listIdDemandAssociated.remove( Integer.valueOf( demand.getId( ) ) );
+                    }
+
+                    if ( listIdDemandAssociated.size( ) == 0 )
+                    {
+                        //remove the applicationData
+                        itr.remove( );
+                    }
+                    else
+                    {
+                        //update the list of demand associated
+                        it.setListIdDemandAssociated( listIdDemandAssociated );
+                    }
+                    break;
+                }
+            }
+        }
+
+        ApplicationService.saveApplicationData( application, datas );
+
+        List<Integer> idResourceList = new ArrayList<Integer>();
+        idResourceList.add( nId );
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
+        WorkflowService.getInstance( ).doRemoveWorkFlowResourceByListId( idResourceList, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow );
+        DemandHome.remove( nId );
+    }
 }
 

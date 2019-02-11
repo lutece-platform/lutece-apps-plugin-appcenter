@@ -70,6 +70,7 @@
                                 <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=processAction&id=${demand.id}&id_action=${action.id}' title='${action.name}' buttonIcon='pencil' showTitle=false />
 		     				</#list>
 						 </#if>
+                        <@aButton href='jsp/admin/plugins/appcenter/ManageDemands.jsp?action=confirmRemoveDemand&id=${demand.id}' title='#i18n{appcenter.manage_demands.action_removeDemand}' buttonIcon='trash' color='btn-danger' showTitle=false />
 	                </td>
                 </tr>
             </#list>
