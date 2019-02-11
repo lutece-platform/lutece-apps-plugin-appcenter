@@ -234,6 +234,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         }
 
         ApplicationHome.update( _application );
+        ApplicationHome.updateData( _application.getId( ), _application.getApplicationData( ) );
         addInfo( INFO_APPLICATION_UPDATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
