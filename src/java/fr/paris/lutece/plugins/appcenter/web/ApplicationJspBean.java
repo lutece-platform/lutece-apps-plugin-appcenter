@@ -41,7 +41,10 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.Collections;
 
 import java.util.List;
 import java.util.Map;
@@ -109,7 +112,33 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     {
         _application = null;
         List<Application> listApplications = ApplicationHome.getApplicationsList( );
-        Map<String, Object> model = getPaginatedListModel( request, MARK_APPLICATION_LIST, listApplications, JSP_MANAGE_APPLICATIONS );
+
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listApplications, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        }
+
+        UrlItem url = new UrlItem( JSP_MANAGE_APPLICATIONS );
+
+        if ( strSortedAttributeName != null )
+        {
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+            url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+
+        Map<String, Object> model = getPaginatedListModel( request, MARK_APPLICATION_LIST, listApplications, url.getUrl( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS, TEMPLATE_MANAGE_APPLICATIONS, model );
     }
