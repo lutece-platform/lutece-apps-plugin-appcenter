@@ -200,12 +200,14 @@ public class DemandJspBean extends ManageAppCenterJspBean
             
        }
         
+        Comparator<ReferenceItem> comparator = Comparator.comparing( ( ReferenceItem x ) -> x.getName( ) );
        
         //Construct demand type ref list
         ReferenceList demandTypeRefList = ReferenceList.convert( mapDemandTypes.values( ), "idDemandType","label",false );
         
         //Filter demand list and demand type reference list by RBAC on demandType
         DemandTypeService.filterWithRBAC( listDemands, demandTypeRefList, getUser() );
+        Collections.sort( demandTypeRefList , comparator);
         
         AppCenterUtils.addFirstItem( demandTypeRefList, request.getLocale( ) );
         
@@ -215,10 +217,12 @@ public class DemandJspBean extends ManageAppCenterJspBean
         {
             item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
         }
+        Collections.sort( refListEnvi , comparator);
         AppCenterUtils.addFirstItem( refListEnvi, request.getLocale( ) );
         
         //Construct application ref list
         ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
+        Collections.sort( applicationRefList , comparator);
         AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
         
         // SORT
