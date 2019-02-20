@@ -4,7 +4,11 @@
 <@box>
 	<@boxHeader title='#i18n{appcenter.manage_application.title}' boxTools=true>
 		<@tform class='form-inline pull-right' name='manage_application' action='jsp/admin/plugins/appcenter/ManageApplications.jsp'>
-			<@button type='submit' name='view_createApplication' buttonIcon='plus' title='#i18n{appcenter.manage_application.buttonAdd}' />
+            <@formGroup formStyle='inline' labelKey='#i18n{appcenter.manage_applications.filter.search}' helpKey='' mandatory=false>
+                <@input type='text' name='search' value=(application_filter.search?string)!'' />
+            </@formGroup>
+            <@button type='submit' name='action_filterApplications' buttonIcon='search' title='#i18n{appcenter.manage_applications.search}' />
+			<@button type='submit' name='view_createApplication' buttonIcon='plus' title='#i18n{appcenter.manage_applications.buttonAdd}' />
 		</@tform>
 	</@boxHeader>
 	<@boxBody>    

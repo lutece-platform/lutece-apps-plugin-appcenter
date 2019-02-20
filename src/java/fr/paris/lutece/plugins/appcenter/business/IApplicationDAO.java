@@ -109,6 +109,17 @@ public interface IApplicationDAO
     List<Application> selectApplicationsList( Plugin plugin );
 
     /**
+     * Load the data of a selection of application objects and returns them as a list
+     * 
+     * @param filter
+     *            the Filter
+     * @param plugin
+     *            the Plugin
+     * @return The list which contains the data of the selection of application objects
+     */
+    List<Application> selectApplicationsListByFilter( ApplicationFilter filter, Plugin plugin );
+
+    /**
      * Load the data of all the application objects and returns them as a referenceList
      * 
      * @param plugin

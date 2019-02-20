@@ -158,6 +158,17 @@ public final class ApplicationHome
     }
 
     /**
+     * Load the data of a selection of application objects and returns them as a list
+     * 
+     * @param filter
+     * @return the list which contains the data of the selection of application objects
+     */
+    public static List<Application> getApplicationsListByFilter( ApplicationFilter filter )
+    {
+        return _dao.selectApplicationsListByFilter( filter, _plugin );
+    }
+
+    /**
      * Load the data of all the application objects and returns them as a referenceList
      * 
      * @return the referenceList which contains the data of all the application objects

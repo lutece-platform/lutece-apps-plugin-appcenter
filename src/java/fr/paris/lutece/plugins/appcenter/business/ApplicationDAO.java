@@ -60,6 +60,11 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ENVIRONMENT = " DELETE FROM appcenter_application_environment WHERE id_application = ? ";
     
+    //Constants
+    private static final String CONSTANT_WHERE = " WHERE ";
+    private static final String CONSTANT_WHERE_SEARCH = " ( code LIKE ? OR name LIKE ? ) ";
+    private static final String SQL_LIKE_WILDCARD = "%";
+
     /**
      * Generates a new primary key
      * 
@@ -260,6 +265,49 @@ public final class ApplicationDAO implements IApplicationDAO
         {
             Application application = new Application( );
             int nIndex = 1;
+
+            application.setId( daoUtil.getInt( nIndex++ ) );
+            application.setName( daoUtil.getString( nIndex++ ) );
+            application.setDescription( daoUtil.getString( nIndex++ ) );
+            application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
+
+            applicationList.add( application );
+        }
+
+        daoUtil.free( );
+        return applicationList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Application> selectApplicationsListByFilter( ApplicationFilter filter, Plugin plugin )
+    {
+        List<Application> applicationList = new ArrayList<>( );
+        StringBuilder strSqlQuery = new StringBuilder( SQL_QUERY_SELECTALL );
+
+        if ( filter.hasSearch( ) )
+        {
+            strSqlQuery.append( CONSTANT_WHERE );
+            strSqlQuery.append( CONSTANT_WHERE_SEARCH );
+        }
+
+        DAOUtil daoUtil = new DAOUtil( strSqlQuery.toString( ), plugin );
+        int nIndex = 1;
+        if ( filter.hasSearch( ) )
+        {
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getSearch( ) + SQL_LIKE_WILDCARD );
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getSearch( ) + SQL_LIKE_WILDCARD );
+        }
+
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            Application application = new Application( );
+            nIndex = 1;
 
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );

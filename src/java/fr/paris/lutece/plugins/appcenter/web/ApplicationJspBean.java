@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationFilter;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -63,6 +64,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
     // Parameters
     private static final String PARAMETER_ID_APPLICATION = "id";
+    private static final String PARAMETER_SEARCH = "search";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS = "appcenter.manage_applications.pageTitle";
@@ -72,6 +74,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     // Markers
     private static final String MARK_APPLICATION_LIST = "application_list";
     private static final String MARK_APPLICATION = "application";
+    private static final String MARK_APPLICATION_FILTER = "application_filter";
 
     private static final String JSP_MANAGE_APPLICATIONS = "jsp/admin/plugins/appcenter/ManageApplications.jsp";
 
@@ -91,6 +94,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String ACTION_MODIFY_APPLICATION = "modifyApplication";
     private static final String ACTION_REMOVE_APPLICATION = "removeApplication";
     private static final String ACTION_CONFIRM_REMOVE_APPLICATION = "confirmRemoveApplication";
+    private static final String ACTION_FILTER_APPLICATION = "filterApplications";
 
     // Infos
     private static final String INFO_APPLICATION_CREATED = "appcenter.info.application.created";
@@ -99,6 +103,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
     // Session variable to store working values
     private Application _application;
+    private ApplicationFilter _filter;
 
     /**
      * Build the Manage View
@@ -110,8 +115,14 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public String getManageApplications( HttpServletRequest request )
     {
+        //Initialize the demand filter
+        if ( _filter == null )
+        {
+            _filter = new ApplicationFilter( );
+        }
+
         _application = null;
-        List<Application> listApplications = ApplicationHome.getApplicationsList( );
+        List<Application> listApplications = ApplicationHome.getApplicationsListByFilter(_filter );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -140,7 +151,27 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getPaginatedListModel( request, MARK_APPLICATION_LIST, listApplications, url.getUrl( ) );
 
+        model.put( MARK_APPLICATION_FILTER, _filter );
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS, TEMPLATE_MANAGE_APPLICATIONS, model );
+    }
+
+    /**
+     * Process the action of filtering applications; set the filter
+     * @param request
+     * @return The manage applications view
+     */
+    @Action( ACTION_FILTER_APPLICATION )
+    public String doFilterApplication( HttpServletRequest request )
+    {
+        String strSearch = request.getParameter( PARAMETER_SEARCH );
+        _filter = new ApplicationFilter();
+        if ( strSearch != null && !strSearch.equals( "-1" ) )
+        {
+            _filter.setSearch( strSearch );
+            _filter.setHasSearch( true );
+        }
+        return redirectView( request, VIEW_MANAGE_APPLICATIONS );
     }
 
     /**
