@@ -68,7 +68,17 @@ public final class UserApplicationRoleHome
         return userApplicationRole;
     }
 
+    /**
+     * Update of the userApplicationRole which is specified in parameter
+     * @param userApplicationRole The instance of the userApplicationRole which contains the data to store
+     * @return The instance of the userApplicationRole which has been updated
+     */
+    public static UserApplicationRole update( UserApplicationRole userApplicationRoleOld, UserApplicationRole userApplicationRole )
+    {
+        _dao.store( userApplicationRoleOld, userApplicationRole, _plugin );
 
+        return userApplicationRole;
+    }
 
     /**
      * Remove the userApplicationRole whose identifier is specified in parameter

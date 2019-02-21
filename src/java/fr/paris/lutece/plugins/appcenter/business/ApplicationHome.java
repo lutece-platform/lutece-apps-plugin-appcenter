@@ -41,6 +41,7 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides instances management methods (create, find, ...) for Application objects
@@ -176,6 +177,16 @@ public final class ApplicationHome
     public static ReferenceList getApplicationsReferenceList( )
     {
         return _dao.selectApplicationsReferenceList( _plugin );
+    }
+
+    /**
+     * Load the data of all the application objects and returns them as a map
+     * 
+     * @return the map which contains the data of all the application objects
+     */
+    public static Map<String, Application> getApplicationsMap( )
+    {
+        return _dao.selectApplicationsMap( _plugin );
     }
 
     /**

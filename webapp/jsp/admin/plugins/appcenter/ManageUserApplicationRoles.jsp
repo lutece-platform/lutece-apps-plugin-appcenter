@@ -1,4 +1,4 @@
-<jsp:useBean id="manageappcenterUserApplication" scope="session" class="fr.paris.lutece.plugins.appcenter.web.UserApplicationJspBean" />
+<jsp:useBean id="manageappcenterUserApplication" scope="session" class="fr.paris.lutece.plugins.appcenter.web.UserApplicationRoleJspBean" />
 <% String strContent = manageappcenterUserApplication.processController ( request , response ); %>
 
 <%@ page errorPage="../../ErrorPage.jsp" %>

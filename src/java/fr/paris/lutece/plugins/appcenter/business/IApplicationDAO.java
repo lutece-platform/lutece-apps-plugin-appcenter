@@ -37,6 +37,7 @@ package fr.paris.lutece.plugins.appcenter.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * IApplicationDAO Interface
@@ -127,6 +128,15 @@ public interface IApplicationDAO
      * @return The referenceList which contains the data of all the application objects
      */
     ReferenceList selectApplicationsReferenceList( Plugin plugin );
+
+    /**
+     * Load the data of all the application objects and returns them as a map
+     * 
+     * @param plugin
+     *            the Plugin
+     * @return The map which contains the data of all the application objects
+     */
+    Map<String, Application> selectApplicationsMap( Plugin plugin );
 
     /**
      * Get the role of the user for a given application

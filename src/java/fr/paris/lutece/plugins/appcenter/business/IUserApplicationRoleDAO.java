@@ -51,6 +51,14 @@ public interface IUserApplicationRoleDAO
     void insert( UserApplicationRole userApplicationRole, Plugin plugin );
 
     /**
+     * Update the record in the table
+     * @param userApplicationRoleOld the reference of the former UserApplicationRole
+     * @param userApplicationRole the reference of the new UserApplicationRole
+     * @param plugin the Plugin
+     */
+    void store( UserApplicationRole userApplicationRoleOld, UserApplicationRole userApplicationRole, Plugin plugin );
+
+    /**
      * Delete a record from the table
      * @param nRoleId
      * @param nApplicationId

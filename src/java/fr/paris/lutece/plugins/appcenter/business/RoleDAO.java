@@ -40,7 +40,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides Data Access methods for Role objects
@@ -226,6 +228,34 @@ public final class RoleDAO implements IRoleDAO
 
         daoUtil.free( );
         return roleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Map<String, Role> selectRolesMap( Plugin plugin )
+    {
+        Map<String, Role> rolesMap = new HashMap<String, Role>(  );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Role role = new Role(  );
+            int nIndex = 1;
+
+            role.setId( daoUtil.getInt( nIndex++ ) );
+            role.setCode( daoUtil.getString( nIndex++ ) );
+            role.setLabel( daoUtil.getString( nIndex++ ) );
+
+            rolesMap.put( Integer.toString( role.getId( ) ), role );
+        }
+
+        daoUtil.free( );
+
+        return rolesMap;
     }
 
     /**

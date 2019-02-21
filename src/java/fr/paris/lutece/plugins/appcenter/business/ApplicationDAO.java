@@ -39,7 +39,9 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides Data Access methods for Application objects
@@ -339,6 +341,36 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.free( );
         return applicationList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Map<String,Application> selectApplicationsMap( Plugin plugin )
+    {
+        Map<String, Application> applicationsMap = new HashMap<String, Application>( );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            Application application = new Application( );
+            int nIndex = 1;
+
+            application.setId( daoUtil.getInt( nIndex++ ) );
+            application.setName( daoUtil.getString( nIndex++ ) );
+            application.setDescription( daoUtil.getString( nIndex++ ) );
+            application.setApplicationData( daoUtil.getString( nIndex++ ) );
+            application.setCode(daoUtil.getString( nIndex++ ) );
+
+            applicationsMap.put( Integer.toString( application.getId( ) ), application );
+        }
+
+        daoUtil.free( );
+
+        return applicationsMap;
     }
 
     /**

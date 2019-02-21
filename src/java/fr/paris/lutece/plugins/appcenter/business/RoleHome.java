@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides instances management methods (create, find, ...) for Role objects
@@ -158,6 +159,15 @@ public final class RoleHome
     public static ReferenceList getRolesReferenceList( )
     {
         return _dao.selectRolesReferenceList( _plugin );
+    }
+
+    /**
+     * Load the data of all the role objects and returns them as a map
+     * @return the map which contains the data of all the role objects
+     */
+    public static Map<String, Role> getRolesMap( )
+    {
+        return _dao.selectRolesMap( _plugin );
     }
 }
 

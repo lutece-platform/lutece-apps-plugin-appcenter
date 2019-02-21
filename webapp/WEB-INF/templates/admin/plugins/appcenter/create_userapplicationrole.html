@@ -1,0 +1,20 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="userapplication" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_userApplicationRole.title}' />
+	<@boxBody>
+    <@tform name='create_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
+        <@messages errors=errors />
+        <@formGroup labelKey='#i18n{appcenter.create_userApplicationRole.labelUserId}' helpKey='#i18n{appcenter.create_userApplicationRole.labelUserId.help}' mandatory=true>
+            <@input type='text' name='id_user' value='' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_userApplicationRole.labelApplicationId}' helpKey='#i18n{appcenter.create_userApplicationRole.labelUserId.help}' mandatory=true>
+            <@select name='id_application' items=applications_list default_value='1'/>
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_userApplicationRole.labelUserRole}' helpKey='#i18n{appcenter.create_userApplicationRole.labelUserRole.help}' mandatory=true>
+            <@select name='id_role' items=roles_list default_value='1' />
+        </@formGroup>
+        <@actionButtons button1Name="action_createUserApplicationRole" button2Name="view_manageUserApplicationRoles"/>
+    </@tform>
+	</@boxBody>
+</@box>

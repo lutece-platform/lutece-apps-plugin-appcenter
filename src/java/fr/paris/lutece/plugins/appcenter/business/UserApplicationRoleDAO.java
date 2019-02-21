@@ -50,6 +50,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id_role, id_application, id_user FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application_role ( id_role, id_application, id_user ) VALUES ( ?, ?, ? ) ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application_role SET id_role = ? WHERE id_role = ? and id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID = "DELETE FROM appcenter_user_application_role WHERE id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
@@ -106,6 +107,25 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
 
         daoUtil.free( );
         return userApplicationRole;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void store( UserApplicationRole userApplicationRoleOld, UserApplicationRole userApplicationRole, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
+        int nIndex = 1;
+
+        daoUtil.setInt( nIndex++ , userApplicationRole.getIdRole( ) );
+
+        daoUtil.setInt( nIndex++ , userApplicationRoleOld.getIdRole( ) );
+        daoUtil.setInt( nIndex++ , userApplicationRoleOld.getIdApplication( ) );
+        daoUtil.setString( nIndex++ , userApplicationRoleOld.getIdUser( ) );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**

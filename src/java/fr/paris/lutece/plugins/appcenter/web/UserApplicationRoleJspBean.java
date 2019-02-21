@@ -1,0 +1,293 @@
+/*
+ * Copyright (c) 2002-2019, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
+package fr.paris.lutece.plugins.appcenter.web;
+
+import fr.paris.lutece.plugins.appcenter.business.Application;
+import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.Role;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
+import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.url.UrlItem;
+import java.util.HashMap;
+
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * This class provides the user interface to manage UserApplicationRole features ( manage, createOrModify, modify, remove )
+ */
+@Controller( controllerJsp = "ManageUserApplicationRoles.jsp", controllerPath = "jsp/admin/plugins/appcenter/", right = "APPCENTER_MANAGEMENT" )
+public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
+{
+    // Templates
+    private static final String TEMPLATE_MANAGE_USER_APPLICATION_ROLES = "/admin/plugins/appcenter/manage_userapplicationroles.html";
+    private static final String TEMPLATE_CREATE_USER_APPLICATION_ROLE = "/admin/plugins/appcenter/create_userapplicationrole.html";
+    private static final String TEMPLATE_MODIFY_USER_APPLICATION_ROLE = "/admin/plugins/appcenter/modify_userapplicationrole.html";
+
+    // Parameters
+    private static final String PARAMETER_ID_ROLE_OLD = "id_role_old";
+    private static final String PARAMETER_ID_ROLE = "id_role";
+    private static final String PARAMETER_ID_APPLICATION = "id_application";
+    private static final String PARAMETER_ID_USER = "id_user";
+    
+    // Properties for page titles
+    private static final String PROPERTY_PAGE_TITLE_MANAGE_USER_APPLICATION_ROLES = "appcenter.manage_userApplicationRoles.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MODIFY_USER_APPLICATION_ROLE = "appcenter.modify_userApplicationRole.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_USER_APPLICATION_ROLE = "appcenter.create_userApplicationRole.pageTitle";
+
+    // Markers
+    private static final String MARK_USER_APPLICATION_ROLE_LIST = "user_application_role_list";
+    private static final String MARK_USER_APPLICATION_ROLE = "user_application_role";
+    private static final String MARK_APPLICATION_LIST = "applications_list";
+    private static final String MARK_ROLES_LIST = "roles_list";
+    private static final String MARK_APPLICATION_MAP = "applications_map";
+    private static final String MARK_ROLES_MAP = "roles_map";
+
+    private static final String JSP_MANAGE_USER_APPLICATION_ROLES = "jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp";
+
+    // Properties
+    private static final String MESSAGE_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "appcenter.message.confirmRemoveUserApplicationRole";
+
+    // Validations
+    private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.userApplicationRole.attribute.";
+
+    // Views
+    private static final String VIEW_MANAGE_USER_APPLICATION_ROLES = "manageUserApplicationRoles";
+    private static final String VIEW_CREATE_USER_APPLICATION_ROLE = "createUserApplicationRole";
+    private static final String VIEW_MODIFY_USER_APPLICATION_ROLE = "modifyUserApplicationRole";
+
+    // Actions
+    private static final String ACTION_CREATE_USER_APPLICATION_ROLE = "createUserApplicationRole";
+    private static final String ACTION_MODIFY_USER_APPLICATION_ROLE = "modifyUserApplicationRole";
+    private static final String ACTION_REMOVE_USER_APPLICATION_ROLE = "removeUserApplicationRole";
+    private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "confirmRemoveUserApplicationRole";
+
+    // Infos
+    private static final String INFO_USER_APPLICATION_ROLE_CREATED = "appcenter.info.userApplicationRole.created";
+    private static final String INFO_USER_APPLICATION_ROLE_UPDATED = "appcenter.info.userApplicationRole.updated";
+    private static final String INFO_USER_APPLICATION_ROLE_REMOVED = "appcenter.info.userApplicationRole.removed";
+
+    // Session variable to store working values
+    private UserApplicationRole _userApplicationRole;
+
+    /**
+     * Build the Manage View
+     * 
+     * @param request
+     *            The HTTP request
+     * @return The page
+     */
+    @View( value = VIEW_MANAGE_USER_APPLICATION_ROLES, defaultView = true )
+    public String getManageUserApplicationRoles( HttpServletRequest request )
+    {
+        _userApplicationRole = null;
+        List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesList( );
+        Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
+        Map<String, Role> mapRoles = RoleHome.getRolesMap( );
+
+        Map<String, Object> model = getPaginatedListModel( request, MARK_USER_APPLICATION_ROLE_LIST, listUserApplicationRoles, JSP_MANAGE_USER_APPLICATION_ROLES );
+        model.put( MARK_APPLICATION_MAP, mapApplications );
+        model.put( MARK_ROLES_MAP, mapRoles );
+
+        return getPage( PROPERTY_PAGE_TITLE_MANAGE_USER_APPLICATION_ROLES, TEMPLATE_MANAGE_USER_APPLICATION_ROLES, model );
+    }
+
+    /**
+     * Returns the form to createOrModify a userApplicationRole
+     *
+     * @param request
+     *            The Http request
+     * @return the html code of the userApplicationRole form
+     */
+    @View( VIEW_CREATE_USER_APPLICATION_ROLE )
+    public String getCreateUserApplicationRole( HttpServletRequest request )
+    {
+        _userApplicationRole = ( _userApplicationRole != null ) ? _userApplicationRole : new UserApplicationRole( );
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_USER_APPLICATION_ROLE, _userApplicationRole );
+        model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsReferenceList( ) );
+        ReferenceList rolesList = RoleHome.getRolesReferenceList( );
+        AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
+        model.put( MARK_ROLES_LIST, rolesList );
+        return getPage( PROPERTY_PAGE_TITLE_CREATE_USER_APPLICATION_ROLE, TEMPLATE_CREATE_USER_APPLICATION_ROLE, model );
+    }
+
+    /**
+     * Process the data capture form of a new userApplicationRole
+     *
+     * @param request
+     *            The Http Request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_CREATE_USER_APPLICATION_ROLE )
+    public String doCreateUserApplicationRole( HttpServletRequest request )
+    {
+        populate( _userApplicationRole, request );
+
+        // Check constraints
+        if ( !validateBean( _userApplicationRole, VALIDATION_ATTRIBUTES_PREFIX ) )
+        {
+            return redirectView( request, VIEW_CREATE_USER_APPLICATION_ROLE );
+        }
+
+        UserApplicationRoleHome.create( _userApplicationRole );
+        addInfo( INFO_USER_APPLICATION_ROLE_CREATED, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
+    }
+
+    /**
+     * Manages the removal form of a userApplicationRole whose identifier is in the http request
+     *
+     * @param request
+     *            The Http request
+     * @return the html code to confirm
+     */
+    @Action( ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE )
+    public String getConfirmRemoveUserApplicationRole( HttpServletRequest request )
+    {
+        int nIdRole = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
+        int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_USER_APPLICATION_ROLE ) );
+        url.addParameter( PARAMETER_ID_ROLE, nIdRole );
+        url.addParameter( PARAMETER_ID_APPLICATION, nIdApplication );
+        url.addParameter( PARAMETER_ID_USER, strIdUser );
+
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_USER_APPLICATION_ROLE, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
+
+        return redirect( request, strMessageUrl );
+    }
+
+    /**
+     * Handles the removal form of a userApplicationRole
+     *
+     * @param request
+     *            The Http request
+     * @return the jsp URL to display the form to manage userApplicationRoles
+     */
+    @Action( ACTION_REMOVE_USER_APPLICATION_ROLE )
+    public String doRemoveUserApplicationRole( HttpServletRequest request )
+    {
+        int nIdRole = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
+        int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        UserApplicationRoleHome.remove( nIdRole, nIdApplication, strIdUser );
+        addInfo( INFO_USER_APPLICATION_ROLE_REMOVED, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
+    }
+
+    /**
+     * Returns the form to update info about a userApplicationRole
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form to update info
+     */
+    @View( VIEW_MODIFY_USER_APPLICATION_ROLE )
+    public String getModifyUserApplicationRole( HttpServletRequest request )
+    {
+        int nIdRole = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
+        int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+
+        if ( _userApplicationRole == null 
+                || ( _userApplicationRole.getIdRole( ) != nIdRole )
+                || ( _userApplicationRole.getIdApplication( ) != nIdApplication )
+                || ( _userApplicationRole.getIdUser( ) != strIdUser ) )
+        {
+            _userApplicationRole = UserApplicationRoleHome.findByPrimaryKey( nIdRole, nIdApplication, strIdUser );
+        }
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_USER_APPLICATION_ROLE, _userApplicationRole );
+        Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
+        model.put( MARK_APPLICATION_MAP, mapApplications );
+        ReferenceList rolesList = RoleHome.getRolesReferenceList( );
+        AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
+        model.put( MARK_ROLES_LIST, rolesList );
+
+        return getPage( PROPERTY_PAGE_TITLE_MODIFY_USER_APPLICATION_ROLE, TEMPLATE_MODIFY_USER_APPLICATION_ROLE, model );
+    }
+
+    /**
+     * Process the change form of a userApplicationRole
+     *
+     * @param request
+     *            The Http request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_MODIFY_USER_APPLICATION_ROLE )
+    public String doModifyUserApplicationRole( HttpServletRequest request )
+    {
+        UserApplicationRole userApplicationRole = new UserApplicationRole( );
+        int nIdRoleOld = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE_OLD ) );
+
+        populate( userApplicationRole, request );
+        populate( _userApplicationRole, request );
+
+        _userApplicationRole.setIdRole( nIdRoleOld );
+
+        // Check constraints
+        // Also check user role parameter because populate method init the field to 0 in _userApplicationRole
+        if ( !validateBean( userApplicationRole, VALIDATION_ATTRIBUTES_PREFIX ) || request.getParameter( PARAMETER_ID_ROLE ).isEmpty( ) )
+        {
+            Map<String, String> mapParameters = new HashMap<String, String>( );
+            mapParameters.put( PARAMETER_ID_ROLE, Integer.toString( _userApplicationRole.getIdRole( ) ) );
+            mapParameters.put( PARAMETER_ID_APPLICATION, Integer.toString( _userApplicationRole.getIdApplication( ) ) );
+            mapParameters.put( PARAMETER_ID_USER, _userApplicationRole.getIdUser( ) );
+            return redirect( request, VIEW_MODIFY_USER_APPLICATION_ROLE, mapParameters );
+        }
+
+        UserApplicationRoleHome.update( _userApplicationRole, userApplicationRole );
+        _userApplicationRole = userApplicationRole;
+        addInfo( INFO_USER_APPLICATION_ROLE_UPDATED, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
+    }
+}

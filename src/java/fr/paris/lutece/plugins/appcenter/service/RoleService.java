@@ -8,6 +8,7 @@ package fr.paris.lutece.plugins.appcenter.service;
 import fr.paris.lutece.plugins.appcenter.business.Role;
 import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceList;
 
 public class RoleService
 {

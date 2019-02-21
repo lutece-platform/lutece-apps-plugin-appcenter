@@ -37,6 +37,7 @@ package fr.paris.lutece.plugins.appcenter.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * IRoleDAO Interface
@@ -112,4 +113,11 @@ public interface IRoleDAO
      * @return The referenceList which contains the data of all the role objects
      */
     ReferenceList selectRolesReferenceList( Plugin plugin );
+
+    /**
+     * Load the data of all the role objects and returns them as a map
+     * @param plugin the Plugin
+     * @return The map which contains the data of all the role objects
+     */
+    Map<String, Role> selectRolesMap( Plugin plugin );
 }
