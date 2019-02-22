@@ -188,9 +188,10 @@ public class DemandService
                     break;
                 }
             }
+
+            ApplicationService.saveApplicationData( application, datas );
         }
 
-        ApplicationService.saveApplicationData( application, datas );
 
         List<Integer> idResourceList = new ArrayList<Integer>();
         idResourceList.add( nId );

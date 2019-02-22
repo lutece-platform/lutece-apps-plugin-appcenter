@@ -501,7 +501,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
             if ( xPageApplication instanceof AppCenterDemandXPage )
             {
                 AppCenterDemandXPage appCenterDemandXPage = ( AppCenterDemandXPage ) xPageApplication;
-                if ( appCenterDemandXPage.getDemandType( ).equals( strDemandTypeKey ) )
+                if ( appCenterDemandXPage.getDemandType( ) != null && appCenterDemandXPage.getDemandType( ).equals( strDemandTypeKey ) )
                 {
                     return appCenterDemandXPage.getDatasClass( );
                 }
