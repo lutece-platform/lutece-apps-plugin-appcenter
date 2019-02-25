@@ -14,10 +14,10 @@
     <@table>
         <tr>
             <input type="hidden" id="id" name="id"/>
-            <th>#i18n{appcenter.manage_userApplicationRole.columnApplicationCode}</th>
-            <th>#i18n{appcenter.manage_userApplicationRole.columnApplicationName}</th>
-            <th>#i18n{appcenter.manage_userApplicationRole.columnUserId}</th>
-            <th>#i18n{appcenter.manage_userApplicationRole.columnUserRole}</th>
+            <th>#i18n{appcenter.manage_userApplicationRole.columnApplicationCode} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp" attribute="codeApplication" /></th>
+            <th>#i18n{appcenter.manage_userApplicationRole.columnApplicationName} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp" attribute="nameApplication" /></th>
+            <th>#i18n{appcenter.manage_userApplicationRole.columnUserId} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp" attribute="idUser" /></th>
+            <th>#i18n{appcenter.manage_userApplicationRole.columnUserRole} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp" attribute="labelRole" /></th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
         <@tableHeadBodySeparator />

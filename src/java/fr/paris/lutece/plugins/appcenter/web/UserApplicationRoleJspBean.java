@@ -47,8 +47,12 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import java.util.List;
@@ -104,6 +108,12 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String ACTION_REMOVE_USER_APPLICATION_ROLE = "removeUserApplicationRole";
     private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "confirmRemoveUserApplicationRole";
 
+    //Constant
+    private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
+    private static final String CONSTANT_NAME_APPLICATION = "nameApplication";
+    private static final String CONSTANT_ID_USER = "idUser";
+    private static final String CONSTANT_LABEL_ROLE = "labelRole";
+
     // Infos
     private static final String INFO_USER_APPLICATION_ROLE_CREATED = "appcenter.info.userApplicationRole.created";
     private static final String INFO_USER_APPLICATION_ROLE_UPDATED = "appcenter.info.userApplicationRole.updated";
@@ -127,7 +137,64 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
         Map<String, Role> mapRoles = RoleHome.getRolesMap( );
 
-        Map<String, Object> model = getPaginatedListModel( request, MARK_USER_APPLICATION_ROLE_LIST, listUserApplicationRoles, JSP_MANAGE_USER_APPLICATION_ROLES );
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            if ( strSortedAttributeName.equals( CONSTANT_ID_USER ) )
+            {
+                Collections.sort( listUserApplicationRoles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+            }
+            else
+            {
+                Comparator<UserApplicationRole> c = null;
+
+                if ( strSortedAttributeName.equals( CONSTANT_CODE_APPLICATION ) )
+                {
+                    c = Comparator.comparing( ( UserApplicationRole x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getCode( ) );
+                }
+                if ( strSortedAttributeName.equals( CONSTANT_NAME_APPLICATION ) )
+                {
+                    c = Comparator.comparing( ( UserApplicationRole x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getName( ) );
+                }
+                else if ( strSortedAttributeName.equals( CONSTANT_LABEL_ROLE ) )
+                {
+                    c = Comparator.comparing( ( UserApplicationRole x ) -> mapRoles.get( Integer.toString( x.getIdRole( ) ) ).getLabel( ) );
+                }
+
+                if ( c != null )
+                {
+                    if (bIsAscSort)
+                    {
+                        Collections.sort( listUserApplicationRoles, Collections.reverseOrder( c ) );
+                    }
+                    else
+                    {
+                        Collections.sort( listUserApplicationRoles, c );
+                    }
+                }
+            }
+        }
+
+        UrlItem url = new UrlItem( JSP_MANAGE_USER_APPLICATION_ROLES );
+
+        if ( strSortedAttributeName != null )
+        {
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+            url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+
+        Map<String, Object> model = getPaginatedListModel( request, MARK_USER_APPLICATION_ROLE_LIST, listUserApplicationRoles, url.getUrl( ) );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_ROLES_MAP, mapRoles );
 
