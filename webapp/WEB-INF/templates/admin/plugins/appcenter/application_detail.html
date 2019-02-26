@@ -1,0 +1,23 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="application" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.application_detail.title}' />
+	<@boxBody>
+        <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageApplications.jsp">
+            <@formGroup labelKey='#i18n{appcenter.application_detail.labelCode}' helpKey='' mandatory=false>
+                ${application.code!''}
+            </@formGroup>
+            <@formGroup labelKey='#i18n{appcenter.application_detail.labelName}' helpKey='' mandatory=false>
+                ${application.name!''}
+            </@formGroup>
+            <@formGroup labelKey='#i18n{appcenter.application_detail.labelDescription}' helpKey='' mandatory=false>
+                ${application.description!''}
+            </@formGroup>
+            <@formGroup labelKey='#i18n{appcenter.application_detail.labelApplicationData}' helpKey='' mandatory=false>
+                <pre>${json_data!''}</pre>
+            </@formGroup>
+            <@actionButtons  button1Name="view_manageApplications"/>
+    	</@tform>  		
+	</@boxBody>
+</@box>

@@ -175,6 +175,34 @@ public class ApplicationService
     }
 
     /**
+     * Get the pretty print JSON data of an application
+     * 
+     * @param application
+     *            The application
+     * @return The pretty printed JSON
+     * @throws IOException
+     *             if an error occurs
+     */
+    public static String getPrettyPrintApplicationData( Application application )
+    {
+        String strApplicationJson = application.getApplicationData( );
+        try
+        {
+            Object dataApplication = _mapper.readTree( strApplicationJson );
+            if ( dataApplication != null )
+            {
+                strApplicationJson = _mapper.writerWithDefaultPrettyPrinter( ).writeValueAsString( dataApplication );
+            }
+        }
+        catch( IOException ex )
+        {
+            Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.WARNING, null, ex );
+        }
+
+        return strApplicationJson;
+    }
+
+    /**
      * Load a datasubset from the global JSON
      * 
      * @param <T>

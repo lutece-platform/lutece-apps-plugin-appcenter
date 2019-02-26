@@ -61,6 +61,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/admin/plugins/appcenter/manage_applications.html";
     private static final String TEMPLATE_CREATE_APPLICATION = "/admin/plugins/appcenter/create_application.html";
     private static final String TEMPLATE_MODIFY_APPLICATION = "/admin/plugins/appcenter/modify_application.html";
+    private static final String TEMPLATE_APPLICATION_DETAIL = "/admin/plugins/appcenter/application_detail.html";
 
     // Parameters
     private static final String PARAMETER_ID_APPLICATION = "id";
@@ -70,11 +71,13 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS = "appcenter.manage_applications.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_APPLICATION = "appcenter.modify_application.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_APPLICATION = "appcenter.create_application.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_APPLICATION_DETAIL = "appcenter.application_detail.pageTitle";
 
     // Markers
     private static final String MARK_APPLICATION_LIST = "application_list";
     private static final String MARK_APPLICATION = "application";
     private static final String MARK_APPLICATION_FILTER = "application_filter";
+    private static final String MARK_JSON_DATA = "json_data";
 
     private static final String JSP_MANAGE_APPLICATIONS = "jsp/admin/plugins/appcenter/ManageApplications.jsp";
 
@@ -88,6 +91,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String VIEW_MANAGE_APPLICATIONS = "manageApplications";
     private static final String VIEW_CREATE_APPLICATION = "createApplication";
     private static final String VIEW_MODIFY_APPLICATION = "modifyApplication";
+    private static final String VIEW_APPLICATION_DETAIL = "applicationDetail";
 
     // Actions
     private static final String ACTION_CREATE_APPLICATION = "createApplication";
@@ -298,5 +302,34 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         addInfo( INFO_APPLICATION_UPDATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
+    }
+
+    /**
+     * Returns the task form associate to the workflow action
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form the task form associate to the workflow action
+     */
+    @View( VIEW_APPLICATION_DETAIL )
+    public String getApplicationDetail( HttpServletRequest request )
+    {
+        Application application = null;
+        Integer nIdApplication = request.getParameter( PARAMETER_ID_APPLICATION ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) ) : null;
+
+        application = ApplicationHome.findByPrimaryKey( nIdApplication );
+
+        if ( application == null )
+        {
+            return redirect( request, VIEW_MANAGE_APPLICATIONS );
+        }
+
+        String strJsonData = ApplicationService.getPrettyPrintApplicationData( application );
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_APPLICATION, application );
+        model.put( MARK_JSON_DATA, strJsonData );
+
+        return getPage( PROPERTY_PAGE_TITLE_APPLICATION_DETAIL, TEMPLATE_APPLICATION_DETAIL, model );
     }
 }

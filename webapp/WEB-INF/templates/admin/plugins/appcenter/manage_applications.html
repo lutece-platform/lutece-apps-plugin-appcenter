@@ -21,7 +21,6 @@
             <th>#i18n{appcenter.manage_applications.columnCode} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageApplications.jsp" attribute="code" /></th>
             <th>#i18n{appcenter.manage_applications.columnName} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageApplications.jsp" attribute="name" /></th>
             <th>#i18n{appcenter.manage_applications.columnDescription} <@sort jsp_url="jsp/admin/plugins/appcenter/ManageApplications.jsp" attribute="description" /></th>
-            <th>#i18n{appcenter.manage_applications.columnApplicationData}</th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
         <@tableHeadBodySeparator />
@@ -37,10 +36,8 @@
             <td>
                 ${application.description}
             </td>
-            <td>
-                ${application.applicationData}
-            </td>
         <td>
+						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=applicationDetail&id=${application.id}' title='#i18n{appcenter.manage_applications.labelDetail}' buttonIcon='eye' showTitle=false />
 						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=modifyApplication&id=${application.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
 						
 						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?action=confirmRemoveApplication&id=${application.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
