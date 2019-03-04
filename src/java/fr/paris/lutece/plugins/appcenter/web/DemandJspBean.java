@@ -367,6 +367,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
        
        
         demand = DemandHome.findByPrimaryKey( nIdDemand );
+        Class demandClass = DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType( ), DemandTypeHome.getDemandTypesList( ) );
+        demand = DemandHome.findByPrimaryKey( nIdDemand, demandClass );
         int  nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
         
         String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(

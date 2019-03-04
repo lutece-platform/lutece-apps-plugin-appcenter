@@ -8,10 +8,13 @@
 	     <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
 	
                 <!-- Display info about application -->
-                <h4>#i18n{appcenter.demand_history.application.name} : ${application.name}</h4>
-                <h5>#i18n{appcenter.demand_history.application.description} : ${application.description}</h5>
-                 <h4>#i18n{appcenter.demand_history.application.name} : ${application.name}</h4>
-               
+                <p>#i18n{appcenter.demand_history.application.name} : ${application.name}</p>
+                <p>#i18n{appcenter.demand_history.application.description} : ${application.description}</p>
+                </br>
+
+                <!-- Display info about demand -->
+                <p>#i18n{appcenter.demand_history.demand.status} : ${demand.statusText!''}</p>
+                <p>${(demand.complementaryInfos)!''}</p>
                  
                 </br>
              		${history}
