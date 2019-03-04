@@ -47,6 +47,7 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfig;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigHome;
 import fr.paris.lutece.plugins.appcenter.service.AppcenterPlugin;
+import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
@@ -81,7 +82,9 @@ public class TaskNotify extends SimpleTask
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         //Get the demand
         Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
-        
+        Class demandClass = DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType( ), DemandTypeHome.getDemandTypesList( ) );
+        demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ), demandClass );
+
         //Get the config
         NotifyTaskConfig config = NotifyTaskConfigHome.findByPrimaryKey( getId( ), AppcenterPlugin.getPlugin( ) );
         
