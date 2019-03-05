@@ -8,7 +8,7 @@
 	     <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
 	
                 <!-- Display info about application -->
-                <h5>#i18n{appcenter.demand_history.application.title}</h5>
+                <h3>#i18n{appcenter.demand_history.application.title}</h3>
                 <@formGroup labelKey='#i18n{appcenter.demand_history.application.name}' helpKey='' mandatory=false>
                     ${application.name!''}
                 </@formGroup>
@@ -18,7 +18,7 @@
                 </br>
 
                 <!-- Display info about demand -->
-                <h5>#i18n{appcenter.demand_history.demand.title}</h5>
+                <h3>#i18n{appcenter.demand_history.demand.title}</h3>
                 <@formGroup labelKey='#i18n{appcenter.demand_history.demand.status}' helpKey='' mandatory=false>
                     ${demand.statusText!''}
                 </@formGroup>
@@ -31,7 +31,7 @@
                 </br>
 
                 <!-- Display demand history -->
-                <h5>#i18n{appcenter.demand_history.demand.history.title}</h5>
+                <h3>#i18n{appcenter.demand_history.demand.history.title}</h3>
              		${history}
 
         	      <@actionButtons  button1Name="view_manageDemands"/>
