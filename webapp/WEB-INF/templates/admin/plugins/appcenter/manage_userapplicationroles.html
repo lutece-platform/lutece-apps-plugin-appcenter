@@ -6,6 +6,13 @@
 		<@tform class='form-inline pull-right' name='manage_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
 			<@button type='submit' name='view_createUserApplicationRole' buttonIcon='plus' title='#i18n{appcenter.manage_userApplicationRole.buttonAdd}' />
 		</@tform>
+    </@boxHeader>
+    <@boxHeader boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
+            <label for="id_user" class="col-form-label">#i18n{appcenter.manage_userApplicationRole.filter.idUser}</label>
+            <@comboWithParams name="id_user" default_value="" additionalParameters=""  items=user_ref_list />
+			<@button type='submit' name='action_confirmRemoveUserApplicationRoleByUser' buttonIcon='trash' color='btn-danger' title='#i18n{appcenter.manage_userApplicationRole.buttonDeleteByUser}' />
+		</@tform>
 	</@boxHeader>
 	<@boxBody>    
     <@messages infos=infos />

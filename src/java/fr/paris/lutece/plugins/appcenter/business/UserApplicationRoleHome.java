@@ -90,6 +90,15 @@ public final class UserApplicationRoleHome
     {
         _dao.delete( nRoleId, nApplicationId, strUserId, _plugin );
     }
+
+    /**
+     * Remove all the userApplicationRoles of a user
+     * @param strUserId
+     */
+    public static void removeByIdUser( String strUserId )
+    {
+        _dao.deleteByIdUser( strUserId, _plugin );
+    }
     
     /**
      * Remove the userApplicationRole whose identifier is specified in parameter
@@ -157,6 +166,15 @@ public final class UserApplicationRoleHome
     public static ReferenceList getUserApplicationRolesReferenceList( )
     {
         return _dao.selectUserApplicationRolesReferenceList( _plugin );
+    }
+
+    /**
+     * Load the id of all the user and returns them as a referenceList
+     * @return the referenceList which contains the id of all the user
+     */
+    public static ReferenceList getIdUserReferenceList( )
+    {
+        return _dao.selectIdUserReferenceList( _plugin );
     }
 }
 

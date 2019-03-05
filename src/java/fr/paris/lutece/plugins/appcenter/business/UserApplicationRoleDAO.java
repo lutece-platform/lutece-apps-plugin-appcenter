@@ -52,8 +52,10 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_user_application_role ( id_role, id_application, id_user ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_user_application_role SET id_role = ? WHERE id_role = ? and id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_user_application_role WHERE id_role = ? and id_application = ? and id_user = ? ";
+    private static final String SQL_QUERY_DELETE_BY_USER = "DELETE FROM appcenter_user_application_role WHERE id_user = ? ";
     private static final String SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID = "DELETE FROM appcenter_user_application_role WHERE id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
+    private static final String SQL_QUERY_SELECTALL_ID_USER = "SELECT id_user FROM appcenter_user_application_role GROUP BY id_user";
     private static final String SQL_QUERY_SELECTALL_BY_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION = SQL_QUERY_SELECTALL + " WHERE id_application = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION_AND_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_application = ? AND id_user = ? ";
@@ -142,6 +144,19 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void deleteByIdUser( String strUserId, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_USER, plugin );
+        daoUtil.setString( 1 , strUserId );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
     
     /**
      * {@inheritDoc }
@@ -203,6 +218,25 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
 
         daoUtil.free( );
         return userApplicationRoleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public ReferenceList selectIdUserReferenceList( Plugin plugin )
+    {
+        ReferenceList idUserList = new ReferenceList();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID_USER, plugin );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            idUserList.addItem( daoUtil.getString( 1 ) , daoUtil.getString( 1 ) );
+        }
+
+        daoUtil.free( );
+        return idUserList;
     }
 
     /**

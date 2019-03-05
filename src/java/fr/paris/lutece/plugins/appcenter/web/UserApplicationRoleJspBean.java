@@ -88,11 +88,13 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_APPLICATION_MAP = "applications_map";
     private static final String MARK_ROLES_MAP = "roles_map";
+    private static final String MARK_USER_REF_LIST = "user_ref_list";
 
     private static final String JSP_MANAGE_USER_APPLICATION_ROLES = "jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp";
 
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "appcenter.message.confirmRemoveUserApplicationRole";
+    private static final String MESSAGE_CONFIRM_REMOVE_USER_APPLICATION_ROLE_BY_USER = "appcenter.message.confirmRemoveUserApplicationRoleByUser";
 
     // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "appcenter.model.entity.userApplicationRole.attribute.";
@@ -106,7 +108,9 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String ACTION_CREATE_USER_APPLICATION_ROLE = "createUserApplicationRole";
     private static final String ACTION_MODIFY_USER_APPLICATION_ROLE = "modifyUserApplicationRole";
     private static final String ACTION_REMOVE_USER_APPLICATION_ROLE = "removeUserApplicationRole";
+    private static final String ACTION_REMOVE_USER_APPLICATION_ROLE_BY_USER = "removeUserApplicationRoles";
     private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "confirmRemoveUserApplicationRole";
+    private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE_BY_USER = "confirmRemoveUserApplicationRoleByUser";
 
     //Constant
     private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
@@ -136,6 +140,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesList( );
         Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
         Map<String, Role> mapRoles = RoleHome.getRolesMap( );
+        ReferenceList refListIdUser = UserApplicationRoleHome.getIdUserReferenceList( );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -197,6 +202,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         Map<String, Object> model = getPaginatedListModel( request, MARK_USER_APPLICATION_ROLE_LIST, listUserApplicationRoles, url.getUrl( ) );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_ROLES_MAP, mapRoles );
+        model.put( MARK_USER_REF_LIST, refListIdUser );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_USER_APPLICATION_ROLES, TEMPLATE_MANAGE_USER_APPLICATION_ROLES, model );
     }
@@ -271,6 +277,26 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     }
 
     /**
+     * Manages the removal form of all userApplicationRole of a user
+     *
+     * @param request
+     *            The Http request
+     * @return the html code to confirm
+     */
+    @Action( ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE_BY_USER )
+    public String getConfirmRemoveUserApplicationRoleByIdUser( HttpServletRequest request )
+    {
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_USER_APPLICATION_ROLE_BY_USER ) );
+        url.addParameter( PARAMETER_ID_USER, strIdUser );
+
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_USER_APPLICATION_ROLE_BY_USER, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
+
+        return redirect( request, strMessageUrl );
+    }
+
+    /**
      * Handles the removal form of a userApplicationRole
      *
      * @param request
@@ -284,6 +310,23 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
         String strIdUser = request.getParameter( PARAMETER_ID_USER );
         UserApplicationRoleHome.remove( nIdRole, nIdApplication, strIdUser );
+        addInfo( INFO_USER_APPLICATION_ROLE_REMOVED, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
+    }
+
+    /**
+     * Handles the removal form of all userApplicationRole of a user
+     *
+     * @param request
+     *            The Http request
+     * @return the jsp URL to display the form to manage userApplicationRoles
+     */
+    @Action( ACTION_REMOVE_USER_APPLICATION_ROLE_BY_USER )
+    public String doRemoveUserApplicationRoleByIdUser( HttpServletRequest request )
+    {
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        UserApplicationRoleHome.removeByIdUser( strIdUser );
         addInfo( INFO_USER_APPLICATION_ROLE_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );

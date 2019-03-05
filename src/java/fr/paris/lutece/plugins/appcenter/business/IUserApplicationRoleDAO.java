@@ -68,6 +68,13 @@ public interface IUserApplicationRoleDAO
     void delete( int nRoleId, int nApplicationId, String strUserId, Plugin plugin );
     
     /**
+     * Delete records from the table, identified by given id user
+     * @param strUserId
+     * @param plugin the Plugin
+     */
+    void deleteByIdUser( String strUserId, Plugin plugin );
+
+    /**
      * Delete records from the table, identified by given id user and id application
      * @param nApplicationId
      *              The id application
@@ -129,4 +136,11 @@ public interface IUserApplicationRoleDAO
      * @return The referenceList which contains the data of all the userApplicationRole objects
      */
     ReferenceList selectUserApplicationRolesReferenceList( Plugin plugin );
+
+    /**
+     * Load the id of all the user and returns them as a referenceList
+     * @param plugin the Plugin
+     * @return The referenceList which contains the id of all the user
+     */
+    ReferenceList selectIdUserReferenceList( Plugin plugin );
 }
