@@ -9,6 +9,20 @@
     </@boxHeader>
     <@boxHeader boxTools=true>
 		<@tform class='form-inline pull-right' name='manage_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
+            <@formGroup formStyle='inline' labelKey='#i18n{appcenter.manage_userApplicationRole.filter.application.codeOrName}' helpKey='' mandatory=false>
+                <@input type='text' name='application_code_or_name' value=(user_application_role_filter.applicationCodeOrName?string)!'' />
+            </@formGroup>
+            <@formGroup formStyle='inline' labelKey='#i18n{appcenter.manage_userApplicationRole.filter.user.id}' helpKey='' mandatory=false>
+                <@input type='text' name='id_user' value=(user_application_role_filter.idUser?string)!'' />
+            </@formGroup>
+            <@formGroup formStyle='inline' labelKey='#i18n{appcenter.manage_userApplicationRole.filter.role.label}' helpKey='' mandatory=false>
+                <@input type='text' name='role_label' value=(user_application_role_filter.roleLabel?string)!'' />
+            </@formGroup>
+            <@button type='submit' name='action_filterUserApplicationRoles' buttonIcon='search' title='#i18n{appcenter.manage_userApplicationRole.search}' />
+		</@tform>
+	</@boxHeader>
+    <@boxHeader boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_userapplicationrole' action='jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp'>
             <label for="id_user" class="col-form-label">#i18n{appcenter.manage_userApplicationRole.filter.idUser}</label>
             <@comboWithParams name="id_user" default_value="" additionalParameters=""  items=user_ref_list />
 			<@button type='submit' name='action_confirmRemoveUserApplicationRoleByUser' buttonIcon='trash' color='btn-danger' title='#i18n{appcenter.manage_userApplicationRole.buttonDeleteByUser}' />

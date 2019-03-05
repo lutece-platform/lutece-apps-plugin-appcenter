@@ -132,6 +132,15 @@ public final class UserApplicationRoleHome
     }
     
     /**
+     * Load the data of a selection of userApplicationRole objects and returns them as a list
+     * @return the list which contains the data of the selection of userApplicationRole objects
+     */
+    public static List<UserApplicationRole> getUserApplicationRolesListByFilter( UserApplicationRoleFilter filter )
+    {
+        return _dao.selectUserApplicationRolesListByFilter( filter, _plugin );
+    }
+
+    /**
      * Load the data of all the userApplicationRole objects by id user and returns them as a list
      * @return the list which contains the data of all the userApplicationRole objects by id user
      */

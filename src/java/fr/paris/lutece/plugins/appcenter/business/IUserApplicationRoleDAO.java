@@ -106,6 +106,13 @@ public interface IUserApplicationRoleDAO
     List<UserApplicationRole> selectUserApplicationRolesList( Plugin plugin );
     
     /**
+     * Load the data of a selection of userApplicationRole objects and returns them as a list
+     * @param plugin the Plugin
+     * @return The list which contains the data of the selection of userApplicationRole objects
+     */
+    List<UserApplicationRole> selectUserApplicationRolesListByFilter( UserApplicationRoleFilter filter, Plugin plugin );
+
+    /**
      * Load the data of all the userApplicationRole objects by id user and returns them as a list
      * @param nIdUser
      * @param plugin the Plugin

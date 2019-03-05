@@ -55,10 +55,19 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     private static final String SQL_QUERY_DELETE_BY_USER = "DELETE FROM appcenter_user_application_role WHERE id_user = ? ";
     private static final String SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID = "DELETE FROM appcenter_user_application_role WHERE id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
+    private static final String SQL_QUERY_SELECTALL_FILTER = "SELECT uar.id_role, uar.id_application, uar.id_user FROM appcenter_user_application_role uar INNER JOIN appcenter_application app INNER JOIN appcenter_role role ON uar.id_application = app.id_application AND uar.id_role = role.id_role";
     private static final String SQL_QUERY_SELECTALL_ID_USER = "SELECT id_user FROM appcenter_user_application_role GROUP BY id_user";
     private static final String SQL_QUERY_SELECTALL_BY_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION = SQL_QUERY_SELECTALL + " WHERE id_application = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION_AND_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_application = ? AND id_user = ? ";
+
+    //Constants
+    private static final String CONSTANT_WHERE = " WHERE ";
+    private static final String CONSTANT_AND = " AND ";
+    private static final String CONSTANT_WHERE_APPLICATION_CODE_OR_NAME = " ( app.code LIKE ? OR app.name LIKE ? ) ";
+    private static final String CONSTANT_WHERE_ID_USER = " uar.id_user LIKE ? ";
+    private static final String CONSTANT_WHERE_ROLE_LABEL = " role.label LIKE ? ";
+    private static final String SQL_LIKE_WILDCARD = "%";
 
     /**
      * {@inheritDoc }
@@ -188,6 +197,72 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole(  );
             int nIndex = 1;
             
+            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
+
+            userApplicationRoleList.add( userApplicationRole );
+        }
+
+        daoUtil.free( );
+        return userApplicationRoleList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<UserApplicationRole> selectUserApplicationRolesListByFilter( UserApplicationRoleFilter filter, Plugin plugin )
+    {
+        List<UserApplicationRole> userApplicationRoleList = new ArrayList<>(  );
+        StringBuilder strSqlQuery = new StringBuilder( SQL_QUERY_SELECTALL_FILTER );
+
+        if ( filter.hasApplicationCodeOrName( ) || filter.hasIdUser( ) || filter.hasRoleLabel( ) )
+        {
+            strSqlQuery.append( CONSTANT_WHERE );
+        }
+        boolean bFirstFilterStatement = true;
+        if ( filter.hasApplicationCodeOrName( ) )
+        {
+            if ( !bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_APPLICATION_CODE_OR_NAME );
+            bFirstFilterStatement = false;
+        }
+        if ( filter.hasIdUser( ) )
+        {
+            if ( !bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_ID_USER );
+            bFirstFilterStatement = false;
+        }
+        if ( filter.hasRoleLabel( ) )
+        {
+            if ( !bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            strSqlQuery.append( CONSTANT_WHERE_ROLE_LABEL );
+        }
+
+        DAOUtil daoUtil = new DAOUtil( strSqlQuery.toString( ), plugin );
+        int nIndex = 1;
+        if ( filter.hasApplicationCodeOrName( ) )
+        {
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getApplicationCodeOrName( ) + SQL_LIKE_WILDCARD );
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getApplicationCodeOrName( ) + SQL_LIKE_WILDCARD );
+        }
+        if ( filter.hasIdUser( ) )
+        {
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getIdUser( ) + SQL_LIKE_WILDCARD );
+        }
+        if ( filter.hasRoleLabel( ) )
+        {
+            daoUtil.setString( nIndex++, SQL_LIKE_WILDCARD + filter.getRoleLabel( ) + SQL_LIKE_WILDCARD );
+        }
+
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            UserApplicationRole userApplicationRole = new UserApplicationRole(  );
+            nIndex = 1;
+
             userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );

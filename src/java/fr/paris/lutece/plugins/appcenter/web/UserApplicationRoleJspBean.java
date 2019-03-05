@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Role;
 import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleFilter;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
@@ -50,6 +51,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import java.util.Collections;
 import java.util.Comparator;
@@ -75,6 +77,8 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String PARAMETER_ID_ROLE = "id_role";
     private static final String PARAMETER_ID_APPLICATION = "id_application";
     private static final String PARAMETER_ID_USER = "id_user";
+    private static final String PARAMETER_APPLICATION_CODE_OR_NAME = "application_code_or_name";
+    private static final String PARAMETER_ROLE_LABEL = "role_label";
     
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_USER_APPLICATION_ROLES = "appcenter.manage_userApplicationRoles.pageTitle";
@@ -88,6 +92,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_APPLICATION_MAP = "applications_map";
     private static final String MARK_ROLES_MAP = "roles_map";
+    private static final String MARK_USER_APPLICATION_ROLE_FILTER = "user_application_role_filter";
     private static final String MARK_USER_REF_LIST = "user_ref_list";
 
     private static final String JSP_MANAGE_USER_APPLICATION_ROLES = "jsp/admin/plugins/appcenter/ManageUserApplicationRoles.jsp";
@@ -111,6 +116,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String ACTION_REMOVE_USER_APPLICATION_ROLE_BY_USER = "removeUserApplicationRoles";
     private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE = "confirmRemoveUserApplicationRole";
     private static final String ACTION_CONFIRM_REMOVE_USER_APPLICATION_ROLE_BY_USER = "confirmRemoveUserApplicationRoleByUser";
+    private static final String ACTION_FILTER_USER_APPLICATION_ROLE = "filterUserApplicationRoles";
 
     //Constant
     private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
@@ -125,6 +131,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
 
     // Session variable to store working values
     private UserApplicationRole _userApplicationRole;
+    private UserApplicationRoleFilter _filter;
 
     /**
      * Build the Manage View
@@ -136,8 +143,14 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     @View( value = VIEW_MANAGE_USER_APPLICATION_ROLES, defaultView = true )
     public String getManageUserApplicationRoles( HttpServletRequest request )
     {
+        //Initialize the demand filter
+        if ( _filter == null )
+        {
+            _filter = new UserApplicationRoleFilter( );
+        }
+
         _userApplicationRole = null;
-        List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesList( );
+        List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesListByFilter( _filter );
         Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
         Map<String, Role> mapRoles = RoleHome.getRolesMap( );
         ReferenceList refListIdUser = UserApplicationRoleHome.getIdUserReferenceList( );
@@ -202,9 +215,43 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         Map<String, Object> model = getPaginatedListModel( request, MARK_USER_APPLICATION_ROLE_LIST, listUserApplicationRoles, url.getUrl( ) );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_ROLES_MAP, mapRoles );
+        model.put( MARK_USER_APPLICATION_ROLE_FILTER, _filter );
         model.put( MARK_USER_REF_LIST, refListIdUser );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_USER_APPLICATION_ROLES, TEMPLATE_MANAGE_USER_APPLICATION_ROLES, model );
+    }
+
+    /**
+     * Process the action of filtering applications; set the filter
+     * @param request
+     * @return The manage applications view
+     */
+    @Action( ACTION_FILTER_USER_APPLICATION_ROLE )
+    public String doFilterUserApplicationRole( HttpServletRequest request )
+    {
+        String strApplicationCodeOrName = request.getParameter( PARAMETER_APPLICATION_CODE_OR_NAME );
+        String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        String strRoleLabel = request.getParameter( PARAMETER_ROLE_LABEL );
+
+        _filter = new UserApplicationRoleFilter( );
+
+        if ( strApplicationCodeOrName != null && !strApplicationCodeOrName.isEmpty( ) )
+        {
+            _filter.setApplicationCodeOrName( strApplicationCodeOrName );
+            _filter.setHasApplicationCodeOrName( true );
+        }
+        if ( strIdUser != null && !strIdUser.isEmpty( ) )
+        {
+            _filter.setIdUser( strIdUser );
+            _filter.setHasIdUser( true );
+        }
+        if ( strRoleLabel != null && !strRoleLabel.isEmpty( ) )
+        {
+            _filter.setRoleLabel( strRoleLabel );
+            _filter.setHasRoleLabel( true );
+        }
+
+        return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
     }
 
     /**
