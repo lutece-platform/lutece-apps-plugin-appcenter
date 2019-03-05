@@ -46,9 +46,12 @@ import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.web.DemandJspBean;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 /**
  * Demand Service
@@ -198,6 +201,34 @@ public class DemandService
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
         WorkflowService.getInstance( ).doRemoveWorkFlowResourceByListId( idResourceList, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow );
         DemandHome.remove( nId );
+    }
+
+    /**
+     * Get the pretty print JSON data of a demand
+     * 
+     * @param demand
+     *            The demand
+     * @return The pretty printed JSON
+     * @throws IOException
+     *             if an error occurs
+     */
+    public static String getPrettyPrintDemandData( Demand demand )
+    {
+        String strDemandJson = demand.getDemandData( );
+        try
+        {
+            Object dataDemand = _mapper.readTree( strDemandJson );
+            if ( dataDemand != null )
+            {
+                strDemandJson = _mapper.writerWithDefaultPrettyPrinter( ).writeValueAsString( dataDemand );
+            }
+        }
+        catch( IOException ex )
+        {
+            Logger.getLogger( DemandService.class.getName( ) ).log( Level.WARNING, null, ex );
+        }
+
+        return strDemandJson;
     }
 }
 

@@ -115,6 +115,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     private static final String MARK_ACTIONS_MAP = "actions";
     private static final String MARK_HISTORY = "history";
+    private static final String MARK_JSON_DATA = "json_data";
     private static final String JSP_MANAGE_DEMANDS = "jsp/admin/plugins/appcenter/ManageDemands.jsp";
 
     // Properties
@@ -378,12 +379,13 @@ public class DemandJspBean extends ManageAppCenterJspBean
         // Aplication
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
 
+        String strJsonData = DemandService.getPrettyPrintDemandData( demand );
        
         Map<String, Object> model = getModel( );
         model.put( MARK_DEMAND, demand );
         model.put( MARK_APPLICATION, application );
         model.put( MARK_HISTORY, strHistoryHtml );
-
+        model.put( MARK_JSON_DATA, strJsonData );
    
 
         return getPage( PROPERTY_PAGE_TITLE_DEMAND_HISTORY, TEMPLATE_DEMAND_HISTORY, model );

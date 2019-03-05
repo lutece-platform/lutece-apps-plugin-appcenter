@@ -8,16 +8,32 @@
 	     <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
 	
                 <!-- Display info about application -->
-                <p>#i18n{appcenter.demand_history.application.name} : ${application.name}</p>
-                <p>#i18n{appcenter.demand_history.application.description} : ${application.description}</p>
+                <h5>#i18n{appcenter.demand_history.application.title}</h5>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.application.name}' helpKey='' mandatory=false>
+                    ${application.name!''}
+                </@formGroup>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.application.description}' helpKey='' mandatory=false>
+                    ${application.description!''}
+                </@formGroup>
                 </br>
 
                 <!-- Display info about demand -->
-                <p>#i18n{appcenter.demand_history.demand.status} : ${demand.statusText!''}</p>
-                <p>${(demand.complementaryInfos)!''}</p>
-                 
+                <h5>#i18n{appcenter.demand_history.demand.title}</h5>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.status}' helpKey='' mandatory=false>
+                    ${demand.statusText!''}
+                </@formGroup>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.demandComplementaryInfos}' helpKey='' mandatory=false>
+                    ${(demand.complementaryInfos)!''}
+                </@formGroup>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.demandData}' helpKey='' mandatory=false>
+                    <pre>${json_data!''}</pre>
+                </@formGroup>
                 </br>
+
+                <!-- Display demand history -->
+                <h5>#i18n{appcenter.demand_history.demand.history.title}</h5>
              		${history}
+
         	      <@actionButtons  button1Name="view_manageDemands"/>
     	</@tform>  		
 	</@boxBody>
