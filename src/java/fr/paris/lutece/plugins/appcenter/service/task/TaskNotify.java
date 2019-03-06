@@ -47,6 +47,7 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfig;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfigHome;
 import fr.paris.lutece.plugins.appcenter.service.AppcenterPlugin;
+import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
@@ -73,6 +74,7 @@ public class TaskNotify extends SimpleTask
     private static final String MARK_CATEGORY_DEMAND_TYPE = "categorydemandtype";
     private static final String MARK_ENVIRONMENT = "environment";
     private static final String MARK_APPLICATION = "application";
+    private static final String MARK_JSON_DATA = "json_data";
     @Inject
     private IResourceHistoryService _resourceHistoryService;
 
@@ -122,6 +124,8 @@ public class TaskNotify extends SimpleTask
             model.put( MARK_ENVIRONMENT, demand.getEnvironment( ).getLabel( ) );
         }
         model.put( MARK_CATEGORY_DEMAND_TYPE, categoryDemandType );
+        String strJsonData = DemandService.getPrettyPrintDemandData( demand );
+        model.put( MARK_JSON_DATA, strJsonData );
         conf.setMessage( AppTemplateService.getTemplateFromStringFtl( conf.getMessage(), Locale.getDefault( ), model ).getHtml() );
         conf.setSubject(AppTemplateService.getTemplateFromStringFtl( conf.getSubject(), Locale.getDefault( ), model ).getHtml() );
     }
