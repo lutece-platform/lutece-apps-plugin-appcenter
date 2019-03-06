@@ -135,6 +135,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String ACTION_CONFIRM_REMOVE_DEMAND = "confirmRemoveDemand";
     
     //Constant
+    private static final String CONSTANT_ID = "id";
     private static final String CONSTANT_LABEL_DEMAND_TYPE = "labelDemandType";
     private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
     private static final String CONSTANT_NAME_APPLICATION = "nameApplication";
@@ -236,7 +237,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
             
-            if ( strSortedAttributeName.equals( CONSTANT_ID_USER_FRONT ) || strSortedAttributeName.equals( CONSTANT_CREATION_DATE ) )
+            if ( strSortedAttributeName.equals( CONSTANT_ID ) || strSortedAttributeName.equals( CONSTANT_ID_USER_FRONT ) || strSortedAttributeName.equals( CONSTANT_CREATION_DATE ) )
             {
                 Collections.sort( listDemands, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
             }
