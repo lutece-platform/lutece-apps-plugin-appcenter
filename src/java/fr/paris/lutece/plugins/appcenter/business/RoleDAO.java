@@ -52,7 +52,7 @@ public final class RoleDAO implements IRoleDAO
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id_role, code, label FROM appcenter_role WHERE id_role = ?";
     private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT id_role, code, label FROM appcenter_role WHERE code = ?";
-    private static final String SQL_QUERY_SELECT_BY_USER_AND_APPLICATION = "select p.id_role, p.code, p.label from appcenter_role p, appcenter_user_application_role ap where p.id_role = ap.id_role and id_user = ? and id_application = ? ";
+    private static final String SQL_QUERY_SELECT_BY_USER_AND_APPLICATION = "select p.id_role, p.code, p.label from appcenter_role as p inner join appcenter_user_application_role as ap on p.id_role = ap.id_role where id_user = ? and id_application = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_role ( code, label ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_role WHERE id_role = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_role SET id_role = ?, code = ?, label = ? WHERE id_role = ?";
