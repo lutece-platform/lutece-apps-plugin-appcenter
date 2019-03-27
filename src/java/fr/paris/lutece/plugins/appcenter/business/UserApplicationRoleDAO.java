@@ -55,7 +55,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
     private static final String SQL_QUERY_DELETE_BY_USER = "DELETE FROM appcenter_user_application_role WHERE id_user = ? ";
     private static final String SQL_QUERY_DELETE_BY_APPLICATION_ID_AND_USER_ID = "DELETE FROM appcenter_user_application_role WHERE id_application = ? and id_user = ? ";
     private static final String SQL_QUERY_SELECTALL = "SELECT  id_role, id_application, id_user FROM appcenter_user_application_role";
-    private static final String SQL_QUERY_SELECTALL_FILTER = "SELECT uar.id_role, uar.id_application, uar.id_user FROM appcenter_user_application_role uar INNER JOIN appcenter_application app INNER JOIN appcenter_role role ON uar.id_application = app.id_application AND uar.id_role = role.id_role";
+    private static final String SQL_QUERY_SELECTALL_FILTER = "SELECT uar.id_role, uar.id_application, uar.id_user FROM appcenter_user_application_role uar INNER JOIN appcenter_role role ON uar.id_role = role.id_role LEFT OUTER JOIN appcenter_application app ON uar.id_application = app.id_application";
     private static final String SQL_QUERY_SELECTALL_ID_USER = "SELECT id_user FROM appcenter_user_application_role GROUP BY id_user";
     private static final String SQL_QUERY_SELECTALL_BY_ID_USER = SQL_QUERY_SELECTALL + " WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_ID_APPLICATION = SQL_QUERY_SELECTALL + " WHERE id_application = ? ";
