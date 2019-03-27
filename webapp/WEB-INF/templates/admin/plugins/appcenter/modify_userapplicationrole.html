@@ -9,11 +9,19 @@
             <input type="hidden" id="id_role_old" name="id_role_old" value="${user_application_role.idRole}"/>
             <input type="hidden" id="id_application" name="id_application" value="${user_application_role.idApplication}"/>
             <input type="hidden" id="id_user" name="id_user" value="${user_application_role.idUser}"/>
-            <@formGroup labelKey='#i18n{appcenter.modify_userApplicationRole.labelApplicationCode}' helpKey='' mandatory=false>
-                ${(applications_map[(user_application_role.idApplication)?string].code)!''}
+            <@formGroup labelKey='#i18n{appcenter.modify_userApplicationRole.labelApplicationCode}' helpKey='' mandatory=false>	            
+	            <#if 0 < user_application_role.idApplication  >
+	                ${(applications_map[(user_application_role.idApplication)?string].code)}
+	            <#else>
+	            	0
+	            </#if>
             </@formGroup>
             <@formGroup labelKey='#i18n{appcenter.modify_userApplicationRole.labelApplicationName}' helpKey='' mandatory=false>
-                ${(applications_map[(user_application_role.idApplication)?string].name)!''}
+	            <#if 0 < user_application_role.idApplication  >
+	                ${(applications_map[(user_application_role.idApplication)?string].name)}
+	            <#else>
+	            	#i18n{appcenter.manage_userApplicationRole.AllApplication.label}
+	           	</#if>
             </@formGroup>
             <@formGroup labelKey='#i18n{appcenter.modify_userApplicationRole.labelUserId}' helpKey='' mandatory=false>
                 ${user_application_role.idUser}

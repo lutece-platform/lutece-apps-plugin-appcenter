@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.plugins.appcenter.web;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Role;
@@ -40,26 +48,18 @@ import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleFilter;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
-import fr.paris.lutece.plugins.appcenter.service.RoleService;
-import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage UserApplicationRole features ( manage, createOrModify, modify, remove )
@@ -123,6 +123,10 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String CONSTANT_NAME_APPLICATION = "nameApplication";
     private static final String CONSTANT_ID_USER = "idUser";
     private static final String CONSTANT_LABEL_ROLE = "labelRole";
+    
+    //Constants - set role for all applications
+    private static final String CONSTANT_ID_ALL_APPLICATIONS = "0";
+    private static final String CONSTANT_LABEL_ALL_APPLICATIONS = "appcenter.manage_userApplicationRole.AllApplication.label";
 
     // Infos
     private static final String INFO_USER_APPLICATION_ROLE_CREATED = "appcenter.info.userApplicationRole.created";
@@ -268,7 +272,16 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USER_APPLICATION_ROLE, _userApplicationRole );
-        model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsReferenceList( ) );
+        
+        // Application references list
+        ReferenceList applicationsReferencesList = ApplicationHome.getApplicationsReferenceList( );
+        ReferenceItem applicationReference = new ReferenceItem();
+        applicationReference.setCode(CONSTANT_ID_ALL_APPLICATIONS);
+        applicationReference.setName(I18nService.getLocalizedString(CONSTANT_LABEL_ALL_APPLICATIONS, request.getLocale()));
+        applicationsReferencesList.add(0, applicationReference);
+        model.put( MARK_APPLICATION_LIST, applicationsReferencesList);
+        
+        // Roles list     
         ReferenceList rolesList = RoleHome.getRolesReferenceList( );
         AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
         model.put( MARK_ROLES_LIST, rolesList );
@@ -286,7 +299,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     public String doCreateUserApplicationRole( HttpServletRequest request )
     {
         populate( _userApplicationRole, request );
-
+                        
         // Check constraints
         if ( !validateBean( _userApplicationRole, VALIDATION_ATTRIBUTES_PREFIX ) )
         {

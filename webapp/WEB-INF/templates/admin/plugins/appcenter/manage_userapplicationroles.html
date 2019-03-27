@@ -45,10 +45,18 @@
             <#list user_application_role_list as user_application_role >
         <tr>
             <td>
-                ${(applications_map[(user_application_role.idApplication)?string].code)!''}
+	            <#if 0 < user_application_role.idApplication  >
+	                ${(applications_map[(user_application_role.idApplication)?string].code)}
+	            <#else>
+	            	0
+	            </#if>
             </td>
             <td>
-                ${(applications_map[(user_application_role.idApplication)?string].name)!''}
+	            <#if 0 < user_application_role.idApplication  >
+	                ${(applications_map[(user_application_role.idApplication)?string].name)}
+	            <#else>
+	            	#i18n{appcenter.manage_userApplicationRole.AllApplication.label}
+	           	</#if>
             </td>
             <td>
                 ${user_application_role.idUser}
