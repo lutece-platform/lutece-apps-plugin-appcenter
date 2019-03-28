@@ -132,7 +132,10 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     private static final String INFO_USER_APPLICATION_ROLE_CREATED = "appcenter.info.userApplicationRole.created";
     private static final String INFO_USER_APPLICATION_ROLE_UPDATED = "appcenter.info.userApplicationRole.updated";
     private static final String INFO_USER_APPLICATION_ROLE_REMOVED = "appcenter.info.userApplicationRole.removed";
-
+    
+    // Error
+    private static final String ERROR_ROLE_ALREADY_EXISTS = "appcenter.error.roleAlreadyExists";
+    		
     // Session variable to store working values
     private UserApplicationRole _userApplicationRole;
     private UserApplicationRoleFilter _filter;
@@ -271,13 +274,14 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         _userApplicationRole = ( _userApplicationRole != null ) ? _userApplicationRole : new UserApplicationRole( );
 
         Map<String, Object> model = getModel( );
+        
         model.put( MARK_USER_APPLICATION_ROLE, _userApplicationRole );
         
         // Application references list
         ReferenceList applicationsReferencesList = ApplicationHome.getApplicationsReferenceList( );
         ReferenceItem applicationReference = new ReferenceItem();
         applicationReference.setCode(CONSTANT_ID_ALL_APPLICATIONS);
-        applicationReference.setName(I18nService.getLocalizedString(CONSTANT_LABEL_ALL_APPLICATIONS, request.getLocale()));
+        applicationReference.setName(I18nService.getLocalizedString(CONSTANT_LABEL_ALL_APPLICATIONS, getLocale()));
         applicationsReferencesList.add(0, applicationReference);
         model.put( MARK_APPLICATION_LIST, applicationsReferencesList);
         
@@ -285,6 +289,9 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         ReferenceList rolesList = RoleHome.getRolesReferenceList( );
         AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
         model.put( MARK_ROLES_LIST, rolesList );
+        
+        model.put("error", request.getAttribute("error"));
+        
         return getPage( PROPERTY_PAGE_TITLE_CREATE_USER_APPLICATION_ROLE, TEMPLATE_CREATE_USER_APPLICATION_ROLE, model );
     }
 
@@ -303,6 +310,13 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         // Check constraints
         if ( !validateBean( _userApplicationRole, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
+            return redirectView( request, VIEW_CREATE_USER_APPLICATION_ROLE );
+        }
+        
+        // Is this user role exist ?
+        UserApplicationRole uar = UserApplicationRoleHome.findByPrimaryKey(_userApplicationRole.getIdRole(), _userApplicationRole.getIdApplication(), _userApplicationRole.getIdUser());
+        if (uar != null) {        	
+            addError(I18nService.getLocalizedString(ERROR_ROLE_ALREADY_EXISTS, getLocale()));        	
             return redirectView( request, VIEW_CREATE_USER_APPLICATION_ROLE );
         }
 
