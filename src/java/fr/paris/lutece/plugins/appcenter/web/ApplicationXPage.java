@@ -315,7 +315,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_MODIFY_APPLICATION, null);
+            checkPermission( request, PERMISSION_VIEW_APPLICATION, null);
         }
         catch ( AccessDeniedException e )
         {
