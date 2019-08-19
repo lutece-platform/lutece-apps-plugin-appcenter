@@ -50,6 +50,11 @@ public class Action
         _bDependingOfEnv = bDependingOfEnv;
     }
 
+    public Action( Action action )
+    {
+        this(action._strUrl, action._strLabelKey, action._strCssClass, action._strPermissionCode, action._bDependingOfEnv);
+    }
+
     /**
      * Get the Url of the action
      * @return the url of the action

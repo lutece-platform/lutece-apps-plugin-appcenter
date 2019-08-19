@@ -23,7 +23,14 @@ public class ActionService
      */
     private static List<CategoryAction> getCategoryActionsList( )
     {
-        return SpringContextService.getBeansOfType( CategoryAction.class );
+        List<CategoryAction> listCategoryAction = new ArrayList<>();
+
+        for (CategoryAction categoryAction : SpringContextService.getBeansOfType( CategoryAction.class ))
+        {
+            listCategoryAction.add( new CategoryAction( categoryAction ) );
+        }
+
+        return listCategoryAction;
     }
     
     /**

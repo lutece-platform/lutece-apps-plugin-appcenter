@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAction 
@@ -47,6 +48,20 @@ public class CategoryAction
         _strLabelKey = strLabelKey;
         _strCssClass = strCssClass;
         _strCategoryCode = strCategoryCode;
+        _listActions = listActions;
+    }
+
+    public CategoryAction( CategoryAction categoryAction )
+    {
+        this( categoryAction._strLabelKey, categoryAction._strCssClass, categoryAction._strCategoryCode, null );
+
+        List<Action> listActions = new ArrayList<>();
+
+        for ( Action action : categoryAction._listActions )
+        {
+            listActions.add( new Action( action ) );
+        }
+
         _listActions = listActions;
     }
 
