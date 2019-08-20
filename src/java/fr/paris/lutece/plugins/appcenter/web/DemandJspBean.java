@@ -58,6 +58,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -145,6 +146,9 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     // Infos
     private static final String INFO_DEMAND_REMOVED = "appcenter.info.demand.removed";
+
+    // Errors
+    private static final String ERROR_CANNOT_PROCESS_ACTION = "appcenter.error.demand.cannotProcessAction";
 
     //Sessions variable
     private DemandFilter _filter;
@@ -447,7 +451,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
 	        catch( Exception e )
 	        {
 	             AppLogService.error( "Error processing action for demand '" + nIdDemand , e );
-	         
+	             addError(ERROR_CANNOT_PROCESS_ACTION, getLocale( ) );
 	        }
 
         }
