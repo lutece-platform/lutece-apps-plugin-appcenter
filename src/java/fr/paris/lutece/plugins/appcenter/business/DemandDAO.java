@@ -60,11 +60,11 @@ public final class DemandDAO implements IDemandDAO
 
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, id_user_front = ? ,status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ?, creation_date = ?, is_closed = ?, environment = ? WHERE id_demand = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, id_user_front, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand";
-    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? " ;
+    private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
-    //Constants
+    // Constants
     private static final String CONSTANT_WHERE = " WHERE ";
     private static final String CONSTANT_AND = " AND ";
     private static final String CONSTANT_ORDER_BY = " ORDER BY";
@@ -74,8 +74,7 @@ public final class DemandDAO implements IDemandDAO
     private static final String CONSTANT_WHERE_ID_DEMAND_TYPE = " id_demand_type = ? ";
     private static final String CONSTANT_WHERE_IS_CLOSED = " is_closed = ? ";
     private static final String CONSTANT_ORDER_BY_CREATION_DATE = " creation_date DESC";
-    
-    
+
     private static ObjectMapper _mapper = new ObjectMapper( );
 
     static
@@ -92,26 +91,26 @@ public final class DemandDAO implements IDemandDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
 
-        daoUtil.setString( nIndex++ , demand.getIdUserFront( ) );
-        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
-        daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );    
-        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
-        daoUtil.setTimestamp( nIndex++ , demand.getCreationDate() );
-        daoUtil.setBoolean( nIndex++ , demand.isClosed( ) );
-        if ( demand.getEnvironment() != null )
+        daoUtil.setString( nIndex++, demand.getIdUserFront( ) );
+        daoUtil.setString( nIndex++, demand.getStatusText( ) );
+        daoUtil.setString( nIndex++, demand.getIdDemandType( ) );
+        daoUtil.setString( nIndex++, demand.getDemandType( ) );
+        daoUtil.setInt( nIndex++, demand.getIdApplication( ) );
+        daoUtil.setString( nIndex++, demand.getDemandData( ) );
+        daoUtil.setTimestamp( nIndex++, demand.getCreationDate( ) );
+        daoUtil.setBoolean( nIndex++, demand.isClosed( ) );
+        if ( demand.getEnvironment( ) != null )
         {
             daoUtil.setString( nIndex++, demand.getEnvironment( ).getPrefix( ) );
         }
         else
         {
-            daoUtil.setString(nIndex++, "" );
+            daoUtil.setString( nIndex++, "" );
         }
-        
-        daoUtil.executeUpdate();
-        daoUtil.nextGeneratedKey();
-        
+
+        daoUtil.executeUpdate( );
+        daoUtil.nextGeneratedKey( );
+
         demand.setId( daoUtil.getGeneratedKeyInt( 1 ) );
 
         daoUtil.free( );
@@ -180,26 +179,25 @@ public final class DemandDAO implements IDemandDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
 
-        
-        daoUtil.setInt( nIndex++ , demand.getId( ) );
-        daoUtil.setString( nIndex++ , demand.getIdUserFront( ) );
-        daoUtil.setString( nIndex++ , demand.getStatusText( ) );
-        daoUtil.setString( nIndex++ , demand.getIdDemandType( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandType( ) );
-        daoUtil.setInt( nIndex++ , demand.getIdApplication( ) );
-        daoUtil.setString( nIndex++ , demand.getDemandData( ) );
-        daoUtil.setTimestamp( nIndex++ , demand.getCreationDate() );
-        daoUtil.setBoolean( nIndex++ , demand.isClosed( ) );
-        if ( demand.getEnvironment() != null )
+        daoUtil.setInt( nIndex++, demand.getId( ) );
+        daoUtil.setString( nIndex++, demand.getIdUserFront( ) );
+        daoUtil.setString( nIndex++, demand.getStatusText( ) );
+        daoUtil.setString( nIndex++, demand.getIdDemandType( ) );
+        daoUtil.setString( nIndex++, demand.getDemandType( ) );
+        daoUtil.setInt( nIndex++, demand.getIdApplication( ) );
+        daoUtil.setString( nIndex++, demand.getDemandData( ) );
+        daoUtil.setTimestamp( nIndex++, demand.getCreationDate( ) );
+        daoUtil.setBoolean( nIndex++, demand.isClosed( ) );
+        if ( demand.getEnvironment( ) != null )
         {
-            daoUtil.setString( nIndex++ , demand.getEnvironment( ).getPrefix( ) );
+            daoUtil.setString( nIndex++, demand.getEnvironment( ).getPrefix( ) );
         }
         else
         {
-            daoUtil.setString(nIndex++, "" );
+            daoUtil.setString( nIndex++, "" );
         }
-        
-        daoUtil.setInt( nIndex , demand.getId( ) );
+
+        daoUtil.setInt( nIndex, demand.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -332,9 +330,9 @@ public final class DemandDAO implements IDemandDAO
             demand.setDemandType( daoUtil.getString( nIndex++ ) );
             demand.setIdApplication( daoUtil.getInt( nIndex++ ) );
             demand.setDemandData( daoUtil.getString( nIndex++ ) );
-            demand.setCreationDate( daoUtil.getTimestamp( nIndex++  ) );
-            demand.setIsClosed( daoUtil.getBoolean( nIndex++  ) );
-            demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( nIndex++  ) ) );
+            demand.setCreationDate( daoUtil.getTimestamp( nIndex++ ) );
+            demand.setIsClosed( daoUtil.getBoolean( nIndex++ ) );
+            demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( nIndex++ ) ) );
             return demand;
         }
         catch( IOException e )
@@ -352,33 +350,33 @@ public final class DemandDAO implements IDemandDAO
     {
         List<T> demandList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_APPLICATION, plugin );
-        daoUtil.setInt( 1, nIdApplication);
+        daoUtil.setInt( 1, nIdApplication );
         daoUtil.executeQuery( );
 
         while ( daoUtil.next( ) )
         {
             try
             {
-               // TODO use finally for free because this throws
+                // TODO use finally for free because this throws
                 String strDemandData = daoUtil.getString( 7 );
                 String strDemandType = daoUtil.getString( 4 );
-                T demand = (T)_mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType, listDemandType ) );
-                demand.setId( daoUtil.getInt( 1) );
+                T demand = (T) _mapper.readValue( strDemandData, DemandTypeService.getClassByDemandTypeId( strDemandType, listDemandType ) );
+                demand.setId( daoUtil.getInt( 1 ) );
                 demand.setIdUserFront( daoUtil.getString( 2 ) );
                 demand.setStatusText( daoUtil.getString( 3 ) );
                 demand.setIdDemandType( strDemandType );
                 demand.setDemandType( daoUtil.getString( 5 ) );
                 demand.setIdApplication( daoUtil.getInt( 6 ) );
-                demand.setDemandData(strDemandData);
+                demand.setDemandData( strDemandData );
                 demand.setCreationDate( daoUtil.getTimestamp( 8 ) );
-                demand.setIsClosed( daoUtil.getBoolean( 9  ) );
-                demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 10  ) ) );
-                
-                demandList.add( demand ); 
+                demand.setIsClosed( daoUtil.getBoolean( 9 ) );
+                demand.setEnvironment( Environment.getEnvironment( daoUtil.getString( 10 ) ) );
+
+                demandList.add( demand );
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
-                AppLogService.error( "Unable to parse demand data JSON to demand type ");
+                AppLogService.error( "Unable to parse demand data JSON to demand type " );
             }
         }
 
@@ -394,7 +392,7 @@ public final class DemandDAO implements IDemandDAO
     {
         List<Demand> demandList = new ArrayList<Demand>( );
         StringBuilder strSqlQuery = new StringBuilder( SQL_QUERY_SELECTALL );
-        
+
         if ( filter.hasEnvironmentPrefix( ) || filter.hasIdApplication( ) || filter.hasIdDemandType( ) || filter.hasIsClosed( ) )
         {
             strSqlQuery.append( CONSTANT_WHERE );
@@ -407,31 +405,40 @@ public final class DemandDAO implements IDemandDAO
         }
         if ( filter.hasIdApplication( ) )
         {
-            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            if ( bFirstFilterStatement )
+            {
+                strSqlQuery.append( CONSTANT_AND );
+            }
             strSqlQuery.append( CONSTANT_WHERE_ID_APPLICATION );
             bFirstFilterStatement = true;
         }
         if ( filter.hasIdDemandType( ) )
         {
-            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            if ( bFirstFilterStatement )
+            {
+                strSqlQuery.append( CONSTANT_AND );
+            }
             strSqlQuery.append( CONSTANT_WHERE_ID_DEMAND_TYPE );
             bFirstFilterStatement = true;
         }
         if ( filter.hasIsClosed( ) )
         {
-            if ( bFirstFilterStatement ) {strSqlQuery.append( CONSTANT_AND );}
+            if ( bFirstFilterStatement )
+            {
+                strSqlQuery.append( CONSTANT_AND );
+            }
             strSqlQuery.append( CONSTANT_WHERE_IS_CLOSED );
         }
-        
+
         strSqlQuery.append( CONSTANT_ORDER_BY );
         strSqlQuery.append( CONSTANT_ORDER_BY_CREATION_DATE );
-        
+
         DAOUtil daoUtil = new DAOUtil( strSqlQuery.toString( ), plugin );
         int nIndex = 1;
         if ( filter.hasEnvironmentPrefix( ) )
         {
             daoUtil.setString( nIndex++, filter.getEnvironmentPrefix( ) );
-            
+
         }
         if ( filter.hasIdApplication( ) )
         {
@@ -439,13 +446,13 @@ public final class DemandDAO implements IDemandDAO
         }
         if ( filter.hasIdDemandType( ) )
         {
-            daoUtil.setString( nIndex++, filter.getIdDemandType( ));
+            daoUtil.setString( nIndex++, filter.getIdDemandType( ) );
         }
         if ( filter.hasIsClosed( ) )
         {
             daoUtil.setBoolean( nIndex++, filter.isClosed( ) );
         }
-        
+
         daoUtil.executeQuery( );
 
         while ( daoUtil.next( ) )

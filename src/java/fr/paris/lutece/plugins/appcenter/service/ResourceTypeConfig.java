@@ -36,47 +36,52 @@ package fr.paris.lutece.plugins.appcenter.service;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResourceTypeConfig 
+public class ResourceTypeConfig
 {
-    Map<String,String> _mapResourceType;
-    
+    Map<String, String> _mapResourceType;
+
     /**
      * Default constructeur
      */
     public ResourceTypeConfig( )
     {
-        _mapResourceType = new HashMap<>();
+        _mapResourceType = new HashMap<>( );
     }
 
     /**
      * Get the map of resource type code/values for the configuration
+     * 
      * @return the map of resource type code/values for the configuration
      */
-    public Map<String, String> getMapResourceType() {
+    public Map<String, String> getMapResourceType( )
+    {
         return _mapResourceType;
     }
 
     /**
      * Set the resource type code/values map for the configuration
-     * @param mapResourceType 
+     * 
+     * @param mapResourceType
      */
-    public void setMapResourceType( Map<String, String> mapResourceType) 
+    public void setMapResourceType( Map<String, String> mapResourceType )
     {
         _mapResourceType = mapResourceType;
     }
-    
+
     /**
      * Add a resource type config in the map
+     * 
      * @param strResourceTypeCode
-     * @param strResourceCode 
+     * @param strResourceCode
      */
     public void addResourceTypeConfig( String strResourceTypeCode, String strResourceCode )
     {
-        _mapResourceType.put(strResourceTypeCode, strResourceCode);
+        _mapResourceType.put( strResourceTypeCode, strResourceCode );
     }
-    
+
     /**
      * Get the resource code from the resource type code
+     * 
      * @param strResourceTypeCode
      * @return The resource code from the resource type code
      */
@@ -84,5 +89,5 @@ public class ResourceTypeConfig
     {
         return _mapResourceType.get( strResourceTypeCode );
     }
-    
+
 }

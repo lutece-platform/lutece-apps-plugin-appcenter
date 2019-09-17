@@ -68,16 +68,16 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         try
         {
             int nIndex = 1;
-            daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
-            daoUtil.setInt( nIndex++ , demandType.getIdWorkflow( ) );
-            daoUtil.setString( nIndex++ , demandType.getJavaClass( ) );
-            daoUtil.setString( nIndex++ , demandType.getLabel( ) );
-            daoUtil.setString( nIndex++ , demandType.getDescription( ) );
-            daoUtil.setString( nIndex++ , demandType.getQuestion( ));
-            daoUtil.setInt( nIndex++ , demandType.getIdCategoryDemandType( ) );
-            
+            daoUtil.setString( nIndex++, demandType.getIdDemandType( ) );
+            daoUtil.setInt( nIndex++, demandType.getIdWorkflow( ) );
+            daoUtil.setString( nIndex++, demandType.getJavaClass( ) );
+            daoUtil.setString( nIndex++, demandType.getLabel( ) );
+            daoUtil.setString( nIndex++, demandType.getDescription( ) );
+            daoUtil.setString( nIndex++, demandType.getQuestion( ) );
+            daoUtil.setInt( nIndex++, demandType.getIdCategoryDemandType( ) );
+
             daoUtil.executeUpdate( );
-            if ( daoUtil.nextGeneratedKey( ) ) 
+            if ( daoUtil.nextGeneratedKey( ) )
             {
                 demandType.setId( daoUtil.getGeneratedKeyInt( 1 ) );
             }
@@ -95,15 +95,15 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     public DemandType load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         DemandType demandType = null;
 
         if ( daoUtil.next( ) )
         {
-            demandType = new DemandType();
+            demandType = new DemandType( );
             int nIndex = 1;
-            
+
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
             demandType.setIdWorkflow( daoUtil.getInt( nIndex++ ) );
@@ -126,7 +126,7 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -139,17 +139,17 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , demandType.getId( ) );
-        daoUtil.setString( nIndex++ , demandType.getIdDemandType( ) );
-        daoUtil.setInt( nIndex++ , demandType.getIdWorkflow( ) );
-        daoUtil.setString( nIndex++ , demandType.getJavaClass( ) );
-        daoUtil.setString( nIndex++ , demandType.getLabel( ) );
-        daoUtil.setString( nIndex++ , demandType.getDescription( ) );
-        daoUtil.setString( nIndex++ , demandType.getQuestion( ) );
-        daoUtil.setInt( nIndex++ , demandType.getIdCategoryDemandType( ) );
-        daoUtil.setInt( nIndex++ , demandType.getOrder( ) );
-        daoUtil.setInt( nIndex , demandType.getId( ) );
+
+        daoUtil.setInt( nIndex++, demandType.getId( ) );
+        daoUtil.setString( nIndex++, demandType.getIdDemandType( ) );
+        daoUtil.setInt( nIndex++, demandType.getIdWorkflow( ) );
+        daoUtil.setString( nIndex++, demandType.getJavaClass( ) );
+        daoUtil.setString( nIndex++, demandType.getLabel( ) );
+        daoUtil.setString( nIndex++, demandType.getDescription( ) );
+        daoUtil.setString( nIndex++, demandType.getQuestion( ) );
+        daoUtil.setInt( nIndex++, demandType.getIdCategoryDemandType( ) );
+        daoUtil.setInt( nIndex++, demandType.getOrder( ) );
+        daoUtil.setInt( nIndex, demandType.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -161,18 +161,18 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     @Override
     public List<DemandType> selectDemandTypesList( Plugin plugin )
     {
-        List<DemandType> demandTypeList = new ArrayList<DemandType>(  );
+        List<DemandType> demandTypeList = new ArrayList<DemandType>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
-        while ( daoUtil.next(  ) )
+        daoUtil.executeQuery( );
+        while ( daoUtil.next( ) )
         {
-            if ( !demandTypeList.stream().anyMatch( demType -> demType.getId() == daoUtil.getInt( 1 ) ) )
+            if ( !demandTypeList.stream( ).anyMatch( demType -> demType.getId( ) == daoUtil.getInt( 1 ) ) )
             {
-                
-                DemandType demandType = new DemandType(  );
+
+                DemandType demandType = new DemandType( );
                 demandType.setId( daoUtil.getInt( 1 ) );
                 demandType.setIdDemandType( daoUtil.getString( 2 ) );
-                demandType.setIdWorkflow(daoUtil.getInt( 3 ) );
+                demandType.setIdWorkflow( daoUtil.getInt( 3 ) );
                 demandType.setJavaClass( daoUtil.getString( 4 ) );
                 demandType.setLabel( daoUtil.getString( 5 ) );
                 demandType.setDescription( daoUtil.getString( 6 ) );
@@ -181,22 +181,25 @@ public final class DemandTypeDAO implements IDemandTypeDAO
                 demandType.setOrder( daoUtil.getInt( 9 ) );
                 demandTypeList.add( demandType );
             }
-            Documentation documentation = new Documentation(  );
+            Documentation documentation = new Documentation( );
             documentation.setId( daoUtil.getInt( 10 ) );
 
             documentation.setIdDemandType( daoUtil.getInt( 11 ) );
             documentation.setLabel( daoUtil.getString( 12 ) );
             documentation.setUrl( daoUtil.getString( 13 ) );
             documentation.setCategory( daoUtil.getString( 14 ) );
-            demandTypeList.stream()
-                    .filter( demType -> demType.getId() == daoUtil.getInt( 1 ) )
-                    .forEach( demType -> { if(documentation.getLabel()!=null){demType.addDoc( documentation);}} );
+            demandTypeList.stream( ).filter( demType -> demType.getId( ) == daoUtil.getInt( 1 ) ).forEach( demType -> {
+                if ( documentation.getLabel( ) != null )
+                {
+                    demType.addDoc( documentation );
+                }
+            } );
         }
 
         daoUtil.free( );
         return demandTypeList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -205,9 +208,9 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     {
         List<Integer> demandTypeList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             demandTypeList.add( daoUtil.getInt( 1 ) );
         }
@@ -215,20 +218,20 @@ public final class DemandTypeDAO implements IDemandTypeDAO
         daoUtil.free( );
         return demandTypeList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
     public ReferenceList selectDemandTypesReferenceList( Plugin plugin )
     {
-        ReferenceList demandTypeList = new ReferenceList();
+        ReferenceList demandTypeList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            demandTypeList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+            demandTypeList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
         daoUtil.free( );
@@ -238,20 +241,20 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     @Override
     public List<DemandType> selectDemandTypesListByIdCategory( int nIdCategory, Plugin plugin )
     {
-       List<DemandType> demandTypeList = new ArrayList<DemandType>(  );
+        List<DemandType> demandTypeList = new ArrayList<DemandType>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_BY_ID_CATEGORY, plugin );
-        daoUtil.setInt( 1, nIdCategory);
-        daoUtil.executeQuery(  );
+        daoUtil.setInt( 1, nIdCategory );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            DemandType demandType = new DemandType(  );
+            DemandType demandType = new DemandType( );
             int nIndex = 1;
-            
+
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
-            demandType.setIdWorkflow(daoUtil.getInt( nIndex++ ) );
-            demandType.setJavaClass (daoUtil.getString( nIndex++ ) );
+            demandType.setIdWorkflow( daoUtil.getInt( nIndex++ ) );
+            demandType.setJavaClass( daoUtil.getString( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
             demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setQuestion( daoUtil.getString( nIndex++ ) );
@@ -269,19 +272,19 @@ public final class DemandTypeDAO implements IDemandTypeDAO
     public DemandType loadByIdDemandType( String strIdDemandType, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_DEMAND_TYPE, plugin );
-        daoUtil.setString( 1 , strIdDemandType );
+        daoUtil.setString( 1, strIdDemandType );
         daoUtil.executeQuery( );
         DemandType demandType = null;
 
         if ( daoUtil.next( ) )
         {
-            demandType = new DemandType();
+            demandType = new DemandType( );
             int nIndex = 1;
-            
+
             demandType.setId( daoUtil.getInt( nIndex++ ) );
             demandType.setIdDemandType( daoUtil.getString( nIndex++ ) );
-            demandType.setIdWorkflow(daoUtil.getInt( nIndex++ ) );
-            demandType.setJavaClass(daoUtil.getString( nIndex++ ) );
+            demandType.setIdWorkflow( daoUtil.getInt( nIndex++ ) );
+            demandType.setJavaClass( daoUtil.getString( nIndex++ ) );
             demandType.setLabel( daoUtil.getString( nIndex++ ) );
             demandType.setDescription( daoUtil.getString( nIndex++ ) );
             demandType.setQuestion( daoUtil.getString( nIndex++ ) );

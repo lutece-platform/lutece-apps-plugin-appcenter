@@ -51,44 +51,45 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( xpageName = "user", pageTitleI18nKey = "appcenter.xpage.user.pageTitle", pagePathI18nKey = "appcenter.xpage.user.pagePathLabel" )
 public class UserXPage extends MVCApplication
 {
-    //Markers
+    // Markers
     private static final String MARK_GITLAB_INFOS = "gitlab_infos";
     private static final String MARK_SVN_INFOS = "svn_infos";
-    
-    //Template
+
+    // Template
     private static final String TEMPLATE_VIEW_USER_INFOS = "/skin/plugins/appcenter/user_infos.html";
-    
-    //Views
+
+    // Views
     private static final String VIEW_USER_INFOS = "getUserInfos";
-    
-    //Actions
+
+    // Actions
     private static final String ACTION_SAVE_USER_INFOS = "doSaveUserInfos";
-    
-    //Infos
+
+    // Infos
     private static final String INFO_USER_INFOS_SAVED = "appcenter.info.user.infos.saved";
-    
+
     private User _user;
     private GitlabUserInfo _gitlabInfos;
     private SvnUserInfo _svnInfos;
-        
+
     /**
      * Get the user infos view
+     * 
      * @param request
      * @return
      * @throws SiteMessageException
-     * @throws UserNotSignedException 
+     * @throws UserNotSignedException
      */
     @View( value = VIEW_USER_INFOS, defaultView = true )
     public XPage getUserInfos( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
         _user = UserService.getCurrentUser( request );
-        
-        _gitlabInfos = UserService.loadUserInfoSubset(_user, "gitlab", GitlabUserInfo.class);
-        _svnInfos = UserService.loadUserInfoSubset(_user, "svn", SvnUserInfo.class);
-        
-        if ( _gitlabInfos == null ) 
+
+        _gitlabInfos = UserService.loadUserInfoSubset( _user, "gitlab", GitlabUserInfo.class );
+        _svnInfos = UserService.loadUserInfoSubset( _user, "svn", SvnUserInfo.class );
+
+        if ( _gitlabInfos == null )
         {
-            _gitlabInfos = new GitlabUserInfo();
+            _gitlabInfos = new GitlabUserInfo( );
         }
         else
         {
@@ -96,44 +97,47 @@ public class UserXPage extends MVCApplication
         }
         if ( _svnInfos == null )
         {
-             _svnInfos = new SvnUserInfo();
+            _svnInfos = new SvnUserInfo( );
         }
         else
         {
             _svnInfos.setSvnPassword( CryptoUtil.decrypt( _svnInfos.getSvnPassword( ) ) );
         }
-        
-        Map<String,Object> model = getModel();
-        
-        model.put( MARK_GITLAB_INFOS, _gitlabInfos);
-        model.put( MARK_SVN_INFOS, _svnInfos);
-        
-        return getXPage( TEMPLATE_VIEW_USER_INFOS, request.getLocale(), model);
+
+        Map<String, Object> model = getModel( );
+
+        model.put( MARK_GITLAB_INFOS, _gitlabInfos );
+        model.put( MARK_SVN_INFOS, _svnInfos );
+
+        return getXPage( TEMPLATE_VIEW_USER_INFOS, request.getLocale( ), model );
     }
-    
+
     /**
      * Process the save user infos action
+     * 
      * @param request
      * @return the XPage
      * @throws SiteMessageException
-     * @throws UserNotSignedException 
+     * @throws UserNotSignedException
      */
     @Action( value = ACTION_SAVE_USER_INFOS )
     public XPage doSaveUserInfos( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
-        if ( _gitlabInfos == null ) _gitlabInfos = new GitlabUserInfo();
-        if ( _svnInfos == null ) _svnInfos = new SvnUserInfo();
-        
-        populate( _gitlabInfos, request);
-        populate( _svnInfos, request);
-        
+        if ( _gitlabInfos == null )
+            _gitlabInfos = new GitlabUserInfo( );
+        if ( _svnInfos == null )
+            _svnInfos = new SvnUserInfo( );
+
+        populate( _gitlabInfos, request );
+        populate( _svnInfos, request );
+
         _gitlabInfos.setGitlabPassword( CryptoUtil.encrypt( _gitlabInfos.getGitlabPassword( ) ) );
         _svnInfos.setSvnPassword( CryptoUtil.encrypt( _svnInfos.getSvnPassword( ) ) );
-        
-        //Modify data
+
+        // Modify data
         UserService.saveUserInfos( _user, _gitlabInfos );
         UserService.saveUserInfos( _user, _svnInfos );
-        
+
         addInfo( INFO_USER_INFOS_SAVED, request.getLocale( ) );
         return redirectView( request, VIEW_USER_INFOS );
     }

@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class PermissionRoleHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private PermissionRoleHome(  )
+    private PermissionRoleHome( )
     {
     }
 
     /**
      * Create an instance of the permissionRole class
-     * @param permissionRole The instance of the PermissionRole which contains the informations to store
-     * @return The  instance of permissionRole which has been created with its primary key.
+     * 
+     * @param permissionRole
+     *            The instance of the PermissionRole which contains the informations to store
+     * @return The instance of permissionRole which has been created with its primary key.
      */
     public static PermissionRole create( PermissionRole permissionRole )
     {
@@ -68,20 +70,21 @@ public final class PermissionRoleHome
         return permissionRole;
     }
 
-
     /**
      * Remove the permissionRole whose identifier is specified in parameter
+     * 
      * @param strPermissionCode
      * @param nIdRole
      * @param strResourceCode
      */
     public static void remove( String strPermissionCode, int nIdRole, String strResourceCode )
     {
-        _dao.delete(  strPermissionCode,  nIdRole,  strResourceCode, _plugin );
+        _dao.delete( strPermissionCode, nIdRole, strResourceCode, _plugin );
     }
 
     /**
      * Returns an instance of a permissionRole whose identifier is specified in parameter
+     * 
      * @param strPermissionCode
      * @param nIdRole
      * @param strResourceCode
@@ -94,39 +97,42 @@ public final class PermissionRoleHome
 
     /**
      * Load the data of all the permissionRole objects and returns them as a list
+     * 
      * @return the list which contains the data of all the permissionRole objects
      */
     public static List<PermissionRole> getPermissionRolesList( )
     {
         return _dao.selectPermissionRolesList( _plugin );
     }
-    
-    
+
     /**
      * Load the data of all the permissionRole objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the permissionRole objects
      */
     public static ReferenceList getPermissionRolesReferenceList( )
     {
         return _dao.selectPermissionRolesReferenceList( _plugin );
     }
-    
+
     /**
      * Load the data of all the permissionRole objects by id role and returns them as a list
+     * 
      * @param nIdRole
-     *              The id Role
+     *            The id Role
      * @return the list which contains the data of all the permissionRole objects by id role
      */
     public static List<PermissionRole> getPermissionRolesListByIdRole( int nIdRole )
     {
-        return _dao.selectPermissionRolesListByIdRole( nIdRole,  _plugin );
+        return _dao.selectPermissionRolesListByIdRole( nIdRole, _plugin );
     }
-    
+
     /**
      * Load the data of all the permissionRole objects by id role and returns them as a list
+     * 
      * @param strPermissionCode
      * @param nIdRole
-     *              The id Role
+     *            The id Role
      * @return the list which contains the data of all the permissionRole objects by id role
      */
     public static List<PermissionRole> getPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole )
@@ -134,4 +140,3 @@ public final class PermissionRoleHome
         return _dao.selectPermissionRolesListByCodeAndIdRole( strPermissionCode, nIdRole, _plugin );
     }
 }
-

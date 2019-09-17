@@ -36,40 +36,41 @@ package fr.paris.lutece.plugins.appcenter.business.userinfos;
 import fr.paris.lutece.plugins.appcenter.business.UserInfos;
 import org.apache.commons.lang.StringUtils;
 
-
 public class SvnUserInfo extends UserInfos
 {
-    private String _strLogin; 
+    private String _strLogin;
     private String _strPassword;
 
-    public SvnUserInfo() 
+    public SvnUserInfo( )
     {
         _strLogin = StringUtils.EMPTY;
         _strPassword = StringUtils.EMPTY;
     }
-    
-    public String getSvnLogin() {
+
+    public String getSvnLogin( )
+    {
         return _strLogin;
     }
 
-    public void setSvnLogin(String strLogin) {
+    public void setSvnLogin( String strLogin )
+    {
         _strLogin = strLogin;
     }
 
-    public String getSvnPassword() {
+    public String getSvnPassword( )
+    {
         return _strPassword;
     }
 
-    public void setSvnPassword(String strPassword) {
+    public void setSvnPassword( String strPassword )
+    {
         _strPassword = strPassword;
     }
-    
+
     @Override
-    public String getName() 
+    public String getName( )
     {
-       return "svn";
+        return "svn";
     }
-    
-    
-    
+
 }

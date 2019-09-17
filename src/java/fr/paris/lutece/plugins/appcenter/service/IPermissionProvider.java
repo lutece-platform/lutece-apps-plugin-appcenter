@@ -12,6 +12,7 @@ public interface IPermissionProvider
 {
     /**
      * Provide a list of permissions (each AppCenter module can implements and declare its own provider)
+     * 
      * @return a list of Permissions thoughout all the Appcenter modules
      */
     public Collection<Permission> providePermissionList( );

@@ -11,19 +11,19 @@ import java.util.List;
 
 public class ResourceTypeService
 {
-     /**
-      * Get the resource type list
-      * @return the resource type list
-      */
+    /**
+     * Get the resource type list
+     * 
+     * @return the resource type list
+     */
     public static List<IAppCenterResourceType> getResourceTypeList( )
     {
         return SpringContextService.getBeansOfType( IAppCenterResourceType.class );
     }
-    
-    
-    
+
     /**
      * Get the IAppcenterResourceType from the resource type key
+     * 
      * @param strResourceTypeCode
      * @return the IAppcenterResourceType from the given resource type key
      */

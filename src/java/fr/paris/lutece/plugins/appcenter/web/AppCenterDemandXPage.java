@@ -65,31 +65,29 @@ import org.apache.commons.lang.StringUtils;
 public abstract class AppCenterDemandXPage extends AppCenterXPage
 {
 
- 
-    
     private static final long serialVersionUID = -490960650523760757L;
-    
-    
-    
-    
 
-  /**
-   * Populate demand
-     * @param <D> The extended Demand object
-   * @param demand the demande
-   * @param request the request
-   */
+    /**
+     * Populate demand
+     * 
+     * @param <D>
+     *            The extended Demand object
+     * @param demand
+     *            the demande
+     * @param request
+     *            the request
+     */
     protected <D extends Demand> void populate( D demand, HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-       
-    	//Set Id Application
-    	demand.setIdApplication(getApplication(request).getId());
-    	//Set the demand owner
-        LuteceUser user = SecurityService.getInstance().getRegisteredUser( request );
-        demand.setIdUserFront( (user != null) ? UserService.getEmailUser( user ) : StringUtils.EMPTY );
-        if ( demand.isDependingOfEnvironment() )
+
+        // Set Id Application
+        demand.setIdApplication( getApplication( request ).getId( ) );
+        // Set the demand owner
+        LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+        demand.setIdUserFront( ( user != null ) ? UserService.getEmailUser( user ) : StringUtils.EMPTY );
+        if ( demand.isDependingOfEnvironment( ) )
         {
-            //Get the active environment in session
+            // Get the active environment in session
             HttpSession session = request.getSession( true );
             Environment environment = getActiveEnvironment( request );
             if ( environment != null )
@@ -97,23 +95,23 @@ public abstract class AppCenterDemandXPage extends AppCenterXPage
                 demand.setEnvironment( Environment.getEnvironment( environment.getPrefix( ) ) );
             }
         }
-        super.populate(demand, request);
+        super.populate( demand, request );
     }
-    
+
     @Override
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
+    protected void fillAppCenterCommons( Map<String, Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
-        super.fillAppCenterCommons( model, request);
-        
-        
-        
-        //Add the application Datas relative to the demand type
-        addDatas( request, _application, model ,getDatasName(), getDatasClass() );
-       
+        super.fillAppCenterCommons( model, request );
+
+        // Add the application Datas relative to the demand type
+        addDatas( request, _application, model, getDatasName( ), getDatasClass( ) );
+
     }
-    
+
     protected abstract Class getDemandClass( );
+
     protected abstract String getDatasName( );
+
     protected abstract Class getDatasClass( );
-    
+
 }

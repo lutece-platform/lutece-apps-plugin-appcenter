@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import javax.validation.constraints.Size;
@@ -39,23 +39,24 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object Role
- */ 
+ */
 public class Role implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.role.Code.notEmpty}" )
     private String _strCode;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.role.Label.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{appcenter.validation.role.Label.size}" ) 
+    @Size( max = 255, message = "#i18n{appcenter.validation.role.Label.size}" )
     private String _strLabel;
-    
+
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -65,15 +66,18 @@ public class Role implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the Code
+     * 
      * @return The Code
      */
     public String getCode( )
@@ -83,15 +87,18 @@ public class Role implements Serializable
 
     /**
      * Sets the Code
-     * @param strCode The Code
-     */ 
+     * 
+     * @param strCode
+     *            The Code
+     */
     public void setCode( String strCode )
     {
         _strCode = strCode;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
@@ -101,8 +108,10 @@ public class Role implements Serializable
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;

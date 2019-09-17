@@ -42,34 +42,34 @@ public class AppCenterUtils
 {
     private static final String I18N_FIRST_ITEM_KEY = "appcenter.manage_demand.filter.firstItem";
     private static final String I18N_EMPTY_ITEM_KEY = "appcenter.emptyItemKey";
-    
-    
+
     /**
      * Add a first item in given reference list
-     * @param refList 
-     * @param locale 
+     * 
+     * @param refList
+     * @param locale
      */
     public static void addFirstItem( ReferenceList refList, Locale locale )
     {
         ReferenceItem item = new ReferenceItem( );
         item.setCode( "-1" );
-        item.setName( I18nService.getLocalizedString( I18N_FIRST_ITEM_KEY , locale) );
-        
-        refList.add(0, item);
+        item.setName( I18nService.getLocalizedString( I18N_FIRST_ITEM_KEY, locale ) );
+
+        refList.add( 0, item );
     }
-    
-   
+
     /**
      * Add a first empty item item in given reference list
-     * @param refList 
-     * @param locale 
+     * 
+     * @param refList
+     * @param locale
      */
     public static void addEmptyItem( ReferenceList refList, Locale locale )
     {
         ReferenceItem item = new ReferenceItem( );
         item.setCode( "" );
-        item.setName( I18nService.getLocalizedString( I18N_EMPTY_ITEM_KEY , locale) );
-        
-        refList.add(0, item);
+        item.setName( I18nService.getLocalizedString( I18N_EMPTY_ITEM_KEY, locale ) );
+
+        refList.add( 0, item );
     }
 }

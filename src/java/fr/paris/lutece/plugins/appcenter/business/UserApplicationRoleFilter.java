@@ -48,7 +48,7 @@ public class UserApplicationRoleFilter
     /**
      * Constructor for demand Filter
      */
-    public UserApplicationRoleFilter()
+    public UserApplicationRoleFilter( )
     {
         _bHasApplicationCodeOrName = false;
         _bHasIdUser = false;
@@ -57,16 +57,19 @@ public class UserApplicationRoleFilter
 
     /**
      * Get the search string for application code or name
+     * 
      * @return the search string for application code or name
      */
-    public String getApplicationCodeOrName()
+    public String getApplicationCodeOrName( )
     {
         return _strApplicationCodeOrName;
     }
 
     /**
      * Set the search string for application code or name
-     * @param strApplicationCodeOrName the search string for application code or name
+     * 
+     * @param strApplicationCodeOrName
+     *            the search string for application code or name
      */
     public void setApplicationCodeOrName( String strApplicationCodeOrName )
     {
@@ -75,16 +78,19 @@ public class UserApplicationRoleFilter
 
     /**
      * Get the id of user
+     * 
      * @return the id of user
      */
-    public String getIdUser()
+    public String getIdUser( )
     {
         return _strIdUser;
     }
 
     /**
      * Set the id of user
-     * @param nIdUser the id of user
+     * 
+     * @param nIdUser
+     *            the id of user
      */
     public void setIdUser( String nIdUser )
     {
@@ -93,16 +99,19 @@ public class UserApplicationRoleFilter
 
     /**
      * Get the search string for role label
+     * 
      * @return the search string for role label
      */
-    public String getRoleLabel()
+    public String getRoleLabel( )
     {
         return _strRoleLabel;
     }
 
     /**
      * Set the search string for role label
-     * @param strRoleLabel the search string for role label
+     * 
+     * @param strRoleLabel
+     *            the search string for role label
      */
     public void setRoleLabel( String strRoleLabel )
     {
@@ -111,6 +120,7 @@ public class UserApplicationRoleFilter
 
     /**
      * Has a constraint on application code or name
+     * 
      * @return the has application code or name boolean
      */
     public boolean hasApplicationCodeOrName( )
@@ -120,7 +130,9 @@ public class UserApplicationRoleFilter
 
     /**
      * Set the constraint on application code or name
-     * @param bHasApplicationCodeOrName the has application code or name constaint
+     * 
+     * @param bHasApplicationCodeOrName
+     *            the has application code or name constaint
      */
     public void setHasApplicationCodeOrName( boolean bHasApplicationCodeOrName )
     {
@@ -129,6 +141,7 @@ public class UserApplicationRoleFilter
 
     /**
      * Has a constraint on id user
+     * 
      * @return the has id user boolean
      */
     public boolean hasIdUser( )
@@ -138,7 +151,9 @@ public class UserApplicationRoleFilter
 
     /**
      * Set the constraint on id user
-     * @param bHasIdUser the has id user constaint
+     * 
+     * @param bHasIdUser
+     *            the has id user constaint
      */
     public void setHasIdUser( boolean bHasIdUser )
     {
@@ -147,6 +162,7 @@ public class UserApplicationRoleFilter
 
     /**
      * Has a constraint on role label
+     * 
      * @return the has role label boolean
      */
     public boolean hasRoleLabel( )
@@ -156,7 +172,9 @@ public class UserApplicationRoleFilter
 
     /**
      * Set the constraint on role label
-     * @param bHasRoleLabel the has role label constaint
+     * 
+     * @param bHasRoleLabel
+     *            the has role label constaint
      */
     public void setHasRoleLabel( boolean bHasRoleLabel )
     {

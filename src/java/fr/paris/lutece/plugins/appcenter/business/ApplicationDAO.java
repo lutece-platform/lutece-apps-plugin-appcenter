@@ -61,8 +61,8 @@ public final class ApplicationDAO implements IApplicationDAO
     private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT id_role FROM appcenter_user_application_role WHERE id_application = ? AND id_user = ? ";
     private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ENVIRONMENT = " DELETE FROM appcenter_application_environment WHERE id_application = ? ";
-    
-    //Constants
+
+    // Constants
     private static final String CONSTANT_WHERE = " WHERE ";
     private static final String CONSTANT_WHERE_SEARCH = " ( code LIKE ? OR name LIKE ? ) ";
     private static final String SQL_LIKE_WILDCARD = "%";
@@ -103,11 +103,11 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
         daoUtil.setString( nIndex++, application.getApplicationData( ) );
-        daoUtil.setString( nIndex++, application.getCode() );
-        
+        daoUtil.setString( nIndex++, application.getCode( ) );
+
         daoUtil.executeUpdate( );
         daoUtil.free( );
-        
+
         for ( Environment envi : application.getListEnvironment( ) )
         {
             daoUtil = new DAOUtil( SQL_QUERY_INSERT_ENVIRONMENT, plugin );
@@ -131,12 +131,12 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         Application application = null;
-        List<String> listEnvironmentCode = new ArrayList<>();
-        List<Environment> listEnvironment = new ArrayList<>();
+        List<String> listEnvironmentCode = new ArrayList<>( );
+        List<Environment> listEnvironment = new ArrayList<>( );
 
         if ( daoUtil.next( ) )
         {
-            
+
             application = new Application( );
             int nIndex = 1;
 
@@ -144,7 +144,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
-            application.setCode(daoUtil.getString( nIndex++ ) );
+            application.setCode( daoUtil.getString( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );
             if ( strEnviCode != null )
             {
@@ -168,8 +168,7 @@ public final class ApplicationDAO implements IApplicationDAO
             }
             application.setListEnvironment( listEnvironment );
         }
-        
-        
+
         daoUtil.free( );
         return application;
     }
@@ -185,7 +184,7 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.executeUpdate( );
         daoUtil.free( );
 
-        //Delete the environments for the application
+        // Delete the environments for the application
         daoUtil = new DAOUtil( SQL_QUERY_DELETE_ENVIRONMENT, plugin );
         daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
@@ -209,20 +208,20 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
-        daoUtil.setString( nIndex++, application.getCode() );
-        
+        daoUtil.setString( nIndex++, application.getCode( ) );
+
         daoUtil.setInt( nIndex, application.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
-        
-        //Delete the environments for the application
+
+        // Delete the environments for the application
         daoUtil = new DAOUtil( SQL_QUERY_DELETE_ENVIRONMENT, plugin );
         daoUtil.setInt( 1, application.getId( ) );
         daoUtil.executeUpdate( );
         daoUtil.free( );
-        
-        //Add the environments modified
+
+        // Add the environments modified
         for ( Environment envi : application.getListEnvironment( ) )
         {
             daoUtil = new DAOUtil( SQL_QUERY_INSERT_ENVIRONMENT, plugin );
@@ -234,7 +233,7 @@ public final class ApplicationDAO implements IApplicationDAO
             daoUtil.executeUpdate( );
             daoUtil.free( );
         }
-        
+
     }
 
     /**
@@ -272,7 +271,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
-            application.setCode(daoUtil.getString( nIndex++ ) );
+            application.setCode( daoUtil.getString( nIndex++ ) );
 
             applicationList.add( application );
         }
@@ -315,7 +314,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
-            application.setCode(daoUtil.getString( nIndex++ ) );
+            application.setCode( daoUtil.getString( nIndex++ ) );
 
             applicationList.add( application );
         }
@@ -347,7 +346,7 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public Map<String,Application> selectApplicationsMap( Plugin plugin )
+    public Map<String, Application> selectApplicationsMap( Plugin plugin )
     {
         Map<String, Application> applicationsMap = new HashMap<String, Application>( );
 
@@ -363,7 +362,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
-            application.setCode(daoUtil.getString( nIndex++ ) );
+            application.setCode( daoUtil.getString( nIndex++ ) );
 
             applicationsMap.put( Integer.toString( application.getId( ) ), application );
         }
@@ -377,7 +376,7 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public int getUserRole( int nApplicationId, String strUserId, int nDefaultRole,  Plugin plugin )
+    public int getUserRole( int nApplicationId, String strUserId, int nDefaultRole, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
         daoUtil.setInt( 1, nApplicationId );
@@ -399,17 +398,18 @@ public final class ApplicationDAO implements IApplicationDAO
      * {@inheritDoc }
      */
     @Override
-    public Application loadByCode(String strCode, Plugin plugin) {
+    public Application loadByCode( String strCode, Plugin plugin )
+    {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_CODE, plugin );
         daoUtil.setString( 1, strCode );
         daoUtil.executeQuery( );
         Application application = null;
-        List<String> listEnvironmentCode = new ArrayList<>();
-        List<Environment> listEnvironment = new ArrayList<>();
+        List<String> listEnvironmentCode = new ArrayList<>( );
+        List<Environment> listEnvironment = new ArrayList<>( );
 
         if ( daoUtil.next( ) )
         {
-            
+
             application = new Application( );
             int nIndex = 1;
 
@@ -417,7 +417,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
-            application.setCode(daoUtil.getString( nIndex++ ) );
+            application.setCode( daoUtil.getString( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );
             if ( strEnviCode != null )
             {
@@ -441,8 +441,7 @@ public final class ApplicationDAO implements IApplicationDAO
             }
             application.setListEnvironment( listEnvironment );
         }
-        
-        
+
         daoUtil.free( );
         return application;
     }

@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class UserApplicationRoleHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private UserApplicationRoleHome(  )
+    private UserApplicationRoleHome( )
     {
     }
 
     /**
      * Create an instance of the userApplicationRole class
-     * @param userApplicationRole The instance of the UserApplicationRole which contains the informations to store
-     * @return The  instance of userApplicationRole which has been created with its primary key.
+     * 
+     * @param userApplicationRole
+     *            The instance of the UserApplicationRole which contains the informations to store
+     * @return The instance of userApplicationRole which has been created with its primary key.
      */
     public static UserApplicationRole create( UserApplicationRole userApplicationRole )
     {
@@ -70,7 +72,9 @@ public final class UserApplicationRoleHome
 
     /**
      * Update of the userApplicationRole which is specified in parameter
-     * @param userApplicationRole The instance of the userApplicationRole which contains the data to store
+     * 
+     * @param userApplicationRole
+     *            The instance of the userApplicationRole which contains the data to store
      * @return The instance of the userApplicationRole which has been updated
      */
     public static UserApplicationRole update( UserApplicationRole userApplicationRoleOld, UserApplicationRole userApplicationRole )
@@ -82,6 +86,7 @@ public final class UserApplicationRoleHome
 
     /**
      * Remove the userApplicationRole whose identifier is specified in parameter
+     * 
      * @param nRoleId
      * @param nApplicationId
      * @param strUserId
@@ -93,15 +98,17 @@ public final class UserApplicationRoleHome
 
     /**
      * Remove all the userApplicationRoles of a user
+     * 
      * @param strUserId
      */
     public static void removeByIdUser( String strUserId )
     {
         _dao.deleteByIdUser( strUserId, _plugin );
     }
-    
+
     /**
      * Remove the userApplicationRole whose identifier is specified in parameter
+     * 
      * @param nApplicationId
      * @param strUserId
      */
@@ -112,6 +119,7 @@ public final class UserApplicationRoleHome
 
     /**
      * Returns an instance of a userApplicationRole whose identifier is specified in parameter
+     * 
      * @param nRoleId
      * @param nApplicationId
      * @param strUserId
@@ -124,15 +132,17 @@ public final class UserApplicationRoleHome
 
     /**
      * Load the data of all the userApplicationRole objects and returns them as a list
+     * 
      * @return the list which contains the data of all the userApplicationRole objects
      */
     public static List<UserApplicationRole> getUserApplicationRolesList( )
     {
         return _dao.selectUserApplicationRolesList( _plugin );
     }
-    
+
     /**
      * Load the data of a selection of userApplicationRole objects and returns them as a list
+     * 
      * @return the list which contains the data of the selection of userApplicationRole objects
      */
     public static List<UserApplicationRole> getUserApplicationRolesListByFilter( UserApplicationRoleFilter filter )
@@ -142,34 +152,37 @@ public final class UserApplicationRoleHome
 
     /**
      * Load the data of all the userApplicationRole objects by id user and returns them as a list
+     * 
      * @return the list which contains the data of all the userApplicationRole objects by id user
      */
     public static List<UserApplicationRole> getUserApplicationRolesListByIdUser( String strIdUser )
     {
         return _dao.selectUserApplicationRolesListByIdUser( strIdUser, _plugin );
     }
-    
+
     /**
      * Load the data of all the userApplicationRole objects by id application and returns them as a list
+     * 
      * @return the list which contains the data of all the userApplicationRole objects by id application
      */
     public static List<UserApplicationRole> getUserApplicationRolesListByIdApplication( int nIdApplication )
     {
         return _dao.selectUserApplicationRolesListByIdApplication( nIdApplication, _plugin );
     }
-    
+
     /**
      * Load the data of all the userApplicationRole objects by id application and returns them as a list
+     * 
      * @return the list which contains the data of all the userApplicationRole objects by id application
      */
     public static List<UserApplicationRole> getUserApplicationRolesListByIdApplicationAndIdUser( int nIdApplication, String strIdUser )
     {
-        return _dao.selectUserApplicationRolesListByIdApplicationAndIdUser( nIdApplication, strIdUser,  _plugin );
+        return _dao.selectUserApplicationRolesListByIdApplicationAndIdUser( nIdApplication, strIdUser, _plugin );
     }
-    
-    
+
     /**
      * Load the data of all the userApplicationRole objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the userApplicationRole objects
      */
     public static ReferenceList getUserApplicationRolesReferenceList( )
@@ -179,6 +192,7 @@ public final class UserApplicationRoleHome
 
     /**
      * Load the id of all the user and returns them as a referenceList
+     * 
      * @return the referenceList which contains the id of all the user
      */
     public static ReferenceList getIdUserReferenceList( )
@@ -186,4 +200,3 @@ public final class UserApplicationRoleHome
         return _dao.selectIdUserReferenceList( _plugin );
     }
 }
-

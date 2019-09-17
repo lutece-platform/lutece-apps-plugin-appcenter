@@ -16,47 +16,47 @@ public class ApplicationPermissionProvider implements IPermissionProvider
      * {@inheritDoc }
      */
     @Override
-    public Collection<Permission> providePermissionList()
+    public Collection<Permission> providePermissionList( )
     {
-        List<Permission> listPermission = new ArrayList<>();
-        
-        Permission permissionViewApp = new Permission();
-        permissionViewApp.setCode( "PERMISSION_VIEW_APPLICATION");
+        List<Permission> listPermission = new ArrayList<>( );
+
+        Permission permissionViewApp = new Permission( );
+        permissionViewApp.setCode( "PERMISSION_VIEW_APPLICATION" );
         permissionViewApp.setLabel( "Permission de voir l'application" );
         permissionViewApp.setResourceTypeKey( "APP" );
-        listPermission.add(permissionViewApp);
-        
-        Permission permissionRemoveApp = new Permission();
-        permissionRemoveApp.setCode( "PERMISSION_REMOVE_APPLICATION");
+        listPermission.add( permissionViewApp );
+
+        Permission permissionRemoveApp = new Permission( );
+        permissionRemoveApp.setCode( "PERMISSION_REMOVE_APPLICATION" );
         permissionRemoveApp.setLabel( "Permission de supprimer l'application" );
         permissionRemoveApp.setResourceTypeKey( "APP" );
-        listPermission.add(permissionRemoveApp);
-                
-        Permission permissionModifyApp = new Permission();
-        permissionModifyApp.setCode( "PERMISSION_MODIFY_APPLICATION");
+        listPermission.add( permissionRemoveApp );
+
+        Permission permissionModifyApp = new Permission( );
+        permissionModifyApp.setCode( "PERMISSION_MODIFY_APPLICATION" );
         permissionModifyApp.setLabel( "Permission de modifier les applications" );
         permissionModifyApp.setResourceTypeKey( "APP" );
-        listPermission.add(permissionModifyApp);
-        
-        Permission permissionAddUsers = new Permission();
-        permissionAddUsers.setCode( "PERMISSION_ADD_USERS");
+        listPermission.add( permissionModifyApp );
+
+        Permission permissionAddUsers = new Permission( );
+        permissionAddUsers.setCode( "PERMISSION_ADD_USERS" );
         permissionAddUsers.setLabel( "Permission d'ajouter des utilisateurs a une application" );
         permissionAddUsers.setResourceTypeKey( "APP" );
-        listPermission.add(permissionAddUsers);
-        
-        Permission permissionRemoveUser = new Permission();
-        permissionRemoveUser.setCode( "PERMISSION_REMOVE_USER");
+        listPermission.add( permissionAddUsers );
+
+        Permission permissionRemoveUser = new Permission( );
+        permissionRemoveUser.setCode( "PERMISSION_REMOVE_USER" );
         permissionRemoveUser.setLabel( "Permission de supprimer un utilisateur a une application" );
         permissionRemoveUser.setResourceTypeKey( "APP" );
-        listPermission.add(permissionRemoveUser);
-        
-        Permission permissionViewDemands = new Permission();
-        permissionViewDemands.setCode( "PERMISSION_VIEW_DEMANDS");
+        listPermission.add( permissionRemoveUser );
+
+        Permission permissionViewDemands = new Permission( );
+        permissionViewDemands.setCode( "PERMISSION_VIEW_DEMANDS" );
         permissionViewDemands.setLabel( "Permission de voir les demandes" );
         permissionViewDemands.setResourceTypeKey( "APP" );
-        listPermission.add(permissionViewDemands);
-        
+        listPermission.add( permissionViewDemands );
+
         return listPermission;
     }
-    
+
 }

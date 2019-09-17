@@ -59,6 +59,7 @@ public final class DemandHome
     {
         _mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
     }
+
     /**
      * Private constructor - this class need not be instantiated
      */
@@ -186,12 +187,12 @@ public final class DemandHome
     {
         return _dao.selectDemandsReferenceList( _plugin );
     }
-    
+
     public static <T extends Demand> List<T> getListFullDemandsByIdApplication( int nIdApplication )
     {
-        return _dao.selectListFullDemands( nIdApplication, DemandTypeHome.getDemandTypesList( ) ,_plugin );
+        return _dao.selectListFullDemands( nIdApplication, DemandTypeHome.getDemandTypesList( ), _plugin );
     }
-    
+
     /**
      * Load the data of all the demand objects and returns them as a list
      * 

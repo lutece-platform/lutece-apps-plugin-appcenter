@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business.task;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -47,22 +47,24 @@ public final class NotifyTaskConfigHome
 
     // Static variable pointed at the DAO instance
 
-    private static INotifyTaskConfigDAO _dao = ( INotifyTaskConfigDAO ) SpringContextService.getPluginBean( "appcenter", "appcenter.notifyDAO" );
-
+    private static INotifyTaskConfigDAO _dao = (INotifyTaskConfigDAO) SpringContextService.getPluginBean( "appcenter", "appcenter.notifyDAO" );
 
     /**
      * Private constructor - this class need not be instantiated
      */
 
-    private NotifyTaskConfigHome(  )
+    private NotifyTaskConfigHome( )
     {
     }
 
     /**
      * Create an instance of the notifyTaskConfig class
-     * @param notifyTaskConfig The instance of the NotifyTaskConfig which contains the informations to store
-     * @param plugin the Plugin
-     * @return The  instance of notifyTaskConfig which has been created with its primary key.
+     * 
+     * @param notifyTaskConfig
+     *            The instance of the NotifyTaskConfig which contains the informations to store
+     * @param plugin
+     *            the Plugin
+     * @return The instance of notifyTaskConfig which has been created with its primary key.
      */
 
     public static NotifyTaskConfig create( NotifyTaskConfig notifyTaskConfig, Plugin plugin )
@@ -72,12 +74,14 @@ public final class NotifyTaskConfigHome
         return notifyTaskConfig;
     }
 
-
     /**
      * Update of the notifyTaskConfig which is specified in parameter
-     * @param notifyTaskConfig The instance of the NotifyTaskConfig which contains the data to store
-     * @param plugin the Plugin
-     * @return The instance of the  notifyTaskConfig which has been updated
+     * 
+     * @param notifyTaskConfig
+     *            The instance of the NotifyTaskConfig which contains the data to store
+     * @param plugin
+     *            the Plugin
+     * @return The instance of the notifyTaskConfig which has been updated
      */
 
     public static NotifyTaskConfig update( NotifyTaskConfig notifyTaskConfig, Plugin plugin )
@@ -87,39 +91,43 @@ public final class NotifyTaskConfigHome
         return notifyTaskConfig;
     }
 
-
     /**
      * Remove the notifyTaskConfig whose identifier is specified in parameter
-     * @param nNotifyTaskConfigId The notifyTaskConfig Id
-     * @param plugin the Plugin
+     * 
+     * @param nNotifyTaskConfigId
+     *            The notifyTaskConfig Id
+     * @param plugin
+     *            the Plugin
      */
-
 
     public static void remove( int nNotifyTaskConfigId, Plugin plugin )
     {
         _dao.delete( nNotifyTaskConfigId, plugin );
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a notifyTaskConfig whose identifier is specified in parameter
-     * @param nKey The notifyTaskConfig primary key
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The notifyTaskConfig primary key
+     * @param plugin
+     *            the Plugin
      * @return an instance of NotifyTaskConfig
      */
 
     public static NotifyTaskConfig findByPrimaryKey( int nKey, Plugin plugin )
     {
-        return _dao.load( nKey, plugin);
+        return _dao.load( nKey, plugin );
     }
-
 
     /**
      * Load the data of all the notifyTaskConfig objects and returns them in form of a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return the list which contains the data of all the notifyTaskConfig objects
      */
 
@@ -129,5 +137,3 @@ public final class NotifyTaskConfigHome
     }
 
 }
-
-            

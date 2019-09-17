@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.appcenter.business.task;
 
 import fr.paris.lutece.plugins.workflowcore.business.config.TaskConfig;
 
-
 public class NotifyTaskConfig extends TaskConfig
 {
     String _strNotificationType;
@@ -46,16 +45,19 @@ public class NotifyTaskConfig extends TaskConfig
 
     /**
      * Get the subject
+     * 
      * @return the subject
      */
-    public String getSubject()
+    public String getSubject( )
     {
         return _strSubject;
     }
 
     /**
      * Set the subject
-     * @param strSubject the subject 
+     * 
+     * @param strSubject
+     *            the subject
      */
     public void setSubject( String strSubject )
     {
@@ -64,34 +66,39 @@ public class NotifyTaskConfig extends TaskConfig
 
     /**
      * Get the message
+     * 
      * @return the message
      */
-    public String getMessage()
+    public String getMessage( )
     {
         return _strMessage;
     }
 
     /**
      * Set the message
-     * @param strMessage the message 
+     * 
+     * @param strMessage
+     *            the message
      */
     public void setMessage( String strMessage )
     {
-       _strMessage = strMessage;
+        _strMessage = strMessage;
     }
 
     /**
      * Get the sender name
+     * 
      * @return the sender name
      */
-    public String getSenderName()
+    public String getSenderName( )
     {
         return _strSenderName;
     }
 
     /**
      * Set the sender name
-     * @param strSenderName 
+     * 
+     * @param strSenderName
      */
     public void setSenderName( String strSenderName )
     {
@@ -100,16 +107,18 @@ public class NotifyTaskConfig extends TaskConfig
 
     /**
      * Get the notification type
+     * 
      * @return the notification type
      */
-    public String getNotificationType()
+    public String getNotificationType( )
     {
         return _strNotificationType;
     }
 
     /**
      * Set the notification type
-     * @param strNotificationType 
+     * 
+     * @param strNotificationType
      */
     public void setNotificationType( String strNotificationType )
     {
@@ -118,24 +127,22 @@ public class NotifyTaskConfig extends TaskConfig
 
     /**
      * Get the id mailing list
+     * 
      * @return the id mailing list
      */
-    public int getIdMailingList()
+    public int getIdMailingList( )
     {
         return _nIdMailingList;
     }
 
     /**
      * Set the id mailing list
-     * @param nIdMailingList 
+     * 
+     * @param nIdMailingList
      */
     public void setIdMailingList( int nIdMailingList )
     {
         _nIdMailingList = nIdMailingList;
     }
-    
-    
-    
-    
-    
+
 }

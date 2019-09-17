@@ -55,10 +55,10 @@ public class Demand implements Serializable
     // Variables declarations
     @JsonIgnore
     private int _nId;
-    
+
     @JsonIgnore
     private String _strIdUserFront;
-    
+
     private Environment _environment;
 
     @JsonIgnore
@@ -75,17 +75,16 @@ public class Demand implements Serializable
 
     @JsonIgnore
     private String _strDemandData;
-   
+
     @JsonIgnore
     private Timestamp _creationDate;
-    
+
     @JsonIgnore
     private boolean _bIsClosed;
-    
-    
+
     private Integer _nIdApplicationData;
-    
-	/**
+
+    /**
      * Returns the Id
      * 
      * @return The Id
@@ -109,43 +108,46 @@ public class Demand implements Serializable
 
     /**
      * Get the id of the front user of the demand creator
+     * 
      * @return the id of the user front
      */
     @JsonIgnore
-    public String getIdUserFront()
+    public String getIdUserFront( )
     {
         return _strIdUserFront;
     }
 
     /**
      * Set the user front id
-     * @param strIdUserFront the id of the front user
+     * 
+     * @param strIdUserFront
+     *            the id of the front user
      */
     public void setIdUserFront( String strIdUserFront )
     {
         _strIdUserFront = strIdUserFront;
     }
-    
 
     /**
      * Get the environment
+     * 
      * @return the environment of the demand
      */
-    public Environment getEnvironment()
+    public Environment getEnvironment( )
     {
         return _environment;
     }
 
     /**
      * Set the environment of the demand
-     * @param environment the environment of the demand
+     * 
+     * @param environment
+     *            the environment of the demand
      */
     public void setEnvironment( Environment environment )
     {
         _environment = environment;
     }
-    
-    
 
     /**
      * Returns the StatusText
@@ -261,50 +263,56 @@ public class Demand implements Serializable
         return "";
 
     }
-    
-    @JsonIgnore
-    public Timestamp getCreationDate() {
-  		return _creationDate;
-  	}
 
-  	public void setCreationDate(Timestamp _creationTimestamp) {
-  		this._creationDate = _creationTimestamp;
-  	}
+    @JsonIgnore
+    public Timestamp getCreationDate( )
+    {
+        return _creationDate;
+    }
+
+    public void setCreationDate( Timestamp _creationTimestamp )
+    {
+        this._creationDate = _creationTimestamp;
+    }
 
     /**
      * Return the is closed boolean
+     * 
      * @return the is closed boolean
      */
-    public boolean isClosed()
+    public boolean isClosed( )
     {
         return _bIsClosed;
     }
 
     /**
      * Set the Is Closed boolean
-     * @param bIsClosed 
+     * 
+     * @param bIsClosed
      */
     public void setIsClosed( boolean bIsClosed )
     {
         _bIsClosed = bIsClosed;
     }
-    
+
     /**
      * Get the last update of the demand, base on workflow actions
+     * 
      * @return the date of the last workflow update
      */
     @JsonIgnore
     public Timestamp getLastUpdate( )
     {
-        ResourceHistoryService resourceHistoryService = SpringContextService.getBean( "workflow.resourceHistoryService") ;
+        ResourceHistoryService resourceHistoryService = SpringContextService.getBean( "workflow.resourceHistoryService" );
         if ( resourceHistoryService != null )
         {
-            ResourceHistory resourceHistory = resourceHistoryService.getLastHistoryResource( getId( ), Demand.WORKFLOW_RESOURCE_TYPE, DemandTypeService.getIdWorkflow( getDemandType( ) ) );
+            ResourceHistory resourceHistory = resourceHistoryService.getLastHistoryResource( getId( ), Demand.WORKFLOW_RESOURCE_TYPE,
+                    DemandTypeService.getIdWorkflow( getDemandType( ) ) );
             if ( resourceHistory != null )
             {
                 return resourceHistory.getCreationDate( );
             }
-            return getCreationDate();
+            return getCreationDate( );
         }
         return getCreationDate( );
     }
@@ -314,20 +322,23 @@ public class Demand implements Serializable
     {
         return false;
     }
-    
+
     /**
      * 
      * @return the application data associated to the demand
      */
-    public Integer getIdApplicationData() {
-		return _nIdApplicationData;
-	}
+    public Integer getIdApplicationData( )
+    {
+        return _nIdApplicationData;
+    }
 
     /**
      * 
-     * @param nIdApplicationData the application dataAssociated to the demand 
+     * @param nIdApplicationData
+     *            the application dataAssociated to the demand
      */
-	public void setIdApplicationData(Integer nIdApplicationData) {
-		this._nIdApplicationData = nIdApplicationData;
-	}
+    public void setIdApplicationData( Integer nIdApplicationData )
+    {
+        this._nIdApplicationData = nIdApplicationData;
+    }
 }

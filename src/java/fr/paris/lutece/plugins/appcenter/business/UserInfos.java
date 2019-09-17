@@ -38,7 +38,6 @@ import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 public abstract class UserInfos implements DataSubset
 {
     @Override
-    public abstract String getName() ;
-    
-    
+    public abstract String getName( );
+
 }

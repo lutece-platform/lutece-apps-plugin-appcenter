@@ -12,39 +12,44 @@ public class ResourceTypeValue
 
     /**
      * Get the resource type value code
+     * 
      * @return the resource type value code
      */
-    public String getCode()
+    public String getCode( )
     {
         return _strCode;
     }
 
     /**
      * Set the resource type value code
-     * @param strCode the resource type value code
+     * 
+     * @param strCode
+     *            the resource type value code
      */
-    public void setCode(String strCode)
+    public void setCode( String strCode )
     {
         _strCode = strCode;
     }
 
     /**
      * Get the label
+     * 
      * @return the label
      */
-    public String getLabel()
+    public String getLabel( )
     {
         return _strLabel;
     }
 
     /**
      * Set the label
-     * @param strLabel the label 
+     * 
+     * @param strLabel
+     *            the label
      */
-    public void setLabel(String strLabel)
+    public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
-    
+
 }

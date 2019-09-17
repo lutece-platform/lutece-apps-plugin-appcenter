@@ -47,8 +47,8 @@ import java.util.Optional;
 public class DemandTypeService
 {
 
-    private static String KEY_SUPER_ADMIN_ROLE = "super_admin" ;
-    
+    private static String KEY_SUPER_ADMIN_ROLE = "super_admin";
+
     public static int getIdWorkflow( String strDemandTypeKey )
     {
         return DemandTypeHome.findByIdDemandType( strDemandTypeKey ).getIdWorkflow( );
@@ -58,13 +58,12 @@ public class DemandTypeService
     {
         return Demand.WORKFLOW_RESOURCE_TYPE;
     }
-    
+
     public static Class getClassByDemandTypeId( String strDemandTypeId, List<DemandType> listDemandType )
     {
-        Optional<DemandType> filteredDemandType = listDemandType.stream()
-                .filter( demandType -> demandType.getIdDemandType( ).equals( strDemandTypeId) )
+        Optional<DemandType> filteredDemandType = listDemandType.stream( ).filter( demandType -> demandType.getIdDemandType( ).equals( strDemandTypeId ) )
                 .findAny( );
-        
+
         if ( filteredDemandType.isPresent( ) )
         {
             try
@@ -83,42 +82,43 @@ public class DemandTypeService
 
     /**
      * Filter the list of all demands and the filter with RBAC authorizations
+     * 
      * @param listDemands
      * @param demandTypeRefList
-     * @param user 
+     * @param user
      */
     public static void filterWithRBAC( List<Demand> listDemands, ReferenceList demandTypeRefList, AdminUser user )
     {
-        List<DemandType> listDemandTypes = DemandTypeHome.getDemandTypesList();
-        
+        List<DemandType> listDemandTypes = DemandTypeHome.getDemandTypesList( );
+
         if ( !RBACService.isUserInRole( user, KEY_SUPER_ADMIN_ROLE ) )
         {
-            Collection<DemandType> listAuthorizedDemandType = RBACService.getAuthorizedCollection( listDemandTypes, DemandTypeIdService.DEMAND_TYPE_PERMISSION_VIEW, user);
+            Collection<DemandType> listAuthorizedDemandType = RBACService.getAuthorizedCollection( listDemandTypes,
+                    DemandTypeIdService.DEMAND_TYPE_PERMISSION_VIEW, user );
 
-            listDemands.removeIf( demand -> 
-                            {
-                                for ( DemandType demType : listAuthorizedDemandType )
-                                {
-                                    if ( demType.getIdDemandType().equals( demand.getDemandType( ) ) )
-                                    {
-                                        return false;
-                                    }
-                                }
-                                return true;
-                            });
+            listDemands.removeIf( demand -> {
+                for ( DemandType demType : listAuthorizedDemandType )
+                {
+                    if ( demType.getIdDemandType( ).equals( demand.getDemandType( ) ) )
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            } );
 
             demandTypeRefList.removeIf( item -> {
-                         for ( DemandType demType : listAuthorizedDemandType )
-                                {
-                                    if ( demType.getIdDemandType().equals( item.getCode() ) )
-                                    {
-                                        return false;
-                                    }
-                                }
-                                return true;
-                     });
+                for ( DemandType demType : listAuthorizedDemandType )
+                {
+                    if ( demType.getIdDemandType( ).equals( item.getCode( ) ) )
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            } );
         }
-        
+
     }
-    
+
 }

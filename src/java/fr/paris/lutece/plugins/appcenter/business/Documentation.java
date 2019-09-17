@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import javax.validation.constraints.*;
@@ -39,25 +39,26 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object Documentation
- */ 
+ */
 public class Documentation implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     private int _nIdDemandType;
-    
+
     private String _strLabel;
-    
+
     private String _strUrl;
-    
-    @Size( max = 255 , message = "#i18n{appcenter.validation.documentation.Category.size}" ) 
+
+    @Size( max = 255, message = "#i18n{appcenter.validation.documentation.Category.size}" )
     private String _strCategory;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -67,15 +68,18 @@ public class Documentation implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the IdDemandType
+     * 
      * @return The IdDemandType
      */
     public int getIdDemandType( )
@@ -85,15 +89,18 @@ public class Documentation implements Serializable
 
     /**
      * Sets the IdDemandType
-     * @param nIdDemandType The IdDemandType
-     */ 
+     * 
+     * @param nIdDemandType
+     *            The IdDemandType
+     */
     public void setIdDemandType( int nIdDemandType )
     {
         _nIdDemandType = nIdDemandType;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
@@ -103,15 +110,18 @@ public class Documentation implements Serializable
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
+
     /**
      * Returns the Url
+     * 
      * @return The Url
      */
     public String getUrl( )
@@ -121,15 +131,18 @@ public class Documentation implements Serializable
 
     /**
      * Sets the Url
-     * @param strUrl The Url
-     */ 
+     * 
+     * @param strUrl
+     *            The Url
+     */
     public void setUrl( String strUrl )
     {
         _strUrl = strUrl;
     }
-    
+
     /**
      * Returns the Category
+     * 
      * @return The Category
      */
     public String getCategory( )
@@ -139,8 +152,10 @@ public class Documentation implements Serializable
 
     /**
      * Sets the Category
-     * @param strCategory The Category
-     */ 
+     * 
+     * @param strCategory
+     *            The Category
+     */
     public void setCategory( String strCategory )
     {
         _strCategory = strCategory;

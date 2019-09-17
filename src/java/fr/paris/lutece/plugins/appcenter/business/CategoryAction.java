@@ -36,13 +36,13 @@ package fr.paris.lutece.plugins.appcenter.business;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAction 
+public class CategoryAction
 {
     private String _strLabelKey;
     private String _strCssClass;
-    private String _strCategoryCode; 
-    private List<Action>  _listActions;
-    
+    private String _strCategoryCode;
+    private List<Action> _listActions;
+
     public CategoryAction( String strLabelKey, String strCssClass, String strCategoryCode, List<Action> listActions )
     {
         _strLabelKey = strLabelKey;
@@ -55,7 +55,7 @@ public class CategoryAction
     {
         this( categoryAction._strLabelKey, categoryAction._strCssClass, categoryAction._strCategoryCode, null );
 
-        List<Action> listActions = new ArrayList<>();
+        List<Action> listActions = new ArrayList<>( );
 
         for ( Action action : categoryAction._listActions )
         {
@@ -67,70 +67,86 @@ public class CategoryAction
 
     /**
      * Get the label of the action
+     * 
      * @return the label of the action
      */
-    public String getLabelKey() {
+    public String getLabelKey( )
+    {
         return _strLabelKey;
     }
 
     /**
      * Set the label key of the action
-     * @param strLabelKey the label key of action
+     * 
+     * @param strLabelKey
+     *            the label key of action
      */
-    public void setLabelKey(String strLabelKey ) {
+    public void setLabelKey( String strLabelKey )
+    {
         _strLabelKey = strLabelKey;
     }
 
     /**
      * Get the css class of the action
+     * 
      * @return the css class of the action
      */
-    public String getCssClass() {
+    public String getCssClass( )
+    {
         return _strCssClass;
     }
 
     /**
      * Set the css class of the action
-     * @param strCssClass the css class of the action
+     * 
+     * @param strCssClass
+     *            the css class of the action
      */
-    public void setCssClass(String strCssClass) {
+    public void setCssClass( String strCssClass )
+    {
         _strCssClass = strCssClass;
     }
 
-
     /**
      * Get the category code
+     * 
      * @return the category code
      */
-    public String getCategoryCode() {
+    public String getCategoryCode( )
+    {
         return _strCategoryCode;
     }
 
     /**
      * Set the category code
-     * @param strCategoryCode the category code 
+     * 
+     * @param strCategoryCode
+     *            the category code
      */
-    public void setCategoryCode(String strCategoryCode) {
+    public void setCategoryCode( String strCategoryCode )
+    {
         _strCategoryCode = strCategoryCode;
     }
 
     /**
      * Get the action lists
+     * 
      * @return the action list
      */
-    public List<Action> getListActions( ) {
+    public List<Action> getListActions( )
+    {
         return _listActions;
     }
 
     /**
      * Set the action list
-     * @param listActions the action action
+     * 
+     * @param listActions
+     *            the action action
      */
-    public void setListActions( List<Action> listActions ) {
+    public void setListActions( List<Action> listActions )
+    {
         this._listActions = listActions;
     }
-    
-    
-    
-    
+
 }

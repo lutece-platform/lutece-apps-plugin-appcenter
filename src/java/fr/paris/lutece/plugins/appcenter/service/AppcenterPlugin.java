@@ -48,7 +48,7 @@ public class AppcenterPlugin extends PluginDefaultImplementation
     public void init( )
     {
     }
-    
+
     public static Plugin getPlugin( )
     {
         return PluginService.getPlugin( "appcenter" );

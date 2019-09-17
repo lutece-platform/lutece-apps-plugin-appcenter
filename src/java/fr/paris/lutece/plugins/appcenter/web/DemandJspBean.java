@@ -87,7 +87,6 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String TEMPLATE_MANAGE_DEMANDS = "/admin/plugins/appcenter/manage_demands.html";
     private static final String TEMPLATE_TASK_FORM = "/admin/plugins/appcenter/task_form.html";
     private static final String TEMPLATE_DEMAND_HISTORY = "/admin/plugins/appcenter/demand_history.html";
-    
 
     // Parameters
     private static final String PARAMETER_ID_DEMAND = "id";
@@ -97,7 +96,6 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String PROPERTY_PAGE_TITLE_MANAGE_DEMANDS = "appcenter.manage_demands.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_TASK_FORM = "appcenter.task_form.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_DEMAND_HISTORY = "appcenter.demand_history.pageTitle";
-    
 
     // Markers
     private static final String MARK_DEMAND_LIST = "demand_list";
@@ -126,7 +124,6 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String VIEW_MANAGE_DEMANDS = "manageDemands";
     private static final String VIEW_TASK_FORM = "taskForm";
     private static final String VIEW_HISTORY = "demandHistory";
-    
 
     // Actions
     private static final String ACTION_PROCESS_ACTION = "processAction";
@@ -134,8 +131,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String ACTION_FILTER_DEMAND = "filterDemands";
     private static final String ACTION_REMOVE_DEMAND = "removeDemand";
     private static final String ACTION_CONFIRM_REMOVE_DEMAND = "confirmRemoveDemand";
-    
-    //Constant
+
+    // Constant
     private static final String CONSTANT_ID = "id";
     private static final String CONSTANT_LABEL_DEMAND_TYPE = "labelDemandType";
     private static final String CONSTANT_CODE_APPLICATION = "codeApplication";
@@ -150,7 +147,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     // Errors
     private static final String ERROR_CANNOT_PROCESS_ACTION = "appcenter.error.demand.cannotProcessAction";
 
-    //Sessions variable
+    // Sessions variable
     private DemandFilter _filter;
 
     /**
@@ -164,24 +161,24 @@ public class DemandJspBean extends ManageAppCenterJspBean
     public String getManageDemands( HttpServletRequest request )
     {
 
-        //Initialize the demand filter
+        // Initialize the demand filter
         if ( _filter == null )
-        { 
+        {
             _filter = new DemandFilter( );
-            
+
             // open demands filter default
             _filter.setHasIsClosed( true );
             _filter.setIsClosed( false );
         }
-        
+
         List<Demand> listDemands = DemandHome.getDemandsListByFilter( _filter );
         int nIdWorkflow;
 
-        Map<String,Application> mapApplications = new HashMap<>();
-        Map<String,State> mapStates = new HashMap<>();
-        Map<String,DemandType> mapDemandTypes = new HashMap<>();
-        
-        Map<String,Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>();
+        Map<String, Application> mapApplications = new HashMap<>( );
+        Map<String, State> mapStates = new HashMap<>( );
+        Map<String, DemandType> mapDemandTypes = new HashMap<>( );
+
+        Map<String, Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action>> mapActions = new HashMap<>( );
 
         for ( Application app : ApplicationHome.getApplicationsList( ) )
         {
@@ -193,44 +190,43 @@ public class DemandJspBean extends ManageAppCenterJspBean
             mapDemandTypes.put( demandType.getIdDemandType( ), demandType );
         }
 
-        for ( Demand demand : listDemands)
+        for ( Demand demand : listDemands )
         {
 
-        	nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
-            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE,nIdWorkflow , -1 );
-            mapStates.put( Integer.toString( demand.getId() ), state );
-            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),  Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,
-                    getUser() );
-            mapActions.put(Integer.toString( demand.getId() ), listActions);
-         
-            
-       }
-        
+            nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
+            State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+            mapStates.put( Integer.toString( demand.getId( ) ), state );
+            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),
+                    Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, getUser( ) );
+            mapActions.put( Integer.toString( demand.getId( ) ), listActions );
+
+        }
+
         Comparator<ReferenceItem> comparator = Comparator.comparing( ( ReferenceItem x ) -> x.getName( ) );
-       
-        //Construct demand type ref list
-        ReferenceList demandTypeRefList = ReferenceList.convert( mapDemandTypes.values( ), "idDemandType","label",false );
-        
-        //Filter demand list and demand type reference list by RBAC on demandType
-        DemandTypeService.filterWithRBAC( listDemands, demandTypeRefList, getUser() );
-        Collections.sort( demandTypeRefList , comparator);
-        
+
+        // Construct demand type ref list
+        ReferenceList demandTypeRefList = ReferenceList.convert( mapDemandTypes.values( ), "idDemandType", "label", false );
+
+        // Filter demand list and demand type reference list by RBAC on demandType
+        DemandTypeService.filterWithRBAC( listDemands, demandTypeRefList, getUser( ) );
+        Collections.sort( demandTypeRefList, comparator );
+
         AppCenterUtils.addFirstItem( demandTypeRefList, request.getLocale( ) );
-        
-        //Construct envi ref list
+
+        // Construct envi ref list
         ReferenceList refListEnvi = ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false );
         for ( ReferenceItem item : refListEnvi )
         {
             item.setName( I18nService.getLocalizedString( item.getName( ), request.getLocale( ) ) );
         }
-        Collections.sort( refListEnvi , comparator);
+        Collections.sort( refListEnvi, comparator );
         AppCenterUtils.addFirstItem( refListEnvi, request.getLocale( ) );
-        
-        //Construct application ref list
+
+        // Construct application ref list
         ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
-        Collections.sort( applicationRefList , comparator);
+        Collections.sort( applicationRefList, comparator );
         AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
-        
+
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
@@ -240,15 +236,16 @@ public class DemandJspBean extends ManageAppCenterJspBean
             strAscSort = request.getParameter( Parameters.SORTED_ASC );
 
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
-            
-            if ( strSortedAttributeName.equals( CONSTANT_ID ) || strSortedAttributeName.equals( CONSTANT_ID_USER_FRONT ) || strSortedAttributeName.equals( CONSTANT_CREATION_DATE ) )
+
+            if ( strSortedAttributeName.equals( CONSTANT_ID ) || strSortedAttributeName.equals( CONSTANT_ID_USER_FRONT )
+                    || strSortedAttributeName.equals( CONSTANT_CREATION_DATE ) )
             {
                 Collections.sort( listDemands, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
             }
             else
             {
                 Comparator<Demand> c = null;
-                
+
                 if ( strSortedAttributeName.equals( CONSTANT_CODE_APPLICATION ) )
                 {
                     c = Comparator.comparing( ( Demand x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getCode( ) );
@@ -257,18 +254,20 @@ public class DemandJspBean extends ManageAppCenterJspBean
                 {
                     c = Comparator.comparing( ( Demand x ) -> mapApplications.get( Integer.toString( x.getIdApplication( ) ) ).getName( ) );
                 }
-                else if ( strSortedAttributeName.equals( CONSTANT_LABEL_DEMAND_TYPE ) )
-                {
-                    c = Comparator.comparing( ( Demand x ) -> mapDemandTypes.get( x.getIdDemandType( ) ).getLabel( ) );
-                }
-                else if ( strSortedAttributeName.equals( CONSTANT_WORKFLOW_STATE ) )
-                {
-                    c = Comparator.comparing( ( Demand x ) -> mapStates.get( Integer.toString( x.getId( ) ) ).getName( ) );
-                }
-                
+                else
+                    if ( strSortedAttributeName.equals( CONSTANT_LABEL_DEMAND_TYPE ) )
+                    {
+                        c = Comparator.comparing( ( Demand x ) -> mapDemandTypes.get( x.getIdDemandType( ) ).getLabel( ) );
+                    }
+                    else
+                        if ( strSortedAttributeName.equals( CONSTANT_WORKFLOW_STATE ) )
+                        {
+                            c = Comparator.comparing( ( Demand x ) -> mapStates.get( Integer.toString( x.getId( ) ) ).getName( ) );
+                        }
+
                 if ( c != null )
                 {
-                    if (bIsAscSort)
+                    if ( bIsAscSort )
                     {
                         Collections.sort( listDemands, Collections.reverseOrder( c ) );
                     }
@@ -279,36 +278,35 @@ public class DemandJspBean extends ManageAppCenterJspBean
                 }
             }
         }
-        
+
         UrlItem url = new UrlItem( JSP_MANAGE_DEMANDS );
-        
+
         if ( strSortedAttributeName != null )
         {
             url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         }
-        
+
         if ( strAscSort != null )
         {
             url.addParameter( Parameters.SORTED_ASC, strAscSort );
         }
-        
+
         Map<String, Object> model = getPaginatedListModel( request, MARK_DEMAND_LIST, listDemands, url.getUrl( ) );
 
-        model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList  );
+        model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList );
         model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
         model.put( MARK_APPLICATION_REF_LIST, applicationRefList );
         model.put( MARK_DEMAND_FILTER, _filter );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );
         model.put( MARK_ACTIONS_MAP, mapActions );
- 
-        
-        
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_DEMANDS, TEMPLATE_MANAGE_DEMANDS, model );
     }
-    
+
     /**
      * Process the action of filtering demands; set the filter
+     * 
      * @param request
      * @return The manage demands view
      */
@@ -357,6 +355,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
         return getPage( PROPERTY_PAGE_TITLE_TASK_FORM, TEMPLATE_TASK_FORM, model );
     }
+
     /**
      * Returns the task form associate to the workflow action
      *
@@ -365,33 +364,30 @@ public class DemandJspBean extends ManageAppCenterJspBean
      * @return The HTML form the task form associate to the workflow action
      */
     @View( VIEW_HISTORY )
-    public String getViewHistory(HttpServletRequest request )
+    public String getViewHistory( HttpServletRequest request )
     {
         // Demand
         Demand demand = null;
         Integer nIdDemand = request.getParameter( PARAMETER_ID_DEMAND ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ) : null;
-       
-       
+
         demand = DemandHome.findByPrimaryKey( nIdDemand );
         Class demandClass = DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType( ), DemandTypeHome.getDemandTypesList( ) );
         demand = DemandHome.findByPrimaryKey( nIdDemand, demandClass );
-        int  nIdWorkflow=DemandTypeService.getIdWorkflow( demand.getDemandType());
-        
-        String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory(
-                demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request, request.getLocale( )
-        		);
-  
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
+
+        String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request,
+                request.getLocale( ) );
+
         // Aplication
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
 
         String strJsonData = DemandService.getPrettyPrintDemandData( demand );
-       
+
         Map<String, Object> model = getModel( );
         model.put( MARK_DEMAND, demand );
         model.put( MARK_APPLICATION, application );
         model.put( MARK_HISTORY, strHistoryHtml );
         model.put( MARK_JSON_DATA, strJsonData );
-   
 
         return getPage( PROPERTY_PAGE_TITLE_DEMAND_HISTORY, TEMPLATE_DEMAND_HISTORY, model );
     }
@@ -437,22 +433,22 @@ public class DemandJspBean extends ManageAppCenterJspBean
         if ( WorkflowService.getInstance( ).canProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, false ) )
         {
 
-	        try
-	        {
-	            String strError = WorkflowService.getInstance( ).doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1,
-	                    request, getLocale() );
-	            if(strError!=null)
-	            {
-	            	addError(strError);
-	            	return redirect(request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction);
-	            }
-	          
-	        }
-	        catch( Exception e )
-	        {
-	             AppLogService.error( "Error processing action for demand '" + nIdDemand , e );
-	             addError(ERROR_CANNOT_PROCESS_ACTION, getLocale( ) );
-	        }
+            try
+            {
+                String strError = WorkflowService.getInstance( )
+                        .doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ) );
+                if ( strError != null )
+                {
+                    addError( strError );
+                    return redirect( request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction );
+                }
+
+            }
+            catch( Exception e )
+            {
+                AppLogService.error( "Error processing action for demand '" + nIdDemand, e );
+                addError( ERROR_CANNOT_PROCESS_ACTION, getLocale( ) );
+            }
 
         }
         else
@@ -504,12 +500,12 @@ public class DemandJspBean extends ManageAppCenterJspBean
         Collection<XPageApplicationEntry> listXPageApplicationEntry = XPageAppService.getXPageApplicationsList( );
         XPageApplication xPageApplication = null;
 
-        for (XPageApplicationEntry xPageApplicationEntry : listXPageApplicationEntry)
+        for ( XPageApplicationEntry xPageApplicationEntry : listXPageApplicationEntry )
         {
             xPageApplication = XPageAppService.getApplicationInstance( xPageApplicationEntry );
             if ( xPageApplication instanceof AppCenterDemandXPage )
             {
-                AppCenterDemandXPage appCenterDemandXPage = ( AppCenterDemandXPage ) xPageApplication;
+                AppCenterDemandXPage appCenterDemandXPage = (AppCenterDemandXPage) xPageApplication;
                 if ( appCenterDemandXPage.getDemandType( ) != null && appCenterDemandXPage.getDemandType( ).equals( strDemandTypeKey ) )
                 {
                     return appCenterDemandXPage.getDatasClass( );

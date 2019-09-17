@@ -67,10 +67,10 @@ public class Constants
     public static final String MARK_USER = "user";
     public static final String MARK_REPO_LIST = "repo_list";
     public static final String MARK_LIST_CATEGORY_ACTIONS = "list_category_actions";
-  
-    //Property
+
+    // Property
     public static final String PROPERTY_MAPPING_XPAGE_ROLE = "appcenter.mapping_xpage_role.";
-    
-    //XPage
+
+    // XPage
     public static final String XPAGE_APPLICATION = "application";
 }

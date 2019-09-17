@@ -65,12 +65,12 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
         try
         {
             int nIndex = 1;
-            daoUtil.setString( nIndex++ , categoryDemandType.getLabel( ) );
-            daoUtil.setString( nIndex++ , categoryDemandType.getQuestion( ));
-            daoUtil.setBoolean( nIndex++ , categoryDemandType.getIsDependingOfEnvironment( ) );
-            
+            daoUtil.setString( nIndex++, categoryDemandType.getLabel( ) );
+            daoUtil.setString( nIndex++, categoryDemandType.getQuestion( ) );
+            daoUtil.setBoolean( nIndex++, categoryDemandType.getIsDependingOfEnvironment( ) );
+
             daoUtil.executeUpdate( );
-            if ( daoUtil.nextGeneratedKey( ) ) 
+            if ( daoUtil.nextGeneratedKey( ) )
             {
                 categoryDemandType.setId( daoUtil.getGeneratedKeyInt( 1 ) );
             }
@@ -88,15 +88,15 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
     public CategoryDemandType load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         CategoryDemandType categoryDemandType = null;
 
         if ( daoUtil.next( ) )
         {
-            categoryDemandType = new CategoryDemandType();
+            categoryDemandType = new CategoryDemandType( );
             int nIndex = 1;
-            
+
             categoryDemandType.setId( daoUtil.getInt( nIndex++ ) );
             categoryDemandType.setLabel( daoUtil.getString( nIndex++ ) );
             categoryDemandType.setQuestion( daoUtil.getString( nIndex++ ) );
@@ -115,7 +115,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -128,13 +128,13 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , categoryDemandType.getId( ) );
-        daoUtil.setString( nIndex++ , categoryDemandType.getLabel( ) );
-        daoUtil.setString( nIndex++ , categoryDemandType.getQuestion( ) );
-        daoUtil.setBoolean( nIndex++ , categoryDemandType.getIsDependingOfEnvironment( ) );
-        daoUtil.setInt( nIndex++ , categoryDemandType.getOrder( ) );
-        daoUtil.setInt( nIndex , categoryDemandType.getId( ) );
+
+        daoUtil.setInt( nIndex++, categoryDemandType.getId( ) );
+        daoUtil.setString( nIndex++, categoryDemandType.getLabel( ) );
+        daoUtil.setString( nIndex++, categoryDemandType.getQuestion( ) );
+        daoUtil.setBoolean( nIndex++, categoryDemandType.getIsDependingOfEnvironment( ) );
+        daoUtil.setInt( nIndex++, categoryDemandType.getOrder( ) );
+        daoUtil.setInt( nIndex, categoryDemandType.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -146,15 +146,15 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
     @Override
     public List<CategoryDemandType> selectCategoryDemandTypesList( Plugin plugin )
     {
-        List<CategoryDemandType> categoryDemandTypeList = new ArrayList<CategoryDemandType>(  );
+        List<CategoryDemandType> categoryDemandTypeList = new ArrayList<CategoryDemandType>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            CategoryDemandType categoryDemandType = new CategoryDemandType(  );
+            CategoryDemandType categoryDemandType = new CategoryDemandType( );
             int nIndex = 1;
-            
+
             categoryDemandType.setId( daoUtil.getInt( nIndex++ ) );
             categoryDemandType.setLabel( daoUtil.getString( nIndex++ ) );
             categoryDemandType.setQuestion( daoUtil.getString( nIndex++ ) );
@@ -167,7 +167,7 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
         daoUtil.free( );
         return categoryDemandTypeList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -176,9 +176,9 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
     {
         List<Integer> categoryDemandTypeList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             categoryDemandTypeList.add( daoUtil.getInt( 1 ) );
         }
@@ -186,20 +186,20 @@ public final class CategoryDemandTypeDAO implements ICategoryDemandTypeDAO
         daoUtil.free( );
         return categoryDemandTypeList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
     public ReferenceList selectCategoryDemandTypesReferenceList( Plugin plugin )
     {
-        ReferenceList categoryDemandTypeList = new ReferenceList();
+        ReferenceList categoryDemandTypeList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            categoryDemandTypeList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 2 ) );
+            categoryDemandTypeList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
         daoUtil.free( );

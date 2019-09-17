@@ -46,11 +46,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
 /**
- * This class provides some simple functions to encrypt or decrypt data.
- * This implementation is based on the javax.crypto.* API and the Sun implementation.
- * The algoritm used is the DES algorithm (symetric)
+ * This class provides some simple functions to encrypt or decrypt data. This implementation is based on the javax.crypto.* API and the Sun implementation. The
+ * algoritm used is the DES algorithm (symetric)
  *
  * @since 1.2.1
  */
@@ -64,74 +62,80 @@ public final class CryptoUtil
     static final String DSKEY_CRYPTO_KEY = "appcenter." + PROPERTY_CRYPTO_KEY;
 
     /** Private constructor */
-    private CryptoUtil(  )
+    private CryptoUtil( )
     {
     }
 
     /**
      * This function encrypt a given string using the DES algorithm.
-     * @param strDataToEncrypt The String to encrypt
-     * @param strKey The generated key used to encrypt
+     * 
+     * @param strDataToEncrypt
+     *            The String to encrypt
+     * @param strKey
+     *            The generated key used to encrypt
      * @return The encrypted string
      */
     public static String encrypt( String strDataToEncrypt )
     {
         if ( strDataToEncrypt != null )
         {
-           byte[] key = getCryptoKey( ).getBytes(  );
+            byte [ ] key = getCryptoKey( ).getBytes( );
 
-        // Get the KeyGenerator
-        Provider sunJCE = new com.sun.crypto.provider.SunJCE(  );
-        Security.addProvider( sunJCE );
+            // Get the KeyGenerator
+            Provider sunJCE = new com.sun.crypto.provider.SunJCE( );
+            Security.addProvider( sunJCE );
 
-        String strAlgorithm = ALGORITHM_DES; //On utilise un algorithme DES
-        SecretKeySpec keySpec = null;
-        DESKeySpec deskey = null;
-        String strResult = "";
+            String strAlgorithm = ALGORITHM_DES; // On utilise un algorithme DES
+            SecretKeySpec keySpec = null;
+            DESKeySpec deskey = null;
+            String strResult = "";
 
-        try
-        {
-            // Prepare the key
-            deskey = new DESKeySpec( key );
-            keySpec = new SecretKeySpec( deskey.getKey(  ), ALGORITHM_DES );
+            try
+            {
+                // Prepare the key
+                deskey = new DESKeySpec( key );
+                keySpec = new SecretKeySpec( deskey.getKey( ), ALGORITHM_DES );
 
-            // Instantiate the cipher
-            Cipher cipher = Cipher.getInstance( strAlgorithm );
+                // Instantiate the cipher
+                Cipher cipher = Cipher.getInstance( strAlgorithm );
 
-            // Encrypt data
-            cipher.init( Cipher.ENCRYPT_MODE, keySpec );
+                // Encrypt data
+                cipher.init( Cipher.ENCRYPT_MODE, keySpec );
 
-            // Encode the string into bytes using utf-8
-            byte[] utf8 = strDataToEncrypt.getBytes( ENCODING_UTF8 ); // FIXME ?
+                // Encode the string into bytes using utf-8
+                byte [ ] utf8 = strDataToEncrypt.getBytes( ENCODING_UTF8 ); // FIXME ?
 
-            // Encrypt
-            byte[] enc = cipher.doFinal( utf8 );
+                // Encrypt
+                byte [ ] enc = cipher.doFinal( utf8 );
 
-            // Encode bytes to base64 to get a string
-            strResult = new sun.misc.BASE64Encoder(  ).encode( enc );
-        }
-        catch ( Exception e )
-        {
-            AppLogService.error( "Data encryption error", e );
-        }
+                // Encode bytes to base64 to get a string
+                strResult = new sun.misc.BASE64Encoder( ).encode( enc );
+            }
+            catch( Exception e )
+            {
+                AppLogService.error( "Data encryption error", e );
+            }
 
-        return strResult; 
+            return strResult;
         }
         return null;
     }
 
     /**
      * This function decrypt a given string using the DES algorithm.
-     * @param strDataToDecrypt The String to decrypt
-     * @param strKey The generated key used to decrypt
+     * 
+     * @param strDataToDecrypt
+     *            The String to decrypt
+     * @param strKey
+     *            The generated key used to decrypt
      * @return The encrypted string
      */
     public static String decrypt( String strDataToDecrypt )
     {
-        byte[] key = getCryptoKey( ).getBytes(  );
+        byte [ ] key = getCryptoKey( ).getBytes( );
 
         // Get the KeyGenerator
-        Provider sunJCE = new com.sun.crypto.provider.SunJCE(  );
+        Provider sunJCE = new com.sun.crypto.provider.SunJCE( );
         Security.addProvider( sunJCE );
 
         String strAlgorithm = ALGORITHM_DES;
@@ -143,7 +147,7 @@ public final class CryptoUtil
         {
             // Prepare the key
             deskey = new DESKeySpec( key );
-            keySpec = new SecretKeySpec( deskey.getKey(  ), ALGORITHM_DES );
+            keySpec = new SecretKeySpec( deskey.getKey( ), ALGORITHM_DES );
 
             // Instantiate the cipher
             Cipher cipher = Cipher.getInstance( strAlgorithm );
@@ -151,23 +155,23 @@ public final class CryptoUtil
 
             // Decrypt data
             // Decode base64 to get bytes
-            byte[] dec = new sun.misc.BASE64Decoder(  ).decodeBuffer( strDataToDecrypt );
+            byte [ ] dec = new sun.misc.BASE64Decoder( ).decodeBuffer( strDataToDecrypt );
 
             // Decrypt
-            byte[] utf8 = cipher.doFinal( dec );
+            byte [ ] utf8 = cipher.doFinal( dec );
 
             // Decode using utf-8
             return new String( utf8, ENCODING_UTF8 );
         }
 
-        catch ( Exception e )
+        catch( Exception e )
         {
             AppLogService.error( "Data decryption error", e );
         }
 
         return strResult;
     }
-    
+
     /**
      * Get the cryptographic key of the application
      * 
@@ -192,8 +196,8 @@ public final class CryptoUtil
         }
         return strKey;
     }
-    
-     /**
+
+    /**
      * Convert byte to hex
      * 
      * @param bits

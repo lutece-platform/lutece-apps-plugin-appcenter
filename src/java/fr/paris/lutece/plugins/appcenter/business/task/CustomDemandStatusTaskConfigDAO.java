@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.appcenter.business.task;
 
 import fr.paris.lutece.plugins.workflowcore.business.config.ITaskConfigDAO;
@@ -49,7 +48,6 @@ public class CustomDemandStatusTaskConfigDAO implements ITaskConfigDAO<CustomDem
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_task_custom_demand_status_config ( id_task, custom_demand_status ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_task_custom_demand_status_config WHERE id_task = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_task_custom_demand_status_config SET id_task = ?, custom_demand_status = ? WHERE id_task = ?";
-    
 
     /**
      * {@inheritDoc }
@@ -57,13 +55,13 @@ public class CustomDemandStatusTaskConfigDAO implements ITaskConfigDAO<CustomDem
     @Override
     public void insert( CustomDemandStatusTaskConfig customDemandStatusTaskConfig )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-            int nIndex = 0;
-            daoUtil.setInt ( ++nIndex , customDemandStatusTaskConfig.getIdTask ( ) );
-            daoUtil.setString ( ++nIndex , customDemandStatusTaskConfig.getCustomDemandStatus ( ) );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        int nIndex = 0;
+        daoUtil.setInt( ++nIndex, customDemandStatusTaskConfig.getIdTask( ) );
+        daoUtil.setString( ++nIndex, customDemandStatusTaskConfig.getCustomDemandStatus( ) );
 
-            daoUtil.executeUpdate();
-            daoUtil.free();
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -72,23 +70,23 @@ public class CustomDemandStatusTaskConfigDAO implements ITaskConfigDAO<CustomDem
     @Override
     public CustomDemandStatusTaskConfig load( int nId )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-            daoUtil.setInt( 1 , nId );
-            daoUtil.executeQuery();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
+        daoUtil.setInt( 1, nId );
+        daoUtil.executeQuery( );
 
-            CustomDemandStatusTaskConfig customDemandStatusTaskConfig = null;
+        CustomDemandStatusTaskConfig customDemandStatusTaskConfig = null;
 
-            if ( daoUtil.next() )
-            {
-                    int nIndex = 0;
-                    customDemandStatusTaskConfig = new CustomDemandStatusTaskConfig();
-                    customDemandStatusTaskConfig.setIdTask( daoUtil.getInt( ++nIndex ) );
-                    customDemandStatusTaskConfig.setCustomDemandStatus( daoUtil.getString( ++nIndex ) );
-            }
+        if ( daoUtil.next( ) )
+        {
+            int nIndex = 0;
+            customDemandStatusTaskConfig = new CustomDemandStatusTaskConfig( );
+            customDemandStatusTaskConfig.setIdTask( daoUtil.getInt( ++nIndex ) );
+            customDemandStatusTaskConfig.setCustomDemandStatus( daoUtil.getString( ++nIndex ) );
+        }
 
-            daoUtil.free();
+        daoUtil.free( );
 
-            return customDemandStatusTaskConfig;
+        return customDemandStatusTaskConfig;
     }
 
     /**
@@ -97,10 +95,10 @@ public class CustomDemandStatusTaskConfigDAO implements ITaskConfigDAO<CustomDem
     @Override
     public void delete( int nCustomDemandStatusTaskConfigId )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-            daoUtil.setInt( 1 , nCustomDemandStatusTaskConfigId );
-            daoUtil.executeUpdate();
-            daoUtil.free();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
+        daoUtil.setInt( 1, nCustomDemandStatusTaskConfigId );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -109,13 +107,13 @@ public class CustomDemandStatusTaskConfigDAO implements ITaskConfigDAO<CustomDem
     @Override
     public void store( CustomDemandStatusTaskConfig customDemandStatusTaskConfig )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-            int nIndex = 0;
-            daoUtil.setInt( ++nIndex , customDemandStatusTaskConfig.getIdTask( ) );
-            daoUtil.setString( ++nIndex , customDemandStatusTaskConfig.getCustomDemandStatus( ) );
-            daoUtil.setInt( ++nIndex , customDemandStatusTaskConfig.getIdTask( ) );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        int nIndex = 0;
+        daoUtil.setInt( ++nIndex, customDemandStatusTaskConfig.getIdTask( ) );
+        daoUtil.setString( ++nIndex, customDemandStatusTaskConfig.getCustomDemandStatus( ) );
+        daoUtil.setInt( ++nIndex, customDemandStatusTaskConfig.getIdTask( ) );
 
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

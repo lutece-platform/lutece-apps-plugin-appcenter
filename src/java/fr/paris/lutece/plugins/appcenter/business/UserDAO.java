@@ -66,8 +66,8 @@ public final class UserDAO implements IUserDAO
         try
         {
             int nIndex = 1;
-            daoUtil.setString( nIndex++ , user.getId( ) );
-            
+            daoUtil.setString( nIndex++, user.getId( ) );
+
             daoUtil.executeUpdate( );
         }
         finally
@@ -83,15 +83,15 @@ public final class UserDAO implements IUserDAO
     public User load( String strKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setString( 1 , strKey );
+        daoUtil.setString( 1, strKey );
         daoUtil.executeQuery( );
         User user = null;
 
         if ( daoUtil.next( ) )
         {
-            user = new User();
+            user = new User( );
             int nIndex = 1;
-            
+
             user.setId( daoUtil.getString( nIndex++ ) );
             user.setUserInfos( daoUtil.getString( nIndex++ ) );
         }
@@ -107,7 +107,7 @@ public final class UserDAO implements IUserDAO
     public void delete( String strKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setString( 1 , strKey );
+        daoUtil.setString( 1, strKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -120,9 +120,9 @@ public final class UserDAO implements IUserDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setString( nIndex++ , user.getId( ) );
-        daoUtil.setString( nIndex++ , user.getUserInfos( ) );
+
+        daoUtil.setString( nIndex++, user.getId( ) );
+        daoUtil.setString( nIndex++, user.getUserInfos( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -134,15 +134,15 @@ public final class UserDAO implements IUserDAO
     @Override
     public List<User> selectUsersList( Plugin plugin )
     {
-        List<User> userList = new ArrayList<User>(  );
+        List<User> userList = new ArrayList<User>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            User user = new User(  );
+            User user = new User( );
             int nIndex = 1;
-            
+
             user.setId( daoUtil.getString( nIndex++ ) );
             user.setUserInfos( daoUtil.getString( nIndex++ ) );
 
@@ -152,7 +152,7 @@ public final class UserDAO implements IUserDAO
         daoUtil.free( );
         return userList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -161,9 +161,9 @@ public final class UserDAO implements IUserDAO
     {
         List<String> userList = new ArrayList<String>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             userList.add( daoUtil.getString( 1 ) );
         }
@@ -171,20 +171,20 @@ public final class UserDAO implements IUserDAO
         daoUtil.free( );
         return userList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
     public ReferenceList selectUsersReferenceList( Plugin plugin )
     {
-        ReferenceList userList = new ReferenceList();
+        ReferenceList userList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            userList.addItem( daoUtil.getString( 1 ) , daoUtil.getString( 2 ) );
+            userList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
         }
 
         daoUtil.free( );
@@ -192,7 +192,8 @@ public final class UserDAO implements IUserDAO
     }
 
     @Override
-    public void storeUserInfos(String strIdUser, String strData, Plugin plugin) {
+    public void storeUserInfos( String strIdUser, String strData, Plugin plugin )
+    {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATA, plugin );
         int nIndex = 1;
 

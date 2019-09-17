@@ -42,35 +42,38 @@ public class DemandFilter
     private String _strEnvironmentPrefix;
     private boolean _bIsClosed;
     private String _strIdDemandType;
-    
+
     private boolean _bHasIdApplication;
     private boolean _bHasEnvironmentPrefix;
     private boolean _bHasIsClosed;
     private boolean _bHasIdDemandType;
-    
+
     /**
      * Constructor for demand Filter
      */
-    public DemandFilter()
+    public DemandFilter( )
     {
         _bHasIdApplication = false;
         _bHasEnvironmentPrefix = false;
         _bHasIsClosed = false;
         _bHasIdDemandType = false;
     }
-    
+
     /**
      * Get the id of application
+     * 
      * @return the id of application
      */
-    public int getIdApplication()
+    public int getIdApplication( )
     {
         return _nIdApplication;
     }
 
     /**
      * Set the id of application
-     * @param nIdApplication the id of application
+     * 
+     * @param nIdApplication
+     *            the id of application
      */
     public void setIdApplication( int nIdApplication )
     {
@@ -79,16 +82,19 @@ public class DemandFilter
 
     /**
      * Get the environment prefix
+     * 
      * @return the environment prefix
      */
-    public String getEnvironmentPrefix()
+    public String getEnvironmentPrefix( )
     {
         return _strEnvironmentPrefix;
     }
 
     /**
      * Set the environment prefix
-     * @param strEnvironmentPrefix the environment prefix 
+     * 
+     * @param strEnvironmentPrefix
+     *            the environment prefix
      */
     public void setEnvironmentPrefix( String strEnvironmentPrefix )
     {
@@ -97,16 +103,19 @@ public class DemandFilter
 
     /**
      * Get the is closed boolean
+     * 
      * @return the is closed boolean
      */
-    public boolean isClosed()
+    public boolean isClosed( )
     {
         return _bIsClosed;
     }
 
     /**
      * Set the is closed boolean
-     * @param bIsClosed the is closed boolean
+     * 
+     * @param bIsClosed
+     *            the is closed boolean
      */
     public void setIsClosed( boolean bIsClosed )
     {
@@ -115,16 +124,19 @@ public class DemandFilter
 
     /**
      * Get the id of the demand type
+     * 
      * @return the id of the demand type
      */
-    public String getIdDemandType()
+    public String getIdDemandType( )
     {
         return _strIdDemandType;
     }
 
     /**
      * Set the id of the demand type
-     * @param strIdDemandType the id of the demand type
+     * 
+     * @param strIdDemandType
+     *            the id of the demand type
      */
     public void setIdDemandType( String strIdDemandType )
     {
@@ -133,16 +145,19 @@ public class DemandFilter
 
     /**
      * Has a constraint on id application
+     * 
      * @return the has application boolean
      */
-    public boolean hasIdApplication()
+    public boolean hasIdApplication( )
     {
         return _bHasIdApplication;
     }
 
     /**
      * Set the constraint on id application
-     * @param bHasIdApplication the has id application constaint
+     * 
+     * @param bHasIdApplication
+     *            the has id application constaint
      */
     public void setHasIdApplication( boolean bHasIdApplication )
     {
@@ -151,16 +166,18 @@ public class DemandFilter
 
     /**
      * has a constaint on environment prefix
+     * 
      * @return the boolean of environemnt prefix constraint
      */
-    public boolean hasEnvironmentPrefix()
+    public boolean hasEnvironmentPrefix( )
     {
         return _bHasEnvironmentPrefix;
     }
 
     /**
      * Set the environment prefix
-     * @param bHasEnvironmentPrefix 
+     * 
+     * @param bHasEnvironmentPrefix
      */
     public void setHasEnvironmentPrefix( boolean bHasEnvironmentPrefix )
     {
@@ -169,38 +186,44 @@ public class DemandFilter
 
     /**
      * Has an is closed constraint
-     * @return the is closed constraint boolean 
+     * 
+     * @return the is closed constraint boolean
      */
-    public boolean hasIsClosed()
+    public boolean hasIsClosed( )
     {
         return _bHasIsClosed;
     }
 
     /**
      * Set the is closed constraint boolean
-     * @param bHasIsClosed the is closed constraint boolean
+     * 
+     * @param bHasIsClosed
+     *            the is closed constraint boolean
      */
     public void setHasIsClosed( boolean bHasIsClosed )
     {
         _bHasIsClosed = bHasIsClosed;
     }
-    
+
     /**
      * Get the id demand type constraint boolean
+     * 
      * @return the id demand type constraint boolean
      */
-    public boolean hasIdDemandType()
+    public boolean hasIdDemandType( )
     {
         return _bHasIdDemandType;
     }
 
     /**
      * Set the id demand type constraint boolean
-     * @param bHasIdDemandType the id demand type constraint boolean
+     * 
+     * @param bHasIdDemandType
+     *            the id demand type constraint boolean
      */
     public void setHasIdDemandType( boolean bHasIdDemandType )
     {
         _bHasIdDemandType = bHasIdDemandType;
     }
-    
+
 }

@@ -13,14 +13,14 @@ public abstract class AbstractAppCenterResourceType implements IAppCenterResourc
 {
     private static final String CONSTANT_WILDCARD = "*";
     private static final String CONSTANT_RESOURCE_TYPE_VALUE_CODE_WILDCARD = "*";
-    protected List<ResourceTypeValue> _listResourceTypeValues = new ArrayList<>()  ;
-    
+    protected List<ResourceTypeValue> _listResourceTypeValues = new ArrayList<>( );
+
     /**
      * Add Wildcard value to resources types values
      */
-    protected void addWildCardValue()
+    protected void addWildCardValue( )
     {
-        ResourceTypeValue resourceTypeValue = new ResourceTypeValue();
+        ResourceTypeValue resourceTypeValue = new ResourceTypeValue( );
         resourceTypeValue.setCode( CONSTANT_RESOURCE_TYPE_VALUE_CODE_WILDCARD );
         resourceTypeValue.setLabel( CONSTANT_WILDCARD );
         _listResourceTypeValues.add( resourceTypeValue );

@@ -35,24 +35,27 @@ package fr.paris.lutece.plugins.appcenter.business.resourcetype;
 
 import java.util.Collection;
 
-public interface IAppCenterResourceType 
+public interface IAppCenterResourceType
 {
     /**
      * Get the key of the ressource type
+     * 
      * @return the key of the ressource type
      */
-    public String getRessourceTypeKey( ); 
-    
+    public String getRessourceTypeKey( );
+
     /**
      * Get the resource type label
+     * 
      * @return the ressource type label
      */
     public String getRessourceTypeLabel( );
-    
+
     /**
      * Get the different possible values of the resource type
+     * 
      * @return the difference possible values of the resource type
      */
-    public Collection<ResourceTypeValue> getResourceTypeValues( ); 
-    
+    public Collection<ResourceTypeValue> getResourceTypeValues( );
+
 }

@@ -36,43 +36,41 @@ package fr.paris.lutece.plugins.appcenter.business.userinfos;
 import fr.paris.lutece.plugins.appcenter.business.UserInfos;
 import org.apache.commons.lang.StringUtils;
 
-
-
 public class GitlabUserInfo extends UserInfos
 {
-    private String _strLogin; 
+    private String _strLogin;
     private String _strPassword;
 
-    public GitlabUserInfo() 
+    public GitlabUserInfo( )
     {
         _strLogin = StringUtils.EMPTY;
         _strPassword = StringUtils.EMPTY;
     }
-    
-    
 
-    public String getGitlabLogin() {
+    public String getGitlabLogin( )
+    {
         return _strLogin;
     }
 
-    public void setGitlabLogin(String strLogin) {
+    public void setGitlabLogin( String strLogin )
+    {
         _strLogin = strLogin;
     }
 
-    public String getGitlabPassword() {
+    public String getGitlabPassword( )
+    {
         return _strPassword;
     }
 
-    public void setGitlabPassword(String strPassword) {
+    public void setGitlabPassword( String strPassword )
+    {
         _strPassword = strPassword;
     }
-    
+
     @Override
-    public String getName() 
+    public String getName( )
     {
-       return "gitlab";
+        return "gitlab";
     }
-    
-    
-    
+
 }

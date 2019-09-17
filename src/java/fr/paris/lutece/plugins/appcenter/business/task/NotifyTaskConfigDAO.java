@@ -42,14 +42,13 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides Data Access methods for NotifyTaskConfig objects
  */
 
 public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskConfigDAO<NotifyTaskConfig>
 {
-	
+
     // Constants
     private static final String SQL_QUERY_SELECT = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name FROM appcenter_task_notify_config WHERE id_task = ?";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_task_notify_config ( id_task, notification_type, id_mailing_list ,  subject, message, sender_name ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
@@ -57,25 +56,23 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_task_notify_config SET id_task = ?, notification_type = ?, id_mailing_list = ?, subject = ?, message = ?, sender_name = ? WHERE id_task = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name FROM appcenter_task_notify_config";
 
-
-
     /**
      * {@inheritDoc }
      */
     @Override
     public void insert( NotifyTaskConfig notifyTaskConfig, Plugin plugin )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT , plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
 
-            daoUtil.setInt ( 1, notifyTaskConfig.getIdTask ( ) );
-            daoUtil.setString ( 2, notifyTaskConfig.getNotificationType ( ) );
-            daoUtil.setInt ( 3, notifyTaskConfig.getIdMailingList( ) );
-            daoUtil.setString ( 4, notifyTaskConfig.getSubject ( ) );
-            daoUtil.setString ( 5, notifyTaskConfig.getMessage ( ) );
-            daoUtil.setString ( 6, notifyTaskConfig.getSenderName ( ) );
+        daoUtil.setInt( 1, notifyTaskConfig.getIdTask( ) );
+        daoUtil.setString( 2, notifyTaskConfig.getNotificationType( ) );
+        daoUtil.setInt( 3, notifyTaskConfig.getIdMailingList( ) );
+        daoUtil.setString( 4, notifyTaskConfig.getSubject( ) );
+        daoUtil.setString( 5, notifyTaskConfig.getMessage( ) );
+        daoUtil.setString( 6, notifyTaskConfig.getSenderName( ) );
 
-            daoUtil.executeUpdate();
-            daoUtil.free();
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -84,27 +81,27 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     @Override
     public NotifyTaskConfig load( int nId, Plugin plugin )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT , plugin );
-            daoUtil.setInt( 1 , nId );
-            daoUtil.executeQuery();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
+        daoUtil.setInt( 1, nId );
+        daoUtil.executeQuery( );
 
-            NotifyTaskConfig notifyTaskConfig = null;
+        NotifyTaskConfig notifyTaskConfig = null;
 
-            if ( daoUtil.next() )
-            {
-                    notifyTaskConfig = new NotifyTaskConfig();
-                    int nIndex = 0;
-                    notifyTaskConfig.setIdTask( daoUtil.getInt( ++nIndex ) );
-                    notifyTaskConfig.setNotificationType( daoUtil.getString( ++nIndex ) );
-                    notifyTaskConfig.setIdMailingList( daoUtil.getInt( ++nIndex ) );
-                    notifyTaskConfig.setSubject( daoUtil.getString( ++nIndex ) );
-                    notifyTaskConfig.setMessage( daoUtil.getString( ++nIndex ) );
-                    notifyTaskConfig.setSenderName( daoUtil.getString( ++nIndex ) );
-            }
+        if ( daoUtil.next( ) )
+        {
+            notifyTaskConfig = new NotifyTaskConfig( );
+            int nIndex = 0;
+            notifyTaskConfig.setIdTask( daoUtil.getInt( ++nIndex ) );
+            notifyTaskConfig.setNotificationType( daoUtil.getString( ++nIndex ) );
+            notifyTaskConfig.setIdMailingList( daoUtil.getInt( ++nIndex ) );
+            notifyTaskConfig.setSubject( daoUtil.getString( ++nIndex ) );
+            notifyTaskConfig.setMessage( daoUtil.getString( ++nIndex ) );
+            notifyTaskConfig.setSenderName( daoUtil.getString( ++nIndex ) );
+        }
 
-            daoUtil.free();
+        daoUtil.free( );
 
-            return notifyTaskConfig;
+        return notifyTaskConfig;
     }
 
     /**
@@ -113,10 +110,10 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     @Override
     public void delete( int nNotifyTaskConfigId, Plugin plugin )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE , plugin );
-            daoUtil.setInt( 1 , nNotifyTaskConfigId );
-            daoUtil.executeUpdate();
-            daoUtil.free();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
+        daoUtil.setInt( 1, nNotifyTaskConfigId );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -125,19 +122,19 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     @Override
     public void store( NotifyTaskConfig notifyTaskConfig, Plugin plugin )
     {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE , plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-            int nIndex = 0;
-            daoUtil.setInt( ++nIndex , notifyTaskConfig.getIdTask( ) );
-            daoUtil.setString( ++nIndex , notifyTaskConfig.getNotificationType( ) );
-            daoUtil.setInt( ++nIndex , notifyTaskConfig.getIdMailingList( ) );
-            daoUtil.setString( ++nIndex , notifyTaskConfig.getSubject( ) );
-            daoUtil.setString( ++nIndex , notifyTaskConfig.getMessage( ) );
-            daoUtil.setString( ++nIndex , notifyTaskConfig.getSenderName( ) );
-            daoUtil.setInt( ++nIndex , notifyTaskConfig.getIdTask( ) );
+        int nIndex = 0;
+        daoUtil.setInt( ++nIndex, notifyTaskConfig.getIdTask( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getNotificationType( ) );
+        daoUtil.setInt( ++nIndex, notifyTaskConfig.getIdMailingList( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getSubject( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getMessage( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getSenderName( ) );
+        daoUtil.setInt( ++nIndex, notifyTaskConfig.getIdTask( ) );
 
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -146,27 +143,27 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     @Override
     public List<NotifyTaskConfig> selectNotifyTaskConfigsList( Plugin plugin )
     {
-            List<NotifyTaskConfig> listNotifyTaskConfigs = new ArrayList<>(  );
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL , plugin );
-            daoUtil.executeQuery(  );
+        List<NotifyTaskConfig> listNotifyTaskConfigs = new ArrayList<>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
+        daoUtil.executeQuery( );
 
-            while ( daoUtil.next(  ) )
-            {
-                NotifyTaskConfig notifyTaskConfig = new NotifyTaskConfig(  );
+        while ( daoUtil.next( ) )
+        {
+            NotifyTaskConfig notifyTaskConfig = new NotifyTaskConfig( );
 
-                notifyTaskConfig.setIdTask( daoUtil.getInt( 1 ) );
-                notifyTaskConfig.setNotificationType( daoUtil.getString( 2 ) );
-                notifyTaskConfig.setIdMailingList( daoUtil.getInt( 3 ) );
-                notifyTaskConfig.setSubject( daoUtil.getString( 4 ) );
-                notifyTaskConfig.setMessage( daoUtil.getString( 5 ) );
-                notifyTaskConfig.setSenderName( daoUtil.getString( 6 ) );
+            notifyTaskConfig.setIdTask( daoUtil.getInt( 1 ) );
+            notifyTaskConfig.setNotificationType( daoUtil.getString( 2 ) );
+            notifyTaskConfig.setIdMailingList( daoUtil.getInt( 3 ) );
+            notifyTaskConfig.setSubject( daoUtil.getString( 4 ) );
+            notifyTaskConfig.setMessage( daoUtil.getString( 5 ) );
+            notifyTaskConfig.setSenderName( daoUtil.getString( 6 ) );
 
-                listNotifyTaskConfigs.add( notifyTaskConfig );
-            }
+            listNotifyTaskConfigs.add( notifyTaskConfig );
+        }
 
-            daoUtil.free();
+        daoUtil.free( );
 
-            return listNotifyTaskConfigs;
+        return listNotifyTaskConfigs;
     }
 
     /**
@@ -177,6 +174,7 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     {
         insert( notifyTaskConfig, AppcenterPlugin.getPlugin( ) );
     }
+
     /**
      * {@inheritDoc }
      */
@@ -185,6 +183,7 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     {
         store( notifyTaskConfig, AppcenterPlugin.getPlugin( ) );
     }
+
     /**
      * {@inheritDoc }
      */
@@ -193,6 +192,7 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     {
         return load( nIdTaskConfig, AppcenterPlugin.getPlugin( ) );
     }
+
     /**
      * {@inheritDoc }
      */
@@ -203,5 +203,3 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
     }
 
 }
-
-            

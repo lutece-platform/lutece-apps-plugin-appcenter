@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import javax.validation.constraints.Size;
@@ -39,26 +39,27 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object Resource
- */ 
+ */
 public class Resource implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.resource.Code.notEmpty}" )
     private String _strCode;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.resource.Label.notEmpty}" )
     private String _strLabel;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.resource.ResourceType.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{appcenter.validation.resource.ResourceType.size}" ) 
+    @Size( max = 50, message = "#i18n{appcenter.validation.resource.ResourceType.size}" )
     private String _strResourceType;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -68,15 +69,18 @@ public class Resource implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the Code
+     * 
      * @return The Code
      */
     public String getCode( )
@@ -86,15 +90,18 @@ public class Resource implements Serializable
 
     /**
      * Sets the Code
-     * @param strCode The Code
-     */ 
+     * 
+     * @param strCode
+     *            The Code
+     */
     public void setCode( String strCode )
     {
         _strCode = strCode;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
@@ -104,15 +111,18 @@ public class Resource implements Serializable
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
+
     /**
      * Returns the ResourceType
+     * 
      * @return The ResourceType
      */
     public String getResourceType( )
@@ -122,8 +132,10 @@ public class Resource implements Serializable
 
     /**
      * Sets the ResourceType
-     * @param strResourceType The ResourceType
-     */ 
+     * 
+     * @param strResourceType
+     *            The ResourceType
+     */
     public void setResourceType( String strResourceType )
     {
         _strResourceType = strResourceType;

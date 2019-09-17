@@ -45,40 +45,42 @@ import java.util.List;
  */
 public class AuthorizationService
 {
-    public static boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResource) {
+    public static boolean isAuthorized( String strIdUser, int idApplication, String strPermissionCode, String strResource )
+    {
 
         if ( strIdUser != null )
         {
             // check global roles
-            Role role = RoleHome.findGlobalRoleByUserId( strIdUser ) ;
-            
-            if ( role == null ) {
+            Role role = RoleHome.findGlobalRoleByUserId( strIdUser );
+
+            if ( role == null )
+            {
                 // check application role
-                role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication ) ;
+                role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication );
             }
-                
-            
-            if ( role != null)
+
+            if ( role != null )
             {
                 List<PermissionRole> listPermissionRole = PermissionRoleHome.getPermissionRolesListByCodeAndIdRole( strPermissionCode, role.getId( ) );
-                
-                if ( !listPermissionRole.isEmpty() && strResource != null )
+
+                if ( !listPermissionRole.isEmpty( ) && strResource != null )
                 {
                     for ( PermissionRole permissionRole : listPermissionRole )
                     {
-                        if ( permissionRole.getCodeResource().equals("*") || permissionRole.getCodeResource().equals( strResource ) )
+                        if ( permissionRole.getCodeResource( ).equals( "*" ) || permissionRole.getCodeResource( ).equals( strResource ) )
                         {
                             return true;
                         }
                     }
                 }
-                else if ( !listPermissionRole.isEmpty() )
-                {
-                    return true;
-                }
+                else
+                    if ( !listPermissionRole.isEmpty( ) )
+                    {
+                        return true;
+                    }
             }
         }
-        
-        return false ;
+
+        return false;
     }
 }

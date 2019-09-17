@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * This is the business class test for the object UserApplicationRole
  */
@@ -49,33 +48,34 @@ public class UserApplicationRoleBusinessTest extends LuteceTestCase
     private static final String IDUSER1 = "user1";
     private static final String IDUSER2 = "user2";
 
-	/**
-	* test UserApplicationRole
-	*/
-    public void testBusiness(  )
+    /**
+     * test UserApplicationRole
+     */
+    public void testBusiness( )
     {
         // Initialize an object
-        UserApplicationRole userApplicationRole = new UserApplicationRole();
+        UserApplicationRole userApplicationRole = new UserApplicationRole( );
         userApplicationRole.setIdRole( IDROLE1 );
         userApplicationRole.setIdApplication( IDAPPLICATION1 );
         userApplicationRole.setIdUser( IDUSER1 );
 
         // Create test
         UserApplicationRoleHome.create( userApplicationRole );
-        UserApplicationRole userApplicationRoleStored = UserApplicationRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ), userApplicationRole.getIdApplication( ), userApplicationRole.getIdUser( ) );
-        assertEquals( userApplicationRoleStored.getIdRole() , userApplicationRole.getIdRole( ) );
-        assertEquals( userApplicationRoleStored.getIdApplication() , userApplicationRole.getIdApplication( ) );
-        assertEquals( userApplicationRoleStored.getIdUser() , userApplicationRole.getIdUser( ) );
+        UserApplicationRole userApplicationRoleStored = UserApplicationRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ),
+                userApplicationRole.getIdApplication( ), userApplicationRole.getIdUser( ) );
+        assertEquals( userApplicationRoleStored.getIdRole( ), userApplicationRole.getIdRole( ) );
+        assertEquals( userApplicationRoleStored.getIdApplication( ), userApplicationRole.getIdApplication( ) );
+        assertEquals( userApplicationRoleStored.getIdUser( ), userApplicationRole.getIdUser( ) );
 
-        
         // List test
-        UserApplicationRoleHome.getUserApplicationRolesList();
+        UserApplicationRoleHome.getUserApplicationRolesList( );
 
         // Delete test
         UserApplicationRoleHome.remove( userApplicationRole.getIdRole( ), userApplicationRole.getIdApplication( ), userApplicationRole.getIdUser( ) );
-        userApplicationRoleStored = UserApplicationRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ), userApplicationRole.getIdApplication( ), userApplicationRole.getIdUser( ) );
+        userApplicationRoleStored = UserApplicationRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ), userApplicationRole.getIdApplication( ),
+                userApplicationRole.getIdUser( ) );
         assertNull( userApplicationRoleStored );
-        
+
     }
 
 }

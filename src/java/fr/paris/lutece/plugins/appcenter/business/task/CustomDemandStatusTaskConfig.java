@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2002-2017, Mairie de Paris
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
@@ -30,37 +30,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business.task;
 
 import fr.paris.lutece.plugins.workflowcore.business.config.TaskConfig;
 
 /**
  * This is the business class for the object CustomDemandStatusTaskConfig
- */ 
+ */
 public class CustomDemandStatusTaskConfig extends TaskConfig
 {
-    // Variables declarations 
+    // Variables declarations
     private String _strCustomDemandStatus;
 
-   /**
-    * Returns the CustomDemandStatus
-    * @return The CustomDemandStatus
-    */
-    public String getCustomDemandStatus()
+    /**
+     * Returns the CustomDemandStatus
+     * 
+     * @return The CustomDemandStatus
+     */
+    public String getCustomDemandStatus( )
     {
         return _strCustomDemandStatus;
     }
 
-   /**
-    * Sets the CustomDemandStatus
-    * @param strCustomDemandStatus The CustomDemandStatus
-    */ 
+    /**
+     * Sets the CustomDemandStatus
+     * 
+     * @param strCustomDemandStatus
+     *            The CustomDemandStatus
+     */
     public void setCustomDemandStatus( String strCustomDemandStatus )
     {
         _strCustomDemandStatus = strCustomDemandStatus;
     }
- }
-
-            
-
+}

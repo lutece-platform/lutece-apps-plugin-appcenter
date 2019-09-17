@@ -49,21 +49,20 @@ public class DemandTypeIdService extends ResourceIdService
     private static final String PROPERTY_LABEL_VIEW = "appcenter.rbac.demand_type.permission.view";
     public static final String DEMAND_TYPE_PERMISSION_VIEW = "VIEW";
     private static final String PLUGIN_NAME = "appcenter";
-    
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void register(  )
+    public void register( )
     {
-        ResourceType rt = new ResourceType(  );
-        rt.setResourceIdServiceClass( DemandTypeIdService.class.getName(  ) );
+        ResourceType rt = new ResourceType( );
+        rt.setResourceIdServiceClass( DemandTypeIdService.class.getName( ) );
         rt.setPluginName( PLUGIN_NAME );
         rt.setResourceTypeKey( DemandType.RBAC_RESOURCE_DEMAND_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_DEMAND_TYPE_RESOURCE_TYPE );
 
-        Permission p = new Permission(  );
+        Permission p = new Permission( );
         p.setPermissionKey( DEMAND_TYPE_PERMISSION_VIEW );
         p.setPermissionTitleKey( PROPERTY_LABEL_VIEW );
         rt.registerPermission( p );

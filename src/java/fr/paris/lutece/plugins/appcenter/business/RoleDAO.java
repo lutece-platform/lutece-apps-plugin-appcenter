@@ -69,11 +69,11 @@ public final class RoleDAO implements IRoleDAO
         try
         {
             int nIndex = 1;
-            daoUtil.setString( nIndex++ , role.getCode( ) );
-            daoUtil.setString( nIndex++ , role.getLabel( ) );
-            
+            daoUtil.setString( nIndex++, role.getCode( ) );
+            daoUtil.setString( nIndex++, role.getLabel( ) );
+
             daoUtil.executeUpdate( );
-            if ( daoUtil.nextGeneratedKey( ) ) 
+            if ( daoUtil.nextGeneratedKey( ) )
             {
                 role.setId( daoUtil.getGeneratedKeyInt( 1 ) );
             }
@@ -91,15 +91,15 @@ public final class RoleDAO implements IRoleDAO
     public Role load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         Role role = null;
 
         if ( daoUtil.next( ) )
         {
-            role = new Role();
+            role = new Role( );
             int nIndex = 1;
-            
+
             role.setId( daoUtil.getInt( nIndex++ ) );
             role.setCode( daoUtil.getString( nIndex++ ) );
             role.setLabel( daoUtil.getString( nIndex++ ) );
@@ -113,20 +113,20 @@ public final class RoleDAO implements IRoleDAO
      * {@inheritDoc }
      */
     @Override
-    public Role loadByUserIdAndApplicationId( String strUserId, int nApplicationId, Plugin plugin ) 
+    public Role loadByUserIdAndApplicationId( String strUserId, int nApplicationId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_USER_AND_APPLICATION, plugin );
-        daoUtil.setString( 1 , strUserId );
-        daoUtil.setInt( 2 , nApplicationId );
-        
+        daoUtil.setString( 1, strUserId );
+        daoUtil.setInt( 2, nApplicationId );
+
         daoUtil.executeQuery( );
         Role role = null;
 
         if ( daoUtil.next( ) )
         {
-            role = new Role();
+            role = new Role( );
             int nIndex = 1;
-            
+
             role.setId( daoUtil.getInt( nIndex++ ) );
             role.setCode( daoUtil.getString( nIndex++ ) );
             role.setLabel( daoUtil.getString( nIndex++ ) );
@@ -135,7 +135,7 @@ public final class RoleDAO implements IRoleDAO
         daoUtil.free( );
         return role;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -143,7 +143,7 @@ public final class RoleDAO implements IRoleDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -156,11 +156,11 @@ public final class RoleDAO implements IRoleDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , role.getId( ) );
-        daoUtil.setString( nIndex++ , role.getCode( ) );
-        daoUtil.setString( nIndex++ , role.getLabel( ) );
-        daoUtil.setInt( nIndex , role.getId( ) );
+
+        daoUtil.setInt( nIndex++, role.getId( ) );
+        daoUtil.setString( nIndex++, role.getCode( ) );
+        daoUtil.setString( nIndex++, role.getLabel( ) );
+        daoUtil.setInt( nIndex, role.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -172,15 +172,15 @@ public final class RoleDAO implements IRoleDAO
     @Override
     public List<Role> selectRolesList( Plugin plugin )
     {
-        List<Role> roleList = new ArrayList<Role>(  );
+        List<Role> roleList = new ArrayList<Role>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Role role = new Role(  );
+            Role role = new Role( );
             int nIndex = 1;
-            
+
             role.setId( daoUtil.getInt( nIndex++ ) );
             role.setCode( daoUtil.getString( nIndex++ ) );
             role.setLabel( daoUtil.getString( nIndex++ ) );
@@ -191,7 +191,7 @@ public final class RoleDAO implements IRoleDAO
         daoUtil.free( );
         return roleList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -200,9 +200,9 @@ public final class RoleDAO implements IRoleDAO
     {
         List<Integer> roleList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             roleList.add( daoUtil.getInt( 1 ) );
         }
@@ -210,20 +210,20 @@ public final class RoleDAO implements IRoleDAO
         daoUtil.free( );
         return roleList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
     public ReferenceList selectRolesReferenceList( Plugin plugin )
     {
-        ReferenceList roleList = new ReferenceList();
+        ReferenceList roleList = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            roleList.addItem( daoUtil.getInt( 1 ) , daoUtil.getString( 3 ) );
+            roleList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 3 ) );
         }
 
         daoUtil.free( );
@@ -236,14 +236,14 @@ public final class RoleDAO implements IRoleDAO
     @Override
     public Map<String, Role> selectRolesMap( Plugin plugin )
     {
-        Map<String, Role> rolesMap = new HashMap<String, Role>(  );
+        Map<String, Role> rolesMap = new HashMap<String, Role>( );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Role role = new Role(  );
+            Role role = new Role( );
             int nIndex = 1;
 
             role.setId( daoUtil.getInt( nIndex++ ) );
@@ -265,15 +265,15 @@ public final class RoleDAO implements IRoleDAO
     public Role loadByCode( String strCode, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_CODE, plugin );
-        daoUtil.setString( 1 , strCode );
+        daoUtil.setString( 1, strCode );
         daoUtil.executeQuery( );
         Role role = null;
 
         if ( daoUtil.next( ) )
         {
-            role = new Role();
+            role = new Role( );
             int nIndex = 1;
-            
+
             role.setId( daoUtil.getInt( nIndex++ ) );
             role.setCode( daoUtil.getString( nIndex++ ) );
             role.setLabel( daoUtil.getString( nIndex++ ) );

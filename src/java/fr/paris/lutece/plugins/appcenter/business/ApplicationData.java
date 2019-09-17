@@ -36,26 +36,28 @@ package fr.paris.lutece.plugins.appcenter.business;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ApplicationData
 {
-    
+
     private Integer _nIdApplicationData;
-    private List<Integer> _listIdDemandAssociated=new ArrayList<Integer>();
+    private List<Integer> _listIdDemandAssociated = new ArrayList<Integer>( );
     private String _strEnvironment;
 
     /**
      * Return the environment of the application Data
+     * 
      * @return the envi of the application Data
      */
-    public String getEnvironment()
+    public String getEnvironment( )
     {
         return _strEnvironment;
     }
 
     /**
      * Set the environment of the application Data
-     * @param strEnvironment the environment
+     * 
+     * @param strEnvironment
+     *            the environment
      */
     public void setEnvironment( String strEnvironment )
     {
@@ -64,44 +66,54 @@ public class ApplicationData
 
     /**
      * get the list of id demand associated to the Application data
+     * 
      * @return the list of id demand associated to the Application data
      */
-	public List<Integer> getListIdDemandAssociated() {
-		return _listIdDemandAssociated;
-	}
+    public List<Integer> getListIdDemandAssociated( )
+    {
+        return _listIdDemandAssociated;
+    }
 
-	/**
-	 * set the list of id demand associated to the Application data
-	 * @param listIdDemandAssociated the list of id demand associated to the Application data
-	 */
-	public void setListIdDemandAssociated(List<Integer> listIdDemandAssociated) {
-		this._listIdDemandAssociated = listIdDemandAssociated;
-	}
-	
-	/**
-	 * add a new demand associated to the application data
-	 * @param nIdDemand the demand id
-	 */
-	public void addDemandAssociated(Integer nIdDemand) {
-		this._listIdDemandAssociated.add(nIdDemand);
-	}
+    /**
+     * set the list of id demand associated to the Application data
+     * 
+     * @param listIdDemandAssociated
+     *            the list of id demand associated to the Application data
+     */
+    public void setListIdDemandAssociated( List<Integer> listIdDemandAssociated )
+    {
+        this._listIdDemandAssociated = listIdDemandAssociated;
+    }
 
-	/**
-	 * 
-	 * @return the application Data Id
-	 */
-	public Integer getIdApplicationData() {
-		return _nIdApplicationData;
-	}
+    /**
+     * add a new demand associated to the application data
+     * 
+     * @param nIdDemand
+     *            the demand id
+     */
+    public void addDemandAssociated( Integer nIdDemand )
+    {
+        this._listIdDemandAssociated.add( nIdDemand );
+    }
 
-	/**
-	 *the application data id
-	 * @param _nIdApllicationData nIdApplication data
-	 */
-	public void setIdApplicationData(Integer _nIdApllicationData) {
-		this._nIdApplicationData = _nIdApllicationData;
-	}
-    
-    
-    
+    /**
+     * 
+     * @return the application Data Id
+     */
+    public Integer getIdApplicationData( )
+    {
+        return _nIdApplicationData;
+    }
+
+    /**
+     * the application data id
+     * 
+     * @param _nIdApllicationData
+     *            nIdApplication data
+     */
+    public void setIdApplicationData( Integer _nIdApllicationData )
+    {
+        this._nIdApplicationData = _nIdApllicationData;
+    }
+
 }

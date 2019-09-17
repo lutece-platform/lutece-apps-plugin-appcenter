@@ -42,20 +42,19 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-
 public class TaskCloseDemand extends SimpleTask
 {
     // SERVICES
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-    
-     @Override
+
+    @Override
     public String getTitle( Locale locale )
     {
         // TODO
         return "CloseDemand";
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -63,14 +62,14 @@ public class TaskCloseDemand extends SimpleTask
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        
-        //get the demand
+
+        // get the demand
         Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
-        
-        //set the close boolean
+
+        // set the close boolean
         demand.setIsClosed( true );
-        
-        //Save the demand
+
+        // Save the demand
         DemandHome.update( demand );
     }
 }

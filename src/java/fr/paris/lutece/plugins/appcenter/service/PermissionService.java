@@ -14,20 +14,22 @@ public class PermissionService
 {
     /**
      * Get the permission list
+     * 
      * @return the permission list
      */
     public static Collection<Permission> getPermissionList( )
     {
-        Collection<Permission> colPermissions = new ArrayList<>();
-        for ( IPermissionProvider permissionProvider : SpringContextService.getBeansOfType( IPermissionProvider.class) )
+        Collection<Permission> colPermissions = new ArrayList<>( );
+        for ( IPermissionProvider permissionProvider : SpringContextService.getBeansOfType( IPermissionProvider.class ) )
         {
             colPermissions.addAll( permissionProvider.providePermissionList( ) );
         }
         return colPermissions;
     }
-    
+
     /**
      * Get permission by its cde
+     * 
      * @param strPermissionCode
      * @return the permission for given permission code
      */
@@ -35,7 +37,7 @@ public class PermissionService
     {
         for ( Permission permission : getPermissionList( ) )
         {
-            if ( permission.getCode().equals( strPermissionCode ) )
+            if ( permission.getCode( ).equals( strPermissionCode ) )
             {
                 return permission;
             }

@@ -37,9 +37,8 @@ import java.io.Serializable;
 
 public enum DocumentationCategory implements Serializable
 {
-    DEV( "dev", "appcenter.documentationCategory.dev" ), 
-    INTEG( "integ", "appcenter.documentationCategory.integ" ), 
-    PROJECT_MANAGER( "project_manager", "appcenter.documentationCategory.project_manager" );
+    DEV( "dev", "appcenter.documentationCategory.dev" ), INTEG( "integ", "appcenter.documentationCategory.integ" ), PROJECT_MANAGER( "project_manager",
+            "appcenter.documentationCategory.project_manager" );
 
     private final String _strPrefix;
     private final String _strLabelKey;
@@ -77,8 +76,6 @@ public enum DocumentationCategory implements Serializable
     {
         return _strLabelKey;
     }
-    
-    
 
     /**
      * Get the environment with given prefix

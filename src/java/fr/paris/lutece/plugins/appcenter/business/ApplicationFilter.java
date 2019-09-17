@@ -40,27 +40,30 @@ public class ApplicationFilter
 {
     private String _strSearch;
     private boolean _bHasSearch;
-    
+
     /**
      * Constructor for demand Filter
      */
-    public ApplicationFilter()
+    public ApplicationFilter( )
     {
         _bHasSearch = false;
     }
-    
+
     /**
      * Get the search string
+     * 
      * @return the search string
      */
-    public String getSearch()
+    public String getSearch( )
     {
         return _strSearch;
     }
 
     /**
      * Set the search string
-     * @param strSearch the search string
+     * 
+     * @param strSearch
+     *            the search string
      */
     public void setSearch( String strSearch )
     {
@@ -69,6 +72,7 @@ public class ApplicationFilter
 
     /**
      * Has a constraint on search
+     * 
      * @return the has search boolean
      */
     public boolean hasSearch( )
@@ -78,7 +82,9 @@ public class ApplicationFilter
 
     /**
      * Set the constraint on search
-     * @param bHasSearch the has search constaint
+     * 
+     * @param bHasSearch
+     *            the has search constaint
      */
     public void setHasSearch( boolean bHasSearch )
     {

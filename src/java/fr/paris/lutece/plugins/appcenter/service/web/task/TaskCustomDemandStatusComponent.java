@@ -51,7 +51,7 @@ import javax.validation.ConstraintViolation;
 public class TaskCustomDemandStatusComponent extends TaskComponent
 {
     private static final String TEMPLATE_CONFIG_CUSTOM_STATUS = "admin/plugins/appcenter/custom_demand_status_task_config.html";
-    
+
     private static final String MARK_CONFIG = "config";
 
     /**
@@ -63,9 +63,9 @@ public class TaskCustomDemandStatusComponent extends TaskComponent
         Map<String, Object> model = new HashMap<String, Object>( );
         CustomDemandStatusTaskConfig config = getTaskConfigService( ).findByPrimaryKey( task.getId( ) );
         model.put( MARK_CONFIG, config );
-        
+
         HtmlTemplate page = AppTemplateService.getTemplate( TEMPLATE_CONFIG_CUSTOM_STATUS, locale, model );
-        return page.getHtml();
+        return page.getHtml( );
     }
 
     /**
@@ -75,16 +75,16 @@ public class TaskCustomDemandStatusComponent extends TaskComponent
     public String validateConfig( ITaskConfig config, HttpServletRequest hsr )
     {
         Set<ConstraintViolation<ITaskConfig>> errors = BeanValidationUtil.validate( config );
-        if ( !errors.isEmpty() )
+        if ( !errors.isEmpty( ) )
         {
             for ( ConstraintViolation<ITaskConfig> constraint : errors )
-            {	
-                return constraint.getMessage();
+            {
+                return constraint.getMessage( );
             }
         }
         return null;
     }
-    
+
     /**
      * {@inheritDoc}
      */

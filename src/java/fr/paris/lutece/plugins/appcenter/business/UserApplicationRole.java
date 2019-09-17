@@ -30,29 +30,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import java.io.Serializable;
 
 /**
  * This is the business class for the object UserApplicationRole
- */ 
+ */
 public class UserApplicationRole implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
-    
+    // Variables declarations
+
     private int _nIdRole;
-    
+
     private int _nIdApplication;
-    
+
     private String _strIdUser;
 
-    
     /**
      * Returns the IdRole
+     * 
      * @return The IdRole
      */
     public int getIdRole( )
@@ -62,15 +62,18 @@ public class UserApplicationRole implements Serializable
 
     /**
      * Sets the IdRole
-     * @param nIdRole The IdRole
-     */ 
+     * 
+     * @param nIdRole
+     *            The IdRole
+     */
     public void setIdRole( int nIdRole )
     {
         _nIdRole = nIdRole;
     }
-    
+
     /**
      * Returns the IdApplication
+     * 
      * @return The IdApplication
      */
     public int getIdApplication( )
@@ -80,15 +83,18 @@ public class UserApplicationRole implements Serializable
 
     /**
      * Sets the IdApplication
-     * @param nIdApplication The IdApplication
-     */ 
+     * 
+     * @param nIdApplication
+     *            The IdApplication
+     */
     public void setIdApplication( int nIdApplication )
     {
         _nIdApplication = nIdApplication;
     }
-    
+
     /**
      * Returns the IdUser
+     * 
      * @return The IdUser
      */
     public String getIdUser( )
@@ -98,8 +104,10 @@ public class UserApplicationRole implements Serializable
 
     /**
      * Sets the IdUser
-     * @param nIdUser The IdUser
-     */ 
+     * 
+     * @param nIdUser
+     *            The IdUser
+     */
     public void setIdUser( String strIdUser )
     {
         _strIdUser = strIdUser;

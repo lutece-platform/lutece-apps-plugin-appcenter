@@ -86,8 +86,8 @@ import javax.servlet.http.HttpSession;
 @Controller( xpageName = "application", pageTitleI18nKey = "appcenter.xpage.application.pageTitle", pagePathI18nKey = "appcenter.xpage.application.pagePathLabel" )
 public class ApplicationXPage extends AppCenterDemandXPage
 {
-    
-    //Markers
+
+    // Markers
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
@@ -96,14 +96,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String MARK_CATEGORY_DEMAND_TYPES = "category_demand_types";
     private static final String MARK_DEMAND_TYPES = "demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
-    
 
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
     private static final String TEMPLATE_CREATE_APPLICATION = "/skin/plugins/appcenter/create_application.html";
     private static final String TEMPLATE_MODIFY_APPLICATION = "/skin/plugins/appcenter/modify_application.html";
     private static final String TEMPLATE_VIEW_DEMANDS = "/skin/plugins/appcenter/view_demands.html";
-    
+
     // Message
     private static final String MESSAGE_CONFIRM_REMOVE_APPLICATION = "appcenter.message.confirmRemoveApplication";
 
@@ -127,18 +126,18 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String INFO_APPLICATION_REMOVED = "appcenter.info.application.removed";
     private static final String INFO_USER_ADDED = "appcenter.info.user.added";
     private static final String INFO_USER_REMOVED = "appcenter.info.user.removed";
-    
-    //Errors
+
+    // Errors
     private static final String ERROR_USER_ROLE_NOT_AUTHORIZED = "appcenter.error.userRoleNotAuthorized";
     private static final String ERROR_INVALID_VALUE = "appcenter.error.invalidValue";
-    
+
     // Parameters
     private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
-    
-    //Session
+
+    // Session
     public static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
 
-    //Permissions
+    // Permissions
     private static final String PERMISSION_VIEW_APPLICATION = "PERMISSION_VIEW_APPLICATION";
     private static final String PERMISSION_MODIFY_APPLICATION = "PERMISSION_MODIFY_APPLICATION";
     private static final String PERMISSION_REMOVE_APPLICATION = "PERMISSION_REMOVE_APPLICATION";
@@ -147,8 +146,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String PERMISSION_REMOVE_USER = "PERMISSION_REMOVE_USER";
 
     private static final String JSON_EMPTY = "{}";
-    
-    
+
     private Environment _activeEnvironment;
 
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
@@ -156,7 +154,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     {
         _application = null;
         Map<String, Object> model = getModel( );
-        
+
         LuteceUser user = null;
         if ( SecurityService.isAuthenticationEnable( ) )
         {
@@ -165,10 +163,10 @@ public class ApplicationXPage extends AppCenterDemandXPage
             {
                 throw new UserNotSignedException( );
             }
-            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( UserService.getEmailUser( user ) ));
+            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( UserService.getEmailUser( user ) ) );
             return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
         }
-        
+
         model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsList( ) );
 
         return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
@@ -191,7 +189,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_DEMAND_TYPES, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_APPLICATION, _application );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
-        
+
         return getXPage( TEMPLATE_CREATE_APPLICATION, request.getLocale( ), model );
     }
 
@@ -205,10 +203,10 @@ public class ApplicationXPage extends AppCenterDemandXPage
     @Action( ACTION_CREATE_APPLICATION )
     public XPage doCreateApplication( HttpServletRequest request ) throws UserNotSignedException
     {
-        populate( _application, request );    
-        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
+        populate( _application, request );
+        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
         _application.setApplicationData( JSON_EMPTY );
-        
+
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
@@ -216,27 +214,25 @@ public class ApplicationXPage extends AppCenterDemandXPage
         }
 
         ApplicationHome.create( _application );
-        
+
         ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
-        for( Map.Entry<String,String[]> entry : request.getParameterMap( ).entrySet( ) )
+        for ( Map.Entry<String, String [ ]> entry : request.getParameterMap( ).entrySet( ) )
         {
-            if ( entry.getKey().startsWith( "demandtype_" ) )
+            if ( entry.getKey( ).startsWith( "demandtype_" ) )
             {
-                String strDemandType = entry.getKey().split("demandtype_")[1];
+                String strDemandType = entry.getKey( ).split( "demandtype_" ) [1];
                 appDemandTypeIdEnabled.addDemandTypeEnabled( strDemandType );
             }
         }
-        
+
         ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
-        
-        
+
         User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );
         UserApplicationRole authorization = new UserApplicationRole( );
         authorization.setIdApplication( _application.getId( ) );
         authorization.setIdUser( user.getId( ) );
         authorization.setIdRole( RoleService.getAppOwnerRole( ).getId( ) );
         UserApplicationRoleHome.create( authorization );
-        
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );
 
@@ -257,9 +253,9 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_REMOVE_APPLICATION, null);
+            checkPermission( request, PERMISSION_REMOVE_APPLICATION, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
@@ -267,7 +263,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         UrlItem url = new UrlItem( JSP_PAGE_PORTAL );
         url.addParameter( PARAM_PAGE, MARK_APPLICATION );
         url.addParameter( PARAM_ACTION, ACTION_REMOVE_APPLICATION );
-        url.addParameter(PARAM_ID_APPLICATION, _application.getId( ) );
+        url.addParameter( PARAM_ID_APPLICATION, _application.getId( ) );
 
         SiteMessageService.setMessage( request, MESSAGE_CONFIRM_REMOVE_APPLICATION, SiteMessage.TYPE_CONFIRMATION, url.getUrl( ) );
         return null;
@@ -286,13 +282,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_REMOVE_APPLICATION, null);
+            checkPermission( request, PERMISSION_REMOVE_APPLICATION, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
+
         ApplicationService.remove( _application.getId( ) );
         addInfo( INFO_APPLICATION_REMOVED, getLocale( request ) );
 
@@ -315,21 +311,21 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_VIEW_APPLICATION, null);
+            checkPermission( request, PERMISSION_VIEW_APPLICATION, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
-        //Set the active environment
+
+        // Set the active environment
         String strActiveEnvi = request.getParameter( PARAMETER_ACTIVE_ENVIRONMENT );
         if ( strActiveEnvi != null )
         {
             if ( strActiveEnvi != "no_active_environment" )
             {
                 _activeEnvironment = Environment.getEnvironment( strActiveEnvi );
-                //Put this active environment in session
+                // Put this active environment in session
                 HttpSession session = request.getSession( true );
                 session.setAttribute( SESSION_ACTIVE_ENVIRONMENT, _activeEnvironment );
             }
@@ -339,21 +335,19 @@ public class ApplicationXPage extends AppCenterDemandXPage
                 session.removeAttribute( SESSION_ACTIVE_ENVIRONMENT );
             }
         }
-        
+
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
         model.put( MARK_APPLICATION, _application );
-        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
-        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
-        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
-        model.put( MARK_DOCUMENTATION_CATEGORIES, 
-                    Arrays.asList( DocumentationCategory.values( ) )
-                            .stream()
-                            .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
-                    );
+        model.put( MARK_ACTIVE_DEMAND_TYPES,
+                ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+        model.put( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
+        model.put( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_DOCUMENTATION_CATEGORIES,
+                Arrays.asList( DocumentationCategory.values( ) ).stream( ).collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) ) );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
-        model.put( MARK_DEMANDS, listFullDemands  );
+        model.put( MARK_DEMANDS, listFullDemands );
         model.put( MARK_USERS_LIST, UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( _application.getId( ) ) );
         if ( _activeEnvironment != null )
         {
@@ -375,33 +369,35 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
-        model.put( MARK_USER, UserService.getCurrentUserInAppContext(request, _application.getId( ) ));
+        model.put( MARK_USER, UserService.getCurrentUserInAppContext( request, _application.getId( ) ) );
 
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
     }
-    
+
     @View( VIEW_DEMANDS )
-    public XPage getViewDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException, AccessDeniedException
+    public XPage getViewDemands( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException, UserNotSignedException,
+            AccessDeniedException
     {
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_VIEW_DEMANDS, null);
+            checkPermission( request, PERMISSION_VIEW_DEMANDS, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
+
         Map<String, Object> model = getModel( );
         fillAppCenterCommons( model, request );
         model.put( MARK_APPLICATION, _application );
-        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
-        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
-        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_ACTIVE_DEMAND_TYPES,
+                ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+        model.put( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
+        model.put( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
         List<? extends Demand> listFullDemands = DemandHome.getListFullDemandsByIdApplication( _application.getId( ) );
-        model.put( MARK_DEMANDS, listFullDemands  );
+        model.put( MARK_DEMANDS, listFullDemands );
         model.put( MARK_USERS_LIST, UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( _application.getId( ) ) );
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
@@ -419,7 +415,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
-        model.put( MARK_USER, UserService.getCurrentUserInAppContext( request, _application.getId( ) ));
+        model.put( MARK_USER, UserService.getCurrentUserInAppContext( request, _application.getId( ) ) );
 
         return getXPage( TEMPLATE_VIEW_DEMANDS, request.getLocale( ), model );
     }
@@ -434,48 +430,45 @@ public class ApplicationXPage extends AppCenterDemandXPage
     @Action( ACTION_MODIFY_APPLICATION )
     public XPage doModifyApplication( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
     {
-        
+
         try
         {
-            checkPermission( request, PERMISSION_MODIFY_APPLICATION, null);
+            checkPermission( request, PERMISSION_MODIFY_APPLICATION, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
+
         populate( _application, request );
-        
-        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request) );
+
+        _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
 
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
-            return redirect(request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
         }
-        
 
         ApplicationHome.update( _application );
-        
-                
-                
+
         ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
-        for( Map.Entry<String,String[]> entry : request.getParameterMap( ).entrySet( ) )
+        for ( Map.Entry<String, String [ ]> entry : request.getParameterMap( ).entrySet( ) )
         {
-            if ( entry.getKey().startsWith( "demandtype_" ) )
+            if ( entry.getKey( ).startsWith( "demandtype_" ) )
             {
-                String strDemandType = entry.getKey().split("demandtype_")[1];
+                String strDemandType = entry.getKey( ).split( "demandtype_" ) [1];
                 appDemandTypeIdEnabled.addDemandTypeEnabled( strDemandType );
             }
         }
-        
+
         ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
-        
+
         addInfo( INFO_APPLICATION_UPDATED, getLocale( request ) );
 
-        return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+        return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
     }
-    
+
     /**
      * Add a User
      *
@@ -491,31 +484,32 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             _application = getApplication( request );
-            checkPermission( request, PERMISSION_ADD_USERS, null);
+            checkPermission( request, PERMISSION_ADD_USERS, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
-        UserApplicationRole authorization = new UserApplicationRole();
-        
+
+        UserApplicationRole authorization = new UserApplicationRole( );
+
         populate( authorization, request );
-        authorization.setIdApplication( _application.getId() );
-        
+        authorization.setIdApplication( _application.getId( ) );
+
         // Check constraints
         if ( !validateBean( authorization ) || request.getParameter( PARAM_USER_ROLE ).isEmpty( ) )
         {
             addError( ERROR_INVALID_VALUE, getLocale( request ) );
-            return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+            return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
         }
-        
+
         UserApplicationRoleHome.create( authorization );
-        
+
         addInfo( INFO_USER_ADDED, getLocale( request ) );
 
-        return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+        return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
     }
+
     /**
      * Remove a User
      *
@@ -531,45 +525,43 @@ public class ApplicationXPage extends AppCenterDemandXPage
         try
         {
             Application application = getApplication( request );
-            checkPermission( request, PERMISSION_REMOVE_USER, null);
+            checkPermission( request, PERMISSION_REMOVE_USER, null );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             getUnauthorizedAccessMessage( request );
         }
-        
-        
+
         String strUserEmail = request.getParameter( PARAM_USER_EMAIL );
-        UserApplicationRoleHome.removeByApplicationIdAndUserId( _application.getId() , strUserEmail );
-        
+        UserApplicationRoleHome.removeByApplicationIdAndUserId( _application.getId( ), strUserEmail );
+
         addInfo( INFO_USER_REMOVED, getLocale( request ) );
 
-        return redirect( request, VIEW_MODIFY_APPLICATION , PARAM_ID_APPLICATION , _application.getId() );
+        return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
     }
-    
+
     @Override
-    protected String getDemandType()
+    protected String getDemandType( )
     {
         return null;
     }
 
     @Override
-    protected Class getDemandClass()
+    protected Class getDemandClass( )
     {
         return null;
     }
 
     @Override
-    protected String getDatasName()
+    protected String getDatasName( )
     {
         return null;
     }
 
     @Override
-    protected Class getDatasClass()
+    protected Class getDatasClass( )
     {
         return null;
     }
-    
-    
+
 }

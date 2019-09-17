@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -45,65 +45,76 @@ public interface IPermissionRoleDAO
 {
     /**
      * Insert a new record in the table.
-     * @param permissionRole instance of the PermissionRole object to insert
-     * @param plugin the Plugin
+     * 
+     * @param permissionRole
+     *            instance of the PermissionRole object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( PermissionRole permissionRole, Plugin plugin );
 
-
-
     /**
      * Delete a record from the table
+     * 
      * @param strpermissionCode
      * @param nIdRole
      * @param strResourceCode
-     * @param plugin the Plugin
+     * @param plugin
+     *            the Plugin
      */
-    void delete( String strpermissionCode, int nIdRole, String strResourceCode,  Plugin plugin );
+    void delete( String strpermissionCode, int nIdRole, String strResourceCode, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
+     * 
      * @param strpermissionCode
      * @param nIdRole
      * @param strResourceCode
-     * @param plugin the Plugin
+     * @param plugin
+     *            the Plugin
      * @return The instance of the permissionRole
      */
     PermissionRole load( String strpermissionCode, int nIdRole, String strResourceCode, Plugin plugin );
 
     /**
      * Load the data of all the permissionRole objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the permissionRole objects
      */
     List<PermissionRole> selectPermissionRolesList( Plugin plugin );
-    
-   
+
     /**
      * Load the data of all the permissionRole objects and returns them as a referenceList
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The referenceList which contains the data of all the permissionRole objects
      */
     ReferenceList selectPermissionRolesReferenceList( Plugin plugin );
-    
+
     /**
      * Load the data of all the permissionRole objects by id roleand returns them as a list
+     * 
      * @param nIdRole
-     *              The id Role
-     * @param plugin the Plugin
+     *            The id Role
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the permissionRole objects by id role
      */
-    List<PermissionRole> selectPermissionRolesListByIdRole( int nIdRole,  Plugin plugin );
-    
+    List<PermissionRole> selectPermissionRolesListByIdRole( int nIdRole, Plugin plugin );
+
     /**
      * Load the data of all the permissionRole objects by permissionCode and id role and return them as a List
+     * 
      * @param strPermissionCode
      * @param nIdRole
      * @param plugin
      * @return The list which contains the data of all the permissionRole objects by id role and permission code
      */
-    List<PermissionRole> selectPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole, Plugin plugin  );
+    List<PermissionRole> selectPermissionRolesListByCodeAndIdRole( String strPermissionCode, int nIdRole, Plugin plugin );
 }

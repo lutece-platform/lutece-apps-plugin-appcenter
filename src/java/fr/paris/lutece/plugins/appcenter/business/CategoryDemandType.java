@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import javax.validation.constraints.*;
@@ -39,24 +39,25 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object CategoryDemandType
- */ 
+ */
 public class CategoryDemandType implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     private String _strLabel;
-    
+
     private String _strQuestion;
-    
+
     private boolean _bIsDependingOfEnvironment;
-    
+
     private int _nOrder;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -66,15 +67,18 @@ public class CategoryDemandType implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
@@ -84,15 +88,18 @@ public class CategoryDemandType implements Serializable
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
+
     /**
      * Returns the IsDependingOfEnvironment
+     * 
      * @return The IsDependingOfEnvironment
      */
     public boolean getIsDependingOfEnvironment( )
@@ -102,15 +109,18 @@ public class CategoryDemandType implements Serializable
 
     /**
      * Sets the IsDependingOfEnvironment
-     * @param bIsDependingOfEnvironment The IsDependingOfEnvironment
-     */ 
+     * 
+     * @param bIsDependingOfEnvironment
+     *            The IsDependingOfEnvironment
+     */
     public void setIsDependingOfEnvironment( boolean bIsDependingOfEnvironment )
     {
         _bIsDependingOfEnvironment = bIsDependingOfEnvironment;
     }
-    
+
     /**
      * Returns the Order
+     * 
      * @return The Order
      */
     public int getOrder( )
@@ -120,14 +130,16 @@ public class CategoryDemandType implements Serializable
 
     /**
      * Sets the Order
-     * @param nOrder The Order
-     */ 
+     * 
+     * @param nOrder
+     *            The Order
+     */
     public void setOrder( int nOrder )
     {
         _nOrder = nOrder;
     }
 
-    public String getQuestion()
+    public String getQuestion( )
     {
         return _strQuestion;
     }
@@ -136,6 +148,5 @@ public class CategoryDemandType implements Serializable
     {
         _strQuestion = strQuestion;
     }
-    
-    
+
 }

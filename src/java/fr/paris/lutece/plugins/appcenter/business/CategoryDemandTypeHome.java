@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class CategoryDemandTypeHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private CategoryDemandTypeHome(  )
+    private CategoryDemandTypeHome( )
     {
     }
 
     /**
      * Create an instance of the categoryDemandType class
-     * @param categoryDemandType The instance of the CategoryDemandType which contains the informations to store
-     * @return The  instance of categoryDemandType which has been created with its primary key.
+     * 
+     * @param categoryDemandType
+     *            The instance of the CategoryDemandType which contains the informations to store
+     * @return The instance of categoryDemandType which has been created with its primary key.
      */
     public static CategoryDemandType create( CategoryDemandType categoryDemandType )
     {
@@ -70,8 +72,10 @@ public final class CategoryDemandTypeHome
 
     /**
      * Update of the categoryDemandType which is specified in parameter
-     * @param categoryDemandType The instance of the CategoryDemandType which contains the data to store
-     * @return The instance of the  categoryDemandType which has been updated
+     * 
+     * @param categoryDemandType
+     *            The instance of the CategoryDemandType which contains the data to store
+     * @return The instance of the categoryDemandType which has been updated
      */
     public static CategoryDemandType update( CategoryDemandType categoryDemandType )
     {
@@ -82,7 +86,9 @@ public final class CategoryDemandTypeHome
 
     /**
      * Remove the categoryDemandType whose identifier is specified in parameter
-     * @param nKey The categoryDemandType Id
+     * 
+     * @param nKey
+     *            The categoryDemandType Id
      */
     public static void remove( int nKey )
     {
@@ -91,39 +97,43 @@ public final class CategoryDemandTypeHome
 
     /**
      * Returns an instance of a categoryDemandType whose identifier is specified in parameter
-     * @param nKey The categoryDemandType primary key
+     * 
+     * @param nKey
+     *            The categoryDemandType primary key
      * @return an instance of CategoryDemandType
      */
     public static CategoryDemandType findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
 
     /**
      * Load the data of all the categoryDemandType objects and returns them as a list
+     * 
      * @return the list which contains the data of all the categoryDemandType objects
      */
     public static List<CategoryDemandType> getCategoryDemandTypesList( )
     {
         return _dao.selectCategoryDemandTypesList( _plugin );
     }
-    
+
     /**
      * Load the id of all the categoryDemandType objects and returns them as a list
+     * 
      * @return the list which contains the id of all the categoryDemandType objects
      */
     public static List<Integer> getIdCategoryDemandTypesList( )
     {
         return _dao.selectIdCategoryDemandTypesList( _plugin );
     }
-    
+
     /**
      * Load the data of all the categoryDemandType objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the categoryDemandType objects
      */
     public static ReferenceList getCategoryDemandTypesReferenceList( )
     {
-        return _dao.selectCategoryDemandTypesReferenceList(_plugin );
+        return _dao.selectCategoryDemandTypesReferenceList( _plugin );
     }
 }
-

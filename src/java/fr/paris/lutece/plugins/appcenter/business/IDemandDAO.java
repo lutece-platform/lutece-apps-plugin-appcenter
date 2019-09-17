@@ -151,9 +151,10 @@ public interface IDemandDAO
      * @return The referenceList which contains the data of all the demand objects
      */
     ReferenceList selectDemandsReferenceList( Plugin plugin );
-    
+
     /**
      * Get the full demand list
+     * 
      * @param <T>
      * @param nIdApplication
      * @param listDemandType
@@ -161,7 +162,7 @@ public interface IDemandDAO
      * @return the full demand list
      */
     <T extends Demand> List<T> selectListFullDemands( int nIdApplication, List<DemandType> listDemandType, Plugin plugin );
-    
+
     /**
      * Load the data of all the demand objects filtered and returns them as a list
      * 

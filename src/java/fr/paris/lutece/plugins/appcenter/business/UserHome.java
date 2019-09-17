@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class UserHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private UserHome(  )
+    private UserHome( )
     {
     }
 
     /**
      * Create an instance of the user class
-     * @param user The instance of the User which contains the informations to store
-     * @return The  instance of user which has been created with its primary key.
+     * 
+     * @param user
+     *            The instance of the User which contains the informations to store
+     * @return The instance of user which has been created with its primary key.
      */
     public static User create( User user )
     {
@@ -70,8 +72,10 @@ public final class UserHome
 
     /**
      * Update of the user which is specified in parameter
-     * @param user The instance of the User which contains the data to store
-     * @return The instance of the  user which has been updated
+     * 
+     * @param user
+     *            The instance of the User which contains the data to store
+     * @return The instance of the user which has been updated
      */
     public static User update( User user )
     {
@@ -82,7 +86,9 @@ public final class UserHome
 
     /**
      * Remove the user whose identifier is specified in parameter
-     * @param strKey The user Id
+     * 
+     * @param strKey
+     *            The user Id
      */
     public static void remove( String strKey )
     {
@@ -91,6 +97,7 @@ public final class UserHome
 
     /**
      * Returns an instance of a user whose identifier is specified in parameter
+     * 
      * @return an instance of User
      */
     public static User findByPrimaryKey( String strKey )
@@ -100,31 +107,34 @@ public final class UserHome
 
     /**
      * Load the data of all the user objects and returns them as a list
+     * 
      * @return the list which contains the data of all the user objects
      */
     public static List<User> getUsersList( )
     {
         return _dao.selectUsersList( _plugin );
     }
-    
+
     /**
      * Load the id of all the user objects and returns them as a list
+     * 
      * @return the list which contains the id of all the user objects
      */
     public static List<String> getIdUsersList( )
     {
         return _dao.selectIdUsersList( _plugin );
     }
-    
+
     /**
      * Load the data of all the user objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the user objects
      */
     public static ReferenceList getUsersReferenceList( )
     {
         return _dao.selectUsersReferenceList( _plugin );
     }
-    
+
     /**
      * Update of the application data
      * 
@@ -139,4 +149,3 @@ public final class UserHome
 
     }
 }
-

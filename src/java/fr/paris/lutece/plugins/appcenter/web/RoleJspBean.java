@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 	
+
 package fr.paris.lutece.plugins.appcenter.web;
 
 import fr.paris.lutece.plugins.appcenter.business.Role;
@@ -93,20 +93,22 @@ public class RoleJspBean extends ManageAppCenterJspBean
     private static final String INFO_ROLE_CREATED = "appcenter.info.role.created";
     private static final String INFO_ROLE_UPDATED = "appcenter.info.role.updated";
     private static final String INFO_ROLE_REMOVED = "appcenter.info.role.removed";
-    
+
     // Session variable to store working values
     private Role _role;
-    
+
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_ROLES, defaultView = true )
     public String getManageRoles( HttpServletRequest request )
     {
         _role = null;
-        List<Role> listRoles = RoleHome.getRolesList(  );
+        List<Role> listRoles = RoleHome.getRolesList( );
         Map<String, Object> model = getPaginatedListModel( request, MARK_ROLE_LIST, listRoles, JSP_MANAGE_ROLES );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_ROLES, TEMPLATE_MANAGE_ROLES, model );
@@ -115,15 +117,16 @@ public class RoleJspBean extends ManageAppCenterJspBean
     /**
      * Returns the form to create a role
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the role form
      */
     @View( VIEW_CREATE_ROLE )
     public String getCreateRole( HttpServletRequest request )
     {
-        _role = ( _role != null ) ? _role : new Role(  );
+        _role = ( _role != null ) ? _role : new Role( );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_ROLE, _role );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_ROLE, TEMPLATE_CREATE_ROLE, model );
@@ -132,7 +135,8 @@ public class RoleJspBean extends ManageAppCenterJspBean
     /**
      * Process the data capture form of a new role
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_CREATE_ROLE )
@@ -147,16 +151,16 @@ public class RoleJspBean extends ManageAppCenterJspBean
         }
 
         RoleHome.create( _role );
-        addInfo( INFO_ROLE_CREATED, getLocale(  ) );
+        addInfo( INFO_ROLE_CREATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_ROLES );
     }
 
     /**
-     * Manages the removal form of a role whose identifier is in the http
-     * request
+     * Manages the removal form of a role whose identifier is in the http request
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code to confirm
      */
     @Action( ACTION_CONFIRM_REMOVE_ROLE )
@@ -166,7 +170,7 @@ public class RoleJspBean extends ManageAppCenterJspBean
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_ROLE ) );
         url.addParameter( PARAMETER_ID_ROLE, nId );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_ROLE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_ROLE, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -174,7 +178,8 @@ public class RoleJspBean extends ManageAppCenterJspBean
     /**
      * Handles the removal form of a role
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the jsp URL to display the form to manage roles
      */
     @Action( ACTION_REMOVE_ROLE )
@@ -182,7 +187,7 @@ public class RoleJspBean extends ManageAppCenterJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
         RoleHome.remove( nId );
-        addInfo( INFO_ROLE_REMOVED, getLocale(  ) );
+        addInfo( INFO_ROLE_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_ROLES );
     }
@@ -190,7 +195,8 @@ public class RoleJspBean extends ManageAppCenterJspBean
     /**
      * Returns the form to update info about a role
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     @View( VIEW_MODIFY_ROLE )
@@ -198,12 +204,12 @@ public class RoleJspBean extends ManageAppCenterJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
 
-        if ( _role == null || ( _role.getId(  ) != nId ) )
+        if ( _role == null || ( _role.getId( ) != nId ) )
         {
             _role = RoleHome.findByPrimaryKey( nId );
         }
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_ROLE, _role );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_ROLE, TEMPLATE_MODIFY_ROLE, model );
@@ -212,7 +218,8 @@ public class RoleJspBean extends ManageAppCenterJspBean
     /**
      * Process the change form of a role
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_ROLE )
@@ -227,7 +234,7 @@ public class RoleJspBean extends ManageAppCenterJspBean
         }
 
         RoleHome.update( _role );
-        addInfo( INFO_ROLE_UPDATED, getLocale(  ) );
+        addInfo( INFO_ROLE_UPDATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_ROLES );
     }

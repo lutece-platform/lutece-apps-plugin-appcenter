@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import javax.validation.constraints.Size;
@@ -39,24 +39,24 @@ import java.io.Serializable;
 
 /**
  * This is the business class for the object PermissionRole
- */ 
+ */
 public class PermissionRole implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
-   
+    // Variables declarations
+
     @NotEmpty( message = "#i18n{appcenter.validation.permissionrole.CodePermission.notEmpty}" )
     private String _strCodePermission;
-    
+
     private int _nIdRole;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.permissionrole.CodeResource.notEmpty}" )
     private String _strCodeResource;
 
-    
     /**
      * Returns the CodePermission
+     * 
      * @return The CodePermission
      */
     public String getCodePermission( )
@@ -66,15 +66,18 @@ public class PermissionRole implements Serializable
 
     /**
      * Sets the CodePermission
-     * @param strCodePermission The CodePermission
-     */ 
+     * 
+     * @param strCodePermission
+     *            The CodePermission
+     */
     public void setCodePermission( String strCodePermission )
     {
         _strCodePermission = strCodePermission;
     }
-    
+
     /**
      * Returns the IdRole
+     * 
      * @return The IdRole
      */
     public int getIdRole( )
@@ -84,15 +87,18 @@ public class PermissionRole implements Serializable
 
     /**
      * Sets the IdRole
-     * @param nIdRole The IdRole
-     */ 
+     * 
+     * @param nIdRole
+     *            The IdRole
+     */
     public void setIdRole( int nIdRole )
     {
         _nIdRole = nIdRole;
     }
-    
+
     /**
      * Returns the CodeResource
+     * 
      * @return The CodeResource
      */
     public String getCodeResource( )
@@ -102,8 +108,10 @@ public class PermissionRole implements Serializable
 
     /**
      * Sets the CodeResource
-     * @param strCodeResource The CodeResource
-     */ 
+     * 
+     * @param strCodeResource
+     *            The CodeResource
+     */
     public void setCodeResource( String strCodeResource )
     {
         _strCodeResource = strCodeResource;

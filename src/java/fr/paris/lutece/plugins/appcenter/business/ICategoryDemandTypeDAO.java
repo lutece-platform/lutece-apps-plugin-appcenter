@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -45,53 +45,71 @@ public interface ICategoryDemandTypeDAO
 {
     /**
      * Insert a new record in the table.
-     * @param categoryDemandType instance of the CategoryDemandType object to insert
-     * @param plugin the Plugin
+     * 
+     * @param categoryDemandType
+     *            instance of the CategoryDemandType object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( CategoryDemandType categoryDemandType, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param categoryDemandType the reference of the CategoryDemandType
-     * @param plugin the Plugin
+     * 
+     * @param categoryDemandType
+     *            the reference of the CategoryDemandType
+     * @param plugin
+     *            the Plugin
      */
     void store( CategoryDemandType categoryDemandType, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the CategoryDemandType to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the CategoryDemandType to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the categoryDemandType
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the categoryDemandType
+     * @param plugin
+     *            the Plugin
      * @return The instance of the categoryDemandType
      */
     CategoryDemandType load( int nKey, Plugin plugin );
 
     /**
      * Load the data of all the categoryDemandType objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the categoryDemandType objects
      */
     List<CategoryDemandType> selectCategoryDemandTypesList( Plugin plugin );
-    
+
     /**
      * Load the id of all the categoryDemandType objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the id of all the categoryDemandType objects
      */
     List<Integer> selectIdCategoryDemandTypesList( Plugin plugin );
-    
+
     /**
      * Load the data of all the categoryDemandType objects and returns them as a referenceList
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The referenceList which contains the data of all the categoryDemandType objects
      */
     ReferenceList selectCategoryDemandTypesReferenceList( Plugin plugin );

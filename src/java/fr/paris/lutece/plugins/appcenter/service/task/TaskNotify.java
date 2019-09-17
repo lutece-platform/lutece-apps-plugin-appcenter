@@ -82,21 +82,21 @@ public class TaskNotify extends SimpleTask
     public void processTask( int nIdResourceHistory, HttpServletRequest request, Locale locale )
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        //Get the demand
+        // Get the demand
         Demand demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
         Class demandClass = DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType( ), DemandTypeHome.getDemandTypesList( ) );
         demand = DemandHome.findByPrimaryKey( resourceHistory.getIdResource( ), demandClass );
 
-        //Get the config
+        // Get the config
         NotifyTaskConfig config = NotifyTaskConfigHome.findByPrimaryKey( getId( ), AppcenterPlugin.getPlugin( ) );
-        
-        //Process the remplacement of the subject and message by the markers in the config
+
+        // Process the remplacement of the subject and message by the markers in the config
         changeMarkers( config, demand, request );
-        
+
         MailItem mail = getMailItem( config, demand );
-        //Enqueue the mail
-        MailService.getQueue().send( mail );
-        
+        // Enqueue the mail
+        MailService.getQueue( ).send( mail );
+
     }
 
     @Override
@@ -104,91 +104,96 @@ public class TaskNotify extends SimpleTask
     {
         return "AppCenter Notify";
     }
-    
+
     /**
      * Populate the markers in subject and message
+     * 
      * @param conf
      * @param demand
-     * @param request 
+     * @param request
      */
     private void changeMarkers( NotifyTaskConfig conf, Demand demand, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String,Object>();
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DEMAND, demand );
-        model.put( MARK_APPLICATION, ApplicationHome.findByPrimaryKey( demand.getIdApplication( )));
-        DemandType demandType = DemandTypeHome.findByIdDemandType( demand.getIdDemandType() );
+        model.put( MARK_APPLICATION, ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) ) );
+        DemandType demandType = DemandTypeHome.findByIdDemandType( demand.getIdDemandType( ) );
         CategoryDemandType categoryDemandType = CategoryDemandTypeHome.findByPrimaryKey( demandType.getIdCategoryDemandType( ) );
         model.put( MARK_DEMAND_TYPE, demandType );
-        if ( demand.getEnvironment() != null )
+        if ( demand.getEnvironment( ) != null )
         {
             model.put( MARK_ENVIRONMENT, demand.getEnvironment( ).getLabel( ) );
         }
         model.put( MARK_CATEGORY_DEMAND_TYPE, categoryDemandType );
         String strJsonData = DemandService.getPrettyPrintDemandData( demand );
         model.put( MARK_JSON_DATA, strJsonData );
-        conf.setMessage( AppTemplateService.getTemplateFromStringFtl( conf.getMessage(), Locale.getDefault( ), model ).getHtml() );
-        conf.setSubject(AppTemplateService.getTemplateFromStringFtl( conf.getSubject(), Locale.getDefault( ), model ).getHtml() );
+        conf.setMessage( AppTemplateService.getTemplateFromStringFtl( conf.getMessage( ), Locale.getDefault( ), model ).getHtml( ) );
+        conf.setSubject( AppTemplateService.getTemplateFromStringFtl( conf.getSubject( ), Locale.getDefault( ), model ).getHtml( ) );
     }
-    
+
     /**
      * Get the mailItem from config and demand
-     * @param config the config
-     * @param demand the demand
+     * 
+     * @param config
+     *            the config
+     * @param demand
+     *            the demand
      * @return the mailItem
      */
     private MailItem getMailItem( NotifyTaskConfig config, Demand demand )
     {
         MailItem item = new MailItem( );
-        
-        item.setMessage( config.getMessage() );
+
+        item.setMessage( config.getMessage( ) );
         item.setRecipientsTo( getRecipients( config, demand ) );
-        item.setSenderEmail( MailService.getNoReplyEmail() );
+        item.setSenderEmail( MailService.getNoReplyEmail( ) );
         item.setSenderName( config.getSenderName( ) );
         item.setSubject( config.getSubject( ) );
-        
+
         return item;
     }
-    
+
     /**
      * Get the recipients depending of notification type
+     * 
      * @param config
      * @param demand
      * @return the recipients string
      */
     private String getRecipients( NotifyTaskConfig config, Demand demand )
     {
-        List<UserApplicationRole> userAppList = UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( demand.getIdApplication() );
-        List<String> listEmailAddresses = new ArrayList<>();
-        switch ( config.getNotificationType( ) )
+        List<UserApplicationRole> userAppList = UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( demand.getIdApplication( ) );
+        List<String> listEmailAddresses = new ArrayList<>( );
+        switch( config.getNotificationType( ) )
         {
-            case "owner" : 
-                return demand.getIdUserFront( ); 
-            case "ownerApp" :
+            case "owner":
+                return demand.getIdUserFront( );
+            case "ownerApp":
                 for ( UserApplicationRole userApp : userAppList )
                 {
                     Role role = RoleHome.findByPrimaryKey( userApp.getIdRole( ) );
-                    if ( role.getCode() == "app_owner" )
+                    if ( role.getCode( ) == "app_owner" )
                     {
                         listEmailAddresses.add( userApp.getIdUser( ) );
                         break;
                     }
                 }
                 break;
-            case "all" : 
+            case "all":
                 for ( UserApplicationRole userApp : userAppList )
                 {
                     listEmailAddresses.add( userApp.getIdUser( ) );
-                } 
-            case "mailing_list" : 
-                Collection<Recipient> colRec =  AdminMailingListService.getRecipients( config.getIdMailingList( )  );
+                }
+            case "mailing_list":
+                Collection<Recipient> colRec = AdminMailingListService.getRecipients( config.getIdMailingList( ) );
                 for ( Recipient recipient : colRec )
                 {
                     listEmailAddresses.add( recipient.getEmail( ) );
                 }
-                break;      
+                break;
         }
-        StringJoiner joiner = new StringJoiner(";");
+        StringJoiner joiner = new StringJoiner( ";" );
         listEmailAddresses.forEach( addr -> joiner.add( addr ) );
-        return joiner.toString();
+        return joiner.toString( );
     }
 }

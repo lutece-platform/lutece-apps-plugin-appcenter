@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;
@@ -42,43 +42,44 @@ import java.util.List;
 
 /**
  * This is the business class for the object DemandType
- */ 
+ */
 public class DemandType implements Serializable, RBACResource
 {
     private static final long serialVersionUID = 1L;
     public static final String RBAC_RESOURCE_DEMAND_TYPE = "demand_type";
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.demandtype.IdDemandType.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{appcenter.validation.demandtype.IdDemandType.size}" ) 
+    @Size( max = 255, message = "#i18n{appcenter.validation.demandtype.IdDemandType.size}" )
     private String _strIdDemandType;
-    
+
     @NotEmpty( message = "#i18n{appcenter.validation.demandtype.Label.notEmpty}" )
     private String _strLabel;
-    
+
     private String _strDescription;
-    
+
     private String _strQuestion;
-    
+
     private int _nIdCategoryDemandType;
-    
+
     private int _nIdWorkflow;
-    
+
     private String _strJavaClass;
-    
+
     private int _nOrder;
-    
+
     private List<Documentation> _listDocumentation;
 
     public DemandType( )
     {
-        _listDocumentation = new ArrayList<>();
+        _listDocumentation = new ArrayList<>( );
     }
-    
+
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -88,15 +89,18 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the IdDemandType
+     * 
      * @return The IdDemandType
      */
     public String getIdDemandType( )
@@ -106,15 +110,18 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Sets the IdDemandType
-     * @param strIdDemandType The IdDemandType
-     */ 
+     * 
+     * @param strIdDemandType
+     *            The IdDemandType
+     */
     public void setIdDemandType( String strIdDemandType )
     {
         _strIdDemandType = strIdDemandType;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
@@ -124,15 +131,18 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
+
     /**
      * Returns the IdCategoryDemandType
+     * 
      * @return The IdCategoryDemandType
      */
     public int getIdCategoryDemandType( )
@@ -142,15 +152,18 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Sets the IdCategoryDemandType
-     * @param nIdCategoryDemandType The IdCategoryDemandType
-     */ 
+     * 
+     * @param nIdCategoryDemandType
+     *            The IdCategoryDemandType
+     */
     public void setIdCategoryDemandType( int nIdCategoryDemandType )
     {
         _nIdCategoryDemandType = nIdCategoryDemandType;
     }
-    
+
     /**
      * Returns the Order
+     * 
      * @return The Order
      */
     public int getOrder( )
@@ -160,8 +173,10 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Sets the Order
-     * @param nOrder The Order
-     */ 
+     * 
+     * @param nOrder
+     *            The Order
+     */
     public void setOrder( int nOrder )
     {
         _nOrder = nOrder;
@@ -169,28 +184,30 @@ public class DemandType implements Serializable, RBACResource
 
     /**
      * Get the documentation list
-     * @return 
+     * 
+     * @return
      */
-    public List<Documentation> getListDocumentation()
+    public List<Documentation> getListDocumentation( )
     {
         return _listDocumentation;
     }
 
     /**
      * Set the documentation list
-     * @param listDocumentation 
+     * 
+     * @param listDocumentation
      */
     public void setListDocumentation( List<Documentation> listDocumentation )
     {
         _listDocumentation = listDocumentation;
     }
-    
+
     public void addDoc( Documentation doc )
     {
         _listDocumentation.add( doc );
     }
 
-    public String getDescription()
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -200,7 +217,7 @@ public class DemandType implements Serializable, RBACResource
         _strDescription = strDescription;
     }
 
-    public String getQuestion()
+    public String getQuestion( )
     {
         return _strQuestion;
     }
@@ -210,7 +227,7 @@ public class DemandType implements Serializable, RBACResource
         _strQuestion = strQuestion;
     }
 
-    public int getIdWorkflow()
+    public int getIdWorkflow( )
     {
         return _nIdWorkflow;
     }
@@ -220,7 +237,7 @@ public class DemandType implements Serializable, RBACResource
         _nIdWorkflow = nIdWorkflow;
     }
 
-    public String getJavaClass()
+    public String getJavaClass( )
     {
         return _strJavaClass;
     }
@@ -229,21 +246,17 @@ public class DemandType implements Serializable, RBACResource
     {
         _strJavaClass = strJavaClass;
     }
-    
-    
 
     @Override
-    public String getResourceTypeCode()
+    public String getResourceTypeCode( )
     {
-       return RBAC_RESOURCE_DEMAND_TYPE;
+        return RBAC_RESOURCE_DEMAND_TYPE;
     }
 
     @Override
-    public String getResourceId()
+    public String getResourceId( )
     {
         return getIdDemandType( );
     }
-    
-    
-    
+
 }

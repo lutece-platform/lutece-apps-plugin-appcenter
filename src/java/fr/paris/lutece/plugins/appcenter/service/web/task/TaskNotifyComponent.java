@@ -71,9 +71,9 @@ public class TaskNotifyComponent extends NoFormTaskComponent
     private static final String PARAMETER_NOTIFICATION_TYPE = "notification_type";
     private static final String PARAMETER_ID_MAILING_LIST = "id_mailing_list";
     private static final String CONSTANT_MAILING_LIST = "mailing_list";
-   
+
     @Inject
-    @Named("appcenter.taskTypeNotify")
+    @Named( "appcenter.taskTypeNotify" )
     private ITaskType _taskType;
     @Inject
     private ITaskFactory _taskFactory;
@@ -93,15 +93,15 @@ public class TaskNotifyComponent extends NoFormTaskComponent
     @Override
     public String getDisplayConfigForm( HttpServletRequest request, Locale locale, ITask task )
     {
-        Map<String,Object> model = new HashMap<String,Object>();
+        Map<String, Object> model = new HashMap<String, Object>( );
         NotifyTaskConfig conf = NotifyTaskConfigHome.findByPrimaryKey( task.getId( ), AppcenterPlugin.getPlugin( ) );
         if ( conf != null )
         {
             model.put( MARK_CONFIG, conf );
         }
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put(  MARK_MAILING_LIST, AdminMailingListService.getMailingLists( AdminUserService.getAdminUser( request ) ) );
-        return AppTemplateService.getTemplate( TEMPLATE_TASK_NOTIFY_CONFIG , locale, model ).getHtml( );
+        model.put( MARK_MAILING_LIST, AdminMailingListService.getMailingLists( AdminUserService.getAdminUser( request ) ) );
+        return AppTemplateService.getTemplate( TEMPLATE_TASK_NOTIFY_CONFIG, locale, model ).getHtml( );
     }
 
     @Override
@@ -109,23 +109,23 @@ public class TaskNotifyComponent extends NoFormTaskComponent
     {
         return null;
     }
-    
+
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public String doSaveConfig( HttpServletRequest request, Locale locale, ITask task )
     {
         // In case there are no errors, then the config is created/updated
         boolean bCreate = false;
-        NotifyTaskConfig config = getTaskConfigService().findByPrimaryKey( task.getId(  ) );
+        NotifyTaskConfig config = getTaskConfigService( ).findByPrimaryKey( task.getId( ) );
 
         if ( config == null )
         {
-            config = (NotifyTaskConfig) _taskFactory.newTaskConfig( _taskType.getKey(  ) );
+            config = (NotifyTaskConfig) _taskFactory.newTaskConfig( _taskType.getKey( ) );
             if ( config != null )
             {
-                config.setIdTask( task.getId(  ) );
+                config.setIdTask( task.getId( ) );
                 bCreate = true;
             }
         }
@@ -134,7 +134,7 @@ public class TaskNotifyComponent extends NoFormTaskComponent
         {
             try
             {
-                //Customize the populate method for the config
+                // Customize the populate method for the config
                 populate( config, request );
 
                 String strApply = request.getParameter( PARAMETER_APPLY );
@@ -152,32 +152,32 @@ public class TaskNotifyComponent extends NoFormTaskComponent
 
                 if ( bCreate )
                 {
-                    getTaskConfigService().create( config );
+                    getTaskConfigService( ).create( config );
                 }
                 else
                 {
-                    getTaskConfigService().update( config );
+                    getTaskConfigService( ).update( config );
                 }
             }
-            catch ( IllegalAccessException | InvocationTargetException e )
+            catch( IllegalAccessException | InvocationTargetException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
         else
         {
-            AppLogService.error( "TaskComponent - could not instanciate a new TaskConfig for type " + _taskType.getKey(  ) );
+            AppLogService.error( "TaskComponent - could not instanciate a new TaskConfig for type " + _taskType.getKey( ) );
         }
 
         return null;
     }
-    
-    void populate ( NotifyTaskConfig config, HttpServletRequest request ) throws IllegalAccessException, InvocationTargetException
+
+    void populate( NotifyTaskConfig config, HttpServletRequest request ) throws IllegalAccessException, InvocationTargetException
     {
         BeanUtil.populate( config, request );
-        
+
         String strNotificationType = request.getParameter( PARAMETER_NOTIFICATION_TYPE );
-        
+
         if ( strNotificationType.equals( CONSTANT_MAILING_LIST ) )
         {
             String strIdMailingList = request.getParameter( PARAMETER_ID_MAILING_LIST );

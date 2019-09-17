@@ -103,23 +103,24 @@ public class ApplicationService
      *            The class of the data subset
      * @return The data subset as an object
      */
-    public static <R extends ApplicationData,T extends ApplicationDatas<R>> T loadApplicationDataSubset( Application application, Class<T> applicationDatasClass )
+    public static <R extends ApplicationData, T extends ApplicationDatas<R>> T loadApplicationDataSubset( Application application,
+            Class<T> applicationDatasClass )
     {
         try
         {
-            Method mGetDataSetName = applicationDatasClass.getMethod("getName");
-            String strDataSetName=(String)mGetDataSetName.invoke( applicationDatasClass.newInstance(), null );
+            Method mGetDataSetName = applicationDatasClass.getMethod( "getName" );
+            String strDataSetName = (String) mGetDataSetName.invoke( applicationDatasClass.newInstance( ), null );
             String strApplicationJson = application.getApplicationData( );
             return getDataSubset( strApplicationJson, strDataSetName, applicationDatasClass );
         }
-        catch( IOException|NoSuchMethodException|SecurityException|IllegalAccessException|IllegalArgumentException|InvocationTargetException| InstantiationException ex )
+        catch( IOException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | InstantiationException ex )
         {
             Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
         return null;
     }
-    
-    
+
     /**
      * Load a datasubset from the global JSON
      * 
@@ -145,7 +146,7 @@ public class ApplicationService
             Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
         return null;
-}
+    }
 
     /**
      * Build a global JSON data of an application by adding or replacing a data subset
@@ -226,7 +227,7 @@ public class ApplicationService
         return null;
 
     }
-    
+
     /**
      * Get application data by id application data
      * 
@@ -238,42 +239,44 @@ public class ApplicationService
      * @throws IOException
      *             if an error occurs
      */
-   public static <AD extends ApplicationData,ADS extends ApplicationDatas<AD>>ApplicationData loadApplicationDataById( Integer nIdApplicationData,Application application,Class<ADS> valueType ) throws IOException
+    public static <AD extends ApplicationData, ADS extends ApplicationDatas<AD>> ApplicationData loadApplicationDataById( Integer nIdApplicationData,
+            Application application, Class<ADS> valueType ) throws IOException
     {
-        
-           ADS ads= loadApplicationDataSubset( application,valueType );
-           if(ads!=null && ads.getListData( )!=null)
-           {
-               return ads.getListData( ).stream( ).filter( x->x.getIdApplicationData( ) ==nIdApplicationData).findFirst( ).orElse( null ); 
-               
-           }
+
+        ADS ads = loadApplicationDataSubset( application, valueType );
+        if ( ads != null && ads.getListData( ) != null )
+        {
+            return ads.getListData( ).stream( ).filter( x -> x.getIdApplicationData( ) == nIdApplicationData ).findFirst( ).orElse( null );
+
+        }
         return null;
     }
-   
-	public static <AD extends ApplicationData,ADS extends ApplicationDatas<AD>> ReferenceList getRefLisApplicationDatas(Application application,Class<ADS> classAds ,Locale locale,boolean bWithEmptyFile, Function<AD,String> functionRefItemCode,Function<AD,String> functionRefItemName)
-	{
-		
-		ADS ads= ApplicationService.loadApplicationDataSubset( application, classAds );
-		ReferenceList referenceList=null;
-		if(ads!=null && ads.getListData()!=null && !CollectionUtils.isEmpty(ads.getListData()))
-		{
-			Map<String,String> mapReferenceItem = ads.getListData().stream().collect(Collectors.toMap(functionRefItemCode, functionRefItemName,(f, s) -> f));
-			referenceList=ReferenceList.convert(mapReferenceItem);
-		}
-		else
-		{
-			referenceList=new ReferenceList();
-		}
-		
-		if(bWithEmptyFile)
-		{
-			AppCenterUtils.addEmptyItem(referenceList, locale);
-		}
-		
-		
-		return referenceList;
-	
-	}
+
+    public static <AD extends ApplicationData, ADS extends ApplicationDatas<AD>> ReferenceList getRefLisApplicationDatas( Application application,
+            Class<ADS> classAds, Locale locale, boolean bWithEmptyFile, Function<AD, String> functionRefItemCode, Function<AD, String> functionRefItemName )
+    {
+
+        ADS ads = ApplicationService.loadApplicationDataSubset( application, classAds );
+        ReferenceList referenceList = null;
+        if ( ads != null && ads.getListData( ) != null && !CollectionUtils.isEmpty( ads.getListData( ) ) )
+        {
+            Map<String, String> mapReferenceItem = ads.getListData( ).stream( )
+                    .collect( Collectors.toMap( functionRefItemCode, functionRefItemName, ( f, s ) -> f ) );
+            referenceList = ReferenceList.convert( mapReferenceItem );
+        }
+        else
+        {
+            referenceList = new ReferenceList( );
+        }
+
+        if ( bWithEmptyFile )
+        {
+            AppCenterUtils.addEmptyItem( referenceList, locale );
+        }
+
+        return referenceList;
+
+    }
 
     /**
      * Remove the application whose identifier is specified in parameter with its dependencies
@@ -285,11 +288,11 @@ public class ApplicationService
     {
         List<Demand> demandList = DemandHome.getDemandsListByApplication( nId );
 
-        for (Demand demand : demandList)
+        for ( Demand demand : demandList )
         {
-            List<Integer> idResourceList = new ArrayList<Integer>();
+            List<Integer> idResourceList = new ArrayList<Integer>( );
             idResourceList.add( demand.getId( ) );
-            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
             WorkflowService.getInstance( ).doRemoveWorkFlowResourceByListId( idResourceList, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow );
             DemandHome.remove( demand.getId( ) );
         }

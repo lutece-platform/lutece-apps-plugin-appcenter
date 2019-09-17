@@ -32,36 +32,38 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.appcenter.business;
 
 import java.util.List;
 
 /**
  * This is the business class for the object User
- */ 
+ */
 public class User
 {
-   // Variables declarations 
+    // Variables declarations
     private String _strId;
-    
+
     private List<UserApplicationRole> _listUserApplicationRoles;
-    
+
     private String _userInfos;
-    
-       /**
-        * Returns the Id
-        * @return The Id
-        */ 
-    public String getId()
+
+    /**
+     * Returns the Id
+     * 
+     * @return The Id
+     */
+    public String getId( )
     {
         return _strId;
     }
-    
-       /**
-        * Sets the Id
-        * @param strId The Id
-        */ 
+
+    /**
+     * Sets the Id
+     * 
+     * @param strId
+     *            The Id
+     */
     public void setId( String strId )
     {
         _strId = strId;
@@ -69,38 +71,43 @@ public class User
 
     /**
      * Get the user application roles
-     * @return the 
+     * 
+     * @return the
      */
-    public List<UserApplicationRole> getListUserApplicationRoles()
+    public List<UserApplicationRole> getListUserApplicationRoles( )
     {
         return _listUserApplicationRoles;
     }
 
     /**
      * Set the user applcation roles list
-     * @param listUserApplicationRoles The user application roles list
+     * 
+     * @param listUserApplicationRoles
+     *            The user application roles list
      */
-    public void setListUserApplicationRoles(List<UserApplicationRole> listUserApplicationRoles)
+    public void setListUserApplicationRoles( List<UserApplicationRole> listUserApplicationRoles )
     {
         _listUserApplicationRoles = listUserApplicationRoles;
     }
 
     /**
      * Get the user infos
-     * @return 
+     * 
+     * @return
      */
-    public String getUserInfos() {
+    public String getUserInfos( )
+    {
         return _userInfos;
     }
 
     /**
      * Set the user infos
-     * @param userInfos 
+     * 
+     * @param userInfos
      */
-    public void setUserInfos( String  userInfos) {
+    public void setUserInfos( String userInfos )
+    {
         _userInfos = userInfos;
     }
-    
-    
-    
+
 }

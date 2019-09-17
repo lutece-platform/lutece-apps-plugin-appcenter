@@ -62,7 +62,7 @@ public class UserService
     private static final String CONSTANTE_EMPTY_JSON = "{}";
 
     private static ObjectMapper _mapper = new ObjectMapper( );
-    
+
     /**
      * Get the list of available users
      * 
@@ -106,28 +106,29 @@ public class UserService
         }
 
     }
-    
+
     /**
      * Gets the current connected user
      * 
      * @param request
      *            The HTTP request
-     * @param nApplicationId The applcation Id
+     * @param nApplicationId
+     *            The applcation Id
      * @return The user Id
      */
     public static User getCurrentUser( HttpServletRequest request ) throws UserNotSignedException
     {
-        User user = new User();
-        
+        User user = new User( );
+
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
-            if( luteceUser != null )
+            if ( luteceUser != null )
             {
-                user  = UserHome.findByPrimaryKey( getEmailUser( luteceUser ) );
+                user = UserHome.findByPrimaryKey( getEmailUser( luteceUser ) );
                 if ( user == null )
                 {
-                    user = new User();
+                    user = new User( );
                     user.setId( getEmailUser( luteceUser ) );
                     user.setUserInfos( CONSTANTE_EMPTY_JSON );
                     UserHome.create( user );
@@ -136,12 +137,12 @@ public class UserService
             }
             else
             {
-                throw new UserNotSignedException();
+                throw new UserNotSignedException( );
             }
         }
         else
         {
-            user  = UserHome.findByPrimaryKey( MOCK_USER);
+            user = UserHome.findByPrimaryKey( MOCK_USER );
             if ( user != null )
             {
                 user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
@@ -162,16 +163,15 @@ public class UserService
     {
         String strUserEmail = null;
 
-        if( user != null )
+        if ( user != null )
         {
-            strUserEmail = ( user.getEmail() == null || user.getEmail( ).isEmpty() )  ? user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL ): user.getEmail( );
+            strUserEmail = ( user.getEmail( ) == null || user.getEmail( ).isEmpty( ) ) ? user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL ) : user
+                    .getEmail( );
         }
 
         return strUserEmail;
 
     }
-
-  
 
     /**
      * Mock list for dev and tests without MyLutece
@@ -184,29 +184,27 @@ public class UserService
         list.addItem( MOCK_USER, MOCK_USER );
         return list;
     }
-    
+
     /**
      * Get the user in the application context (with his specific role for the application)
+     * 
      * @param request
      * @param nIdApplication
-     * @return 
+     * @return
      */
     public static User getCurrentUserInAppContext( HttpServletRequest request, int nIdApplication ) throws UserNotSignedException
     {
         User user = getCurrentUser( request );
-        if ( user.getListUserApplicationRoles() != null )
+        if ( user.getListUserApplicationRoles( ) != null )
         {
-            //Do a Home method instead
-            user.setListUserApplicationRoles(
-            user.getListUserApplicationRoles()
-                .stream()
-                .filter( userApplicationRole -> userApplicationRole.getIdApplication() == nIdApplication)
-                .collect( Collectors.toList( ) ) );
-            
+            // Do a Home method instead
+            user.setListUserApplicationRoles( user.getListUserApplicationRoles( ).stream( )
+                    .filter( userApplicationRole -> userApplicationRole.getIdApplication( ) == nIdApplication ).collect( Collectors.toList( ) ) );
+
         }
         return user;
     }
-    
+
     /**
      * Save a data subset into the global JSON data of an application
      *
@@ -236,26 +234,26 @@ public class UserService
      *            The datasubset type
      * @param user
      * @param userInfosClass
-
+     * 
      * @return The data subset as an object
      */
     public static <T extends UserInfos> T loadUserInfosDataSubset( User user, Class<T> userInfosClass )
     {
         try
         {
-            Method mGetDataSetName = userInfosClass.getMethod("getName");
-            String strDataSetName=(String)mGetDataSetName.invoke( userInfosClass.newInstance(), null );
+            Method mGetDataSetName = userInfosClass.getMethod( "getName" );
+            String strDataSetName = (String) mGetDataSetName.invoke( userInfosClass.newInstance( ), null );
             String strUserInfosJson = user.getUserInfos( );
             return getDataSubset( strUserInfosJson, strDataSetName, userInfosClass );
         }
-        catch( IOException|NoSuchMethodException|SecurityException|IllegalAccessException|IllegalArgumentException|InvocationTargetException| InstantiationException ex )
+        catch( IOException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | InstantiationException ex )
         {
             Logger.getLogger( ApplicationService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
         return null;
     }
-    
-    
+
     /**
      * Load a datasubset from the global JSON
      * 
@@ -280,7 +278,7 @@ public class UserService
             Logger.getLogger( UserService.class.getName( ) ).log( Level.SEVERE, null, ex );
         }
         return null;
-}
+    }
 
     /**
      * Build a global JSON data of an application by adding or replacing a data subset
@@ -299,13 +297,13 @@ public class UserService
         JsonNode nodeUserInfos;
         if ( strUserInfos.isEmpty( ) )
         {
-            nodeUserInfos = _mapper.createObjectNode();
+            nodeUserInfos = _mapper.createObjectNode( );
         }
         else
         {
             nodeUserInfos = _mapper.readTree( strUserInfos );
         }
-        
+
         JsonNode nodeData = nodeUserInfos.get( dataSubset.getName( ) );
         if ( nodeData != null )
         {
@@ -342,6 +340,5 @@ public class UserService
         return null;
 
     }
-	
 
 }

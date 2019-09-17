@@ -25,29 +25,29 @@ public class DemandResourceType extends AbstractAppCenterResourceType
      * {@inheritDoc }
      */
     @Override
-    public String getRessourceTypeKey() 
+    public String getRessourceTypeKey( )
     {
         return RESOURCE_TYPE_CODE;
-    }
-    
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getRessourceTypeLabel()
-    {
-        return  I18nService.getLocalizedString( RESOURCE_TYPE_LABEL_KEY, Locale.getDefault( ) );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Collection<ResourceTypeValue> getResourceTypeValues() 
+    public String getRessourceTypeLabel( )
+    {
+        return I18nService.getLocalizedString( RESOURCE_TYPE_LABEL_KEY, Locale.getDefault( ) );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Collection<ResourceTypeValue> getResourceTypeValues( )
     {
         if ( _listResourceTypeValues.isEmpty( ) )
         {
-            ResourceTypeValue resourceApplication = new ResourceTypeValue();
+            ResourceTypeValue resourceApplication = new ResourceTypeValue( );
             resourceApplication.setCode( RESOURCE_TYPE_VALUE_CODE );
             resourceApplication.setLabel( I18nService.getLocalizedString( RESOURCE_TYPE_VALUE_LABEL_KEY, Locale.getDefault( ) ) );
             _listResourceTypeValues.add( resourceApplication );

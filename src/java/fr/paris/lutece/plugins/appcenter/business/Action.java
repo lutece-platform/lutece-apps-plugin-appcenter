@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
-public class Action 
+public class Action
 {
     private String _strUrl;
     private String _strLabelKey;
     private String _strCssClass;
     private String _strPermissionCode;
     private boolean _bDependingOfEnv;
-    
+
     public Action( String strUrl, String strLabelKey, String strCssClass, String strPermissionCode, boolean bDependingOfEnv )
     {
         _strUrl = strUrl;
@@ -52,81 +52,100 @@ public class Action
 
     public Action( Action action )
     {
-        this(action._strUrl, action._strLabelKey, action._strCssClass, action._strPermissionCode, action._bDependingOfEnv);
+        this( action._strUrl, action._strLabelKey, action._strCssClass, action._strPermissionCode, action._bDependingOfEnv );
     }
 
     /**
      * Get the Url of the action
+     * 
      * @return the url of the action
      */
-    public String getUrl() {
+    public String getUrl( )
+    {
         return _strUrl;
     }
 
     /**
      * Set the url of the action
-     * @param strUrl of the action
+     * 
+     * @param strUrl
+     *            of the action
      */
-    public void setUrl(String strUrl) {
+    public void setUrl( String strUrl )
+    {
         _strUrl = strUrl;
     }
 
     /**
      * Get the label of the action
+     * 
      * @return the label of the action
      */
-    public String getLabelKey() {
+    public String getLabelKey( )
+    {
         return _strLabelKey;
     }
 
     /**
      * Set the label key of the action
-     * @param strLabelKey the label key of action
+     * 
+     * @param strLabelKey
+     *            the label key of action
      */
-    public void setLabel(String strLabelKey ) {
+    public void setLabel( String strLabelKey )
+    {
         _strLabelKey = strLabelKey;
     }
 
     /**
      * Get the css class of the action
+     * 
      * @return the css class of the action
      */
-    public String getCssClass() {
+    public String getCssClass( )
+    {
         return _strCssClass;
     }
 
     /**
      * Set the css class of the action
-     * @param strCssClass the css class of the action
+     * 
+     * @param strCssClass
+     *            the css class of the action
      */
-    public void setCssClass(String strCssClass) {
+    public void setCssClass( String strCssClass )
+    {
         _strCssClass = strCssClass;
     }
 
     /**
      * Get the permission code of the action
+     * 
      * @return the permission code of the action
      */
-    public String getPermissionCode() {
+    public String getPermissionCode( )
+    {
         return _strPermissionCode;
     }
 
     /**
      * Set the permission code of the action
-     * @param strPermissionCode 
+     * 
+     * @param strPermissionCode
      */
-    public void setPermissionCode(String strPermissionCode) {
+    public void setPermissionCode( String strPermissionCode )
+    {
         _strPermissionCode = strPermissionCode;
-    } 
+    }
 
-    public boolean isDependingOfEnv() {
+    public boolean isDependingOfEnv( )
+    {
         return _bDependingOfEnv;
     }
 
-    public void setDependingOfEnv(boolean bDependingOfEnv) {
+    public void setDependingOfEnv( boolean bDependingOfEnv )
+    {
         _bDependingOfEnv = bDependingOfEnv;
     }
-    
-    
-    
+
 }

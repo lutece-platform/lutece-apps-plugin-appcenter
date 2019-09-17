@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -50,19 +50,21 @@ public final class RoleHome
     private static IRoleDAO _dao = SpringContextService.getBean( "appcenter.roleDAO" );
     private static Plugin _plugin = PluginService.getPlugin( "appcenter" );
 
-    public static final int GLOBAL_PERMISSION_WILDCARD_ID = 0 ;
-    
+    public static final int GLOBAL_PERMISSION_WILDCARD_ID = 0;
+
     /**
      * Private constructor - this class need not be instantiated
      */
-    private RoleHome(  )
+    private RoleHome( )
     {
     }
 
     /**
      * Create an instance of the role class
-     * @param role The instance of the Role which contains the informations to store
-     * @return The  instance of role which has been created with its primary key.
+     * 
+     * @param role
+     *            The instance of the Role which contains the informations to store
+     * @return The instance of role which has been created with its primary key.
      */
     public static Role create( Role role )
     {
@@ -73,8 +75,10 @@ public final class RoleHome
 
     /**
      * Update of the role which is specified in parameter
-     * @param role The instance of the Role which contains the data to store
-     * @return The instance of the  role which has been updated
+     * 
+     * @param role
+     *            The instance of the Role which contains the data to store
+     * @return The instance of the role which has been updated
      */
     public static Role update( Role role )
     {
@@ -85,7 +89,9 @@ public final class RoleHome
 
     /**
      * Remove the role whose identifier is specified in parameter
-     * @param nKey The role Id
+     * 
+     * @param nKey
+     *            The role Id
      */
     public static void remove( int nKey )
     {
@@ -94,17 +100,21 @@ public final class RoleHome
 
     /**
      * Returns an instance of a role whose identifier is specified in parameter
-     * @param nKey The role primary key
+     * 
+     * @param nKey
+     *            The role primary key
      * @return an instance of Role
      */
     public static Role findByPrimaryKey( int nKey )
     {
         return _dao.load( nKey, _plugin );
     }
-    
+
     /**
      * Returns an instance of a role whose identifier is specified in parameter
-     * @param strCode The role code
+     * 
+     * @param strCode
+     *            The role code
      * @return an instance of Role
      */
     public static Role findByCode( String strCode )
@@ -114,6 +124,7 @@ public final class RoleHome
 
     /**
      * Returns an instance of a role whose identifier is specified in parameter
+     * 
      * @param strUserId
      * @param nApplicationId
      * @return an instance of Role
@@ -123,37 +134,40 @@ public final class RoleHome
         return _dao.loadByUserIdAndApplicationId( strUserId, nApplicationId, _plugin );
     }
 
-    
     /**
-     * Returns  a global role of the user
+     * Returns a global role of the user
+     * 
      * @param strUserId
      * @return an instance of Role
      */
     public static Role findGlobalRoleByUserId( String strUserId )
     {
         return _dao.loadByUserIdAndApplicationId( strUserId, GLOBAL_PERMISSION_WILDCARD_ID, _plugin );
-    }            
-            
+    }
+
     /**
      * Load the data of all the role objects and returns them as a list
+     * 
      * @return the list which contains the data of all the role objects
      */
     public static List<Role> getRolesList( )
     {
         return _dao.selectRolesList( _plugin );
     }
-    
+
     /**
      * Load the id of all the role objects and returns them as a list
+     * 
      * @return the list which contains the id of all the role objects
      */
     public static List<Integer> getIdRolesList( )
     {
         return _dao.selectIdRolesList( _plugin );
     }
-    
+
     /**
      * Load the data of all the role objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the role objects
      */
     public static ReferenceList getRolesReferenceList( )
@@ -163,6 +177,7 @@ public final class RoleHome
 
     /**
      * Load the data of all the role objects and returns them as a map
+     * 
      * @return the map which contains the data of all the role objects
      */
     public static Map<String, Role> getRolesMap( )
@@ -170,4 +185,3 @@ public final class RoleHome
         return _dao.selectRolesMap( _plugin );
     }
 }
-

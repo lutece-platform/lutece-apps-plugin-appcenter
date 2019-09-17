@@ -86,7 +86,7 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String ERROR_APP_NOT_FOUND = "appcenter.error.applicationNotFound";
     private static final String ERROR_USER_NOT_AUTHORIZED = "appcenter.error.userNotAuthorized";
     private static final String ERROR_INVALID_APP_ID = "appcenter.error.invalidAppId";
-    
+
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_APPLICATION = "application";
@@ -96,13 +96,10 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
 
-    
-    
-
     private static final long serialVersionUID = -490960650523760757L;
-    
+
     protected Application _application;
-    
+
     /**
      * Get the current application
      * 
@@ -114,22 +111,23 @@ public abstract class AppCenterXPage extends MVCApplication
     {
         try
         {
-            int nId = Integer.parseInt( request.getParameter(Constants.PARAM_ID_APPLICATION ) );
-            _application =  ApplicationHome.findByPrimaryKey( nId );  
+            int nId = Integer.parseInt( request.getParameter( Constants.PARAM_ID_APPLICATION ) );
+            _application = ApplicationHome.findByPrimaryKey( nId );
         }
         catch( NumberFormatException e )
         {
-            
+
         }
-        
+
         if ( _application == null )
         {
-            redirect(request, AppPathService.getBaseUrl( request ) + AppPathService.getPortalUrl() + "?" + MVCUtils.PARAMETER_PAGE + "=" + Constants.XPAGE_APPLICATION);
+            redirect( request, AppPathService.getBaseUrl( request ) + AppPathService.getPortalUrl( ) + "?" + MVCUtils.PARAMETER_PAGE + "="
+                    + Constants.XPAGE_APPLICATION );
         }
-        
+
         return _application;
     }
-    
+
     /**
      * Add a demand
      * 
@@ -145,16 +143,16 @@ public abstract class AppCenterXPage extends MVCApplication
     protected <T extends Demand> void addListDemand( HttpServletRequest request, Application application, Map<String, Object> model )
     {
         List<T> listDemand = DemandHome.getListFullDemandsByIdApplication( application.getId( ) );
-        
+
         model.put( MARK_ACTIVE_DEMAND_TYPE, getDemandType( ) );
         model.put( Constants.MARK_DEMANDS, listDemand );
-        
+
         Map<String, Object> mapStates = new HashMap<>( );
         Map<String, Object> mapHistories = new HashMap<>( );
         for ( T demand : listDemand )
         {
-            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
-            
+            int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
+
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
             mapStates.put( Integer.toString( demand.getId( ) ), state );
 
@@ -162,20 +160,20 @@ public abstract class AppCenterXPage extends MVCApplication
                     request, request.getLocale( ) );
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
-        
+
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
-    
+
     /**
      * return the current environment choose
      */
-    protected Environment getActiveEnvironment( HttpServletRequest request)
+    protected Environment getActiveEnvironment( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        Environment environment = (Environment)session.getAttribute( ApplicationXPage.SESSION_ACTIVE_ENVIRONMENT );
+        Environment environment = (Environment) session.getAttribute( ApplicationXPage.SESSION_ACTIVE_ENVIRONMENT );
         return environment;
-        
+
     }
 
     /**
@@ -189,144 +187,148 @@ public abstract class AppCenterXPage extends MVCApplication
     {
         return I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault( ) );
     }
-    
+
     @Override
-    protected void fillCommons( Map<String,Object> model )
+    protected void fillCommons( Map<String, Object> model )
     {
         super.fillCommons( model );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
-        model.put ( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ));
-        model.put ( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
-        model.put( MARK_DOCUMENTATION_CATEGORIES, 
-                    Arrays.asList( DocumentationCategory.values( ) )
-                            .stream()
-                            .collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) )
-                    );
+        model.put( MARK_CATEGORY_DEMAND_TYPE_LIST, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
+        model.put( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
+        model.put( MARK_DOCUMENTATION_CATEGORIES,
+                Arrays.asList( DocumentationCategory.values( ) ).stream( ).collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) ) );
         model.put( Constants.MARK_ROLES_LIST, RoleHome.getRolesReferenceList( ) );
 
     }
-    
 
-    protected void fillAppCenterCommons( Map<String,Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
+    protected void fillAppCenterCommons( Map<String, Object> model, HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
-        //Fill the active environment if it is stored in session
+        // Fill the active environment if it is stored in session
         HttpSession session = request.getSession( true );
         Environment environment = getActiveEnvironment( request );
         if ( environment != null )
         {
             model.put( MARK_ACTIVE_ENVIRONMENT, environment );
         }
-        
-        //Fill with application
+
+        // Fill with application
         _application = getApplication( request );
-                
+
         model.put( MARK_APPLICATION, _application );
-        
-        //Add the user
+
+        // Add the user
         User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );
         model.put( Constants.MARK_USER, user );
-        
-        //Add the category action list
-        //Build the ResourceType config 
-        ResourceTypeConfig resourceTypeConfig = new ResourceTypeConfig();
-        resourceTypeConfig.addResourceTypeConfig("APP", "APP");
+
+        // Add the category action list
+        // Build the ResourceType config
+        ResourceTypeConfig resourceTypeConfig = new ResourceTypeConfig( );
+        resourceTypeConfig.addResourceTypeConfig( "APP", "APP" );
         if ( getActiveEnvironment( request ) != null )
         {
-            resourceTypeConfig.addResourceTypeConfig("ENV", getActiveEnvironment( request ).getPrefix( ) );
+            resourceTypeConfig.addResourceTypeConfig( "ENV", getActiveEnvironment( request ).getPrefix( ) );
         }
-        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS, ActionService.getCategoryActionsListOfUserForApplication(request, _application.getId(), resourceTypeConfig));
-    
-        //Add the demands
+        model.put( Constants.MARK_LIST_CATEGORY_ACTIONS,
+                ActionService.getCategoryActionsListOfUserForApplication( request, _application.getId( ), resourceTypeConfig ) );
+
+        // Add the demands
         addListDemand( request, _application, model );
-        
-        //Fill the active demand types
-        model.put( MARK_ACTIVE_DEMAND_TYPES, ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+
+        // Fill the active demand types
+        model.put( MARK_ACTIVE_DEMAND_TYPES,
+                ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
     }
-    
-    protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String,Object> model, String strDatasName, Class datasClass )
+
+    protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String, Object> model, String strDatasName,
+            Class datasClass )
     {
-        ApplicationDatas applicationDatas = (ApplicationDatas)ApplicationService.loadApplicationDataSubset( application, strDatasName, datasClass );
+        ApplicationDatas applicationDatas = (ApplicationDatas) ApplicationService.loadApplicationDataSubset( application, strDatasName, datasClass );
         List<ApplicationData> listFilteredApplicationData = new ArrayList<>( );
         HttpSession session = request.getSession( true );
         Environment environment = getActiveEnvironment( request );
         if ( environment != null && applicationDatas != null )
         {
-            for ( T appData : (List<T>)applicationDatas.getListData( ) )
+            for ( T appData : (List<T>) applicationDatas.getListData( ) )
             {
-                if ( appData.getEnvironment( )!= null && appData.getEnvironment( ).equals( environment.getPrefix( ) ) )
+                if ( appData.getEnvironment( ) != null && appData.getEnvironment( ).equals( environment.getPrefix( ) ) )
                 {
                     listFilteredApplicationData.add( appData );
                 }
             }
             model.put( Constants.MARK_DATA, listFilteredApplicationData );
         }
-        else if ( applicationDatas != null )
-        {
-           model.put( Constants.MARK_DATA,( List<T>)applicationDatas.getListData() ); 
-        }
+        else
+            if ( applicationDatas != null )
+            {
+                model.put( Constants.MARK_DATA, (List<T>) applicationDatas.getListData( ) );
+            }
         model.put( Constants.MARK_DATAS, applicationDatas );
-        
+
     }
-    
+
     /**
      * Check a permission for a user, on given resource code.Ex: PERMISSION_DEPLY_APPLI for user john.doe@paris.fr on resource REC (environement)
+     * 
      * @param request
      * @param strPermissionCode
      * @param strResourceCode
-     * @return 
+     * @return
      * @throws SiteMessageException
      * @throws UserNotSignedException
-     * @throws AccessDeniedException 
+     * @throws AccessDeniedException
      */
-    protected boolean checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException, UserNotSignedException, AccessDeniedException
+    protected boolean checkPermission( HttpServletRequest request, String strPermissionCode, String strResourceCode ) throws SiteMessageException,
+            UserNotSignedException, AccessDeniedException
     {
-        _application = getApplication(request);
-        
+        _application = getApplication( request );
+
         if ( _application == null )
         {
             throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }
 
-        User user = UserService.getCurrentUserInAppContext(request, _application.getId( ) );
-        if ( !AuthorizationService.isAuthorized( user.getId(), _application.getId(), strPermissionCode, strResourceCode ) )
+        User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );
+        if ( !AuthorizationService.isAuthorized( user.getId( ), _application.getId( ), strPermissionCode, strResourceCode ) )
         {
             throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }
         return true;
     }
-    
+
     /**
      * Get an authorized site message
+     * 
      * @param request
-     * @throws SiteMessageException 
+     * @throws SiteMessageException
      */
     protected void getUnauthorizedAccessMessage( HttpServletRequest request ) throws SiteMessageException
     {
         SiteMessageService.setMessage( request, ERROR_USER_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR );
     }
-    
+
     /**
      * fill the model with the permissions for displaying buttons in the XPages
+     * 
      * @param model
      * @param request
      * @param strPermission
-     * @param strResourceCode 
+     * @param strResourceCode
      */
-    protected void fillDisplayPermission( Map<String,Object> model, HttpServletRequest request, String strPermission , String strResourceCode )
+    protected void fillDisplayPermission( Map<String, Object> model, HttpServletRequest request, String strPermission, String strResourceCode )
     {
         try
         {
-           if ( checkPermission( request, strPermission, strResourceCode) )
+            if ( checkPermission( request, strPermission, strResourceCode ) )
             {
-                model.put( strPermission, true);
-            } 
+                model.put( strPermission, true );
+            }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            
+
         }
     }
-    
+
     protected String getDemandType( )
     {
         return "";

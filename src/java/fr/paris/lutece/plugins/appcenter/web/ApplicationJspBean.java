@@ -119,14 +119,14 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public String getManageApplications( HttpServletRequest request )
     {
-        //Initialize the demand filter
+        // Initialize the demand filter
         if ( _filter == null )
         {
             _filter = new ApplicationFilter( );
         }
 
         _application = null;
-        List<Application> listApplications = ApplicationHome.getApplicationsListByFilter(_filter );
+        List<Application> listApplications = ApplicationHome.getApplicationsListByFilter( _filter );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -162,6 +162,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
     /**
      * Process the action of filtering applications; set the filter
+     * 
      * @param request
      * @return The manage applications view
      */
@@ -169,7 +170,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String doFilterApplication( HttpServletRequest request )
     {
         String strSearch = request.getParameter( PARAMETER_SEARCH );
-        _filter = new ApplicationFilter();
+        _filter = new ApplicationFilter( );
         if ( strSearch != null && !strSearch.equals( "-1" ) )
         {
             _filter.setSearch( strSearch );
@@ -315,7 +316,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String getApplicationDetail( HttpServletRequest request )
     {
         Application application = null;
-        Integer nIdApplication = request.getParameter( PARAMETER_ID_APPLICATION ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) ) : null;
+        Integer nIdApplication = request.getParameter( PARAMETER_ID_APPLICATION ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) )
+                : null;
 
         application = ApplicationHome.findByPrimaryKey( nIdApplication );
 

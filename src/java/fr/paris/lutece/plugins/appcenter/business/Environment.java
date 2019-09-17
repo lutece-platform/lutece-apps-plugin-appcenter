@@ -98,13 +98,14 @@ public enum Environment implements Serializable
         }
         return null;
     }
-    
+
     /**
      * Get the label of the environment
+     * 
      * @return the label of the environment
      */
     public String getLabel( )
     {
-        return I18nService.getLocalizedString( getLabelKey(), Locale.getDefault( ) );
+        return I18nService.getLocalizedString( getLabelKey( ), Locale.getDefault( ) );
     }
 }

@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.IAppCenterResourceType;
@@ -41,17 +41,18 @@ import java.util.Locale;
 
 /**
  * This is the business class for the object Permission
- */ 
+ */
 public class Permission implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    
+
     private String _strCode;
     private String _strLabel;
     private String _resourceTypeKey;
 
     /**
      * Returns the Code
+     * 
      * @return The Code
      */
     public String getCode( )
@@ -61,65 +62,72 @@ public class Permission implements Serializable
 
     /**
      * Sets the Code
-     * @param strCode The Code
-     */ 
+     * 
+     * @param strCode
+     *            The Code
+     */
     public void setCode( String strCode )
     {
         _strCode = strCode;
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @return The Label
      */
     public String getLabel( )
     {
         String strLabel = I18nService.getLocalizedString( _strLabel, Locale.getDefault( ) );
-        if ( strLabel.isEmpty( )  )
+        if ( strLabel.isEmpty( ) )
         {
             return _strLabel;
         }
         return strLabel;
-        
+
     }
-    
+
     /**
      * Returns the Label
+     * 
      * @param locale
      * @return The Label
      */
     public String getLabel( Locale locale )
     {
         String strLabel = I18nService.getLocalizedString( _strLabel, locale );
-        if ( strLabel.isEmpty( )  )
+        if ( strLabel.isEmpty( ) )
         {
             return _strLabel;
         }
         return strLabel;
     }
-    
-    
 
     /**
      * Sets the Label
-     * @param strLabel The Label
-     */ 
+     * 
+     * @param strLabel
+     *            The Label
+     */
     public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
-    
+
     /**
      * Sets the ResourceType
-     * @param resourceTypeClass The ResourceType class
-     */ 
+     * 
+     * @param resourceTypeClass
+     *            The ResourceType class
+     */
     public void setResourceTypeKey( String strResourceTypeKey )
     {
         _resourceTypeKey = strResourceTypeKey;
     }
-    
+
     /**
      * Get the IAppcenterResourceType associated to this permission
+     * 
      * @return the IAppcenterResourceType associated to this permission
      */
     public IAppCenterResourceType getResourceType( )

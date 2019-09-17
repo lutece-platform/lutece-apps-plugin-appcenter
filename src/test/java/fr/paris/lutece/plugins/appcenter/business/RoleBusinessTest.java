@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * This is the business class test for the object Role
  */
@@ -47,38 +46,38 @@ public class RoleBusinessTest extends LuteceTestCase
     private static final String LABEL1 = "Label1";
     private static final String LABEL2 = "Label2";
 
-	/**
-	* test Role
-	*/
-    public void testBusiness(  )
+    /**
+     * test Role
+     */
+    public void testBusiness( )
     {
         // Initialize an object
-        Role role = new Role();
+        Role role = new Role( );
         role.setCode( CODE1 );
         role.setLabel( LABEL1 );
 
         // Create test
         RoleHome.create( role );
         Role roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
-        assertEquals( roleStored.getCode() , role.getCode( ) );
-        assertEquals( roleStored.getLabel() , role.getLabel( ) );
+        assertEquals( roleStored.getCode( ), role.getCode( ) );
+        assertEquals( roleStored.getLabel( ), role.getLabel( ) );
 
         // Update test
         role.setCode( CODE2 );
         role.setLabel( LABEL2 );
         RoleHome.update( role );
         roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
-        assertEquals( roleStored.getCode() , role.getCode( ) );
-        assertEquals( roleStored.getLabel() , role.getLabel( ) );
+        assertEquals( roleStored.getCode( ), role.getCode( ) );
+        assertEquals( roleStored.getLabel( ), role.getLabel( ) );
 
         // List test
-        RoleHome.getRolesList();
+        RoleHome.getRolesList( );
 
         // Delete test
         RoleHome.remove( role.getId( ) );
         roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
         assertNull( roleStored );
-        
+
     }
 
 }

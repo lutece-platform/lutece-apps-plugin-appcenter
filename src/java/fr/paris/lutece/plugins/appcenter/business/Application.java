@@ -58,15 +58,14 @@ public class Application implements Serializable
     @Size( max = 50, message = "#i18n{appcenter.validation.application.Name.size}" )
     private String _strName;
     private String _strCode;
-    
 
     @Size( max = 255, message = "#i18n{appcenter.validation.application.Description.size}" )
     private String _strDescription;
 
     private String _strApplicationData;
-    
+
     private List<UserApplicationRole> _listAuthorizations;
-    
+
     private List<Environment> _listEnvironment;
 
     /**
@@ -152,19 +151,22 @@ public class Application implements Serializable
     {
         _strApplicationData = strApplicationData;
     }
-    
+
     /**
      * Set authorizations
-     * @param listAuthorizations The authorization list 
+     * 
+     * @param listAuthorizations
+     *            The authorization list
      */
     public void setAuthorizations( List<UserApplicationRole> listAuthorizations )
     {
         _listAuthorizations = listAuthorizations;
     }
-    
+
     /**
      * Get authorizations
-     * @return The authorization list 
+     * 
+     * @return The authorization list
      */
     public List<UserApplicationRole> getAuthorizations( )
     {
@@ -173,7 +175,8 @@ public class Application implements Serializable
 
     /**
      * Get application Code
-     * @return  the application code
+     * 
+     * @return the application code
      */
     public String getCode( )
     {
@@ -182,7 +185,8 @@ public class Application implements Serializable
 
     /**
      * 
-     * @param _strCode the application code
+     * @param _strCode
+     *            the application code
      */
     public void setCode( String _strCode )
     {
@@ -191,6 +195,7 @@ public class Application implements Serializable
 
     /**
      * Get the environment list
+     * 
      * @return the environment list
      */
     public List<Environment> getListEnvironment( )
@@ -200,7 +205,9 @@ public class Application implements Serializable
 
     /**
      * Set the environment list
-     * @param listEnvironment the environment list
+     * 
+     * @param listEnvironment
+     *            the environment list
      */
     public void setListEnvironment( List<Environment> listEnvironment )
     {

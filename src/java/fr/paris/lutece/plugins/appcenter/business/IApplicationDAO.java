@@ -87,8 +87,8 @@ public interface IApplicationDAO
      * @return The instance of the application
      */
     Application load( int nKey, Plugin plugin );
-    
-     /**
+
+    /**
      * Load the data from the table
      * 
      * @param strCode
@@ -98,7 +98,6 @@ public interface IApplicationDAO
      * @return The instance of the application
      */
     Application loadByCode( String strCode, Plugin plugin );
-
 
     /**
      * Load the data of all the application objects and returns them as a list
@@ -147,7 +146,7 @@ public interface IApplicationDAO
      *            The user Id
      * @param plugin
      *            The plugin
-     * @param nDefaultRole 
+     * @param nDefaultRole
      *            The default role
      * @return The role
      */

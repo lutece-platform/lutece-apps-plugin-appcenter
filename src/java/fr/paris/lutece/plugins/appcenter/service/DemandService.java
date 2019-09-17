@@ -53,68 +53,70 @@ import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+
 /**
  * Demand Service
  */
 public class DemandService
 {
-    private static final String PARAMETER_ENVIRONMENT_PREFIX  = "environment_prefix";
-    private static final String PARAMETER_ID_DEMAND_TYPE  = "id_demand_type";
-    private static final String PARAMETER_IS_CLOSED  = "is_closed";
-    private static final String PARAMETER_ID_APPLICATION  = "id_application";
-    
+    private static final String PARAMETER_ENVIRONMENT_PREFIX = "environment_prefix";
+    private static final String PARAMETER_ID_DEMAND_TYPE = "id_demand_type";
+    private static final String PARAMETER_IS_CLOSED = "is_closed";
+    private static final String PARAMETER_ID_APPLICATION = "id_application";
+
     private static ObjectMapper _mapper = new ObjectMapper( );
-    
-    public static void saveDemand ( Demand demand, Application application )
+
+    public static void saveDemand( Demand demand, Application application )
     {
-    	demand.setCreationDate(new java.sql.Timestamp( ( new java.util.Date( ) ).getTime( ) ));
+        demand.setCreationDate( new java.sql.Timestamp( ( new java.util.Date( ) ).getTime( ) ) );
         demand.setDemandData( getDemandAsString( demand ) );
         DemandHome.create( demand );
-        //Run the workflow
+        // Run the workflow
         int nIdResource = demand.getId( );
-        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType() );
+        int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
         WorkflowService.getInstance( ).getState( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
         WorkflowService.getInstance( ).executeActionAutomatic( nIdResource, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
 
     }
-    
+
     public static <T extends Demand> List<T> getDemandsListByApplicationAndType( Application application, String strDemandType, Class<T> demandClass )
     {
-        return DemandHome.getDemandsListByApplicationAndType( application.getId(), strDemandType, demandClass );
+        return DemandHome.getDemandsListByApplicationAndType( application.getId( ), strDemandType, demandClass );
     }
-    
+
     public static String getDemandAsString( Demand demand )
     {
         try
         {
             return _mapper.writeValueAsString( demand );
         }
-        catch ( JsonProcessingException e )
+        catch( JsonProcessingException e )
         {
-            AppLogService.error( "Unable to convert demand obj to JSON", e);
+            AppLogService.error( "Unable to convert demand obj to JSON", e );
         }
-        return null;    
+        return null;
     }
-    
+
     /**
      * Get the demand filter from the Http request
+     * 
      * @param request
      * @return the demand filter
      */
-    public static DemandFilter computeDemandFilter ( HttpServletRequest request )
+    public static DemandFilter computeDemandFilter( HttpServletRequest request )
     {
         String strEnvironmentPrefix = request.getParameter( PARAMETER_ENVIRONMENT_PREFIX );
         String strIdDemandType = request.getParameter( PARAMETER_ID_DEMAND_TYPE );
         String strIsClosed = request.getParameter( PARAMETER_IS_CLOSED );
         String strApplicationId = request.getParameter( PARAMETER_ID_APPLICATION );
-        
-        DemandFilter filter = new DemandFilter();
+
+        DemandFilter filter = new DemandFilter( );
         if ( strEnvironmentPrefix != null && !strEnvironmentPrefix.equals( "-1" ) )
         {
             filter.setEnvironmentPrefix( strEnvironmentPrefix );
-            filter.setHasEnvironmentPrefix(true );
+            filter.setHasEnvironmentPrefix( true );
         }
-        if ( strIdDemandType != null && !strIdDemandType.equals( "-1" ))
+        if ( strIdDemandType != null && !strIdDemandType.equals( "-1" ) )
         {
             filter.setIdDemandType( strIdDemandType );
             filter.setHasIdDemandType( true );
@@ -126,19 +128,20 @@ public class DemandService
                 filter.setIsClosed( true );
                 filter.setHasIsClosed( true );
             }
-            else if( strIsClosed.equals( "false" ) )
-            {
-                filter.setIsClosed( false );
-                filter.setHasIsClosed( true );
-            }
+            else
+                if ( strIsClosed.equals( "false" ) )
+                {
+                    filter.setIsClosed( false );
+                    filter.setHasIsClosed( true );
+                }
         }
-            
-        if ( strApplicationId != null  && !strApplicationId.equals( "-1" ))
+
+        if ( strApplicationId != null && !strApplicationId.equals( "-1" ) )
         {
             filter.setIdApplication( Integer.parseInt( strApplicationId ) );
             filter.setHasIdApplication( true );
         }
-        
+
         return filter;
     }
 
@@ -163,29 +166,29 @@ public class DemandService
 
         if ( datas != null && demand.getIdApplicationData( ) != null )
         {
-            //Modify data
+            // Modify data
             ListIterator<ApplicationData> itr = datas.getListData( ).listIterator( );
-            while( itr.hasNext( ) )
+            while ( itr.hasNext( ) )
             {
-                ApplicationData it = itr.next();
-                if( it.getIdApplicationData( ) == demand.getIdApplicationData( ) )
+                ApplicationData it = itr.next( );
+                if ( it.getIdApplicationData( ) == demand.getIdApplicationData( ) )
                 {
                     List<Integer> listIdDemandAssociated = it.getListIdDemandAssociated( );
 
                     if ( listIdDemandAssociated.contains( demand.getId( ) ) )
                     {
-                        //remove the id in the list of demand associated
+                        // remove the id in the list of demand associated
                         listIdDemandAssociated.remove( Integer.valueOf( demand.getId( ) ) );
                     }
 
                     if ( listIdDemandAssociated.size( ) == 0 )
                     {
-                        //remove the applicationData
+                        // remove the applicationData
                         itr.remove( );
                     }
                     else
                     {
-                        //update the list of demand associated
+                        // update the list of demand associated
                         it.setListIdDemandAssociated( listIdDemandAssociated );
                     }
                     break;
@@ -195,8 +198,7 @@ public class DemandService
             ApplicationService.saveApplicationData( application, datas );
         }
 
-
-        List<Integer> idResourceList = new ArrayList<Integer>();
+        List<Integer> idResourceList = new ArrayList<Integer>( );
         idResourceList.add( nId );
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
         WorkflowService.getInstance( ).doRemoveWorkFlowResourceByListId( idResourceList, Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow );
@@ -231,4 +233,3 @@ public class DemandService
         return strDemandJson;
     }
 }
-

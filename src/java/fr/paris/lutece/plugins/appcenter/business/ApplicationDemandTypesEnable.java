@@ -44,15 +44,15 @@ import java.util.List;
 public class ApplicationDemandTypesEnable implements DataSubset
 {
     public static final String DATA_SUBSET_NAME = "demand_types_enabled";
-    
+
     public ApplicationDemandTypesEnable( )
     {
-        _listDemandTypeIdEnabled = new ArrayList<>();
+        _listDemandTypeIdEnabled = new ArrayList<>( );
     }
-    
+
     private List<String> _listDemandTypeIdEnabled;
 
-    public List<String> getListDemandTypeIdEnabled()
+    public List<String> getListDemandTypeIdEnabled( )
     {
         return _listDemandTypeIdEnabled;
     }
@@ -61,16 +61,16 @@ public class ApplicationDemandTypesEnable implements DataSubset
     {
         _listDemandTypeIdEnabled = listDemandTypeIdEnabled;
     }
-    
+
     public void addDemandTypeEnabled( String strDemandTypeId )
     {
         _listDemandTypeIdEnabled.add( strDemandTypeId );
     }
-    
+
     @Override
-    public String getName()
+    public String getName( )
     {
         return DATA_SUBSET_NAME;
     }
-    
+
 }

@@ -124,13 +124,13 @@ public final class ApplicationHome
     public static Application findByPrimaryKey( int nKey )
     {
         Application application = _dao.load( nKey, _plugin );
-        if( application != null )
+        if ( application != null )
         {
-            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ));
+            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ) );
         }
         return application;
     }
-    
+
     /**
      * Returns an instance of a application whose code is specified in parameter
      * 
@@ -141,9 +141,9 @@ public final class ApplicationHome
     public static Application findByCode( String strCode )
     {
         Application application = _dao.loadByCode( strCode, _plugin );
-        if( application != null )
+        if ( application != null )
         {
-            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ));
+            application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ) );
         }
         return application;
     }
@@ -198,13 +198,13 @@ public final class ApplicationHome
      */
     public static List<Application> getApplicationsByUser( String strUserId )
     {
-        List<Application> listApplications = getApplicationsList();
-        List<Application> listAuthorizedApplications = new ArrayList<>();
+        List<Application> listApplications = getApplicationsList( );
+        List<Application> listAuthorizedApplications = new ArrayList<>( );
         for ( Application app : listApplications )
         {
-            if ( AuthorizationService.isAuthorized(strUserId, app.getId(), "PERMISSION_VIEW_APPLICATION", null ) )
+            if ( AuthorizationService.isAuthorized( strUserId, app.getId( ), "PERMISSION_VIEW_APPLICATION", null ) )
             {
-                listAuthorizedApplications.add(app);
+                listAuthorizedApplications.add( app );
             }
         }
         return listAuthorizedApplications;

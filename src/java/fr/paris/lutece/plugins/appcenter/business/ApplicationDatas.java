@@ -38,17 +38,16 @@ import java.util.List;
 
 import fr.paris.lutece.plugins.appcenter.service.DataSubset;
 
-public  class ApplicationDatas<T extends ApplicationData> implements DataSubset
+public class ApplicationDatas<T extends ApplicationData> implements DataSubset
 {
     private List<T> _listData;
-    
+
     public ApplicationDatas( )
     {
-        _listData = new ArrayList<>();
+        _listData = new ArrayList<>( );
     }
-    
 
-    public List<T> getListData()
+    public List<T> getListData( )
     {
         return _listData;
     }
@@ -57,18 +56,18 @@ public  class ApplicationDatas<T extends ApplicationData> implements DataSubset
     {
         _listData = listData;
     }
-    
+
     public void addData( T data )
     {
-    	//Add Id application data
-    	data.setIdApplicationData(_listData.size()+1);
-       _listData.add( data );
+        // Add Id application data
+        data.setIdApplicationData( _listData.size( ) + 1 );
+        _listData.add( data );
     }
 
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName( )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

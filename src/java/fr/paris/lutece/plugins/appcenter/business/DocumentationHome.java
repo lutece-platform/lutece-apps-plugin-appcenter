@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class DocumentationHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DocumentationHome(  )
+    private DocumentationHome( )
     {
     }
 
     /**
      * Create an instance of the documentation class
-     * @param documentation The instance of the Documentation which contains the informations to store
-     * @return The  instance of documentation which has been created with its primary key.
+     * 
+     * @param documentation
+     *            The instance of the Documentation which contains the informations to store
+     * @return The instance of documentation which has been created with its primary key.
      */
     public static Documentation create( Documentation documentation )
     {
@@ -70,8 +72,10 @@ public final class DocumentationHome
 
     /**
      * Update of the documentation which is specified in parameter
-     * @param documentation The instance of the Documentation which contains the data to store
-     * @return The instance of the  documentation which has been updated
+     * 
+     * @param documentation
+     *            The instance of the Documentation which contains the data to store
+     * @return The instance of the documentation which has been updated
      */
     public static Documentation update( Documentation documentation )
     {
@@ -82,7 +86,9 @@ public final class DocumentationHome
 
     /**
      * Remove the documentation whose identifier is specified in parameter
-     * @param nKey The documentation Id
+     * 
+     * @param nKey
+     *            The documentation Id
      */
     public static void remove( int nKey )
     {
@@ -91,43 +97,49 @@ public final class DocumentationHome
 
     /**
      * Returns an instance of a documentation whose identifier is specified in parameter
-     * @param nKey The documentation primary key
+     * 
+     * @param nKey
+     *            The documentation primary key
      * @return an instance of Documentation
      */
     public static Documentation findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
 
     /**
      * Load the data of all the documentation objects and returns them as a list
+     * 
      * @return the list which contains the data of all the documentation objects
      */
     public static List<Documentation> getDocumentationsList( )
     {
         return _dao.selectDocumentationsList( _plugin );
     }
-    
+
     /**
      * Load the id of all the documentation objects and returns them as a list
+     * 
      * @return the list which contains the id of all the documentation objects
      */
     public static List<Integer> getIdDocumentationsList( )
     {
         return _dao.selectIdDocumentationsList( _plugin );
     }
-    
+
     /**
      * Load the data of all the documentation objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the documentation objects
      */
     public static ReferenceList getDocumentationsReferenceList( )
     {
-        return _dao.selectDocumentationsReferenceList(_plugin );
+        return _dao.selectDocumentationsReferenceList( _plugin );
     }
-    
+
     /**
-     * Load the data of all the documentation objects for given id demand type 
+     * Load the data of all the documentation objects for given id demand type
+     * 
      * @param nIdDemandType
      * @return the referenceList which contains the data of all the documentation objects
      */
@@ -136,4 +148,3 @@ public final class DocumentationHome
         return _dao.selectDocumentationsListByIdDemandType( nIdDemandType, _plugin );
     }
 }
-

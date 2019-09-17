@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -46,77 +46,102 @@ public interface IRoleDAO
 {
     /**
      * Insert a new record in the table.
-     * @param role instance of the Role object to insert
-     * @param plugin the Plugin
+     * 
+     * @param role
+     *            instance of the Role object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( Role role, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param role the reference of the Role
-     * @param plugin the Plugin
+     * 
+     * @param role
+     *            the reference of the Role
+     * @param plugin
+     *            the Plugin
      */
     void store( Role role, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the Role to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the Role to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the role
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the role
+     * @param plugin
+     *            the Plugin
      * @return The instance of the role
      */
     Role load( int nKey, Plugin plugin );
-    
-      /**
+
+    /**
      * Load the data from the table identified by the code
-     * @param strCode The code of the role
-     * @param plugin the Plugin
+     * 
+     * @param strCode
+     *            The code of the role
+     * @param plugin
+     *            the Plugin
      * @return The instance of the role
      */
     Role loadByCode( String strCode, Plugin plugin );
 
     /**
      * Load the role of a user from the table
+     * 
      * @param strUserId
      * @param nApplicationId
-     * @param plugin the Plugin
+     * @param plugin
+     *            the Plugin
      * @return The instance of the role
      */
     Role loadByUserIdAndApplicationId( String strUserId, int nApplicationId, Plugin plugin );
-    
+
     /**
      * Load the data of all the role objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the role objects
      */
     List<Role> selectRolesList( Plugin plugin );
-    
+
     /**
      * Load the id of all the role objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the id of all the role objects
      */
     List<Integer> selectIdRolesList( Plugin plugin );
-    
+
     /**
      * Load the data of all the role objects and returns them as a referenceList
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The referenceList which contains the data of all the role objects
      */
     ReferenceList selectRolesReferenceList( Plugin plugin );
 
     /**
      * Load the data of all the role objects and returns them as a map
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The map which contains the data of all the role objects
      */
     Map<String, Role> selectRolesMap( Plugin plugin );

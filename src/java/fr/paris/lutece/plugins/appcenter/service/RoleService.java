@@ -13,10 +13,10 @@ import fr.paris.lutece.util.ReferenceList;
 public class RoleService
 {
     private static final String PROPERTY_ID_APP_ROLE_OWNER = "appcenter.role.appOwner.code";
-    
+
     public static Role getAppOwnerRole( )
     {
-        String strIdOwnerRole = AppPropertiesService.getProperty( PROPERTY_ID_APP_ROLE_OWNER, "app_owner");
+        String strIdOwnerRole = AppPropertiesService.getProperty( PROPERTY_ID_APP_ROLE_OWNER, "app_owner" );
         Role ownerRole = RoleHome.findByCode( strIdOwnerRole );
         return ownerRole;
     }

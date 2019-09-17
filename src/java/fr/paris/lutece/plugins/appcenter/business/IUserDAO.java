@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -45,58 +45,76 @@ public interface IUserDAO
 {
     /**
      * Insert a new record in the table.
-     * @param user instance of the User object to insert
-     * @param plugin the Plugin
+     * 
+     * @param user
+     *            instance of the User object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( User user, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param user the reference of the User
-     * @param plugin the Plugin
+     * 
+     * @param user
+     *            the reference of the User
+     * @param plugin
+     *            the Plugin
      */
     void store( User user, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param strKey The identifier of the User to delete
-     * @param plugin the Plugin
+     * 
+     * @param strKey
+     *            The identifier of the User to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( String strKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param strKey The identifier of the user
-     * @param plugin the Plugin
+     * 
+     * @param strKey
+     *            The identifier of the user
+     * @param plugin
+     *            the Plugin
      * @return The instance of the user
      */
     User load( String strKey, Plugin plugin );
 
     /**
      * Load the data of all the user objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the user objects
      */
     List<User> selectUsersList( Plugin plugin );
-    
+
     /**
      * Load the id of all the user objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the id of all the user objects
      */
     List<String> selectIdUsersList( Plugin plugin );
-    
+
     /**
      * Load the data of all the user objects and returns them as a referenceList
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The referenceList which contains the data of all the user objects
      */
     ReferenceList selectUsersReferenceList( Plugin plugin );
-    
-     /**
+
+    /**
      * Update of the user infos
      * 
      * @param strIdUser

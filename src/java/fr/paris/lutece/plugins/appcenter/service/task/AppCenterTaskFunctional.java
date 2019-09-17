@@ -9,8 +9,9 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 
 @FunctionalInterface
-public interface AppCenterTaskFunctional <AD extends ApplicationData,ADS extends ApplicationDatas<AD>,D extends Demand > {
-	
-	void treatment(HttpServletRequest request, Locale locale,AD applicationData,ADS applicationDatas,D demand );
-	
+public interface AppCenterTaskFunctional<AD extends ApplicationData, ADS extends ApplicationDatas<AD>, D extends Demand>
+{
+
+    void treatment( HttpServletRequest request, Locale locale, AD applicationData, ADS applicationDatas, D demand );
+
 }

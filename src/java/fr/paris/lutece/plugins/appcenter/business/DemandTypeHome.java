@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.appcenter.business;
+package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -52,14 +52,16 @@ public final class DemandTypeHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DemandTypeHome(  )
+    private DemandTypeHome( )
     {
     }
 
     /**
      * Create an instance of the demandType class
-     * @param demandType The instance of the DemandType which contains the informations to store
-     * @return The  instance of demandType which has been created with its primary key.
+     * 
+     * @param demandType
+     *            The instance of the DemandType which contains the informations to store
+     * @return The instance of demandType which has been created with its primary key.
      */
     public static DemandType create( DemandType demandType )
     {
@@ -70,8 +72,10 @@ public final class DemandTypeHome
 
     /**
      * Update of the demandType which is specified in parameter
-     * @param demandType The instance of the DemandType which contains the data to store
-     * @return The instance of the  demandType which has been updated
+     * 
+     * @param demandType
+     *            The instance of the DemandType which contains the data to store
+     * @return The instance of the demandType which has been updated
      */
     public static DemandType update( DemandType demandType )
     {
@@ -82,7 +86,9 @@ public final class DemandTypeHome
 
     /**
      * Remove the demandType whose identifier is specified in parameter
-     * @param nKey The demandType Id
+     * 
+     * @param nKey
+     *            The demandType Id
      */
     public static void remove( int nKey )
     {
@@ -91,62 +97,67 @@ public final class DemandTypeHome
 
     /**
      * Returns an instance of a demandType whose identifier is specified in parameter
-     * @param nKey The demandType primary key
+     * 
+     * @param nKey
+     *            The demandType primary key
      * @return an instance of DemandType
      */
     public static DemandType findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
-    
+
     /**
      * Returns an instance of a demandType whose demand type is specified in parameter
-     * @param strIdDemandType the demand type
+     * 
+     * @param strIdDemandType
+     *            the demand type
      * @return an instance of DemandType
      */
     public static DemandType findByIdDemandType( String strIdDemandType )
     {
-        return _dao.loadByIdDemandType( strIdDemandType, _plugin);
+        return _dao.loadByIdDemandType( strIdDemandType, _plugin );
     }
-
 
     /**
      * Load the data of all the demandType objects and returns them as a list
+     * 
      * @return the list which contains the data of all the demandType objects
      */
     public static List<DemandType> getDemandTypesList( )
     {
         return _dao.selectDemandTypesList( _plugin );
     }
-    
+
     /**
      * Load the id of all the demandType objects and returns them as a list
+     * 
      * @return the list which contains the id of all the demandType objects
      */
     public static List<Integer> getIdDemandTypesList( )
     {
         return _dao.selectIdDemandTypesList( _plugin );
     }
-    
+
     /**
      * Load the id of all the demandType objects and returns them as a list by id category
+     * 
      * @param nIdCategory
      * @return the list which contains the id of all the demandType objects
      */
     public static List<DemandType> getDemandTypesListByIdCategory( int nIdCategory )
     {
-        return _dao.selectDemandTypesListByIdCategory( nIdCategory,  _plugin );
+        return _dao.selectDemandTypesListByIdCategory( nIdCategory, _plugin );
     }
-    
+
     /**
      * Load the data of all the demandType objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the demandType objects
      */
     public static ReferenceList getDemandTypesReferenceList( )
     {
-        return _dao.selectDemandTypesReferenceList(_plugin );
+        return _dao.selectDemandTypesReferenceList( _plugin );
     }
-    
-    
-}
 
+}

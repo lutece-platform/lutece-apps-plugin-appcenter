@@ -43,16 +43,17 @@ public class EnvironmentService
 {
     /**
      * Get the environment list from the request
+     * 
      * @param request
      * @return the environment list
      */
-    public static List<Environment> getEnvironmentList ( HttpServletRequest request )
+    public static List<Environment> getEnvironmentList( HttpServletRequest request )
     {
-        List<Environment> listEnviReturn = new ArrayList<>();
+        List<Environment> listEnviReturn = new ArrayList<>( );
         Enumeration<String> enumParamNames = request.getParameterNames( );
-        while( enumParamNames.hasMoreElements() )
+        while ( enumParamNames.hasMoreElements( ) )
         {
-            String strParamName = enumParamNames.nextElement();
+            String strParamName = enumParamNames.nextElement( );
             Environment envi = Environment.getEnvironment( strParamName );
             if ( envi != null )
             {
