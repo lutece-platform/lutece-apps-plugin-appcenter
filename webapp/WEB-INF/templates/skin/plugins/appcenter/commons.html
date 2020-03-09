@@ -69,6 +69,25 @@
 							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required >
 						</div>
 						<div class="form-group">
+							<label for="id_organization" class="col-form-label">#i18n{appcenter.modify_application.labelIdOrganization} <@icon style="asterisk" />
+							</label>
+                            <@select name='id_organization' id='id_organization' default_value='${(application.organizationManager.idOrganization)!}' items=list_organizations />
+						</div>
+						<div class="form-group">
+							<label for="id_organization_manager" class="col-form-label">#i18n{appcenter.modify_application.labelIdOrganizationManager} <@icon style="asterisk" />
+							</label>
+                            <@select name='id_organization_manager' id='id_organization_manager' />
+                                <#list list_organization_managers as organization_manager>
+                                    <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )"
+                                    <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
+                                        <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                                    <#else>
+                                        <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                                    </#if>
+                                </#list>
+                            </@select>
+						</div>
+						<div class="form-group">
 							<label for="name" class="col-form-label">#i18n{appcenter.modify_application.labelEnvironments} </label>
 							<div class="">
 								<#list environments as environment>
@@ -231,6 +250,39 @@ $(function(){
         } );
     }
         
+});
+$(function() {
+    var id_organization = $('#id_organization option:checked').attr("value");
+    $('#id_organization_manager option').each( function() {
+        if ( $(this).attr("organization") == id_organization )
+        {
+            $(this).show();
+        }
+        else
+        {
+            $(this).hide();
+        }
+    });
+    $("#id_organization").change( function(e) {
+        var id_organization = $('#id_organization option:checked').attr("value");
+        var first_visible = true;
+        $('#id_organization_manager option').each( function() {
+            if ( $(this).attr("organization") == id_organization )
+            {
+                $(this).show();
+                if ( first_visible )
+                {
+                    $(this).prop("selected", true);
+                    first_visible = false;
+                }
+            }
+            else
+            {
+                $(this).hide();
+                $(this).prop("selected", false);
+            }
+        });
+    });
 });
 </script>
 </#macro>

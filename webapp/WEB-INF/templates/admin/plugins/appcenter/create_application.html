@@ -13,6 +13,21 @@
 				<@formGroup labelKey='#i18n{appcenter.create_application.labelDescription}' helpKey='#i18n{appcenter.create_application.labelDescription.help}' >
 					<@input type='text' name='description' value='${application.description!\'\'}' />
 				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_application.labelIdOrganization}' helpKey='#i18n{appcenter.create_application.labelIdOrganization.help}' >
+                    <@select name='id_organization' id='id_organization' default_value='${(application.organizationManager.idOrganization)!}' items=list_organizations />
+				</@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.create_application.labelIdOrganizationManager}' helpKey='#i18n{appcenter.create_application.labelIdOrganizationManager.help}' >
+                    <@select name='id_organization_manager' id='id_organization_manager' />
+                        <#list list_organization_managers as organization_manager>
+                            <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )"
+                            <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
+                                <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                            <#else>
+                                <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                            </#if>
+                        </#list>
+                    </@select>
+                </@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.create_application.labelApplicationData}' helpKey='#i18n{appcenter.create_application.labelApplicationData.help}' >
 					<@input type='text' name='application_data' value='${application.ApplicationData!\'\'}' />
 				</@formGroup>
@@ -21,4 +36,38 @@
     </@tform>
 	</@boxBody>
 </@box>
-
+<script>
+    $(function() {
+        var id_organization = $('#id_organization option:checked').attr("value");
+        $('#id_organization_manager option').each( function() {
+            if ( $(this).attr("organization") == id_organization )
+            {
+                $(this).show();
+            }
+            else
+            {
+                $(this).hide();
+            }
+        });
+        $("#id_organization").change( function(e) {
+            var id_organization = $('#id_organization option:checked').attr("value");
+            var first_visible = true;
+            $('#id_organization_manager option').each( function() {
+                if ( $(this).attr("organization") == id_organization )
+                {
+                    $(this).show();
+                    if ( first_visible )
+                    {
+                        $(this).prop("selected", true);
+                        first_visible = false;
+                    }
+                }
+                else
+                {
+                    $(this).hide();
+                    $(this).prop("selected", false);
+                }
+            });
+        });
+    });
+</script>

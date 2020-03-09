@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
@@ -49,13 +50,13 @@ public final class ApplicationDAO implements IApplicationDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_application";
-    private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
-    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT appcenter_application.id_application, name, description, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.code = ? ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, application_data,code ) VALUES ( ?, ?, ?, ? , ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
+    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data,code, environment_code FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.code = ? ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, id_organization_manager, application_data,code ) VALUES ( ?, ?, ?, ?, ? , ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , code = ?  WHERE id_application = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , id_organization_manager = ?, code = ?  WHERE id_application = ?";
     private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, application_data, code FROM appcenter_application";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, id_organization_manager, application_data, code FROM appcenter_application";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application_role WHERE id_application = ? ";
     private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT id_role FROM appcenter_user_application_role WHERE id_application = ? AND id_user = ? ";
     private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
@@ -101,6 +102,7 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setInt( nIndex++, application.getId( ) );
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
+        daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganization( ) );
         daoUtil.setString( nIndex++, application.getApplicationData( ) );
         daoUtil.setString( nIndex++, application.getCode( ) );
 
@@ -142,6 +144,9 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
+            OrganizationManager organizationManager = new OrganizationManager( );
+            organizationManager.setIdOrganizationManager( daoUtil.getInt( nIndex++ ) );
+            application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );
@@ -207,6 +212,7 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
+        daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganizationManager( ) );
         daoUtil.setString( nIndex++, application.getCode( ) );
 
         daoUtil.setInt( nIndex, application.getId( ) );
@@ -269,6 +275,9 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
+            OrganizationManager organizationManager = new OrganizationManager( );
+            organizationManager.setIdOrganizationManager( daoUtil.getInt( nIndex++ ) );
+            application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
 
@@ -312,6 +321,9 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
+            OrganizationManager organizationManager = new OrganizationManager( );
+            organizationManager.setIdOrganizationManager( daoUtil.getInt( nIndex++ ) );
+            application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
 
@@ -360,6 +372,9 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
+            OrganizationManager organizationManager = new OrganizationManager( );
+            organizationManager.setIdOrganizationManager( daoUtil.getInt( nIndex++ ) );
+            application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
 
@@ -415,6 +430,9 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setId( daoUtil.getInt( nIndex++ ) );
             application.setName( daoUtil.getString( nIndex++ ) );
             application.setDescription( daoUtil.getString( nIndex++ ) );
+            OrganizationManager organizationManager = new OrganizationManager( );
+            organizationManager.setIdOrganizationManager( daoUtil.getInt( nIndex++ ) );
+            application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );

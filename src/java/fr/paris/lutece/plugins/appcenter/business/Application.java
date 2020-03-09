@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.ResourceTypeValue;
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.AbstractAppCenterResourceType;
 import javax.validation.constraints.*;
@@ -62,6 +63,7 @@ public class Application implements Serializable
     @Size( max = 255, message = "#i18n{appcenter.validation.application.Description.size}" )
     private String _strDescription;
 
+    private OrganizationManager _organizationManager;
     private String _strApplicationData;
 
     private List<UserApplicationRole> _listAuthorizations;
@@ -129,6 +131,27 @@ public class Application implements Serializable
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
+    }
+
+    /**
+     * Returns the organizationManager
+     * 
+     * @return The organizationManager
+     */
+    public OrganizationManager getOrganizationManager( )
+    {
+        return _organizationManager;
+    }
+
+    /**
+     * Sets the organizationManager
+     * 
+     * @param organizationManager
+     *            The organizationManager
+     */
+    public void setOrganizationManager( OrganizationManager organizationManager )
+    {
+        _organizationManager = organizationManager;
     }
 
     /**

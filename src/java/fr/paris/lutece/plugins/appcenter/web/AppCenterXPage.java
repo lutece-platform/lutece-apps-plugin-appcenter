@@ -48,6 +48,8 @@ import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
@@ -89,6 +91,8 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_APPLICATION = "application";
+    private static final String MARK_ORGANIZATIONS = "list_organizations";
+    private static final String MARK_ORGANIZATION_MANAGERS = "list_organization_managers";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
     private static final String MARK_DEMAND_TYPE_LIST = "demandtype_list";
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
@@ -214,6 +218,9 @@ public abstract class AppCenterXPage extends MVCApplication
         _application = getApplication( request );
 
         model.put( MARK_APPLICATION, _application );
+
+        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
 
         // Add the user
         User user = UserService.getCurrentUserInAppContext( request, _application.getId( ) );

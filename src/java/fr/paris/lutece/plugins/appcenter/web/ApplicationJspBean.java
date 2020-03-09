@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.appcenter.web;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationFilter;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.organization.Organization;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -43,9 +47,12 @@ import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 import java.util.Collections;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
@@ -66,6 +73,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     // Parameters
     private static final String PARAMETER_ID_APPLICATION = "id";
     private static final String PARAMETER_SEARCH = "search";
+    private static final String PARAMETER_ID_ORGANIZATION_MANAGER = "id_organization_manager";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS = "appcenter.manage_applications.pageTitle";
@@ -78,6 +86,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String MARK_APPLICATION = "application";
     private static final String MARK_APPLICATION_FILTER = "application_filter";
     private static final String MARK_JSON_DATA = "json_data";
+    private static final String MARK_ORGANIZATIONS = "list_organizations";
+    private static final String MARK_ORGANIZATION_MANAGERS = "list_organization_managers";
 
     private static final String JSP_MANAGE_APPLICATIONS = "jsp/admin/plugins/appcenter/ManageApplications.jsp";
 
@@ -193,6 +203,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
+        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_APPLICATION, TEMPLATE_CREATE_APPLICATION, model );
     }
@@ -208,6 +220,11 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String doCreateApplication( HttpServletRequest request )
     {
         populate( _application, request );
+
+        String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
+        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        _application.setOrganizationManager( organizationManager );
 
         // Check constraints
         if ( !validateBean( _application, VALIDATION_ATTRIBUTES_PREFIX ) )
@@ -276,6 +293,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
+        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_APPLICATION, TEMPLATE_MODIFY_APPLICATION, model );
     }
@@ -291,6 +310,11 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String doModifyApplication( HttpServletRequest request )
     {
         populate( _application, request );
+
+        String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
+        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        _application.setOrganizationManager( organizationManager );
 
         // Check constraints
         if ( !validateBean( _application, VALIDATION_ATTRIBUTES_PREFIX ) )

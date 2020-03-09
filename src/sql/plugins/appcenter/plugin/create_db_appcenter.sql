@@ -42,6 +42,7 @@ id_application int(6) NOT NULL,
 code varchar(50) default NULL,
 name varchar(50) default '' NOT NULL,
 description varchar(255) default '',
+id_organization_manager int default 0,
 application_data long varchar,
 PRIMARY KEY (id_application)
 );
@@ -170,4 +171,29 @@ CREATE TABLE appcenter_user (
 id_user varchar(255) default '',
 user_infos varchar(5000) default '{}',
 PRIMARY KEY (id_user)
+);
+
+--
+-- Structure for table appcenter_organization
+--
+
+DROP TABLE IF EXISTS appcenter_organization;
+CREATE TABLE appcenter_organization (
+id_organization int AUTO_INCREMENT,
+name varchar(50) default '',
+PRIMARY KEY (id_organization)
+);
+
+--
+-- Structure for table appcenter_organization_manager
+--
+
+DROP TABLE IF EXISTS appcenter_organization_manager;
+CREATE TABLE appcenter_organization_manager (
+id_organization_manager int AUTO_INCREMENT,
+id_organization int default '0',
+first_name varchar(50) default '',
+family_name varchar(255) default '',
+mail varchar(255) default '',
+PRIMARY KEY (id_organization_manager)
 );

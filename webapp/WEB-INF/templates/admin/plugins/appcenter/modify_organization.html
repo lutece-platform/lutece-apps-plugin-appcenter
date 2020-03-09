@@ -1,0 +1,17 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="organization" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.modify_organization.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="modify_organization" action="jsp/admin/plugins/appcenter/ManageOrganizations.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id" value="${organization.idOrganization}"/>
+        <input type="hidden" name="token" value="${token}" />
+        <@formGroup labelKey='#i18n{appcenter.modify_organization.labelName}' helpKey='#i18n{appcenter.modify_organization.labelName.help}' mandatory=true>
+            <@input type='text' name='name' value='${organization.name!}' />
+        </@formGroup>
+        <@actionButtons button1Name="action_modifyOrganization" button2Name="view_manageOrganization"/>
+    </@tform>
+	</@boxBody>
+</@box>

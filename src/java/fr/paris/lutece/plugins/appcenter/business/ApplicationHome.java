@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -127,6 +129,8 @@ public final class ApplicationHome
         if ( application != null )
         {
             application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ) );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( application.getOrganizationManager( ).getIdOrganizationManager( ) );
+            application.setOrganizationManager( organizationManager );
         }
         return application;
     }
@@ -144,6 +148,8 @@ public final class ApplicationHome
         if ( application != null )
         {
             application.setAuthorizations( UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( application.getId( ) ) );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( application.getOrganizationManager( ).getIdOrganizationManager( ) );
+            application.setOrganizationManager( organizationManager );
         }
         return application;
     }
@@ -155,7 +161,15 @@ public final class ApplicationHome
      */
     public static List<Application> getApplicationsList( )
     {
-        return _dao.selectApplicationsList( _plugin );
+        List<Application> applicationList = _dao.selectApplicationsList( _plugin );
+
+        for ( Application application : applicationList )
+        {
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( application.getOrganizationManager( ).getIdOrganizationManager( ) );
+            application.setOrganizationManager( organizationManager );
+        }
+
+        return applicationList;
     }
 
     /**
@@ -166,7 +180,15 @@ public final class ApplicationHome
      */
     public static List<Application> getApplicationsListByFilter( ApplicationFilter filter )
     {
-        return _dao.selectApplicationsListByFilter( filter, _plugin );
+        List<Application> applicationList = _dao.selectApplicationsListByFilter( filter, _plugin );
+
+        for ( Application application : applicationList )
+        {
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( application.getOrganizationManager( ).getIdOrganizationManager( ) );
+            application.setOrganizationManager( organizationManager );
+        }
+
+        return applicationList;
     }
 
     /**
@@ -186,7 +208,15 @@ public final class ApplicationHome
      */
     public static Map<String, Application> getApplicationsMap( )
     {
-        return _dao.selectApplicationsMap( _plugin );
+        Map<String,Application> applicationMap = _dao.selectApplicationsMap( _plugin );
+
+        for ( Application application : applicationMap.values( ) )
+        {
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( application.getOrganizationManager( ).getIdOrganizationManager( ) );
+            application.setOrganizationManager( organizationManager );
+        }
+
+        return applicationMap;
     }
 
     /**

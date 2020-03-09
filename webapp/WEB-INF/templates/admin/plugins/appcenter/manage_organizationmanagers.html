@@ -1,0 +1,45 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="organizationManager" />
+
+<@box>
+    <@boxHeader title='#i18n{appcenter.manage_organizationManager.title}' boxTools=true>
+        <@tform class='form-inline pnameull-right' name='manage_organizationManager' action='jsp/admin/plugins/appcenter/ManageOrganizationManagers.jsp'>
+            <input type="hidden" id="id_organization" name="id_organization" value="${id_organization}"/>
+            <@button type='submit' name='view_createOrganizationManager' buttonIcon='plus' title='#i18n{appcenter.manage_organizationManagers.buttonAdd}' />
+        </@tform>
+    </@boxHeader>
+    <@boxBody>
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <th>#i18n{appcenter.manage_organizationManagers.columnFirstName}</th>
+            <th>#i18n{appcenter.manage_organizationManagers.columnFamilyName}</th>
+            <th>#i18n{appcenter.manage_organizationManagers.columnMail}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+        <#list organizationManager_list as organizationManager >
+        <tr>
+            <td>
+                ${(organizationManager.firstName)!''}
+            </td>
+            <td>
+                ${organizationManager.familyName}
+            </td>
+            <td>
+                ${organizationManager.mail}
+            </td>
+        <td>
+            <@aButton href='jsp/admin/plugins/appcenter/ManageOrganizationManagers.jsp?view=modifyOrganizationManager&id=${organizationManager.idOrganizationManager}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+            <@aButton href='jsp/admin/plugins/appcenter/ManageOrganizationManagers.jsp?action=confirmRemoveOrganizationManager&id=${organizationManager.idOrganizationManager}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+    </@boxBody>
+</@box>

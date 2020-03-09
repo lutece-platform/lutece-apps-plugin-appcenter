@@ -1,0 +1,25 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="organizationManager" />
+<@box>
+	<@boxHeader title='#i18n{appcenter.create_organizationManager.title}' />
+	<@boxBody>
+    <@tform name='create_organizationManager' action='jsp/admin/plugins/appcenter/ManageOrganizationManagers.jsp'>
+        <@messages errors=errors />
+        <input type="hidden" id="id_organization" name="id_organization" value="${id_organization}" />
+        <input type="hidden" name="token" value="${token}" />
+
+        <@formGroup labelKey='#i18n{appcenter.create_organizationManager.labelFirstName}' helpKey='#i18n{appcenter.create_organizationManager.labelFirstName.help}' mandatory=true>
+            <@input type='text' name='first_name' value='${organizationManager.firstName!\'\'}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_organizationManager.labelFamilyName}' helpKey='#i18n{appcenter.create_organizationManager.labelFamilyName.help}' mandatory=true>
+            <@input type='text' name='family_name' value='${organizationManager.familyName!\'\'}' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.create_organizationManager.labelMail}' helpKey='#i18n{appcenter.create_organizationManager.labelMail.help}' >
+            <@input type='text' name='mail' value='${organizationManager.mail!\'\'}' />
+        </@formGroup>
+
+        <@actionButtons button1Name="action_createOrganizationManager" button2Name="view_manageOrganizationManager"/>
+    </@tform>
+	</@boxBody>
+</@box>
+

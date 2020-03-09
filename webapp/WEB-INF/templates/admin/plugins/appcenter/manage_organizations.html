@@ -1,0 +1,37 @@
+<#include "manageappcenter_tabs.html" />
+<@tabs2 tab="organization" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.manage_organization.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_organization' action='jsp/admin/plugins/appcenter/ManageOrganizations.jsp'>
+			<@button type='submit' name='view_createOrganization' buttonIcon='plus' title='#i18n{appcenter.manage_organizations.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <th>#i18n{appcenter.manage_organizations.columnName}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+        <#list organization_list as organization >
+        <tr>
+            <td>
+                ${organization.name}
+            </td>
+        <td>
+            <@aButton href='jsp/admin/plugins/appcenter/ManageOrganizationManagers.jsp?view=manageOrganizationManagers&id_organization=${organization.idOrganization}' title='#i18n{appcenter.manage_organizations.labelManager}' buttonIcon='user' showTitle=false />
+            <@aButton href='jsp/admin/plugins/appcenter/ManageOrganizations.jsp?view=modifyOrganization&id=${organization.idOrganization}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+            <@aButton href='jsp/admin/plugins/appcenter/ManageOrganizations.jsp?action=confirmRemoveOrganization&id=${organization.idOrganization}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

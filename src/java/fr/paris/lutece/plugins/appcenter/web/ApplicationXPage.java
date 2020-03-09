@@ -47,6 +47,10 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserHome;
 import fr.paris.lutece.plugins.appcenter.business.UserInfos;
+import fr.paris.lutece.plugins.appcenter.business.organization.Organization;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
+import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.business.userinfos.GitlabUserInfo;
 import fr.paris.lutece.plugins.appcenter.business.userinfos.SvnUserInfo;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
@@ -88,6 +92,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
 {
 
     // Markers
+    private static final String MARK_ORGANIZATIONS = "list_organizations";
+    private static final String MARK_ORGANIZATION_MANAGERS = "list_organization_managers";
     private static final String MARK_ENVIRONMENTS = "environments";
     private static final String MARK_ACTIVE_ENVIRONMENT = "active_environment";
     private static final String MARK_CATEGORY_DEMAND_TYPE_LIST = "categorydemandtype_list";
@@ -133,6 +139,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
 
     // Parameters
     private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
+    private static final String PARAMETER_ID_ORGANIZATION_MANAGER = "id_organization_manager";
 
     // Session
     public static final String SESSION_ACTIVE_ENVIRONMENT = "active_environment";
@@ -188,6 +195,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_CATEGORY_DEMAND_TYPES, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
         model.put( MARK_DEMAND_TYPES, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_APPLICATION, _application );
+        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
 
         return getXPage( TEMPLATE_CREATE_APPLICATION, request.getLocale( ), model );
@@ -206,6 +215,11 @@ public class ApplicationXPage extends AppCenterDemandXPage
         populate( _application, request );
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
         _application.setApplicationData( JSON_EMPTY );
+
+        String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
+        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        _application.setOrganizationManager( organizationManager );
 
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
@@ -443,6 +457,11 @@ public class ApplicationXPage extends AppCenterDemandXPage
         populate( _application, request );
 
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
+
+        String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
+        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        _application.setOrganizationManager( organizationManager );
 
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
