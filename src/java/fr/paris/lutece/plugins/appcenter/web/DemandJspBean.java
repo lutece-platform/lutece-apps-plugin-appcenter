@@ -53,6 +53,9 @@ import fr.paris.lutece.plugins.appcenter.service.DemandService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.plugins.workflowcore.business.state.StateFilter;
+import fr.paris.lutece.plugins.workflowcore.service.state.IStateService;
+import fr.paris.lutece.plugins.workflowcore.service.state.StateService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -105,6 +108,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
     private static final String MARK_DEMAND_TYPE_REF_LIST = "demand_type_ref_list";
     private static final String MARK_ENVIRONMENT_REF_LIST = "environment_ref_list";
     private static final String MARK_APPLICATION_REF_LIST = "application_ref_list";
+    private static final String MARK_STATE_REF_LIST = "state_ref_list";
     private static final String MARK_DEMAND_FILTER = "demand_filter";
 
     private static final String MARK_TASK_FORM = "task_form";
@@ -149,6 +153,9 @@ public class DemandJspBean extends ManageAppCenterJspBean
 
     // Sessions variable
     private DemandFilter _filter;
+    private IStateService _stateService = SpringContextService.getBean( StateService.BEAN_SERVICE );
+
+    private static final String STATE_IN_PROGRESS = "En cours";
 
     /**
      * Build the Manage View
@@ -167,8 +174,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
             _filter = new DemandFilter( );
 
             // open demands filter default
-            _filter.setHasIsClosed( true );
-            _filter.setIsClosed( false );
+            _filter.setHasState( true );
+            _filter.setState( STATE_IN_PROGRESS );
         }
 
         List<Demand> listDemands = DemandHome.getDemandsListByFilter( _filter );
@@ -226,6 +233,27 @@ public class DemandJspBean extends ManageAppCenterJspBean
         ReferenceList applicationRefList = ReferenceList.convert( mapApplications.values( ), "id", "name", true );
         Collections.sort( applicationRefList, comparator );
         AppCenterUtils.addFirstItem( applicationRefList, request.getLocale( ) );
+
+        // Construct application ref list
+        ReferenceList stateRefList = new ReferenceList( );
+        List<DemandType> demandTypeList = DemandTypeHome.getDemandTypesList( );
+        for (DemandType demandType : demandTypeList )
+        {
+            if ( demandType.getIdWorkflow( ) != StateFilter.ALL_INT )
+            {
+                StateFilter stateFilter = new StateFilter( );
+                stateFilter.setIdWorkflow( demandType.getIdWorkflow( ) );
+
+                List<State> listState = _stateService.getListStateByFilter( stateFilter );
+                for ( State state : listState )
+                {
+                    stateRefList.addItem( state.getName( ), state.getName( ) );
+                }
+            }
+        }
+        stateRefList = ReferenceList.convert( stateRefList.toMap( ) ); //filter duplicate
+        Collections.sort( stateRefList, comparator );
+        AppCenterUtils.addFirstItem( stateRefList, request.getLocale( ) );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -296,6 +324,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
         model.put( MARK_DEMAND_TYPE_REF_LIST, demandTypeRefList );
         model.put( MARK_ENVIRONMENT_REF_LIST, refListEnvi );
         model.put( MARK_APPLICATION_REF_LIST, applicationRefList );
+        model.put( MARK_STATE_REF_LIST, stateRefList );
         model.put( MARK_DEMAND_FILTER, _filter );
         model.put( MARK_APPLICATION_MAP, mapApplications );
         model.put( MARK_STATES_MAP, mapStates );

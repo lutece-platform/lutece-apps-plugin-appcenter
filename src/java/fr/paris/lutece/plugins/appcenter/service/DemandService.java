@@ -60,7 +60,7 @@ public class DemandService
 {
     private static final String PARAMETER_ENVIRONMENT_PREFIX = "environment_prefix";
     private static final String PARAMETER_ID_DEMAND_TYPE = "id_demand_type";
-    private static final String PARAMETER_IS_CLOSED = "is_closed";
+    private static final String PARAMETER_STATE = "state";
     private static final String PARAMETER_ID_APPLICATION = "id_application";
 
     private static ObjectMapper _mapper = new ObjectMapper( );
@@ -106,7 +106,7 @@ public class DemandService
     {
         String strEnvironmentPrefix = request.getParameter( PARAMETER_ENVIRONMENT_PREFIX );
         String strIdDemandType = request.getParameter( PARAMETER_ID_DEMAND_TYPE );
-        String strIsClosed = request.getParameter( PARAMETER_IS_CLOSED );
+        String strState = request.getParameter( PARAMETER_STATE );
         String strApplicationId = request.getParameter( PARAMETER_ID_APPLICATION );
 
         DemandFilter filter = new DemandFilter( );
@@ -120,21 +120,11 @@ public class DemandService
             filter.setIdDemandType( strIdDemandType );
             filter.setHasIdDemandType( true );
         }
-        if ( strIsClosed != null && !strIsClosed.equals( "-1" ) )
+        if ( strState != null && !strState.equals( "-1" ) )
         {
-            if ( strIsClosed.equals( "true" ) )
-            {
-                filter.setIsClosed( true );
-                filter.setHasIsClosed( true );
-            }
-            else
-                if ( strIsClosed.equals( "false" ) )
-                {
-                    filter.setIsClosed( false );
-                    filter.setHasIsClosed( true );
-                }
+            filter.setState( strState );
+            filter.setHasState( true );
         }
-
         if ( strApplicationId != null && !strApplicationId.equals( "-1" ) )
         {
             filter.setIdApplication( Integer.parseInt( strApplicationId ) );

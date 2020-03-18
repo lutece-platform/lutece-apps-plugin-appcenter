@@ -36,12 +36,15 @@ package fr.paris.lutece.plugins.appcenter.business;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.util.ReferenceList;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -201,6 +204,25 @@ public final class DemandHome
      */
     public static List<Demand> getDemandsListByFilter( DemandFilter filter )
     {
-        return _dao.selectDemandsListByFilter( filter, _plugin );
+        List<Demand> filteredDemandList = _dao.selectDemandsListByFilter( filter, _plugin );
+
+        if ( filter.hasState( ) )
+        {
+            List<Demand> demandList = new ArrayList<>( );
+
+            for ( Demand demand : filteredDemandList )
+            {
+                int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
+                State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
+                if ( filter.getState( ).equals( state.getName( ) ) )
+                {
+                    demandList.add( demand );
+                }
+            }
+
+            return demandList;
+        }
+
+        return filteredDemandList;
     }
 }

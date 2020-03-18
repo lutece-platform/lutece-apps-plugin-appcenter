@@ -40,12 +40,12 @@ public class DemandFilter
 {
     private int _nIdApplication;
     private String _strEnvironmentPrefix;
-    private boolean _bIsClosed;
+    private String _strState;
     private String _strIdDemandType;
 
     private boolean _bHasIdApplication;
     private boolean _bHasEnvironmentPrefix;
-    private boolean _bHasIsClosed;
+    private boolean _bHasState;
     private boolean _bHasIdDemandType;
 
     /**
@@ -55,7 +55,7 @@ public class DemandFilter
     {
         _bHasIdApplication = false;
         _bHasEnvironmentPrefix = false;
-        _bHasIsClosed = false;
+        _bHasState = false;
         _bHasIdDemandType = false;
     }
 
@@ -102,24 +102,24 @@ public class DemandFilter
     }
 
     /**
-     * Get the is closed boolean
+     * Get the state
      * 
-     * @return the is closed boolean
+     * @return the state
      */
-    public boolean isClosed( )
+    public String getState( )
     {
-        return _bIsClosed;
+        return _strState;
     }
 
     /**
-     * Set the is closed boolean
+     * Set the state
      * 
-     * @param bIsClosed
-     *            the is closed boolean
+     * @param strState
+     *            the state
      */
-    public void setIsClosed( boolean bIsClosed )
+    public void setState( String strState )
     {
-        _bIsClosed = bIsClosed;
+        _strState = strState;
     }
 
     /**
@@ -189,20 +189,20 @@ public class DemandFilter
      * 
      * @return the is closed constraint boolean
      */
-    public boolean hasIsClosed( )
+    public boolean hasState( )
     {
-        return _bHasIsClosed;
+        return _bHasState;
     }
 
     /**
      * Set the is closed constraint boolean
      * 
-     * @param bHasIsClosed
+     * @param bHasState
      *            the is closed constraint boolean
      */
-    public void setHasIsClosed( boolean bHasIsClosed )
+    public void setHasState( boolean bHasState )
     {
-        _bHasIsClosed = bHasIsClosed;
+        _bHasState = bHasState;
     }
 
     /**

@@ -11,12 +11,8 @@
                         <@comboWithParams name="environment_prefix" default_value=(demand_filter.environmentPrefix)!'' additionalParameters=""  items=environment_ref_list />
                         <label for="id_demand_type" class="col-form-label">#i18n{appcenter.manage_demand.filter.idDemandType}</label>
                         <@comboWithParams name="id_demand_type" default_value=(demand_filter.idDemandType)!'' additionalParameters=""  items=demand_type_ref_list />
-                        <label for="is_closed" class="col-form-label">#i18n{appcenter.manage_demand.filter.isClosed}</label>
-                        <select id="is_closed" name="is_closed" >
-                            <option value="-1" >Tous</option>
-                            <option value="false" <#if demand_filter.hasIsClosed() == true && demand_filter.isClosed() == false>selected="selected"</#if>>En cours de traitement</option>
-                            <option value="true" <#if demand_filter.hasIsClosed() == true && demand_filter.isClosed() == true>selected="selected"</#if>> Clôturé</option>
-                        </select>
+                        <label for="state" class="col-form-label">#i18n{appcenter.manage_demand.filter.state}</label>
+                        <@comboWithParams name="state" default_value=(demand_filter.state)!'' additionalParameters=""  items=state_ref_list />
                         <@button type='submit' name='action_filterDemands' buttonIcon='search' title='#i18n{appcenter.manage_demand.search}' />
                     </@tform>
 	</@boxHeader>
