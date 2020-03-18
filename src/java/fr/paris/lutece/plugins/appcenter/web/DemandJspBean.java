@@ -74,6 +74,7 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -203,8 +204,19 @@ public class DemandJspBean extends ManageAppCenterJspBean
             nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
             State state = WorkflowService.getInstance( ).getState( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, -1 );
             mapStates.put( Integer.toString( demand.getId( ) ), state );
-            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = WorkflowService.getInstance( ).getActions( demand.getId( ),
+
+            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listAllActions = WorkflowService.getInstance( ).getActions( demand.getId( ),
                     Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, getUser( ) );
+            Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = new ArrayList<>( );
+
+            for (fr.paris.lutece.plugins.workflowcore.business.action.Action action : listAllActions )
+            {
+                if ( !action.isAutomaticState( ) )
+                {
+                    listActions.add( action );
+                }
+            }
+
             mapActions.put( Integer.toString( demand.getId( ) ), listActions );
 
         }
