@@ -1,0 +1,45 @@
+<div class="card-deck px-3">
+    <div class="card card-app">
+        <div class="card-header">
+            <h4>#i18n{appcenter.xpage.demand_validation.form.labelTitle}<h4>
+        </div>
+        <div class="card-body">
+            <h3>#i18n{appcenter.xpage.demand_validation.form.labelInfoTitle}</h3>
+            <@table>
+                <tr>
+                    <@td>#i18n{appcenter.xpage.demand_validation.form.labelApplication.name}</@td>
+                    <@td>${((application.code)??)?then(application.code + ' - ','')}${application.name!''}${(environment??)?then(' (' + environment + ')','')}</@td>
+                </tr>
+                <tr>
+                    <@td>#i18n{appcenter.xpage.demand_validation.form.labelApplication.description}</@td>
+                    <@td>${application.description}</@td>
+                </tr>
+                <tr>
+                    <@td>#i18n{appcenter.xpage.demand_validation.form.labelDemand.type}</@td>
+                    <@td>${demandtype.label!''}</@td>
+                </tr>
+                <tr>
+                    <@td>#i18n{appcenter.xpage.demand_validation.form.labelDemand.user}</@td>
+                    <@td>${demand.idUserFront!''}</@td>
+                </tr>
+                <tr>
+                    <@td>#i18n{appcenter.xpage.demand_validation.form.labelDemand.infos}</@td>
+                    <@td>${(demand.complementaryInfos)!''}</@td>
+                </tr>
+            </@table>
+            <h3>#i18n{appcenter.xpage.demand_validation.form.labelFormTitle}</h3>
+            <@tform class="form-horizontal" method="post" name="process_action" action="jsp/site/Portal.jsp">
+                <@messages errors=errors />
+                <input type="hidden" id="page" name="page" value="demand_validation"/>
+                <input type="hidden" id="action" name="action" value="saveDemandValidation" />
+                <input type="hidden" id="id_demand" name="id_demand" value="${demand.id}"/>
+                <input type="hidden" id="id_task" name="id_task" value="${id_task}"/>
+                <@formGroup labelKey='#i18n{appcenter.xpage.demand_validation.form.labelStatus}' helpKey='#i18n{appcenter.xpage.demand_validation.form.labelStatus.help}' rows=2>
+                    <@radioButton name='status' value='1' labelKey='#i18n{appcenter.xpage.demand_validation.form.labelValidate}' />
+                    <@radioButton name='status' value='0' labelKey='#i18n{appcenter.xpage.demand_validation.form.labelReject}' checked=true />
+                </@formGroup>
+                <@actionButtons button1Name="action_saveTaskForm" button2Name="process_task_form"/>
+            </@tform>
+        </div>
+    </div>
+</div>

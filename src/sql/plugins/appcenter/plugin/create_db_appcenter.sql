@@ -197,3 +197,30 @@ family_name varchar(255) default '',
 mail varchar(255) default '',
 PRIMARY KEY (id_organization_manager)
 );
+
+--
+-- Structure for table appcenter_demand_validation
+--
+
+DROP TABLE IF EXISTS appcenter_demand_validation;
+CREATE TABLE appcenter_demand_validation (
+id int AUTO_INCREMENT,
+id_demand int default '0' NOT NULL,
+id_task int default '0' NOT NULL,
+status int default '0' NOT NULL,
+id_user varchar(255) default '',
+PRIMARY KEY (id)
+);
+
+--
+-- Structure for table workflow_prerequisite_validation_cf
+--
+
+DROP TABLE IF EXISTS workflow_prerequisite_validation_cf;
+CREATE TABLE workflow_prerequisite_validation_cf (
+id_prerequisite int NOT NULL,
+id_task int NOT NULL,
+status int NOT NULL,
+PRIMARY KEY (id_prerequisite)
+);
+

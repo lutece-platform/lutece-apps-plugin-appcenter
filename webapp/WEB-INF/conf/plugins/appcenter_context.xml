@@ -23,6 +23,7 @@
     <bean id="appcenter.userDAO" class="fr.paris.lutece.plugins.appcenter.business.UserDAO" />
     <bean id="appcenter.organizationDAO" class="fr.paris.lutece.plugins.appcenter.business.organization.OrganizationDAO" />
     <bean id="appcenter.organizationManagerDAO" class="fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerDAO" />
+    <bean id="appcenter.demandValidationDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandValidationDAO" />
     
     <!-- Services -->
     
@@ -83,5 +84,40 @@
         p:formTaskRequired="true"
         p:taskForAutomaticAction="false" />
     <bean id="appcenter.taskCloseDemand" class="fr.paris.lutece.plugins.appcenter.service.task.TaskCloseDemand" scope="prototype" />
-    
+
+    <bean id="appcenter.taskTypeNotifyToValidate" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+        p:key="taskNotifyToValidate"
+        p:titleI18nKey="appcenter.taskNotifyToValidate.title"
+        p:beanName="appcenter.taskNotifyToValidate"
+        p:configBeanName="appcenter.notifyTaskConfig"
+        p:configRequired="true"
+        p:formTaskRequired="false"
+        p:taskForAutomaticAction="true"
+        />
+    <bean id="appcenter.taskNotifyToValidate" class="fr.paris.lutece.plugins.appcenter.service.task.TaskNotifyToValidate" scope="prototype" />
+    <bean id="appcenter.NotifyToValidateTaskComponent" class="fr.paris.lutece.plugins.appcenter.service.web.task.TaskNotifyToValidateComponent"
+        p:taskType-ref="appcenter.taskTypeNotifyToValidate"
+        p:taskConfigService-ref="appcenter.taskNotifyConfigService"
+        />
+
+    <bean id="appcenter.validationPrerequisiteConfigDAO" class="fr.paris.lutece.plugins.appcenter.business.prerequisite.PrerequisiteValidationConfigDAO" />
+    <bean id="appcenter.validationPrerequisite" class="fr.paris.lutece.plugins.appcenter.service.prerequisite.PrerequisiteValidation" />
+
+    <!-- SignRequest -->
+    <bean id="appcenter.validationHashService" class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
+    <bean id="appcenter.validationRequestAuthenticatorForUrl" class="fr.paris.lutece.util.signrequest.RequestHashAuthenticator" >
+        <property name="hashService" ref="appcenter.validationHashService" />
+        <property name="signatureElements" >
+            <list>
+                <value>id_demand</value>
+                <value>id_task</value>
+            </list>
+        </property>
+        <property name="privateKey">
+            <value>change me</value>
+        </property>
+        <property name='validityTimePeriod'>
+            <value>0</value>
+        </property>
+    </bean>
 </beans>
