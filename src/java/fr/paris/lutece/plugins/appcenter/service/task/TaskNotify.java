@@ -93,10 +93,7 @@ public class TaskNotify extends SimpleTask
         // Process the remplacement of the subject and message by the markers in the config
         changeMarkers( config, demand, request );
 
-        MailItem mail = getMailItem( config, demand );
-        // Enqueue the mail
-        MailService.getQueue( ).send( mail );
-
+        MailService.sendMailHtml( getRecipients( config, demand ), config.getSenderName( ), MailService.getNoReplyEmail( ), config.getSubject( ), config.getMessage( ) );
     }
 
     @Override
@@ -129,28 +126,6 @@ public class TaskNotify extends SimpleTask
         model.put( MARK_JSON_DATA, strJsonData );
         conf.setMessage( AppTemplateService.getTemplateFromStringFtl( conf.getMessage( ), Locale.getDefault( ), model ).getHtml( ) );
         conf.setSubject( AppTemplateService.getTemplateFromStringFtl( conf.getSubject( ), Locale.getDefault( ), model ).getHtml( ) );
-    }
-
-    /**
-     * Get the mailItem from config and demand
-     * 
-     * @param config
-     *            the config
-     * @param demand
-     *            the demand
-     * @return the mailItem
-     */
-    private MailItem getMailItem( NotifyTaskConfig config, Demand demand )
-    {
-        MailItem item = new MailItem( );
-
-        item.setMessage( config.getMessage( ) );
-        item.setRecipientsTo( getRecipients( config, demand ) );
-        item.setSenderEmail( MailService.getNoReplyEmail( ) );
-        item.setSenderName( config.getSenderName( ) );
-        item.setSubject( config.getSubject( ) );
-
-        return item;
     }
 
     /**
