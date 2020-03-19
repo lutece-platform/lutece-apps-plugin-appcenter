@@ -61,7 +61,7 @@ public class DemandService
     private static final String PARAMETER_ENVIRONMENT_PREFIX = "environment_prefix";
     private static final String PARAMETER_ID_DEMAND_TYPE = "id_demand_type";
     private static final String PARAMETER_STATE = "state";
-    private static final String PARAMETER_ID_APPLICATION = "id_application";
+    private static final String PARAMETER_APPLICATION = "application";
 
     private static ObjectMapper _mapper = new ObjectMapper( );
 
@@ -107,7 +107,7 @@ public class DemandService
         String strEnvironmentPrefix = request.getParameter( PARAMETER_ENVIRONMENT_PREFIX );
         String strIdDemandType = request.getParameter( PARAMETER_ID_DEMAND_TYPE );
         String strState = request.getParameter( PARAMETER_STATE );
-        String strApplicationId = request.getParameter( PARAMETER_ID_APPLICATION );
+        String strApplication = request.getParameter( PARAMETER_APPLICATION );
 
         DemandFilter filter = new DemandFilter( );
         if ( strEnvironmentPrefix != null && !strEnvironmentPrefix.equals( "-1" ) )
@@ -125,10 +125,10 @@ public class DemandService
             filter.setState( strState );
             filter.setHasState( true );
         }
-        if ( strApplicationId != null && !strApplicationId.equals( "-1" ) )
+        if ( strApplication != null && !strApplication.equals( "" ) )
         {
-            filter.setIdApplication( Integer.parseInt( strApplicationId ) );
-            filter.setHasIdApplication( true );
+            filter.setApplication( strApplication );
+            filter.setHasApplication( true );
         }
 
         return filter;

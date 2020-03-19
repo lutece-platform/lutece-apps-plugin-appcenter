@@ -58,18 +58,21 @@ public final class DemandDAO implements IDemandDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_demand WHERE id_demand = ? ";
 
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_demand SET  id_demand = ?, id_user_front = ? ,status_text = ?, id_demand_type = ?, demand_type = ?, id_application = ?, demand_content = ?, creation_date = ?, is_closed = ?, environment = ? WHERE id_demand = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_demand, id_user_front, status_text, id_demand_type, demand_type, id_application, demand_content,creation_date, is_closed, environment FROM appcenter_demand";
+    private static final String SQL_QUERY_SELECTALL = "SELECT d.id_demand, d.id_user_front, d.status_text, d.id_demand_type, d.demand_type, d.id_application, d.demand_content, d.creation_date, d.is_closed, d.environment FROM appcenter_demand d";
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION = SQL_QUERY_SELECTALL + " where id_application = ? ";
     private static final String SQL_QUERY_SELECTALL_BY_APPLICATION_AND_TYPE = SQL_QUERY_SELECTALL_BY_APPLICATION + " and id_demand_type = ? ";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_demand FROM appcenter_demand";
 
     // Constants
+    private static final String CONSTANT_INNER_JOIN_APPLICATION = " INNER JOIN appcenter_application a ON d.id_application = a.id_application";
+
     private static final String CONSTANT_WHERE = " WHERE ";
     private static final String CONSTANT_AND = " AND ";
     private static final String CONSTANT_ORDER_BY = " ORDER BY";
+    private static final String CONSTANT_WILDCARD = "%";
 
     private static final String CONSTANT_WHERE_ENVIRONMENT = " environment = ? ";
-    private static final String CONSTANT_WHERE_ID_APPLICATION = " id_application = ? ";
+    private static final String CONSTANT_WHERE_APPLICATION = " ( code LIKE ? OR name LIKE ? )";
     private static final String CONSTANT_WHERE_ID_DEMAND_TYPE = " id_demand_type = ? ";
     private static final String CONSTANT_ORDER_BY_CREATION_DATE = " creation_date DESC";
 
@@ -391,7 +394,12 @@ public final class DemandDAO implements IDemandDAO
         List<Demand> demandList = new ArrayList<Demand>( );
         StringBuilder strSqlQuery = new StringBuilder( SQL_QUERY_SELECTALL );
 
-        if ( filter.hasEnvironmentPrefix( ) || filter.hasIdApplication( ) || filter.hasIdDemandType( ) )
+        if ( filter.hasApplication( ) )
+        {
+            strSqlQuery.append( CONSTANT_INNER_JOIN_APPLICATION );
+        }
+
+        if ( filter.hasEnvironmentPrefix( ) || filter.hasApplication( ) || filter.hasIdDemandType( ) )
         {
             strSqlQuery.append( CONSTANT_WHERE );
         }
@@ -401,13 +409,13 @@ public final class DemandDAO implements IDemandDAO
             strSqlQuery.append( CONSTANT_WHERE_ENVIRONMENT );
             bFirstFilterStatement = true;
         }
-        if ( filter.hasIdApplication( ) )
+        if ( filter.hasApplication( ) )
         {
             if ( bFirstFilterStatement )
             {
                 strSqlQuery.append( CONSTANT_AND );
             }
-            strSqlQuery.append( CONSTANT_WHERE_ID_APPLICATION );
+            strSqlQuery.append( CONSTANT_WHERE_APPLICATION );
             bFirstFilterStatement = true;
         }
         if ( filter.hasIdDemandType( ) )
@@ -430,9 +438,10 @@ public final class DemandDAO implements IDemandDAO
             daoUtil.setString( nIndex++, filter.getEnvironmentPrefix( ) );
 
         }
-        if ( filter.hasIdApplication( ) )
+        if ( filter.hasApplication( ) )
         {
-            daoUtil.setInt( nIndex++, filter.getIdApplication( ) );
+            daoUtil.setString( nIndex++, CONSTANT_WILDCARD + filter.getApplication( ) + CONSTANT_WILDCARD );
+            daoUtil.setString( nIndex++, CONSTANT_WILDCARD + filter.getApplication( ) + CONSTANT_WILDCARD );
         }
         if ( filter.hasIdDemandType( ) )
         {

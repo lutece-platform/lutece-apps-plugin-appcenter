@@ -38,12 +38,12 @@ package fr.paris.lutece.plugins.appcenter.business;
  */
 public class DemandFilter
 {
-    private int _nIdApplication;
+    private String _strApplication;
     private String _strEnvironmentPrefix;
     private String _strState;
     private String _strIdDemandType;
 
-    private boolean _bHasIdApplication;
+    private boolean _bHasApplication;
     private boolean _bHasEnvironmentPrefix;
     private boolean _bHasState;
     private boolean _bHasIdDemandType;
@@ -53,31 +53,31 @@ public class DemandFilter
      */
     public DemandFilter( )
     {
-        _bHasIdApplication = false;
+        _bHasApplication = false;
         _bHasEnvironmentPrefix = false;
         _bHasState = false;
         _bHasIdDemandType = false;
     }
 
     /**
-     * Get the id of application
+     * Get the application
      * 
-     * @return the id of application
+     * @return the application
      */
-    public int getIdApplication( )
+    public String getApplication( )
     {
-        return _nIdApplication;
+        return _strApplication;
     }
 
     /**
-     * Set the id of application
+     * Set the application
      * 
-     * @param nIdApplication
-     *            the id of application
+     * @param strApplication
+     *            the application
      */
-    public void setIdApplication( int nIdApplication )
+    public void setApplication( String strApplication )
     {
-        _nIdApplication = nIdApplication;
+        _strApplication = strApplication;
     }
 
     /**
@@ -144,24 +144,24 @@ public class DemandFilter
     }
 
     /**
-     * Has a constraint on id application
+     * Has a constraint on application
      * 
      * @return the has application boolean
      */
-    public boolean hasIdApplication( )
+    public boolean hasApplication( )
     {
-        return _bHasIdApplication;
+        return _bHasApplication;
     }
 
     /**
-     * Set the constraint on id application
+     * Set the constraint on application
      * 
-     * @param bHasIdApplication
-     *            the has id application constaint
+     * @param bHasApplication
+     *            the has application constaint
      */
-    public void setHasIdApplication( boolean bHasIdApplication )
+    public void setHasApplication( boolean bHasApplication )
     {
-        this._bHasIdApplication = bHasIdApplication;
+        this._bHasApplication = bHasApplication;
     }
 
     /**
