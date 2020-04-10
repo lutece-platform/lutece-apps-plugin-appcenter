@@ -312,10 +312,12 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         populate( _application, request );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        _application.setOrganizationManager( organizationManager );
-
+        if(strIdOrganizationManager!=null)
+        {
+        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        	_application.setOrganizationManager( organizationManager );
+        }
         // Check constraints
         if ( !validateBean( _application, VALIDATION_ATTRIBUTES_PREFIX ) )
         {

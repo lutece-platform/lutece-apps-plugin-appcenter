@@ -212,7 +212,16 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
-        daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganizationManager( ) );
+        if(application.getOrganizationManager()!=null)
+        {
+        	daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganizationManager( ) );
+        }
+        else
+        {
+        	daoUtil.setIntNull(nIndex++);
+        	
+        }
+        
         daoUtil.setString( nIndex++, application.getCode( ) );
 
         daoUtil.setInt( nIndex, application.getId( ) );
