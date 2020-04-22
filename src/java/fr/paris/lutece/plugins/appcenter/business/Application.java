@@ -63,6 +63,7 @@ public class Application implements Serializable
     @Size( max = 255, message = "#i18n{appcenter.validation.application.Description.size}" )
     private String _strDescription;
 
+    @NotNull( message = "appcenter.validation.application.OrganizationManager.notNull" )
     private OrganizationManager _organizationManager;
     private String _strApplicationData;
 

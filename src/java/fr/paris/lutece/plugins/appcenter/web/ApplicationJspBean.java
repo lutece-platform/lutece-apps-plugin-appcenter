@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -201,9 +202,12 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     {
         _application = ( _application != null ) ? _application : new Application( );
 
+        ReferenceList organizationsList = OrganizationHome.getOrganizationsReferenceList( );
+        AppCenterUtils.addEmptyItem( organizationsList, getLocale( ) );
+
         Map<String, Object> model = getModel( );
         model.put( MARK_APPLICATION, _application );
-        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATIONS, organizationsList );
         model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_APPLICATION, TEMPLATE_CREATE_APPLICATION, model );
@@ -222,9 +226,12 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         populate( _application, request );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        _application.setOrganizationManager( organizationManager );
+        if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )
+        {
+            int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+            _application.setOrganizationManager( organizationManager );
+        }
 
         // Check constraints
         if ( !validateBean( _application, VALIDATION_ATTRIBUTES_PREFIX ) )
@@ -312,12 +319,13 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         populate( _application, request );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        if(strIdOrganizationManager!=null)
+        if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )
         {
-        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        	_application.setOrganizationManager( organizationManager );
+            int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+            _application.setOrganizationManager( organizationManager );
         }
+
         // Check constraints
         if ( !validateBean( _application, VALIDATION_ATTRIBUTES_PREFIX ) )
         {

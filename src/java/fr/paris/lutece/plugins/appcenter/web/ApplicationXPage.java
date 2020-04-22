@@ -58,6 +58,7 @@ import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
+import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.appcenter.util.CryptoUtil;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
@@ -191,11 +192,14 @@ public class ApplicationXPage extends AppCenterDemandXPage
     {
         _application = ( _application != null ) ? _application : new Application( );
 
+        ReferenceList organizationsList = OrganizationHome.getOrganizationsReferenceList( );
+        AppCenterUtils.addEmptyItem( organizationsList, getLocale( request ) );
+
         Map<String, Object> model = getModel( );
         model.put( MARK_CATEGORY_DEMAND_TYPES, CategoryDemandTypeHome.getCategoryDemandTypesList( ) );
         model.put( MARK_DEMAND_TYPES, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_APPLICATION, _application );
-        model.put( MARK_ORGANIZATIONS, OrganizationHome.getOrganizationsReferenceList( ) );
+        model.put( MARK_ORGANIZATIONS, organizationsList );
         model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
 
@@ -217,14 +221,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
         _application.setApplicationData( JSON_EMPTY );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        
-        if(strIdOrganizationManager!=null)
+        if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )
         {
-        	
-        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        	_application.setOrganizationManager( organizationManager );
+            int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+            _application.setOrganizationManager( organizationManager );
         }
+
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
@@ -463,13 +466,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        if(strIdOrganizationManager!=null)
+        if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )
         {
-        	
-        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        	_application.setOrganizationManager( organizationManager );
+            int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+            OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+            _application.setOrganizationManager( organizationManager );
         }
+
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {

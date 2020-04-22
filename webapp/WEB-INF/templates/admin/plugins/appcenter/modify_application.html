@@ -22,9 +22,9 @@
                         <#list list_organization_managers as organization_manager>
                             <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )">
                             <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
-                                <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                                <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                             <#else>
-                                <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
+                                <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                             </#if>
                         </#list>
                     </@select>

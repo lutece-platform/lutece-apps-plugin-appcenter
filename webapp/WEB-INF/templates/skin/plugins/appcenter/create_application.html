@@ -31,21 +31,18 @@
 			<div class="form-group row">
 				<label for="id_organization" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelIdOrganization} <@icon style='asterisk' /></label>
 				<div class="col-sm-12 col-md-6">
-                    <@select name='id_organization' id='id_organization' default_value='${(application.organizationManager.idOrganization)!}' items=list_organizations />
+                    <@select name='id_organization' id='id_organization' default_value='' items=list_organizations/>
 					<small id="idOrganizationHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelIdOrganization.help}</small>
 				</div>
 			</div>
-			<div class="form-group row">
+			<div id="organization_manager_formgroup" class="form-group row">
 				<label for="id_organization" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelIdOrganizationManager} <@icon style='asterisk' /></label>
 				<div class="col-sm-12 col-md-6">
                 <@select name='id_organization_manager' id='id_organization_manager'>
+                    <option selected="selected" organization="" value="" label="${i18n("portal.util.labelEmpty")}"></option>
                     <#list list_organization_managers as organization_manager>
                         <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )" />
-                        <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
-                            <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item_name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
-                        <#else>
-                            <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}" <#if !item_name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item_name}</option>
-                        </#if>
+                        <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                     </#list>
                 </@select>
                 <small id="idOrganizationManagerHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelIdOrganizationManager.help}</small>
@@ -122,18 +119,9 @@ $(function(){
 });
 
 $(function() {
-    var id_organization = $('#id_organization option:checked').attr("value");
-    $('#id_organization_manager option').each( function() {
-        if ( $(this).attr("organization") == id_organization )
-        {
-            $(this).show();
-        }
-        else
-        {
-            $(this).hide();
-        }
-    });
+    $('#organization_manager_formgroup').hide();
     $("#id_organization").change( function(e) {
+        $('#organization_manager_formgroup').show();
         var id_organization = $('#id_organization option:checked').attr("value");
         var first_visible = true;
         $('#id_organization_manager option').each( function() {
