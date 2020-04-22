@@ -102,7 +102,15 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setInt( nIndex++, application.getId( ) );
         daoUtil.setString( nIndex++, application.getName( ) );
         daoUtil.setString( nIndex++, application.getDescription( ) );
-        daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganization( ) );
+        if( application.getOrganizationManager( )!=null)
+        {
+        	daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganization( ) );
+        }
+        else
+        {
+        	daoUtil.setIntNull( nIndex++);
+        	
+        }
         daoUtil.setString( nIndex++, application.getApplicationData( ) );
         daoUtil.setString( nIndex++, application.getCode( ) );
 
@@ -156,7 +164,7 @@ public final class ApplicationDAO implements IApplicationDAO
             }
             while ( daoUtil.next( ) )
             {
-                strEnviCode = daoUtil.getString( 6 );
+                strEnviCode = daoUtil.getString( 7 );
                 if ( strEnviCode != null )
                 {
                     listEnvironmentCode.add( strEnviCode );
@@ -451,7 +459,7 @@ public final class ApplicationDAO implements IApplicationDAO
             }
             while ( daoUtil.next( ) )
             {
-                strEnviCode = daoUtil.getString( 6 );
+                strEnviCode = daoUtil.getString( 7 );
                 if ( strEnviCode != null )
                 {
                     listEnvironmentCode.add( strEnviCode );

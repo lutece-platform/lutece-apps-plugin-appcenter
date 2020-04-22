@@ -217,10 +217,14 @@ public class ApplicationXPage extends AppCenterDemandXPage
         _application.setApplicationData( JSON_EMPTY );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        _application.setOrganizationManager( organizationManager );
-
+        
+        if(strIdOrganizationManager!=null)
+        {
+        	
+        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        	_application.setOrganizationManager( organizationManager );
+        }
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
@@ -459,10 +463,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
-        int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
-        OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
-        _application.setOrganizationManager( organizationManager );
-
+        if(strIdOrganizationManager!=null)
+        {
+        	
+        	int nIdOrganizationManager = Integer.parseInt( strIdOrganizationManager );
+        	OrganizationManager organizationManager = OrganizationManagerHome.findByPrimaryKey( nIdOrganizationManager );
+        	_application.setOrganizationManager( organizationManager );
+        }
         // Check constraints
         if ( !validateBean( _application, getLocale( request ) ) )
         {
