@@ -18,9 +18,9 @@
                     <@select name='id_organization' id='id_organization' default_value='${(application.organizationManager.idOrganization)!}' items=list_organizations />
 				</@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.modify_application.labelIdOrganizationManager}' helpKey='#i18n{appcenter.modify_application.labelIdOrganizationManager.help}' >
-                    <@select name='id_organization_manager' id='id_organization_manager' />
+                    <@select name='id_organization_manager' id='id_organization_manager'>
                         <#list list_organization_managers as organization_manager>
-                            <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )">
+                            <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )" />
                             <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
                                 <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                             <#else>

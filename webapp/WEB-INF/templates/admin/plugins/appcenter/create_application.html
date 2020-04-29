@@ -17,10 +17,10 @@
                     <@select name='id_organization' id='id_organization' default_value='' items=list_organizations />
 				</@formGroup>
 				<@formGroup id='organization_manager_formgroup' labelKey='#i18n{appcenter.create_application.labelIdOrganizationManager}' helpKey='#i18n{appcenter.create_application.labelIdOrganizationManager.help}' mandatory=true>
-                    <@select name='id_organization_manager' id='id_organization_manager' />
+                    <@select name='id_organization_manager' id='id_organization_manager'>
                         <option selected="selected" organization="" value="" label="${i18n("portal.util.labelEmpty")}"></option>
                         <#list list_organization_managers as organization_manager>
-                            <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )"
+                            <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )" />
                             <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                         </#list>
                     </@select>
