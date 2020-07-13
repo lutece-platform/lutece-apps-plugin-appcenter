@@ -1,0 +1,86 @@
+<#include "manageappcenter_tabs.html" />
+<#include "/admin/util/editor/editor.html" />
+<@tabs2 tab="application" />
+
+<@box>
+	<@boxHeader title='#i18n{appcenter.application_mail.title}' />
+	<@boxBody>
+        <@messages infos=infos errors=errors warnings=warnings />
+        <@tform class="form-horizontal" method="post" name="application_mail" action="jsp/admin/plugins/appcenter/ManageApplications.jsp">
+            <@formGroup rows=2 labelKey='#i18n{appcenter.application_mail.labelNotifyType}' helpKey='' >
+                <@fieldInputRadioBox i18nLabelKey='appcenter.application_mail.labelNotifyAll' inputName='notification_type' value="all" disabled=false checked=false i18nHelpBlockKey='appcenter.application_mail.labelNotifyAll.help' />
+                <@fieldInputRadioBox i18nLabelKey='appcenter.application_mail.labelNotifySelection' inputName='notification_type' value="selection" disabled=false checked=false i18nHelpBlockKey='appcenter.application_mail.labelNotifySelection.help' />
+                <div id="application_selection" class="form-group">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="filter-app">#i18n{appcenter.application_mail.labelFilter}&nbsp;:</label>
+                        <div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
+                            <input class="form-control" id="filter-app" name="filter-app" type="text" placeholder="#i18n{portal.util.labelFilter}" aria-label="#i18n{portal.util.labelFilter}" />
+                            <p class="help-block">#i18n{appcenter.application_mail.labelFilter.help}</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6" style="max-height: 200px;overflow: auto">
+                        <#if application_list?has_content>
+                            <#list application_list?sort_by('code') as application >
+                                <div class="checkbox" data-app="${application.code!?lower_case} ${application.name!?lower_case}" >
+                                    <label>
+                                        <input class="" id="id_application" name="id_application" type="checkbox" value="${application.id}">
+                                        ${application.code!} - ${application.name!}
+                                    </label>
+                                </div>
+                            </#list>
+                        </#if>
+                    </div>
+                </div>
+            </@formGroup>
+
+            <@formGroup rows=2 labelKey='#i18n{appcenter.application_mail.labelNotifyContent}' helpKey='' >
+                <@fieldInputText i18nLabelKey='appcenter.application_mail.labelSenderName' inputName='sender_name' mandatory=true value="${(mail.senderName)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelSenderName.help' />
+                <@fieldTextArea i18nLabelKey='appcenter.application_mail.labelSubject' inputName='subject' mandatory=true value="${(mail.subject)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelSubject.help' />
+                <@fieldTextArea i18nLabelKey='appcenter.application_mail.labelNotifyMessage' inputName='message' mandatory=true value="${(mail.message)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelNotifyMessage.help' cssClass='richtext'/>
+            </@formGroup>
+
+            <@table>
+                <tr>
+                    <th>#i18n{appcenter.application_mail.markers}</th>
+                    <th>#i18n{appcenter.application_mail.markersValue}</th>
+                </tr>
+                <tr>
+                    <td>${r"${application_list!''}"}</td>
+                    <td>#i18n{appcenter.application_mail.marker.applicationList}</td>            
+                </tr>
+            </@table>
+            <@actionButtons button1Name="action_applicationMail" button2Name="view_manageApplication"/>
+        </@tform>
+    </@boxBody>
+</@box>
+
+<@initEditor />
+<script>
+    $("#application_selection").hide();
+    $("input#notification_type").change(function(e){
+        if ( $(this).val() == "selection" )
+        {
+            $("#application_selection").show();
+        }
+        else
+        {
+            $("#application_selection").hide();
+        }
+    });
+
+    /* Filter application list */
+    $("#filter-app").on( "keyup", function (){
+        var search = $("#filter-app").val().toLowerCase();
+        $("#application_selection .checkbox").each(function (index) {
+            var appName = $(this).attr("data-app").toLowerCase();
+            if ( appName.match(search) != null || $(this).find('input:checkbox').is(':checked') )
+            {
+                $(this).show();
+            }
+            else
+            {
+                $(this).hide();
+            }
+        });
+    });
+</script>

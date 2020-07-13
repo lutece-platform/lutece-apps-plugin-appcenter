@@ -36,14 +36,19 @@ package fr.paris.lutece.plugins.appcenter.web;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationFilter;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.Organization;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -52,11 +57,15 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -70,17 +79,24 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String TEMPLATE_CREATE_APPLICATION = "/admin/plugins/appcenter/create_application.html";
     private static final String TEMPLATE_MODIFY_APPLICATION = "/admin/plugins/appcenter/modify_application.html";
     private static final String TEMPLATE_APPLICATION_DETAIL = "/admin/plugins/appcenter/application_detail.html";
+    private static final String TEMPLATE_APPLICATION_MAIL = "/admin/plugins/appcenter/application_mail.html";
 
     // Parameters
     private static final String PARAMETER_ID_APPLICATION = "id";
+    private static final String PARAMETER_ID_APPLICATION_SELECTION = "id_application";
     private static final String PARAMETER_SEARCH = "search";
     private static final String PARAMETER_ID_ORGANIZATION_MANAGER = "id_organization_manager";
+    private static final String PARAMETER_MESSAGE = "message";
+    private static final String PARAMETER_SUBJECT = "subject";
+    private static final String PARAMETER_SENDER_NAME = "sender_name";
+    private static final String PARAMETER_NOTIFICATION_TYPE = "notification_type";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS = "appcenter.manage_applications.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_APPLICATION = "appcenter.modify_application.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_APPLICATION = "appcenter.create_application.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_APPLICATION_DETAIL = "appcenter.application_detail.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_APPLICATION_MAIL = "appcenter.application_mail.pageTitle";
 
     // Markers
     private static final String MARK_APPLICATION_LIST = "application_list";
@@ -89,6 +105,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String MARK_JSON_DATA = "json_data";
     private static final String MARK_ORGANIZATIONS = "list_organizations";
     private static final String MARK_ORGANIZATION_MANAGERS = "list_organization_managers";
+    private static final String MARK_WEBAPP_URL = "webapp_url";
 
     private static final String JSP_MANAGE_APPLICATIONS = "jsp/admin/plugins/appcenter/ManageApplications.jsp";
 
@@ -103,6 +120,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String VIEW_CREATE_APPLICATION = "createApplication";
     private static final String VIEW_MODIFY_APPLICATION = "modifyApplication";
     private static final String VIEW_APPLICATION_DETAIL = "applicationDetail";
+    private static final String VIEW_APPLICATION_MAIL = "applicationMail";
 
     // Actions
     private static final String ACTION_CREATE_APPLICATION = "createApplication";
@@ -110,11 +128,17 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String ACTION_REMOVE_APPLICATION = "removeApplication";
     private static final String ACTION_CONFIRM_REMOVE_APPLICATION = "confirmRemoveApplication";
     private static final String ACTION_FILTER_APPLICATION = "filterApplications";
+    private static final String ACTION_APPLICATION_MAIL = "applicationMail";
 
     // Infos
     private static final String INFO_APPLICATION_CREATED = "appcenter.info.application.created";
     private static final String INFO_APPLICATION_UPDATED = "appcenter.info.application.updated";
     private static final String INFO_APPLICATION_REMOVED = "appcenter.info.application.removed";
+    private static final String INFO_APPLICATION_MAIL_SENT = "appcenter.info.application.mail.sent";
+
+    // Errors
+    private static final String ERROR_APPLICATION_MAIL_EMPTY_FILED = "appcenter.error.application.mail.empty_field";
+    private static final String ERROR_APPLICATION_MAIL_NO_APPLICATION_SELECTED = "appcenter.error.application.mail.no_application_selected";
 
     // Session variable to store working values
     private Application _application;
@@ -367,5 +391,104 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         model.put( MARK_JSON_DATA, strJsonData );
 
         return getPage( PROPERTY_PAGE_TITLE_APPLICATION_DETAIL, TEMPLATE_APPLICATION_DETAIL, model );
+    }
+
+    /**
+     * Returns a form to send a mail
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form to send a mail
+     */
+    @View( VIEW_APPLICATION_MAIL )
+    public String getSendApplicationMail( HttpServletRequest request )
+    {
+        List<Application> listApplication = ApplicationHome.getApplicationsList( );
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_APPLICATION_LIST, listApplication );
+        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+
+        return getPage( PROPERTY_PAGE_TITLE_APPLICATION_MAIL, TEMPLATE_APPLICATION_MAIL, model );
+    }
+
+    /**
+     * Sends a mail
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form to send a mail
+     */
+    @Action( ACTION_APPLICATION_MAIL )
+    public String doSendApplicationMail( HttpServletRequest request )
+    {
+        String strNotificationType = request.getParameter( PARAMETER_NOTIFICATION_TYPE );
+        String strMessage = request.getParameter( PARAMETER_MESSAGE );
+        String strSubject = request.getParameter( PARAMETER_SUBJECT );
+        String strSenderName = request.getParameter( PARAMETER_SENDER_NAME );
+
+        if ( strNotificationType == null || strMessage.isEmpty( ) || strSubject.isEmpty( ) || strSenderName.isEmpty( ) )
+        {
+            addError( ERROR_APPLICATION_MAIL_EMPTY_FILED, getLocale( ) );
+            return redirectView( request, VIEW_APPLICATION_MAIL );
+        }
+
+        List<Application> listApplication = new ArrayList<>( );
+        Set<String> setApplicationUserId = new HashSet<>( );
+
+        if ( strNotificationType.equals( "all" ) )
+        {
+            listApplication = ApplicationHome.getApplicationsList( );
+            List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesList( );
+            for ( UserApplicationRole userApplicationRole : listUserApplicationRoles )
+            {
+                setApplicationUserId.add( userApplicationRole.getIdUser( ) );
+            }
+        }
+        else if ( strNotificationType.equals( "selection" ) )
+        {
+            String[] arrayApplicationIds = request.getParameterValues( PARAMETER_ID_APPLICATION_SELECTION );
+
+            if ( arrayApplicationIds == null )
+            {
+                addError( ERROR_APPLICATION_MAIL_NO_APPLICATION_SELECTED, getLocale( ) );
+                return redirectView( request, VIEW_APPLICATION_MAIL );
+            }
+
+            for ( String strApplicationId : arrayApplicationIds )
+            {
+                int nApplicationId;
+                try
+                {
+                    nApplicationId = Integer.parseInt( strApplicationId );
+                }
+                catch ( NumberFormatException e )
+                {
+                    continue;
+                }
+
+                Application application = ApplicationHome.findByPrimaryKey( nApplicationId );
+                listApplication.add( application );
+
+                List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesListByIdApplication( nApplicationId );
+                for ( UserApplicationRole userApplicationRole : listUserApplicationRoles )
+                {
+                    setApplicationUserId.add( userApplicationRole.getIdUser( ) );
+                }
+            }
+        }
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_APPLICATION_LIST, listApplication );
+        strMessage = strMessage.replace( "[[[", "<").replace( "]]]", ">" );
+        strMessage = AppTemplateService.getTemplateFromStringFtl( strMessage, Locale.getDefault( ), model ).getHtml( );
+        strSubject = AppTemplateService.getTemplateFromStringFtl( strSubject, Locale.getDefault( ), model ).getHtml( );
+
+
+        MailService.sendMailHtml( String.join( ";", setApplicationUserId ), strSenderName, MailService.getNoReplyEmail( ), strSubject, strMessage );
+
+        addInfo( INFO_APPLICATION_MAIL_SENT, getLocale( ) );
+
+        return redirectView( request, VIEW_MANAGE_APPLICATIONS );
     }
 }
