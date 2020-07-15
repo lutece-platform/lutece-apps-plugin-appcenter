@@ -89,6 +89,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String PARAMETER_MESSAGE = "message";
     private static final String PARAMETER_SUBJECT = "subject";
     private static final String PARAMETER_SENDER_NAME = "sender_name";
+    private static final String PARAMETER_RECIPIENT_CC = "recipient_cc";
+    private static final String PARAMETER_RECIPIENT_BCC = "recipient_bcc";
     private static final String PARAMETER_NOTIFICATION_TYPE = "notification_type";
 
     // Properties for page titles
@@ -426,6 +428,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         String strMessage = request.getParameter( PARAMETER_MESSAGE );
         String strSubject = request.getParameter( PARAMETER_SUBJECT );
         String strSenderName = request.getParameter( PARAMETER_SENDER_NAME );
+        String strRecipientCC = request.getParameter( PARAMETER_RECIPIENT_CC );
+        String strRecipientBCC = request.getParameter( PARAMETER_RECIPIENT_BCC );
 
         if ( strNotificationType == null || strMessage.isEmpty( ) || strSubject.isEmpty( ) || strSenderName.isEmpty( ) )
         {
@@ -485,7 +489,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
         strSubject = AppTemplateService.getTemplateFromStringFtl( strSubject, Locale.getDefault( ), model ).getHtml( );
 
 
-        MailService.sendMailHtml( String.join( ";", setApplicationUserId ), strSenderName, MailService.getNoReplyEmail( ), strSubject, strMessage );
+        MailService.sendMailHtml( String.join( ";", setApplicationUserId ), strRecipientCC, strRecipientBCC, strSenderName, MailService.getNoReplyEmail( ), strSubject, strMessage );
 
         addInfo( INFO_APPLICATION_MAIL_SENT, getLocale( ) );
 

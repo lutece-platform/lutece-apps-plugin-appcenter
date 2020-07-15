@@ -35,6 +35,8 @@
 
             <@formGroup rows=2 labelKey='#i18n{appcenter.application_mail.labelNotifyContent}' helpKey='' >
                 <@fieldInputText i18nLabelKey='appcenter.application_mail.labelSenderName' inputName='sender_name' mandatory=true value="${(mail.senderName)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelSenderName.help' />
+                <@fieldInputText i18nLabelKey='appcenter.application_mail.labelRecipientCc' inputName='recipient_cc' mandatory=false value="${(mail.recipientCc)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelRecipientCc.help' />
+                <@fieldInputText i18nLabelKey='appcenter.application_mail.labelRecipientBcc' inputName='recipient_bcc' mandatory=false value="${(mail.recipientBcc)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelRecipientBcc.help' />
                 <@fieldTextArea i18nLabelKey='appcenter.application_mail.labelSubject' inputName='subject' mandatory=true value="${(mail.subject)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelSubject.help' />
                 <@fieldTextArea i18nLabelKey='appcenter.application_mail.labelNotifyMessage' inputName='message' mandatory=true value="${(mail.message)!''}" maxlength=1000 i18nHelpBlockKey='appcenter.application_mail.labelNotifyMessage.help' cssClass='richtext'/>
             </@formGroup>
@@ -56,7 +58,14 @@
 
 <@initEditor />
 <script>
-    $("#application_selection").hide();
+    if ( $("input#notification_type[value=selection]").is(":checked") )
+    {
+        $("#application_selection").show();
+    }
+    else
+    {
+        $("#application_selection").hide();
+    }
     $("input#notification_type").change(function(e){
         if ( $(this).val() == "selection" )
         {
@@ -71,13 +80,20 @@
     /* Filter application list */
     $("#filter-app").on( "keyup", function (){
         var search = $("#filter-app").val().toLowerCase();
+        var searchArray = search.split("|");
         $("#application_selection .checkbox").each(function (index) {
             var appName = $(this).attr("data-app").toLowerCase();
-            if ( appName.match(search) != null || $(this).find('input:checkbox').is(':checked') )
+            var show = false;
+            for (var i=0; i < searchArray.length; i++)
             {
-                $(this).show();
+                if ( (searchArray[i].length > 0 && appName.match(searchArray[i]) != null) || $(this).find('input:checkbox').is(':checked') )
+                {
+                    $(this).show();
+                    show = true;
+                    break;
+                }
             }
-            else
+            if ( !show )
             {
                 $(this).hide();
             }
