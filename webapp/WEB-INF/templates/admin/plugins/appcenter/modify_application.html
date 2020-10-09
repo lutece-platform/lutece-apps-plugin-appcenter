@@ -8,6 +8,9 @@
 			<@messages errors=errors />
 			<input type="hidden" id="id" name="id" value="${application.id}"/>
 			
+				<@formGroup labelKey='#i18n{appcenter.modify_application.labelCode}' helpKey='#i18n{appcenter.modify_application.labelCode.help}' mandatory=true>
+					<@input type='text' name='code' value='${application.code!}' />
+				</@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.modify_application.labelName}' helpKey='#i18n{appcenter.modify_application.labelName.help}' mandatory=true>
 					<@input type='text' name='name' value='${application.name!}' />
 				</@formGroup>

@@ -67,6 +67,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class provides the user interface to manage Application features ( manage, create, modify, remove )
@@ -141,6 +142,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     // Errors
     private static final String ERROR_APPLICATION_MAIL_EMPTY_FILED = "appcenter.error.application.mail.empty_field";
     private static final String ERROR_APPLICATION_MAIL_NO_APPLICATION_SELECTED = "appcenter.error.application.mail.no_application_selected";
+    private static final String ERROR_APPLICATION_CODE_ALREADY_USED = "appcenter.error.application.code.alreadyUsed";
 
     // Session variable to store working values
     private Application _application;
@@ -251,6 +253,12 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     {
         populate( _application, request );
 
+        if( StringUtils.isNotEmpty( _application.getCode( ) ) && ApplicationHome.findByCode( _application.getCode( ) ) != null )
+        {
+            addError( ERROR_APPLICATION_CODE_ALREADY_USED, getLocale( ) );
+            return redirectView( request, VIEW_CREATE_APPLICATION );
+        }
+
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
         if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )
         {
@@ -343,6 +351,14 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     public String doModifyApplication( HttpServletRequest request )
     {
         populate( _application, request );
+
+        if( StringUtils.isNotEmpty( _application.getCode( ) )
+                && !ApplicationHome.findByPrimaryKey( _application.getId( ) ).getCode( ).equals( _application.getCode( ) )
+                && ApplicationHome.findByCode( _application.getCode( ) ) != null )
+        {
+            addError( ERROR_APPLICATION_CODE_ALREADY_USED, getLocale( ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION, PARAMETER_ID_APPLICATION, _application.getId( ) );
+        }
 
         String strIdOrganizationManager = request.getParameter( PARAMETER_ID_ORGANIZATION_MANAGER );
         if ( strIdOrganizationManager!=null && !strIdOrganizationManager.isEmpty( ) )

@@ -84,6 +84,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class provides the user interface to manage Application xpages ( manage, createOrModify, modify, remove )
@@ -137,6 +138,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     // Errors
     private static final String ERROR_USER_ROLE_NOT_AUTHORIZED = "appcenter.error.userRoleNotAuthorized";
     private static final String ERROR_INVALID_VALUE = "appcenter.error.invalidValue";
+    private static final String ERROR_APPLICATION_CODE_ALREADY_USED = "appcenter.error.application.code.alreadyUsed";
 
     // Parameters
     private static final String PARAMETER_ACTIVE_ENVIRONMENT = "active_environment";
@@ -217,6 +219,13 @@ public class ApplicationXPage extends AppCenterDemandXPage
     public XPage doCreateApplication( HttpServletRequest request ) throws UserNotSignedException
     {
         populate( _application, request );
+
+        if( StringUtils.isNotEmpty( _application.getCode( ) ) && ApplicationHome.findByCode( _application.getCode( ) ) != null )
+        {
+            addError( ERROR_APPLICATION_CODE_ALREADY_USED, getLocale( request ) );
+            return redirectView( request, VIEW_CREATE_APPLICATION );
+        }
+
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
         _application.setApplicationData( JSON_EMPTY );
 
@@ -462,6 +471,14 @@ public class ApplicationXPage extends AppCenterDemandXPage
         }
 
         populate( _application, request );
+
+        if( StringUtils.isNotEmpty( _application.getCode( ) )
+                && !ApplicationHome.findByPrimaryKey( _application.getId( ) ).getCode( ).equals( _application.getCode( ) )
+                && ApplicationHome.findByCode( _application.getCode( ) ) != null )
+        {
+            addError( ERROR_APPLICATION_CODE_ALREADY_USED, getLocale( request ) );
+            return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
+        }
 
         _application.setListEnvironment( EnvironmentService.getEnvironmentList( request ) );
 
