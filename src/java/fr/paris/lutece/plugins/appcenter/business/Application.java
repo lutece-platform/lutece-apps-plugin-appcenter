@@ -214,7 +214,7 @@ public class Application implements Serializable
      */
     public void setCode( String _strCode )
     {
-        this._strCode = _strCode;
+        this._strCode = ( _strCode != null ) ? _strCode.toUpperCase( ) : null;
     }
 
     /**
