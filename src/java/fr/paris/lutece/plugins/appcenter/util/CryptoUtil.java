@@ -33,18 +33,19 @@
  */
 package fr.paris.lutece.plugins.appcenter.util;
 
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Base64;
 import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * This class provides some simple functions to encrypt or decrypt data. This implementation is based on the javax.crypto.* API and the Sun implementation. The
@@ -109,7 +110,7 @@ public final class CryptoUtil
                 byte [ ] enc = cipher.doFinal( utf8 );
 
                 // Encode bytes to base64 to get a string
-                strResult = new sun.misc.BASE64Encoder( ).encode( enc );
+                strResult = new String(Base64.getEncoder().encode( enc ),ENCODING_UTF8);
             }
             catch( Exception e )
             {
@@ -155,7 +156,7 @@ public final class CryptoUtil
 
             // Decrypt data
             // Decode base64 to get bytes
-            byte [ ] dec = new sun.misc.BASE64Decoder( ).decodeBuffer( strDataToDecrypt );
+            byte [ ] dec = Base64.getDecoder().decode( strDataToDecrypt );
 
             // Decrypt
             byte [ ] utf8 = cipher.doFinal( dec );
