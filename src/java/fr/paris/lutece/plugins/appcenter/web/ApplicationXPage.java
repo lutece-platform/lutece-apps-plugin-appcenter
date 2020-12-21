@@ -33,6 +33,31 @@
  */
 package fr.paris.lutece.plugins.appcenter.web;
 
+import static fr.paris.lutece.plugins.appcenter.web.Constants.JSP_PAGE_PORTAL;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_APPLICATION;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_APPLICATION_LIST;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_DEMANDS;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_DEMANDS_HISTORIES;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_DEMANDS_STATES;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USER;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.MARK_USERS_LIST;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.PARAM_ACTION;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.PARAM_ID_APPLICATION;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.PARAM_PAGE;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.PARAM_USER_EMAIL;
+import static fr.paris.lutece.plugins.appcenter.web.Constants.PARAM_USER_ROLE;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDemandTypesEnable;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
@@ -45,46 +70,31 @@ import fr.paris.lutece.plugins.appcenter.business.Environment;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
-import fr.paris.lutece.plugins.appcenter.business.UserHome;
-import fr.paris.lutece.plugins.appcenter.business.UserInfos;
-import fr.paris.lutece.plugins.appcenter.business.organization.Organization;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
-import fr.paris.lutece.plugins.appcenter.business.userinfos.GitlabUserInfo;
-import fr.paris.lutece.plugins.appcenter.business.userinfos.SvnUserInfo;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
+import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.EnvironmentService;
 import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
-import fr.paris.lutece.plugins.appcenter.util.CryptoUtil;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
-import fr.paris.lutece.portal.service.workflow.WorkflowService;
-import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
-import fr.paris.lutece.portal.web.xpages.XPage;
-import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
-import fr.paris.lutece.util.url.UrlItem;
-import fr.paris.lutece.portal.service.message.SiteMessageService;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import static fr.paris.lutece.plugins.appcenter.web.Constants.*;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.workflow.WorkflowService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
+import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ReferenceList;
-import java.util.Arrays;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringUtils;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * This class provides the user interface to manage Application xpages ( manage, createOrModify, modify, remove )
@@ -104,6 +114,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String MARK_CATEGORY_DEMAND_TYPES = "category_demand_types";
     private static final String MARK_DEMAND_TYPES = "demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
+    private static final String MARK_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION = "manage_multiple_deploy_configuration";
+    
 
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -154,6 +166,9 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String PERMISSION_VIEW_DEMANDS = "PERMISSION_VIEW_DEMANDS";
     private static final String PERMISSION_ADD_USERS = "PERMISSION_ADD_USERS";
     private static final String PERMISSION_REMOVE_USER = "PERMISSION_REMOVE_USER";
+    private static final String PERMISSION_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION= "PERMISSION_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION";
+    
+
 
     private static final String JSON_EMPTY = "{}";
 
@@ -174,6 +189,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
                 throw new UserNotSignedException( );
             }
             model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( UserService.getEmailUser( user ) ) );
+            model.put(MARK_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION,isAuthorizedManageMultipleDeployConfiguration(request));
             return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
         }
 
@@ -609,5 +625,14 @@ public class ApplicationXPage extends AppCenterDemandXPage
     {
         return null;
     }
+    
+    private boolean isAuthorizedManageMultipleDeployConfiguration(HttpServletRequest request)
+    {
+    	
+    	String strUserId = UserService.getCurrentUserId(request);	
+		return AuthorizationService.isAuthorized( strUserId, 0,PERMISSION_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION, "*" );	
+    	
+    }
+    
 
 }
