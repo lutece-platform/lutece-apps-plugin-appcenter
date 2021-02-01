@@ -44,6 +44,7 @@ import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandValidation;
 import fr.paris.lutece.plugins.appcenter.business.DemandValidationHome;
+import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.task.RequestAuthenticatorService;
@@ -63,6 +64,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
@@ -119,8 +121,10 @@ public class DemandValidationXPage extends MVCApplication
      * @return The HTML form the task form associate to the workflow action
      */
     @View( value = VIEW_DEMAND_VALIDATION, defaultView = true )
-    public XPage getDemandValidation( HttpServletRequest request ) throws SiteMessageException
+    public XPage getDemandValidation( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
+        User user = UserService.getCurrentUser( request );
+
         if ( RequestAuthenticatorService.getRequestAuthenticatorForUrl(  ).isRequestAuthenticated( request ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_NOT_AUTHENTICATED, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
@@ -141,8 +145,7 @@ public class DemandValidationXPage extends MVCApplication
             SiteMessageService.setMessage( request, MESSAGE_APP_ERROR, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
         }
 
-        LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
-        String strIdUser = UserService.getEmailUser( user );
+        String strIdUser = user.getId( );
 
         Demand demand = DemandHome.findByPrimaryKey( nIdDemand );
         Class demandClass = DemandTypeService.getClassByDemandTypeId( demand.getIdDemandType( ), DemandTypeHome.getDemandTypesList( ) );
