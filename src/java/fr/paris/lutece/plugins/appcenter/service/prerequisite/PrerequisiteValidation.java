@@ -144,7 +144,7 @@ public class PrerequisiteValidation implements IAutomaticActionPrerequisiteServi
         {
             if ( demandValidation.getIdTask( ) == nIdTask )
             {
-                return demandValidation.getIdUser( ).equals( organizationManager.getMail( ) ) && demandValidation.getStatus( ) == nStatus;
+                return demandValidation.getIdUser( ).equalsIgnoreCase( organizationManager.getMail( ) ) && demandValidation.getStatus( ) == nStatus;
             }
         }
 
