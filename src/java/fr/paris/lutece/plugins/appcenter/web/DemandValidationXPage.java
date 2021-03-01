@@ -160,9 +160,18 @@ public class DemandValidationXPage extends MVCApplication
             SiteMessageService.setMessage( request, MESSAGE_APP_ERROR, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
         }
 
-        if ( !strIdUser.equals( organizationManager.getMail( ) ) )
+        if ( !strIdUser.equalsIgnoreCase( organizationManager.getMail( ) ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_NOT_AUTHORIZED, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
+        }
+
+        List<DemandValidation> listDemandValidations = DemandValidationHome.findByDemand( nIdDemand );
+        for ( DemandValidation demandValidation : listDemandValidations )
+        {
+            if ( demandValidation.getIdTask( ) == nIdTask && demandValidation.getIdUser( ).equalsIgnoreCase( strIdUser ) )
+            {
+                SiteMessageService.setMessage( request, MESSAGE_VALIDATATION_NOT_REQUIRED, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
+            }
         }
 
         Map<String, Object> model = getModel( );
@@ -221,7 +230,7 @@ public class DemandValidationXPage extends MVCApplication
         List<DemandValidation> listDemandValidations = DemandValidationHome.findByDemand( nIdDemand );
         for ( DemandValidation demandValidation : listDemandValidations )
         {
-            if ( demandValidation.getIdTask( ) == nIdTask && demandValidation.getIdUser( ) == strIdUser )
+            if ( demandValidation.getIdTask( ) == nIdTask && demandValidation.getIdUser( ).equalsIgnoreCase( strIdUser ) )
             {
                 SiteMessageService.setMessage( request, MESSAGE_VALIDATATION_NOT_REQUIRED, SiteMessage.TYPE_ERROR, URL_FRONT_HOME );
             }
