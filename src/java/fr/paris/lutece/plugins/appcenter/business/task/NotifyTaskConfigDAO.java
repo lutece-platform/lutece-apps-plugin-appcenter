@@ -49,11 +49,11 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
 {
 
     // Constants
-    private static final String SQL_QUERY_SELECT = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name FROM appcenter_task_notify_config WHERE id_task = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_task_notify_config ( id_task, notification_type, id_mailing_list ,  subject, message, sender_name ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name, recipients, recipientsCc FROM appcenter_task_notify_config WHERE id_task = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_task_notify_config ( id_task, notification_type, id_mailing_list ,  subject, message, sender_name, recipients, recipientsCc ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_task_notify_config WHERE id_task = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_task_notify_config SET id_task = ?, notification_type = ?, id_mailing_list = ?, subject = ?, message = ?, sender_name = ? WHERE id_task = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name FROM appcenter_task_notify_config";
+    private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_task_notify_config SET id_task = ?, notification_type = ?, id_mailing_list = ?, subject = ?, message = ?, sender_name = ?, recipients = ?, recipientsCc = ? WHERE id_task = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_task, notification_type, id_mailing_list , subject, message, sender_name, recipients, recipientsCc FROM appcenter_task_notify_config";
 
     /**
      * {@inheritDoc }
@@ -69,7 +69,9 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
         daoUtil.setString( 4, notifyTaskConfig.getSubject( ) );
         daoUtil.setString( 5, notifyTaskConfig.getMessage( ) );
         daoUtil.setString( 6, notifyTaskConfig.getSenderName( ) );
-
+        daoUtil.setString( 7, notifyTaskConfig.getRecipients( ) );
+        daoUtil.setString( 8, notifyTaskConfig.getRecipientsCc( ) );
+        
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -96,6 +98,8 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
             notifyTaskConfig.setSubject( daoUtil.getString( ++nIndex ) );
             notifyTaskConfig.setMessage( daoUtil.getString( ++nIndex ) );
             notifyTaskConfig.setSenderName( daoUtil.getString( ++nIndex ) );
+            notifyTaskConfig.setRecipients( daoUtil.getString( ++nIndex ) );
+            notifyTaskConfig.setRecipientsCc( daoUtil.getString( ++nIndex ) );
         }
 
         daoUtil.free( );
@@ -130,6 +134,8 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
         daoUtil.setString( ++nIndex, notifyTaskConfig.getSubject( ) );
         daoUtil.setString( ++nIndex, notifyTaskConfig.getMessage( ) );
         daoUtil.setString( ++nIndex, notifyTaskConfig.getSenderName( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getRecipients( ) );
+        daoUtil.setString( ++nIndex, notifyTaskConfig.getRecipientsCc( ) );
         daoUtil.setInt( ++nIndex, notifyTaskConfig.getIdTask( ) );
 
         daoUtil.executeUpdate( );
@@ -156,7 +162,9 @@ public final class NotifyTaskConfigDAO implements INotifyTaskConfigDAO, ITaskCon
             notifyTaskConfig.setSubject( daoUtil.getString( 4 ) );
             notifyTaskConfig.setMessage( daoUtil.getString( 5 ) );
             notifyTaskConfig.setSenderName( daoUtil.getString( 6 ) );
-
+            notifyTaskConfig.setRecipients( daoUtil.getString( 7 ) );
+            notifyTaskConfig.setRecipientsCc( daoUtil.getString( 8 ) );
+            
             listNotifyTaskConfigs.add( notifyTaskConfig );
         }
 
