@@ -24,6 +24,7 @@
     <bean id="appcenter.organizationDAO" class="fr.paris.lutece.plugins.appcenter.business.organization.OrganizationDAO" />
     <bean id="appcenter.organizationManagerDAO" class="fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerDAO" />
     <bean id="appcenter.demandValidationDAO" class="fr.paris.lutece.plugins.appcenter.business.DemandValidationDAO" />
+    <bean id="appcenter.applicationUrlDAO" class="fr.paris.lutece.plugins.appcenter.business.ApplicationUrlDAO" />
     
     <!-- Services -->
     
@@ -120,4 +121,6 @@
             <value>0</value>
         </property>
     </bean>
+     <!--  FileUpload -->
+    <bean id="appcenterAsynchronousUploadHandler" class="fr.paris.lutece.plugins.appcenter.service.AppcenterAsynchronousUploadHandler"/>
 </beans>

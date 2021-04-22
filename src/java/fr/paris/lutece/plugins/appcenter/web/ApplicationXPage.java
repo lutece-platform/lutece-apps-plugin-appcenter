@@ -56,6 +56,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
@@ -73,6 +74,7 @@ import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
+import fr.paris.lutece.plugins.appcenter.service.AppcenterAsynchronousUploadHandler;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
@@ -81,6 +83,9 @@ import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.portal.business.file.File;
+import fr.paris.lutece.portal.business.file.FileHome;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -88,6 +93,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -115,7 +121,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String MARK_DEMAND_TYPES = "demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     private static final String MARK_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION = "manage_multiple_deploy_configuration";
-    
+    private static final String MARK_HANDLER = "handler";
 
     // Templates
     private static final String TEMPLATE_MANAGE_APPLICATIONS = "/skin/plugins/appcenter/manage_applications.html";
@@ -173,7 +179,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
     private static final String JSON_EMPTY = "{}";
 
     private Environment _activeEnvironment;
-
+    protected AppcenterAsynchronousUploadHandler _handler = SpringContextService.getBean( AppcenterAsynchronousUploadHandler.BEAN_NAME );
+    
     @View( value = VIEW_MANAGE_APPLICATIONS, defaultView = true )
     public XPage getManageApplications( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -220,7 +227,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_ORGANIZATIONS, organizationsList );
         model.put( MARK_ORGANIZATION_MANAGERS, OrganizationManagerHome.getOrganizationManagersList( ) );
         model.put( MARK_ENVIRONMENTS, ReferenceList.convert( Arrays.asList( Environment.values( ) ), "prefix", "labelKey", false ) );
-
+        model.put( MARK_HANDLER, _handler);
+        
         return getXPage( TEMPLATE_CREATE_APPLICATION, request.getLocale( ), model );
     }
 
@@ -259,6 +267,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
             return redirectView( request, VIEW_CREATE_APPLICATION );
         }
 
+        uploadLogoApplication( request );
         ApplicationHome.create( _application );
 
         ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
@@ -416,7 +425,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         model.put( MARK_DEMANDS_STATES, mapStates );
         model.put( MARK_DEMANDS_HISTORIES, mapHistories );
         model.put( MARK_USER, UserService.getCurrentUserInAppContext( request, _application.getId( ) ) );
-
+        
         return getXPage( TEMPLATE_MODIFY_APPLICATION, request.getLocale( ), model );
     }
 
@@ -511,7 +520,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
         {
             return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
         }
-
+        
+        uploadLogoApplication( request );
         ApplicationHome.update( _application );
 
         ApplicationDemandTypesEnable appDemandTypeIdEnabled = new ApplicationDemandTypesEnable( );
@@ -523,9 +533,8 @@ public class ApplicationXPage extends AppCenterDemandXPage
                 appDemandTypeIdEnabled.addDemandTypeEnabled( strDemandType );
             }
         }
-
         ApplicationService.saveApplicationData( _application, appDemandTypeIdEnabled );
-
+        
         addInfo( INFO_APPLICATION_UPDATED, getLocale( request ) );
 
         return redirect( request, VIEW_MODIFY_APPLICATION, PARAM_ID_APPLICATION, _application.getId( ) );
@@ -634,5 +643,25 @@ public class ApplicationXPage extends AppCenterDemandXPage
     	
     }
     
+    private void uploadLogoApplication( HttpServletRequest request )
+    {
+        FileItem fileItem = _handler.getFile( request, "logo_upload" );
+        if( fileItem != null )
+        {          
+            PhysicalFile physicalFile = new PhysicalFile( );
+            physicalFile.setValue( fileItem.get( ) );
 
+            File file = new File( );
+            file.setTitle( fileItem.getName( ) );
+            file.setPhysicalFile( physicalFile );
+            file.setSize( ( int ) fileItem.getSize( ) );
+            file.setMimeType( fileItem.getContentType( ) );
+
+            int idFile = FileHome.create( file );
+
+            _application.setIdFileLogo( idFile );
+
+            _handler.removeFileItem( "logo_upload", request.getSession(  ), 0 );
+        }
+    }
 }
