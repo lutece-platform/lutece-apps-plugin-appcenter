@@ -51,6 +51,7 @@ import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
 import fr.paris.lutece.plugins.appcenter.service.ActionService;
+import fr.paris.lutece.plugins.appcenter.service.AppcenterAsynchronousUploadHandler;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
@@ -63,6 +64,7 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -98,10 +100,13 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
-
+    private static final String MARK_HANDLER = "handler";
+    
     private static final long serialVersionUID = -490960650523760757L;
 
     protected Application _application;
+    
+    protected AppcenterAsynchronousUploadHandler _handler = SpringContextService.getBean( AppcenterAsynchronousUploadHandler.BEAN_NAME );
 
     /**
      * Get the current application
@@ -243,6 +248,7 @@ public abstract class AppCenterXPage extends MVCApplication
         // Fill the active demand types
         model.put( MARK_ACTIVE_DEMAND_TYPES,
                 ApplicationService.loadApplicationDataSubset( _application, ApplicationDemandTypesEnable.DATA_SUBSET_NAME, ApplicationDemandTypesEnable.class ) );
+        model.put( MARK_HANDLER, _handler);
     }
 
     protected <T extends ApplicationData> void addDatas( HttpServletRequest request, Application application, Map<String, Object> model, String strDatasName,

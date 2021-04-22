@@ -1,3 +1,5 @@
+<#include "/skin/plugins/asynchronousupload/upload_commons.html" />
+<@addRequiredJsFiles/>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <@row>
@@ -21,6 +23,29 @@
 					<small id="nameHelpBlock" class="form-text text-muted">#i18n{appcenter.create_application.labelName.help}</small>
 				</div>
 			</div>
+			<div class="form-group">
+				<input type="hidden" name="asynchronousupload.handler" value="${handler.handlerName}">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"> <i class="material-icons">image</i>
+						</span>
+					</div>
+					<div class="custom-file file-input">
+						<input type="file" name="logo_upload" aria-describedby="logo_uploadAddon" id="logo_upload" class="form-control custom-file-input inputFileVisible ${handler.handlerName}" accept="image/png, image/jpeg">
+						<label class="custom-file-label" for="logo_upload">#i18n{appcenter.create_application.labelLogo} *</label>
+					</div>
+					<div id="progress_logo_upload" class="progress" style="display: none;">
+						<div id="progress-bar_logo_upload" class="progress-bar progress-bar-success progress-bar-striped"></div>
+					</div>
+					<button hidden class="btn btn-primary" name="${handler.uploadSubmitPrefix}logo_upload" id="${handler.uploadSubmitPrefix}logo_upload" value="${handler.uploadSubmitPrefix}logo_upload" type="submit">
+						<i class="fa fa-upload"></i>
+						<span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
+						<span class="file-input-text-js" style="display: none;">#i18n{asynchronousupload.action.browse.name}</span>
+					</button>
+				</div>
+				<small class="form-text text-muted mb-4 pl-5">#i18n{appcenter.create_application.labelLogo.help}</small>
+			</div>
+			<@addUploadedFilesBox fieldName="logo_upload" handler=handler listFiles=listFiles!'' />
 			<div class="form-group row">
 				<label for="description" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelDescription} <@icon style='asterisk' /></label>
 				<div class="col-sm-12 col-md-6">
@@ -103,7 +128,7 @@
     </@tform>
 	</@columns>
 </@row>
-
+<script type="text/javascript" src="jsp/site/plugins/asynchronousupload/GetMainUploadJs.jsp?handler=appcenterAsynchronousUploadHandler" ></script>
 <script>
 $(function(){
         

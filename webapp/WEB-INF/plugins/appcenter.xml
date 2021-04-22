@@ -44,6 +44,10 @@
             <application-id>demand_validation</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.web.DemandValidationXPage</application-class>
         </application>
+        <application>
+            <application-id>gestion_url</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.web.ApplicationUrlXPage</application-class>
+        </application>
     </applications>
 
     <!-- Portlet parameters -->
