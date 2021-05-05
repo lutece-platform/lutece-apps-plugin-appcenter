@@ -294,7 +294,7 @@ public abstract class AppCenterXPage extends MVCApplication
     {
         _application = getApplication( request );
 
-        if ( _application == null )
+        if ( _application == null || !_application.isActive() )
         {
             throw new AccessDeniedException( ERROR_USER_NOT_AUTHORIZED );
         }

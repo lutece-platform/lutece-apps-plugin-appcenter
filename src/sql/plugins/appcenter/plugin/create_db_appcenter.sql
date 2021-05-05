@@ -45,6 +45,7 @@ description varchar(255) default '',
 id_organization_manager int default 0,
 application_data long varchar,
 id_file int(6),
+is_active` smallint(1) NOT NULL default 1,
 PRIMARY KEY (id_application)
 );
 

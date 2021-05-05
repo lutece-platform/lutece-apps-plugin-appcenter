@@ -50,17 +50,19 @@ public final class ApplicationDAO implements IApplicationDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_application ) FROM appcenter_application";
-    private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data, code, environment_code, id_file FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
-    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data,code, environment_code, id_file FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.code = ? ";
+    private static final String SQL_QUERY_SELECT = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data,code, environment_code, id_file, is_active FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.id_application = ? ";
+    private static final String SQL_QUERY_SELECT_BY_CODE = "SELECT appcenter_application.id_application, name, description, id_organization_manager, application_data,code, environment_code, id_file, is_active FROM appcenter_application LEFT JOIN appcenter_application_environment ON appcenter_application.id_application = appcenter_application_environment.id_application WHERE appcenter_application.code = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO appcenter_application ( id_application, name, description, id_organization_manager, application_data,code, id_file ) VALUES ( ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM appcenter_application WHERE id_application = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE appcenter_application SET name = ?, description = ? , id_organization_manager = ?, code = ?, id_file = ? WHERE id_application = ?";
     private static final String SQL_QUERY_UPDATE_DATA = "UPDATE appcenter_application SET application_data = ? WHERE id_application = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, id_organization_manager, application_data, code, id_file FROM appcenter_application";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_application, name, description, id_organization_manager, application_data, code, id_file, is_active FROM appcenter_application";
     private static final String SQL_QUERY_SELECT_USER_ROLE = "SELECT id_role FROM appcenter_user_application_role WHERE id_application = ? AND id_user = ? ";
     private static final String SQL_QUERY_DELETE_AUTHORIZED = "DELETE FROM appcenter_user_application_role WHERE id_application = ? ";
     private static final String SQL_QUERY_INSERT_ENVIRONMENT = " INSERT INTO appcenter_application_environment ( id_application, environment_code ) VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ENVIRONMENT = " DELETE FROM appcenter_application_environment WHERE id_application = ? ";
+    private static final String SQL_QUERY_UPDATE_STATUS = "UPDATE appcenter_application SET is_active = ?, code = ? WHERE id_application = ?";
+
     // Constants
     private static final String CONSTANT_WHERE = " WHERE ";
     private static final String CONSTANT_WHERE_SEARCH = " ( code LIKE ? OR name LIKE ? ) ";
@@ -163,6 +165,7 @@ public final class ApplicationDAO implements IApplicationDAO
             {
                 listEnvironmentCode.add( strEnviCode );
             }
+            application.setActive( daoUtil.getBoolean(  nIndex++  )  );
             while ( daoUtil.next( ) )
             {
                 strEnviCode = daoUtil.getString( 7 );
@@ -300,6 +303,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
             application.setIdFileLogo( daoUtil.getInt( nIndex++ ) );
+            application.setActive( daoUtil.getBoolean( nIndex++ ) );
             
             applicationList.add( application );
         }
@@ -347,6 +351,7 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
             application.setIdFileLogo( daoUtil.getInt( nIndex++ ) );
+            application.setActive( daoUtil.getBoolean( nIndex++ ) );
             
             applicationList.add( application );
         }
@@ -458,11 +463,13 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );
+            
             if ( strEnviCode != null )
             {
                 listEnvironmentCode.add( strEnviCode );
             }
             application.setIdFileLogo( daoUtil.getInt( nIndex++ ) );
+            application.setActive( daoUtil.getBoolean( nIndex++ ) );
             while ( daoUtil.next( ) )
             {
                 strEnviCode = daoUtil.getString( 7 );
@@ -484,5 +491,18 @@ public final class ApplicationDAO implements IApplicationDAO
 
         daoUtil.free( );
         return application;
+    }
+
+    @Override
+    public void updateStatus( int nApplicationId, String strCodeApp, boolean isActive, Plugin plugin )
+    {
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STATUS, plugin ) )
+        {
+            daoUtil.setBoolean( 1, isActive );
+            daoUtil.setString( 2, strCodeApp );
+            daoUtil.setInt( 3, nApplicationId );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 }

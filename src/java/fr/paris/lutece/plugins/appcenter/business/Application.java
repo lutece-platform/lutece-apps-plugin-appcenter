@@ -81,6 +81,8 @@ public class Application implements Serializable
 
     private int _lIdFileLogo;
     
+    private boolean _bActive;
+    
     /**
      * Returns the Id
      * 
@@ -277,4 +279,22 @@ public class Application implements Serializable
         }
         return imgAsBase64;
     }
+
+    /**
+     * @return the _bActive
+     */
+    public boolean isActive( )
+    {
+        return _bActive;
+    }
+
+    /**
+     * @param bActive the _bActive to set
+     */
+    public void setActive( boolean bActive )
+    {
+        this._bActive = bActive;
+    }
+
+    
 }

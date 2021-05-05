@@ -1,4 +1,5 @@
 ALTER TABLE appcenter_application ADD id_file int(6);
+ALTER TABLE appcenter_application ADD is_active smallint(1) NOT NULL DEFAULT 1;
 
 --
 -- Structure for table appcenter_application_url

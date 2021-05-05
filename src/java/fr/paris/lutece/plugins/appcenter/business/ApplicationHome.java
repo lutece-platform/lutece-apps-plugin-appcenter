@@ -239,4 +239,44 @@ public final class ApplicationHome
         }
         return listAuthorizedApplications;
     }
+    
+    /**
+     * Get authorized app for a given user
+     * 
+     * @param strUserId
+     *            The user ID
+     * @return The list of apps
+     */
+    public static List<Application> getApplicationsActiveByUser( String strUserId )
+    {
+        List<Application> listApplications = getApplicationsList( );
+        List<Application> listAuthorizedApplications = new ArrayList<>( );
+        for ( Application app : listApplications )
+        {
+            if ( app.isActive( ) && AuthorizationService.isAuthorized( strUserId, app.getId( ), "PERMISSION_VIEW_APPLICATION", null ) )
+            {
+                listAuthorizedApplications.add( app );
+            }
+        }
+        return listAuthorizedApplications;
+    }
+    
+    /**
+     * Update of the application status
+     * 
+     * @param nApplicationId
+     *            The application ID
+     * 
+     * @param strCodeApp
+     *            The application code
+     * 
+     * @param isActive
+     *            The active 
+     */
+    public static void updateStatus( int nApplicationId, String strCodeApp, boolean isActive )
+    {
+        _dao.updateStatus( nApplicationId, strCodeApp, isActive, _plugin );
+
+    }
+    
 }
