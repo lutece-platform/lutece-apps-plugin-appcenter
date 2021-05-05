@@ -93,6 +93,8 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String PARAMETER_RECIPIENT_CC = "recipient_cc";
     private static final String PARAMETER_RECIPIENT_BCC = "recipient_bcc";
     private static final String PARAMETER_NOTIFICATION_TYPE = "notification_type";
+    private static final String PARAMETER_STATUS = "status";
+    private static final String INACTIV_PREFIX = "INACTIVE_";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_APPLICATIONS = "appcenter.manage_applications.pageTitle";
@@ -132,6 +134,7 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
     private static final String ACTION_CONFIRM_REMOVE_APPLICATION = "confirmRemoveApplication";
     private static final String ACTION_FILTER_APPLICATION = "filterApplications";
     private static final String ACTION_APPLICATION_MAIL = "applicationMail";
+    private static final String ACTION_APPLICATION_UPDATE_STATUS = "updateStatusApplication";
 
     // Infos
     private static final String INFO_APPLICATION_CREATED = "appcenter.info.application.created";
@@ -511,4 +514,33 @@ public class ApplicationJspBean extends ManageAppCenterJspBean
 
         return redirectView( request, VIEW_MANAGE_APPLICATIONS );
     }
+    
+    /**
+     * Update status application
+     *
+     * @param request
+     *            The Http request
+     * @return the jsp URL to display the form to manage applications
+     */
+    @Action( ACTION_APPLICATION_UPDATE_STATUS )
+    public String doUpdateStatusApplication( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
+        boolean bStatus = Boolean.parseBoolean( request.getParameter( PARAMETER_STATUS ) );
+        Application application = ApplicationHome.findByPrimaryKey( nId );
+                
+        String strCodeApplication;
+        if( bStatus )
+        {
+            strCodeApplication = application.getCode( ).replace( INACTIV_PREFIX, "");
+        } else 
+        {
+            strCodeApplication = INACTIV_PREFIX + application.getCode( );
+        }
+        
+        ApplicationHome.updateStatus( nId, strCodeApplication,  bStatus );
+
+        return redirectView( request, VIEW_MANAGE_APPLICATIONS );
+    }
+    
 }
