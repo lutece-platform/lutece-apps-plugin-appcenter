@@ -164,5 +164,20 @@ public interface IApplicationDAO
      *            The plugin
      */
     void storeData( int nApplicationId, String strData, Plugin plugin );
+    
+    /**
+     * Update of the application status
+     * 
+     * @param nApplicationId
+     *            The application ID
+     * 
+     * @param strCodeApp
+     *            The code application
+     * @param isActive
+     *            The isActive
+     * @param plugin
+     *            The plugin
+     */
+    void updateStatus( int nApplicationId, String strCodeApp, boolean isActive, Plugin plugin );
 
 }
