@@ -36,10 +36,17 @@ package fr.paris.lutece.plugins.appcenter.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import fr.paris.lutece.api.user.UserRole;
+import fr.paris.lutece.plugins.appcenter.business.Role;
+import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserHome;
 import fr.paris.lutece.plugins.appcenter.business.UserInfos;
+import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -47,10 +54,15 @@ import fr.paris.lutece.util.ReferenceList;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * UserService
@@ -338,6 +350,35 @@ public class UserService
         }
         return null;
 
+    }
+    
+    /**
+     * Add RBACRole front to user
+     * @param user
+     * @param nIdApplication
+     */
+    public static void addRBACRole ( User user, int nIdApplication )
+    {
+        Map<String, UserRole> mapRoles = new HashMap<>();
+        
+        user.setListUserApplicationRoles( UserApplicationRoleHome.getUserApplicationRolesListByIdUser( user.getId( ) ) );
+        
+        if ( user.getListUserApplicationRoles( ) != null )
+        {
+            user.setListUserApplicationRoles( user.getListUserApplicationRoles( ).stream( )
+                    .filter( userApplicationRole -> userApplicationRole.getIdApplication( ) == nIdApplication ).collect( Collectors.toList( ) ) );
+        }  
+        
+        for ( UserApplicationRole userApplicationRole : user.getListUserApplicationRoles( ) )
+        {
+            Role role = RoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ) );
+            
+            RBACRole rbacRole = new RBACRole( "appcenter_" + role.getCode( ), role.getLabel( ) );
+            
+            mapRoles.put( "appcenter_" + role.getCode( ), rbacRole );
+        }
+        
+        user.setUserRoles( mapRoles );
     }
 
 }
