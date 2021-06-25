@@ -42,6 +42,8 @@ public class NotifyTaskConfig extends TaskConfig
     String _strSubject;
     String _strMessage;
     String _strSenderName;
+    String _strRecipients;
+    String _strRecipientsCc;
 
     /**
      * Get the subject
@@ -143,6 +145,38 @@ public class NotifyTaskConfig extends TaskConfig
     public void setIdMailingList( int nIdMailingList )
     {
         _nIdMailingList = nIdMailingList;
+    }
+
+    /**
+     * @return the _strRecipients
+     */
+    public String getRecipients( )
+    {
+        return _strRecipients;
+    }
+
+    /**
+     * @param strRecipients the _strRecipients to set
+     */
+    public void setRecipients( String strRecipients )
+    {
+        this._strRecipients = strRecipients;
+    }
+
+    /**
+     * @return the _strRecipientsCc
+     */
+    public String getRecipientsCc( )
+    {
+        return _strRecipientsCc;
+    }
+
+    /**
+     * @param strRecipientsCc the _strRecipientsCc to set
+     */
+    public void setRecipientsCc( String strRecipientsCc )
+    {
+        this._strRecipientsCc = strRecipientsCc;
     }
 
 }
