@@ -38,10 +38,16 @@
                 ${application.description}
             </td>
         <td>
-						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=applicationDetail&id=${application.id}' title='#i18n{appcenter.manage_applications.labelDetail}' buttonIcon='eye' showTitle=false />
-						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=modifyApplication&id=${application.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
-						
-						<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?action=confirmRemoveApplication&id=${application.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+		<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=applicationDetail&id=${application.id}' title='#i18n{appcenter.manage_applications.labelDetail}' buttonIcon='eye' showTitle=false />
+		<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?view=modifyApplication&id=${application.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+		
+		<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?action=confirmRemoveApplication&id=${application.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+		<#if application.active>
+		 	<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?action=updateStatusApplication&id=${application.id}&status=false' title='#i18n{appcenter.manage_applications.deactivate}' buttonIcon='play' color='btn-danger' showTitle=false />
+		<#else>
+		 	<@aButton href='jsp/admin/plugins/appcenter/ManageApplications.jsp?action=updateStatusApplication&id=${application.id}&status=true' title='#i18n{appcenter.manage_applications.activate}' buttonIcon='play' color='btn-success' showTitle=false />
+		</#if>
+        
         </td>
         </tr>
         </#list>

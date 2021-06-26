@@ -70,7 +70,9 @@ public class Application implements Serializable
     private List<UserApplicationRole> _listAuthorizations;
 
     private List<Environment> _listEnvironment;
-
+    
+    private boolean _bActive;
+    
     /**
      * Returns the Id
      * 
@@ -237,4 +239,22 @@ public class Application implements Serializable
     {
         _listEnvironment = listEnvironment;
     }
+
+    /**
+     * @return the _bActive
+     */
+    public boolean isActive( )
+    {
+        return _bActive;
+    }
+
+    /**
+     * @param bActive the _bActive to set
+     */
+    public void setActive( boolean bActive )
+    {
+        this._bActive = bActive;
+    }
+
+    
 }

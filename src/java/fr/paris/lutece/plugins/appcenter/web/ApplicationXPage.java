@@ -188,7 +188,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
             {
                 throw new UserNotSignedException( );
             }
-            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsByUser( UserService.getEmailUser( user ) ) );
+            model.put( MARK_APPLICATION_LIST, ApplicationHome.getApplicationsActiveByUser( UserService.getEmailUser( user ) ) );
             model.put(MARK_MANAGE_MULTIPLE_DEPLOY_CONFIGURATION,isAuthorizedManageMultipleDeployConfiguration(request));
             return getXPage( TEMPLATE_MANAGE_APPLICATIONS, request.getLocale( ), model );
         }
