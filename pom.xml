@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-appcenter</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <name>Lutece appcenter plugin</name>
 
     <repositories>
@@ -59,7 +59,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-apps-plugin-appcenter.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-apps-plugin-appcenter.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-apps-plugin-appcenter.git</url>
-      <tag>HEAD</tag>
+      <tag>plugin-appcenter-1.0.3</tag>
   </scm>
     
 </project>
