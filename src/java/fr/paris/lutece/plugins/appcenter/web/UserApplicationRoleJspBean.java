@@ -43,12 +43,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
-import fr.paris.lutece.plugins.appcenter.business.Role;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleFilter;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -159,7 +159,8 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         _userApplicationRole = null;
         List<UserApplicationRole> listUserApplicationRoles = UserApplicationRoleHome.getUserApplicationRolesListByFilter( _filter );
         Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
-        Map<String, Role> mapRoles = RoleHome.getRolesMap( );
+        Map<String, RBACRole> mapRoles = RoleService.getRolesMap( );
+        
         ReferenceList refListIdUser = UserApplicationRoleHome.getIdUserReferenceList( );
 
         // SORT
@@ -191,7 +192,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
                 else
                     if ( strSortedAttributeName.equals( CONSTANT_LABEL_ROLE ) )
                     {
-                        c = Comparator.comparing( ( UserApplicationRole x ) -> mapRoles.get( Integer.toString( x.getIdRole( ) ) ).getLabel( ) );
+                        c = Comparator.comparing( ( UserApplicationRole x ) -> mapRoles.get( x.getIdRole( ) ).getDescription() );
                     }
 
                 if ( c != null )
@@ -288,7 +289,7 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
         model.put( MARK_APPLICATION_LIST, applicationsReferencesList );
 
         // Roles list
-        ReferenceList rolesList = RoleHome.getRolesReferenceList( );
+        ReferenceList rolesList = RoleService.getRolesReferenceList( );
         AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
         model.put( MARK_ROLES_LIST, rolesList );
 
@@ -384,10 +385,10 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     @Action( ACTION_REMOVE_USER_APPLICATION_ROLE )
     public String doRemoveUserApplicationRole( HttpServletRequest request )
     {
-        int nIdRole = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
+        String strRoleId = request.getParameter( PARAMETER_ID_ROLE ) ;
         int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
         String strIdUser = request.getParameter( PARAMETER_ID_USER );
-        UserApplicationRoleHome.remove( nIdRole, nIdApplication, strIdUser );
+        UserApplicationRoleHome.remove( strRoleId, nIdApplication, strIdUser );
         addInfo( INFO_USER_APPLICATION_ROLE_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_USER_APPLICATION_ROLES );
@@ -420,21 +421,21 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     @View( VIEW_MODIFY_USER_APPLICATION_ROLE )
     public String getModifyUserApplicationRole( HttpServletRequest request )
     {
-        int nIdRole = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE ) );
+        String strIdRole = request.getParameter( PARAMETER_ID_ROLE ) ;
         int nIdApplication = Integer.parseInt( request.getParameter( PARAMETER_ID_APPLICATION ) );
         String strIdUser = request.getParameter( PARAMETER_ID_USER );
 
-        if ( _userApplicationRole == null || ( _userApplicationRole.getIdRole( ) != nIdRole ) || ( _userApplicationRole.getIdApplication( ) != nIdApplication )
+        if ( _userApplicationRole == null || ( !_userApplicationRole.getIdRole( ).equals(strIdRole) ) || ( _userApplicationRole.getIdApplication( ) != nIdApplication )
                 || ( _userApplicationRole.getIdUser( ) != strIdUser ) )
         {
-            _userApplicationRole = UserApplicationRoleHome.findByPrimaryKey( nIdRole, nIdApplication, strIdUser );
+            _userApplicationRole = UserApplicationRoleHome.findByPrimaryKey( strIdRole, nIdApplication, strIdUser );
         }
 
         Map<String, Object> model = getModel( );
         model.put( MARK_USER_APPLICATION_ROLE, _userApplicationRole );
         Map<String, Application> mapApplications = ApplicationHome.getApplicationsMap( );
         model.put( MARK_APPLICATION_MAP, mapApplications );
-        ReferenceList rolesList = RoleHome.getRolesReferenceList( );
+        ReferenceList rolesList = RoleService.getRolesReferenceList( );
         AppCenterUtils.addEmptyItem( rolesList, getLocale( ) );
         model.put( MARK_ROLES_LIST, rolesList );
 
@@ -452,19 +453,19 @@ public class UserApplicationRoleJspBean extends ManageAppCenterJspBean
     public String doModifyUserApplicationRole( HttpServletRequest request )
     {
         UserApplicationRole userApplicationRole = new UserApplicationRole( );
-        int nIdRoleOld = Integer.parseInt( request.getParameter( PARAMETER_ID_ROLE_OLD ) );
+        String strIdRoleOld = request.getParameter( PARAMETER_ID_ROLE_OLD );
 
         populate( userApplicationRole, request );
         populate( _userApplicationRole, request );
 
-        _userApplicationRole.setIdRole( nIdRoleOld );
+        _userApplicationRole.setIdRole( strIdRoleOld );
 
         // Check constraints
         // Also check user role parameter because populate method init the field to 0 in _userApplicationRole
         if ( !validateBean( userApplicationRole, VALIDATION_ATTRIBUTES_PREFIX ) || request.getParameter( PARAMETER_ID_ROLE ).isEmpty( ) )
         {
             Map<String, String> mapParameters = new HashMap<String, String>( );
-            mapParameters.put( PARAMETER_ID_ROLE, Integer.toString( _userApplicationRole.getIdRole( ) ) );
+            mapParameters.put( PARAMETER_ID_ROLE, _userApplicationRole.getIdRole( ) );
             mapParameters.put( PARAMETER_ID_APPLICATION, Integer.toString( _userApplicationRole.getIdApplication( ) ) );
             mapParameters.put( PARAMETER_ID_USER, _userApplicationRole.getIdUser( ) );
             return redirect( request, VIEW_MODIFY_USER_APPLICATION_ROLE, mapParameters );

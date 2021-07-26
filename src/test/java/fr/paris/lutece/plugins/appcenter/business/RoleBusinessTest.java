@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -51,30 +53,30 @@ public class RoleBusinessTest extends LuteceTestCase
     public void testBusiness( )
     {
         // Initialize an object
-        Role role = new Role( );
-        role.setCode( CODE1 );
-        role.setLabel( LABEL1 );
+        RBACRole role = new RBACRole( );
+        role.setKey( CODE1 );
+        role.setDescription( LABEL1 );
 
         // Create test
-        RoleHome.create( role );
-        Role roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
-        assertEquals( roleStored.getCode( ), role.getCode( ) );
-        assertEquals( roleStored.getLabel( ), role.getLabel( ) );
+        RBACRoleHome.create( role );
+        RBACRole roleStored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
+        assertEquals( roleStored.getKey( ), role.getKey( ) );
+        assertEquals( roleStored.getDescription( ), role.getDescription( ) );
 
         // Update test
-        role.setCode( CODE2 );
-        role.setLabel( LABEL2 );
-        RoleHome.update( role );
-        roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
-        assertEquals( roleStored.getCode( ), role.getCode( ) );
-        assertEquals( roleStored.getLabel( ), role.getLabel( ) );
+        role.setKey( CODE2 );
+        role.setDescription( LABEL2 );
+        RBACRoleHome.update( CODE2, role );
+        roleStored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
+        assertEquals( roleStored.getKey( ), role.getKey( ) );
+        assertEquals( roleStored.getDescription( ), role.getDescription( ) );
 
         // List test
-        RoleHome.getRolesList( );
+        RBACRoleHome.getRolesList( );
 
         // Delete test
-        RoleHome.remove( role.getId( ) );
-        roleStored = RoleHome.findByPrimaryKey( role.getId( ) );
+        RBACRoleHome.remove( role.getKey( ) );
+        roleStored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
         assertNull( roleStored );
 
     }

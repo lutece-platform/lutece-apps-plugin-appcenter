@@ -87,13 +87,13 @@ public final class UserApplicationRoleHome
     /**
      * Remove the userApplicationRole whose identifier is specified in parameter
      * 
-     * @param nRoleId
+     * @param strRoleId
      * @param nApplicationId
      * @param strUserId
      */
-    public static void remove( int nRoleId, int nApplicationId, String strUserId )
+    public static void remove( String strRoleId, int nApplicationId, String strUserId )
     {
-        _dao.delete( nRoleId, nApplicationId, strUserId, _plugin );
+        _dao.delete( strRoleId, nApplicationId, strUserId, _plugin );
     }
 
     /**
@@ -120,14 +120,14 @@ public final class UserApplicationRoleHome
     /**
      * Returns an instance of a userApplicationRole whose identifier is specified in parameter
      * 
-     * @param nRoleId
+     * @param strRoleId
      * @param nApplicationId
      * @param strUserId
      * @return an instance of UserApplicationRole
      */
-    public static UserApplicationRole findByPrimaryKey( int nRoleId, int nApplicationId, String strUserId )
+    public static UserApplicationRole findByPrimaryKey( String strRoleId, int nApplicationId, String strUserId )
     {
-        return _dao.load( nRoleId, nApplicationId, strUserId, _plugin );
+        return _dao.load( strRoleId, nApplicationId, strUserId, _plugin );
     }
 
     /**

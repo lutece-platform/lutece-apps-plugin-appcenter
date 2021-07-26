@@ -78,7 +78,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
         try
         {
             int nIndex = 1;
-            daoUtil.setInt( nIndex++, userApplicationRole.getIdRole( ) );
+            daoUtil.setString( nIndex++, userApplicationRole.getIdRole( ) );
             daoUtil.setInt( nIndex++, userApplicationRole.getIdApplication( ) );
             daoUtil.setString( nIndex++, userApplicationRole.getIdUser( ) );
 
@@ -95,10 +95,10 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
      * {@inheritDoc }
      */
     @Override
-    public UserApplicationRole load( int nRoleId, int nApplicationId, String strUserId, Plugin plugin )
+    public UserApplicationRole load( String strRoleId, int nApplicationId, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1, nRoleId );
+        daoUtil.setString( 1, strRoleId );
         daoUtil.setInt( 2, nApplicationId );
         daoUtil.setString( 3, strUserId );
 
@@ -110,7 +110,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             userApplicationRole = new UserApplicationRole( );
             int nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
         }
@@ -128,9 +128,9 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
 
-        daoUtil.setInt( nIndex++, userApplicationRole.getIdRole( ) );
+        daoUtil.setString( nIndex++, userApplicationRole.getIdRole( ) );
 
-        daoUtil.setInt( nIndex++, userApplicationRoleOld.getIdRole( ) );
+        daoUtil.setString( nIndex++, userApplicationRoleOld.getIdRole( ) );
         daoUtil.setInt( nIndex++, userApplicationRoleOld.getIdApplication( ) );
         daoUtil.setString( nIndex++, userApplicationRoleOld.getIdUser( ) );
 
@@ -142,10 +142,10 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
      * {@inheritDoc }
      */
     @Override
-    public void delete( int nRoleId, int nApplicationId, String strUserId, Plugin plugin )
+    public void delete( String strRoleId, int nApplicationId, String strUserId, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1, nRoleId );
+        daoUtil.setString( 1, strRoleId );
         daoUtil.setInt( 2, nApplicationId );
         daoUtil.setString( 3, strUserId );
 
@@ -195,7 +195,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole( );
             int nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
 
@@ -270,7 +270,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole( );
             nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
 
@@ -335,7 +335,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole( );
             int nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
 
@@ -362,7 +362,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole( );
             int nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
 
@@ -390,7 +390,7 @@ public final class UserApplicationRoleDAO implements IUserApplicationRoleDAO
             UserApplicationRole userApplicationRole = new UserApplicationRole( );
             int nIndex = 1;
 
-            userApplicationRole.setIdRole( daoUtil.getInt( nIndex++ ) );
+            userApplicationRole.setIdRole( daoUtil.getString( nIndex++ ) );
             userApplicationRole.setIdApplication( daoUtil.getInt( nIndex++ ) );
             userApplicationRole.setIdUser( daoUtil.getString( nIndex++ ) );
 

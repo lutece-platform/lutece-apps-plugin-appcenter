@@ -39,6 +39,7 @@
 package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Permission;
+import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,12 +51,19 @@ public class PermissionService
      * 
      * @return the permission list
      */
-    public static Collection<Permission> getPermissionList( )
+    public static Collection<RBAC> getPermissionList( )
     {
-        Collection<Permission> colPermissions = new ArrayList<>( );
+        Collection<RBAC> colPermissions = new ArrayList<>( );
         for ( IPermissionProvider permissionProvider : SpringContextService.getBeansOfType( IPermissionProvider.class ) )
         {
-            colPermissions.addAll( permissionProvider.providePermissionList( ) );
+            for( Permission permission: permissionProvider.providePermissionList( ) )
+            {
+                RBAC permissionViewApp = new RBAC( );
+                permissionViewApp.setPermissionKey( permission.getCode( ) );
+                permissionViewApp.setResourceId( permission.getResourceType().getRessourceTypeKey( ));
+                colPermissions.add( permissionViewApp );
+
+            }
         }
         return colPermissions;
     }
@@ -66,11 +74,11 @@ public class PermissionService
      * @param strPermissionCode
      * @return the permission for given permission code
      */
-    public static Permission getPermissionByCode( String strPermissionCode )
+    public static RBAC getPermissionByCode( String strPermissionCode )
     {
-        for ( Permission permission : getPermissionList( ) )
+        for ( RBAC permission : getPermissionList( ) )
         {
-            if ( permission.getCode( ).equals( strPermissionCode ) )
+            if ( permission.getPermissionKey( ).equals( strPermissionCode ) )
             {
                 return permission;
             }

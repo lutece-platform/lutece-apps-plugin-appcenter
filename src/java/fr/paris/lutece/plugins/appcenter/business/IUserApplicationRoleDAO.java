@@ -67,13 +67,13 @@ public interface IUserApplicationRoleDAO
     /**
      * Delete a record from the table
      * 
-     * @param nRoleId
+     * @param strRoleId
      * @param nApplicationId
      * @param strUserId
      * @param plugin
      *            the Plugin
      */
-    void delete( int nRoleId, int nApplicationId, String strUserId, Plugin plugin );
+    void delete( String strRoleId, int nApplicationId, String strUserId, Plugin plugin );
 
     /**
      * Delete records from the table, identified by given id user
@@ -102,14 +102,14 @@ public interface IUserApplicationRoleDAO
     /**
      * Load the data from the table
      * 
-     * @param nRoleId
+     * @param strRoleId
      * @param nApplicationId
      * @param strUserId
      * @param plugin
      *            the Plugin
      * @return The instance of the userApplicationRole
      */
-    UserApplicationRole load( int nRoleId, int nApplicationId, String strUserId, Plugin plugin );
+    UserApplicationRole load( String strRoleId, int nApplicationId, String strUserId, Plugin plugin );
 
     /**
      * Load the data of all the userApplicationRole objects and returns them as a list

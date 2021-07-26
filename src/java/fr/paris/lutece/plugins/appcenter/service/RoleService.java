@@ -38,19 +38,124 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.Role;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
+import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
 public class RoleService
 {
     private static final String PROPERTY_ID_APP_ROLE_OWNER = "appcenter.role.appOwner.code";
-
-    public static Role getAppOwnerRole( )
+    private static final int GLOBAL_PERMISSION_WILDCARD_ID = 0;
+    private static final String PREFIX_APPCENTER_ROLE = "appcenter_";
+    
+    public static RBACRole getAppOwnerRole( )
     {
         String strIdOwnerRole = AppPropertiesService.getProperty( PROPERTY_ID_APP_ROLE_OWNER, "app_owner" );
-        Role ownerRole = RoleHome.findByCode( strIdOwnerRole );
-        return ownerRole;
+        return RBACRoleHome.findByPrimaryKey(strIdOwnerRole );
+    }
+    
+    /**
+     * 
+     * @return front role
+     */
+    public static ReferenceList getRolesReferenceList()
+    {
+        ReferenceList referenceList = new ReferenceList( );
+         
+        for ( ReferenceItem item :  RBACRoleHome.getRolesList( ) )
+        {
+            if( item.getCode( ).contains( PREFIX_APPCENTER_ROLE ) )
+            {
+                referenceList.add( item );        
+            }
+        }
+        
+        return referenceList;
+    }
+    
+    /**
+     * Returns a global role of the user
+     * @param strUserId
+     * @return
+     */
+    public static RBACRole getGlobalRoleByUserId( String strUserId )
+    {
+        
+        List<UserApplicationRole> listUserApplicationRole = UserApplicationRoleHome.getUserApplicationRolesListByIdApplicationAndIdUser( GLOBAL_PERMISSION_WILDCARD_ID, strUserId );
+        if( !listUserApplicationRole.isEmpty( ) )
+        {
+            UserApplicationRole userApplicationRole = listUserApplicationRole.get( 0 );
+            return RBACRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ) );
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Returns an instance of a role whose identifier is specified in parameter
+     * 
+     * @param strUserId
+     * @param nApplicationId
+     * @return an instance of Role
+     */
+    public static RBACRole getByUserIdAndApplicationId( String strUserId, int nApplicationId )
+    {
+        List<UserApplicationRole> listUserApplicationRole = UserApplicationRoleHome.getUserApplicationRolesListByIdApplicationAndIdUser( nApplicationId, strUserId );
+        
+        if( !listUserApplicationRole.isEmpty( ) )
+        {
+            UserApplicationRole userApplicationRole = listUserApplicationRole.get( 0 );
+            return RBACRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ) );
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Load the data of all the role objects and returns them as a map
+     * 
+     * @return the map which contains the data of all the role objects
+     */
+    public static Map<String, RBACRole> getRolesMap( )
+    {
+        Map<String, RBACRole> rolesMap = new HashMap<>( );
+        
+        for ( RBACRole role :  RBACRoleHome.findAll( ))
+        {
+            if( role.getKey( ).contains( PREFIX_APPCENTER_ROLE ) )
+            {
+                rolesMap.put( role.getKey( ), role);
+            }
+        }
+        return rolesMap;
+    }
+    
+    /**
+     * Load the data of all the role objects and returns them as a list
+     * 
+     * @return the list which contains the data of all the role objects
+     */
+    public static List<RBACRole> getRolesList( )
+    {
+        List<RBACRole> roleList = new ArrayList<>( );
+        
+        for ( RBACRole role :  RBACRoleHome.findAll( ))
+        {
+            if( role.getKey( ).contains( PREFIX_APPCENTER_ROLE ) )
+            {
+                roleList.add( role);
+            }
+        }
+        return roleList;
     }
 }

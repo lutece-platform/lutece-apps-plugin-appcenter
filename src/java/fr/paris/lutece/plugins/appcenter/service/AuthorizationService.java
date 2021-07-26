@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.plugins.appcenter.service;
 
-import fr.paris.lutece.plugins.appcenter.business.PermissionRole;
-import fr.paris.lutece.plugins.appcenter.business.PermissionRoleHome;
-import fr.paris.lutece.plugins.appcenter.business.Role;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
-import java.util.List;
+import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.plugins.appcenter.business.UserHome;
+import fr.paris.lutece.portal.service.rbac.RBACService;
+
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * AuthorizationService
@@ -49,37 +50,19 @@ public class AuthorizationService
 
         if ( strIdUser != null )
         {
-            // check global roles
-            Role role = RoleHome.findGlobalRoleByUserId( strIdUser );
-
-            if ( role == null )
+        	User user = UserHome.findByPrimaryKey(strIdUser);
+        	UserService.addRBACRole(user, idApplication);
+        	
+        	AppcenterResource rbacResource = new AppcenterResource();
+        	
+            if( StringUtils.isNotEmpty( strResource ) )
             {
-                // check application role
-                role = RoleHome.findByUserIdAndApplicationId( strIdUser, idApplication );
+            	rbacResource.setResourceId( strResource );
             }
+        	
+            return RBACService.isAuthorized( rbacResource, strPermissionCode, user);
 
-            if ( role != null )
-            {
-                List<PermissionRole> listPermissionRole = PermissionRoleHome.getPermissionRolesListByCodeAndIdRole( strPermissionCode, role.getId( ) );
-
-                if ( !listPermissionRole.isEmpty( ) && strResource != null )
-                {
-                    for ( PermissionRole permissionRole : listPermissionRole )
-                    {
-                        if ( permissionRole.getCodeResource( ).equals( "*" ) || permissionRole.getCodeResource( ).equals( strResource ) )
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else
-                    if ( !listPermissionRole.isEmpty( ) )
-                    {
-                        return true;
-                    }
-            }
         }
-
         return false;
     }
 }

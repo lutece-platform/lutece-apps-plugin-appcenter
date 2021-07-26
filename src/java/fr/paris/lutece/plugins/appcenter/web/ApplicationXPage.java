@@ -277,7 +277,7 @@ public class ApplicationXPage extends AppCenterDemandXPage
         UserApplicationRole authorization = new UserApplicationRole( );
         authorization.setIdApplication( _application.getId( ) );
         authorization.setIdUser( user.getId( ) );
-        authorization.setIdRole( RoleService.getAppOwnerRole( ).getId( ) );
+        authorization.setIdRole( RoleService.getAppOwnerRole( ).getKey( ) );
         UserApplicationRoleHome.create( authorization );
 
         addInfo( INFO_APPLICATION_CREATED, getLocale( request ) );

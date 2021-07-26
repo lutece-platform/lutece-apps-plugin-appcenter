@@ -38,15 +38,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import fr.paris.lutece.api.user.UserRole;
-import fr.paris.lutece.plugins.appcenter.business.Role;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserHome;
 import fr.paris.lutece.plugins.appcenter.business.UserInfos;
-import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -370,12 +368,10 @@ public class UserService
         }  
         
         for ( UserApplicationRole userApplicationRole : user.getListUserApplicationRoles( ) )
-        {
-            Role role = RoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ) );
+        {            
+            RBACRole rbacRole = RBACRoleHome.findByPrimaryKey( userApplicationRole.getIdRole( ) );
             
-            RBACRole rbacRole = new RBACRole( "appcenter_" + role.getCode( ), role.getLabel( ) );
-            
-            mapRoles.put( "appcenter_" + role.getCode( ), rbacRole );
+            mapRoles.put( rbacRole.getKey( ), rbacRole );
         }
         
         user.setUserRoles( mapRoles );
