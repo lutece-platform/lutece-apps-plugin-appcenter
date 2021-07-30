@@ -22,6 +22,9 @@
                         <li <#if tab="organization">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageOrganizations.jsp">#i18n{appcenter.manage_organizations.pageTitle}</a>
 			</li>
-	</@tabList>
+            <li <#if tab="dat">class="active"</#if>>
+				<a href="jsp/admin/plugins/appcenter/modules/fastdeployapplication/ManageDatLutece.jsp">#i18n{module.appcenter.fastdeployapplication.manage_dat_lutece.pageTitle}</a>
+			</li>
+	</@listTabs>
 </@tabs>
 </#macro>
