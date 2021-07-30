@@ -40,8 +40,8 @@ package fr.paris.lutece.plugins.appcenter.service;
 
 import fr.paris.lutece.plugins.appcenter.business.Action;
 import fr.paris.lutece.plugins.appcenter.business.CategoryAction;
-import fr.paris.lutece.plugins.appcenter.business.Permission;
 import fr.paris.lutece.plugins.appcenter.business.User;
+import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
@@ -90,10 +90,10 @@ public class ActionService
                     listAuthorizedAction.add( action );
                     continue;
                 }
-                Permission permission = PermissionService.getPermissionByCode( strPermissionCode );
+                RBAC permission = PermissionService.getPermissionByCode( strPermissionCode );
                 User user = UserService.getCurrentUserInAppContext( request, nIdApplication );
                 if ( AuthorizationService.isAuthorized( user.getId( ), nIdApplication, strPermissionCode,
-                        resourceTypeConfig.getResourceCode( permission.getResourceType( ).getRessourceTypeKey( ) ) ) )
+                        resourceTypeConfig.getResourceCode( permission.getResourceId( )) ) )
                 {
                     listAuthorizedAction.add( action );
                 }

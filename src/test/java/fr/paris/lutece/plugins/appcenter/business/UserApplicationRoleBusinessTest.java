@@ -40,7 +40,7 @@ import fr.paris.lutece.test.LuteceTestCase;
  */
 public class UserApplicationRoleBusinessTest extends LuteceTestCase
 {
-    private static final int IDROLE1 = 1;
+    private static final String IDROLE1 = "appcenter_projet_manager";
     private static final int IDROLE2 = 2;
     private static final int IDAPPLICATION1 = 1;
     private static final int IDAPPLICATION2 = 2;

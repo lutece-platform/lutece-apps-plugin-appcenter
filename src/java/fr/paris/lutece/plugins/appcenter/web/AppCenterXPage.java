@@ -46,7 +46,6 @@ import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.business.DocumentationCategory;
 import fr.paris.lutece.plugins.appcenter.business.Environment;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.User;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationHome;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManagerHome;
@@ -55,6 +54,7 @@ import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.AuthorizationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandTypeService;
 import fr.paris.lutece.plugins.appcenter.service.ResourceTypeConfig;
+import fr.paris.lutece.plugins.appcenter.service.RoleService;
 import fr.paris.lutece.plugins.appcenter.service.UserService;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -200,7 +200,7 @@ public abstract class AppCenterXPage extends MVCApplication
         model.put( MARK_DEMAND_TYPE_LIST, DemandTypeHome.getDemandTypesList( ) );
         model.put( MARK_DOCUMENTATION_CATEGORIES,
                 Arrays.asList( DocumentationCategory.values( ) ).stream( ).collect( Collectors.toMap( DocumentationCategory::getPrefix, docCat -> docCat ) ) );
-        model.put( Constants.MARK_ROLES_LIST, RoleHome.getRolesReferenceList( ) );
+        model.put( Constants.MARK_ROLES_LIST, RoleService.getRolesReferenceList( ) );
 
     }
 

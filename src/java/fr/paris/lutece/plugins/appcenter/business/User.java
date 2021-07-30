@@ -33,12 +33,17 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import fr.paris.lutece.api.user.UserRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 
 /**
  * This is the business class for the object User
  */
-public class User
+public class User implements fr.paris.lutece.api.user.User
 {
     // Variables declarations
     private String _strId;
@@ -47,6 +52,11 @@ public class User
 
     private String _userInfos;
 
+    /**
+     * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
+     */
+    private Map<String, UserRole> _roles = new HashMap<>( );
+    
     /**
      * Returns the Id
      * 
@@ -108,5 +118,46 @@ public class User
     {
         _userInfos = userInfos;
     }
+
+	@Override
+	public Map<String, UserRole> getUserRoles() {
+		return _roles;
+	}
+
+	public void setUserRoles( Map<String, UserRole>  roles) {
+		this._roles = roles;
+	}
+	
+	@Override
+	public String getAccessCode() {
+		return _strId;
+	}
+
+	@Override
+	public String getEmail() {
+		return _strId;
+	}
+
+	@Override
+	public String getLastName() {
+		return _strId;
+	}
+
+	@Override
+	public String getFirstName() {
+		return _strId;
+	}
+
+	@Override
+	public List<String> getUserWorkgroups() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRealm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

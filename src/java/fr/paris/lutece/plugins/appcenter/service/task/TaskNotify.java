@@ -40,8 +40,6 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.business.DemandType;
 import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
-import fr.paris.lutece.plugins.appcenter.business.Role;
-import fr.paris.lutece.plugins.appcenter.business.RoleHome;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRole;
 import fr.paris.lutece.plugins.appcenter.business.UserApplicationRoleHome;
 import fr.paris.lutece.plugins.appcenter.business.task.NotifyTaskConfig;
@@ -53,6 +51,8 @@ import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.service.mail.MailItem;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
@@ -146,8 +146,8 @@ public class TaskNotify extends SimpleTask
             case "ownerApp":
                 for ( UserApplicationRole userApp : userAppList )
                 {
-                    Role role = RoleHome.findByPrimaryKey( userApp.getIdRole( ) );
-                    if ( role.getCode( ) == "app_owner" )
+                    RBACRole role = RBACRoleHome.findByPrimaryKey( userApp.getIdRole( ) );
+                    if ( role.getKey( ) == "app_owner" )
                     {
                         listEmailAddresses.add( userApp.getIdUser( ) );
                         break;

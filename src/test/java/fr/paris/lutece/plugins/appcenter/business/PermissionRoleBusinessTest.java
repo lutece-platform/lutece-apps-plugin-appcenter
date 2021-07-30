@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.appcenter.business;
 
+import fr.paris.lutece.portal.business.rbac.RBAC;
+import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -42,8 +44,8 @@ public class PermissionRoleBusinessTest extends LuteceTestCase
 {
     private static final String CODEACTIONROLE1 = "CodePermission1";
     private static final String CODEACTIONROLE2 = "CodePermission2";
-    private static final int CODEROLE1 = 1;
-    private static final int CODEROLE2 = 2;
+    private static final String CODEROLE1 = "appcenter_projet_manager";
+    private static final String CODEROLE2 = "appcenter_project_manager_deleg";
     private static final String CODERESOURCE1 = "CodeResource1";
     private static final String CODERESOURCE2 = "CodeResource2";
 
@@ -53,36 +55,35 @@ public class PermissionRoleBusinessTest extends LuteceTestCase
     public void testBusiness( )
     {
         // Initialize an object
-        PermissionRole permissionRole = new PermissionRole( );
-        permissionRole.setCodePermission( CODEACTIONROLE1 );
-        permissionRole.setIdRole( CODEROLE1 );
-        permissionRole.setCodeResource( CODERESOURCE1 );
+        RBAC permissionRole = new RBAC( );
+        permissionRole.setPermissionKey( CODEACTIONROLE1 );
+        permissionRole.setRoleKey( CODEROLE1 );
+        permissionRole.setResourceId( CODERESOURCE1 );
 
         // Create test
-        PermissionRoleHome.create( permissionRole );
-        PermissionRole permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ), permissionRole.getIdRole( ),
-                permissionRole.getCodeResource( ) );
-        assertEquals( permissionRoleStored.getCodePermission( ), permissionRole.getCodePermission( ) );
-        assertEquals( permissionRoleStored.getIdRole( ), permissionRole.getIdRole( ) );
-        assertEquals( permissionRoleStored.getCodeResource( ), permissionRole.getCodeResource( ) );
+        int id = RBACHome.create( permissionRole ).getRBACId( );
+        RBAC permissionRoleStored = RBACHome.findByPrimaryKey( id );
+        assertEquals( permissionRoleStored.getPermissionKey( ), permissionRole.getPermissionKey( ) );
+        assertEquals( permissionRoleStored.getRoleKey( ), permissionRole.getRoleKey( ) );
+        assertEquals( permissionRoleStored.getResourceId( ), permissionRole.getResourceId( ) );
 
         // Update test
-        permissionRole.setCodePermission( CODEACTIONROLE2 );
-        permissionRole.setIdRole( CODEROLE2 );
-        permissionRole.setCodeResource( CODERESOURCE2 );
-        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ), permissionRole.getIdRole( ),
-                permissionRole.getCodeResource( ) );
-        assertEquals( permissionRoleStored.getCodePermission( ), permissionRole.getCodePermission( ) );
-        assertEquals( permissionRoleStored.getIdRole( ), permissionRole.getIdRole( ) );
-        assertEquals( permissionRoleStored.getCodeResource( ), permissionRole.getCodeResource( ) );
+        permissionRole.setPermissionKey( CODEACTIONROLE2 );
+        permissionRole.setRoleKey( CODEROLE2 );
+        permissionRole.setResourceId( CODERESOURCE2 );
+        permissionRole.setRBACId( id );
+        permissionRoleStored = RBACHome.update( permissionRole );
+        
+        assertEquals( permissionRoleStored.getPermissionKey( ), permissionRole.getPermissionKey( ) );
+        assertEquals( permissionRoleStored.getRoleKey( ), permissionRole.getRoleKey( ) );
+        assertEquals( permissionRoleStored.getResourceId( ), permissionRole.getResourceId( ) );
 
         // List test
-        PermissionRoleHome.getPermissionRolesList( );
+        RBACHome.findAll( );
 
         // Delete test
-        PermissionRoleHome.remove( permissionRole.getCodePermission( ), permissionRole.getIdRole( ), permissionRole.getCodeResource( ) );
-        permissionRoleStored = PermissionRoleHome.findByPrimaryKey( permissionRole.getCodePermission( ), permissionRole.getIdRole( ),
-                permissionRole.getCodeResource( ) );
+        RBACHome.remove( id );
+        permissionRoleStored = RBACHome.findByPrimaryKey( id );
         assertNull( permissionRoleStored );
 
     }

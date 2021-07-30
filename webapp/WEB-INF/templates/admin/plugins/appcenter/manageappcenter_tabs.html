@@ -1,7 +1,7 @@
 <#macro tabs2 tab >
 <@tabs>
-	<@listTabs>
-                        <li <#if tab="demand">class="active"</#if>>
+	<@tabList>
+            <li <#if tab="demand">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageDemands.jsp">#i18n{appcenter.manage_demands.pageTitle}</a>
 			</li>
                         <li <#if tab="application">class="active"</#if>>
@@ -18,9 +18,6 @@
 			</li>
                         <li <#if tab="demandtypecategories">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/modules/guichetpro/ManageDemandTypeCategories.jsp">#i18n{module.appcenter.guichetpro.manage_demandtypecategories.pageTitle}</a>
-			</li>
-                        <li <#if tab="role">class="active"</#if>>
-				<a href="jsp/admin/plugins/appcenter/ManageRoles.jsp">#i18n{appcenter.manage_roles.pageTitle}</a>
 			</li>
                         <li <#if tab="organization">class="active"</#if>>
 				<a href="jsp/admin/plugins/appcenter/ManageOrganizations.jsp">#i18n{appcenter.manage_organizations.pageTitle}</a>

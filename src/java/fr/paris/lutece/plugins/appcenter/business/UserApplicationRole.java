@@ -44,7 +44,7 @@ public class UserApplicationRole implements Serializable
 
     // Variables declarations
 
-    private int _nIdRole;
+    private String _strIdRole;
 
     private int _nIdApplication;
 
@@ -55,9 +55,9 @@ public class UserApplicationRole implements Serializable
      * 
      * @return The IdRole
      */
-    public int getIdRole( )
+    public String getIdRole( )
     {
-        return _nIdRole;
+        return _strIdRole;
     }
 
     /**
@@ -66,9 +66,9 @@ public class UserApplicationRole implements Serializable
      * @param nIdRole
      *            The IdRole
      */
-    public void setIdRole( int nIdRole )
+    public void setIdRole( String nIdRole )
     {
-        _nIdRole = nIdRole;
+        _strIdRole = nIdRole;
     }
 
     /**
