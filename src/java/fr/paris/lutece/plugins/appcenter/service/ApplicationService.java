@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -55,10 +56,15 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.business.DemandType;
+import fr.paris.lutece.plugins.appcenter.business.DemandTypeHome;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -298,4 +304,77 @@ public class ApplicationService
 
         ApplicationHome.remove( nId );
     }
+    
+    /**
+     * Return map of demands from application data
+     * @param <T>
+     * @param application
+     * @return
+     */
+    public static <T extends Demand> Map<String, T> getListDemandsApplicationData( Application application )
+    {
+        _mapper.configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
+        Map<String, T> mapDemandsApplicationData = new HashMap<>( );
+
+        List<DemandType> listDemandsType = DemandTypeHome.getDemandTypesList( );
+
+        try
+        {
+            for ( DemandType demandType : listDemandsType )
+            {
+                String strDemandType = demandType.getIdDemandType( ).equals( "fastdeployapplication" ) ? "fastdeployapplications" : demandType.getIdDemandType( );
+                JsonNode listDemandsJsonNode = getListDemandsApplicationDataJsonNode(application, strDemandType);
+
+                if ( listDemandsJsonNode != null )
+                {
+                    Iterator it = listDemandsJsonNode.iterator( );
+                    while ( it.hasNext( ) )
+                    {
+                        String strDemandDataJson = it.next( ).toString( );
+
+                        if ( strDemandDataJson != null )
+                        {
+                            JsonNode demandDataNode = _mapper.readTree( strDemandDataJson );
+                            JsonNode idDemandNode = demandDataNode.get( "listIdDemandAssociated" );
+                            upperCaseEnvironment(demandDataNode);
+                            
+                            T demand = ( T ) _mapper.readValue( demandDataNode.toString( ), DemandTypeService.getClassByDemandTypeId( demandType.getIdDemandType( ), listDemandsType ) );
+                            
+                            if ( idDemandNode != null && idDemandNode.get( 0 ) != null )
+                            {
+                                demand.setIdApplication( application.getId( ) );
+                                mapDemandsApplicationData.put( idDemandNode.get( 0 ).asText( ), demand );
+                            }
+                        }
+                    }
+                }
+            }
+        } catch ( Exception e )
+        {
+            AppLogService.error( "ApplicationService:getListDemandsApplicationData " +  e );
+        }
+        return mapDemandsApplicationData;
+    }
+
+	private static JsonNode getListDemandsApplicationDataJsonNode(Application application, String strDemandType) {
+		try
+		{
+		    JsonNode dataApplicationJsonNode = _mapper.readTree( application.getApplicationData( ) );
+		    return dataApplicationJsonNode.get( strDemandType ).get( "listData" );
+		} catch ( Exception e )
+		{
+		    AppLogService.info( "ApplicationService:getListDemandsApplicationData " + e );
+		}
+		return null;
+	}
+
+	private static void upperCaseEnvironment(JsonNode demandDataNode)
+	{
+		JsonNode environnementNode = demandDataNode.get( "environment" );
+		
+		if ( !environnementNode.isNull( ) )
+		{
+		    ( ( ObjectNode ) demandDataNode ).put( "environment", environnementNode.textValue( ).toUpperCase( ) );
+		}
+	}
 }

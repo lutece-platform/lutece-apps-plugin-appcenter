@@ -98,7 +98,8 @@ public abstract class AppCenterXPage extends MVCApplication
     private static final String MARK_DOCUMENTATION_CATEGORIES = "documentation_categories";
     private static final String MARK_ACTIVE_DEMAND_TYPES = "active_demand_types";
     private static final String MARK_ACTIVE_DEMAND_TYPE = "active_demand_type";
-
+    private static final String MARK_DEMANDS_APPLICATION = "demandsApplication";
+    
     private static final long serialVersionUID = -490960650523760757L;
 
     protected Application _application;
@@ -163,7 +164,9 @@ public abstract class AppCenterXPage extends MVCApplication
                     request, request.getLocale( ) );
             mapHistories.put( Integer.toString( demand.getId( ) ), strHistoryHtml );
         }
-
+        //List demand application data
+        model.put( MARK_DEMANDS_APPLICATION, ApplicationService.getListDemandsApplicationData( _application ) );
+        
         model.put( Constants.MARK_DEMANDS_STATES, mapStates );
         model.put( Constants.MARK_DEMANDS_HISTORIES, mapHistories );
     }
