@@ -34,8 +34,8 @@
 package fr.paris.lutece.plugins.appcenter.business;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

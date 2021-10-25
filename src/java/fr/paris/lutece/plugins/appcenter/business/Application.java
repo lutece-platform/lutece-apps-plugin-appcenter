@@ -40,12 +40,13 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 
 import org.apache.commons.codec.binary.Base64;
-import java.io.Serializable;
-import java.util.List;
-
+import fr.paris.lutece.plugins.appcenter.business.resourcetype.ResourceTypeValue;
+import fr.paris.lutece.plugins.appcenter.business.resourcetype.AbstractAppCenterResourceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is the business class for the object Application
