@@ -457,12 +457,12 @@ public final class ApplicationDAO implements IApplicationDAO
             application.setOrganizationManager( organizationManager );
             application.setApplicationData( daoUtil.getString( nIndex++ ) );
             application.setCode( daoUtil.getString( nIndex++ ) );
-            application.setIdFileLogo( daoUtil.getInt( nIndex++ ) );
             String strEnviCode = daoUtil.getString( nIndex++ );
             if ( strEnviCode != null )
             {
                 listEnvironmentCode.add( strEnviCode );
             }
+            application.setIdFileLogo( daoUtil.getInt( nIndex++ ) );
             while ( daoUtil.next( ) )
             {
                 strEnviCode = daoUtil.getString( 7 );
