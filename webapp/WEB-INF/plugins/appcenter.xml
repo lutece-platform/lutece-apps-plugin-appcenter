@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><plug-in>
     <name>appcenter</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <documentation/>
     <installation/>
     <changes/>
@@ -43,6 +43,10 @@
         <application>
             <application-id>demand_validation</application-id>
             <application-class>fr.paris.lutece.plugins.appcenter.web.DemandValidationXPage</application-class>
+        </application>
+        <application>
+            <application-id>gestion_url</application-id>
+            <application-class>fr.paris.lutece.plugins.appcenter.web.ApplicationUrlXPage</application-class>
         </application>
     </applications>
 

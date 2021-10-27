@@ -1,0 +1,191 @@
+<#include "commons.html" />
+<#include "/../../commons.html" />
+<h2 id="app-name" class="sr-only">${application.name!}</h2>
+<div class="container-fluid">
+    <div class="row no-gutters">
+         <div class="col-xs-12 col-sm-7 col-md-10">
+	    	<div class="row">
+	    		<div class="col-sm-3 col-md-3">
+	    		</div>
+		    	<div class="col-xs-12 col-sm-6 col-md-6 text-center">
+		    		<h3>${title} ${application.code}</h3>
+		    	</div>
+		    	<div class="col-xs-12 col-sm-3 col-md-3 text-right align-self-center">
+			    	<button type="button" id="btnCreateUrl" class="btn btn-primary btn-round">
+			    		#i18n{appcenter.manage_applicationUrl.btn.create}
+			    	</button>
+		    	</div>
+		    </div>
+		    <table id="tableUrl" class="table table-striped bg-white">
+		    	<thead class="bg-gradient-primary text-white">
+		    		<tr>
+		    			<th scope="col">#i18n{appcenter.manage_applicationUrl.column.type}</th>
+		    			<th scope="col">#i18n{appcenter.manage_applicationUrl.column.url}</th>
+		    			<th scope="col">#i18n{appcenter.manage_applicationUrl.column.environment}</th>
+		    			<th scope="col">#i18n{appcenter.manage_applicationUrl.column.description}</th>
+		    			<th scope="col">#i18n{appcenter.manage_applicationUrl.column.action}</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+		    		<#list applicationUrlList as applicationUrl>
+		    		<tr>
+		    			<td>${(applicationUrl.type)!}</td>
+		    			<td><a href="${(applicationUrl.url)!}" target="_blank">${(applicationUrl.url)!}</a></td>
+		    			<td>${applicationUrl.environment!''}</td>
+		    			<td>${(applicationUrl.description)!}</td>
+		    			<td>
+			    			<div class="row">
+			                	<button type="button" title="Modifier" onClick="populateModal(${(applicationUrl.idApplicationUrl)!},${(applicationUrl.idApplication)!},'${(applicationUrl.type?js_string)!}','${(applicationUrl.url?js_string)!}','${(applicationUrl.environment?js_string)!}','${(applicationUrl.description?js_string)!}');" class="btn btn-primary btn-fab btn-round">
+		           					<span class="material-icons">edit</span>
+		           				</button>
+			                	<button type="button" title="Supprimer" onClick="removeModal(${(applicationUrl.idApplicationUrl)!},${(applicationUrl.idApplication)!},'${(applicationUrl.url?js_string)!}');" class="btn btn-danger btn-fab btn-round">
+		           					<span class="material-icons">delete</span>
+		           				</button>
+		           			</div>			    			
+		    			</td>
+		    		</tr>
+		    		</#list>
+		    	</tbody>
+		    </table>
+		</div>
+	</div>
+</div>
+
+<!-- Modal Modification/Creation -->
+<div class="modal fade" id="modalUrl" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">#i18n{appcenter.manage_applicationUrl.modal.title}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="#i18n{portal.util.labelClose}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form action="jsp/site/Portal.jsp">
+                    <input type="hidden" name="page" value="gestion_url">
+                    <input type="hidden" name="action" value="save_url">
+                    <input type="hidden" id="idApplication" name="idApplication" value="${application.id}">
+                    <input type="hidden" id="idApplicationUrl" name="idApplicationUrl">
+                    <input type="hidden" name="activeEnvironment" value="${active_environment!}"/>
+                    <div class="form-group bmd-form-group">
+                        <label class="pl-5" for="type">#i18n{appcenter.manage_applicationUrl.modal.type}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">apps</i>
+                                </span>
+                            </div>
+                            <select required id="type" name="type" class="form-control">
+                            	<option value=""></option>
+                            	<option value="Front Office">#i18n{appcenter.manage_applicationUrl.modal.type.fo}</option>
+                            	<option value="Back Office">#i18n{appcenter.manage_applicationUrl.modal.type.bo}</option>
+                            	<option value="Autre">#i18n{appcenter.manage_applicationUrl.modal.type.autre}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group bmd-form-group">
+                        <label class="pl-5" for="url">#i18n{appcenter.manage_applicationUrl.modal.url}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">link</i>
+                                </span>
+                            </div>
+                            <input type="text" required id="url" name="url" value="" maxlength="255" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group bmd-form-group">
+                        <label class="pl-5" for="environment">#i18n{appcenter.manage_applicationUrl.modal.environment}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">apps</i>
+                                </span>
+                            </div>
+                            <select required id="environment" name="environment" class="form-control">
+                            	<option value=""></option>
+                            	<#list environments as environment>
+                            	<option value="${environment.code!}">#i18n{${environment.name!}}</option>
+                            	</#list>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group bmd-form-group">
+                        <label class="pl-5" for="description">#i18n{appcenter.manage_applicationUrl.modal.description}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">create</i>
+                                </span>
+                            </div>
+                            <textarea required id="description" name="description" rows="4" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-round">
+                            #i18n{appcenter.manage_applicationUrl.modal.btn.save} <i class="fa fa-check-circle ml-1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal remove -->
+<div class="modal fade" id="modalRemove" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-xs" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">#i18n{appcenter.manage_applicationUrl.modal.remove.title}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="#i18n{portal.util.labelClose}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+            	<p id="urlRemove"></p>
+           		<div class="text-center">
+	 				<form action="jsp/site/Portal.jsp?page=gestion_url&action=remove" method="POST">
+	        			<input type="hidden" id="idApplicationRemove" name="id"/>
+	        			<input type="hidden" id="idApplicationUrlRemove" name="idApplicationUrl"/>
+	        			<input type="hidden" name="activeEnvironment" value="${active_environment!}"/>
+	               		<button type="submit" title="Supprimer" class="btn btn-danger">
+	         				<span class="material-icons">delete</span> #i18n{appcenter.manage_applicationUrl.modal.remove.btn.confirm}
+	         			</button>
+					</form>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+	$('#btnCreateUrl').click( function(){
+		$('#idApplicationUrl').val("");
+		$('#type').val("");
+		$('#url').val("");
+		$('#environment').val("");
+		$('textarea#description').val("");
+		$('#modalUrl').modal();
+		$('#modalUrl').show();
+	});
+});
+
+function populateModal(idApplicationUrl, idApplication, type, url, environment, description){
+	$('#idApplicationUrl').val(idApplicationUrl);
+	$('#idApplication').val(idApplication);
+	$('#type').val(type);
+	$('#url').val(url);
+	$('#environment').val(environment);
+	$('textarea#description').val(description);
+	$('#modalUrl').modal();
+	$('#modalUrl').show();
+}
+function removeModal(idApplicationUrl, idApplication,urlRemove){
+	$('#idApplicationRemove').val(idApplication);
+	$('#idApplicationUrlRemove').val(idApplicationUrl);
+	$('#urlRemove').html(urlRemove);
+	$('#modalRemove').modal();
+	$('#modalRemove').show();
+}
+</script> 

@@ -97,7 +97,6 @@ public class TaskCustomDemandStatusComponent extends TaskComponent
     /**
      * {@inheritDoc}
      */
-    @Override
     public String getTaskInformationXml( int i, HttpServletRequest hsr, Locale locale, ITask itask )
     {
         return null;

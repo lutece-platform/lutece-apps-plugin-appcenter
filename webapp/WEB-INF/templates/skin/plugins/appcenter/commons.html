@@ -14,6 +14,9 @@
                                 </a>
                         </#if>
 		</div>
+		     <a class="btn btn-primary btn-rounded text-left" href="jsp/site/Portal.jsp?page=gestion_url&view=default_view&id=${application.id!''}&activeEnvironment=${active_environment!}">
+                 <span class="material-icons">link</span> Gestion des URL
+			 </a>
              <#list list_category_actions as category_actions> 
              <div class="btn-group">
                  
@@ -32,7 +35,7 @@
             </div>
             </#list>
 
-		<h1>${application.code!} <#if application.code?has_content> - </#if> ${application.name}</h1>
+		<h1><img class="img-fluid img-app mr-2" style="width:36px;" src="${application.logoBase64!'images/app.png'}" /> ${application.code!} <#if application.code?has_content> - </#if> ${application.name}</h1>
 	</div>
         
 	<@messages errors=errors />
@@ -41,6 +44,8 @@
 
 <!-- Modal -->
 <div id="ModalModify" class="modal fade" role="dialog" aria-labelledby="modalTitleModifyAppDescription">
+	<#include "/skin/plugins/asynchronousupload/upload_commons.html" />
+	<@addRequiredJsFiles/>
 	<div class="modal-dialog modal-lg" role="document">
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -64,6 +69,30 @@
 							<input type="text" id="name" name="name" maxlength="50" value="${application.name}" class="form-control" required >
 						</div>
 						<div class="form-group">
+							<input type="hidden" name="asynchronousupload.handler" value="${handler.handlerName}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> <i class="material-icons">image</i>
+									</span>
+								</div>
+								<div class="custom-file file-input">
+									<input type="file" name="logo_upload" aria-describedby="logo_uploadAddon" id="logo_upload" class="form-control custom-file-input inputFileVisible ${handler.handlerName}" accept="image/png, image/jpeg">
+									<label class="custom-file-label" for="logo_upload">#i18n{appcenter.create_application.labelLogo} *</label>
+								</div>
+								<div id="progress_logo_upload" class="progress" style="display: none;">
+									<div id="progress-bar_logo_upload" class="progress-bar progress-bar-success progress-bar-striped"></div>
+								</div>
+								<button hidden class="btn btn-primary" name="${handler.uploadSubmitPrefix}logo_upload" id="${handler.uploadSubmitPrefix}logo_upload" value="${handler.uploadSubmitPrefix}logo_upload" type="submit">
+									<i class="fa fa-upload"></i>
+									<span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
+									<span class="file-input-text-js" style="display: none;">#i18n{asynchronousupload.action.browse.name}</span>
+								</button>
+							</div>
+							<small class="form-text text-muted mb-4">#i18n{appcenter.create_application.labelLogo.help}</small>
+						</div>
+						<@addUploadedFilesBox fieldName="logo_upload" handler=handler listFiles=listFiles!'' />
+
+						<div class="form-group">
 							<label for="description" class="col-form-label">#i18n{appcenter.modify_application.labelDescription} <@icon style="asterisk" />
 							</label>
 							<input type="text" id="description" name="description" maxlength="255" value="${application.description}" class="form-control" required >
@@ -76,9 +105,9 @@
 						<div class="form-group">
 							<label for="id_organization_manager" class="col-form-label">#i18n{appcenter.modify_application.labelIdOrganizationManager} <@icon style="asterisk" />
 							</label>
-                            <@select name='id_organization_manager' id='id_organization_manager' required/>
+                            <@select name='id_organization_manager' id='id_organization_manager' >
                                 <#list list_organization_managers as organization_manager>
-                                    <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )"
+                                    <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )"/>
                                     <#if organization_manager.idOrganizationManager == (application.organizationManager.idOrganizationManager)!0>
                                         <option selected="selected" organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
                                     <#else>
@@ -197,6 +226,7 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="jsp/site/plugins/asynchronousupload/GetMainUploadJs.jsp?handler=appcenterAsynchronousUploadHandler" ></script>
 <script>
 $(function(){ 
 	$(".doc").hide();

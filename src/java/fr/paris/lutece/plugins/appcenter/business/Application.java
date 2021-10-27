@@ -36,13 +36,21 @@ package fr.paris.lutece.plugins.appcenter.business;
 import fr.paris.lutece.plugins.appcenter.business.organization.OrganizationManager;
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.ResourceTypeValue;
 import fr.paris.lutece.plugins.appcenter.business.resourcetype.AbstractAppCenterResourceType;
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import fr.paris.lutece.portal.business.file.File;
+import fr.paris.lutece.portal.business.file.FileHome;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.apache.commons.codec.binary.Base64;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * This is the business class for the object Application
@@ -71,6 +79,8 @@ public class Application implements Serializable
 
     private List<Environment> _listEnvironment;
 
+    private int _lIdFileLogo;
+    
     /**
      * Returns the Id
      * 
@@ -236,5 +246,35 @@ public class Application implements Serializable
     public void setListEnvironment( List<Environment> listEnvironment )
     {
         _listEnvironment = listEnvironment;
+    }
+    
+    /**
+     * @return the _lIdFileLogo
+     */
+    public int getIdFileLogo( )
+    {
+        return _lIdFileLogo;
+    }
+
+    /**
+     * @param lIdFileLogo the _lIdFileLogo to set
+     */
+    public void setIdFileLogo( int lIdFileLogo )
+    {
+        this._lIdFileLogo = lIdFileLogo;
+    }
+
+    public String getLogoBase64() {
+        String imgAsBase64 = null;
+        if( this._lIdFileLogo != 0)
+        {
+            File file = FileHome.findByPrimaryKey( _lIdFileLogo );
+            PhysicalFile physicalFile =  PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
+            file.setPhysicalFile( physicalFile );
+            byte[] imgBytesAsBase64 = Base64.encodeBase64( file.getPhysicalFile( ).getValue( ) );
+            String imgDataAsBase64 = new String( imgBytesAsBase64 );
+            imgAsBase64 = "data:image/png;base64," + imgDataAsBase64;
+        }
+        return imgAsBase64;
     }
 }

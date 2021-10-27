@@ -71,7 +71,6 @@ public class TaskNotifyToValidateComponent extends NoFormTaskComponent
         return null;
     }
 
-    @Override
     public String getTaskInformationXml( int i, HttpServletRequest hsr, Locale locale, ITask itask )
     {
         return null;

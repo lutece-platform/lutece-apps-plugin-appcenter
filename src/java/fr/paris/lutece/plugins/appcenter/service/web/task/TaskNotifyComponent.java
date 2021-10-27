@@ -84,7 +84,6 @@ public class TaskNotifyComponent extends NoFormTaskComponent
         return "TODO TASK INFO";
     }
 
-    @Override
     public String getTaskInformationXml( int i, HttpServletRequest hsr, Locale locale, ITask itask )
     {
         return null;
