@@ -48,12 +48,14 @@ import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
 import fr.paris.lutece.plugins.appcenter.service.ApplicationService;
 import fr.paris.lutece.plugins.appcenter.service.DemandService;
+import fr.paris.lutece.plugins.appcenter.service.sitereleaser.SiteReleaserService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
+import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 /**
  * 
@@ -86,10 +88,11 @@ public abstract class AppcenterTask extends SimpleTask
      *            a class who extend DemandObject
      * @param funct
      *            AppCenterTaskFunctional
+     * @throws HttpAccessException 
      */
     public <AD extends ApplicationData, ADS extends ApplicationDatas<AD>, D extends Demand> void processTask( int nIdResourceHistory,
             HttpServletRequest request, Locale locale, Class<AD> applicationDataClass, Class<ADS> applicationDatasClass, Class<D> demandClass,
-            AppCenterTaskFunctional funct )
+            AppCenterTaskFunctional funct ) throws HttpAccessException
     {
         AD applicationData = null;
         try
@@ -162,6 +165,7 @@ public abstract class AppcenterTask extends SimpleTask
             }
         }
 
+        SiteReleaserService.addSiteToReleaser(application, datas);
         ApplicationService.saveApplicationData( application, datas );
         DemandHome.update( demand );
     }
@@ -183,9 +187,10 @@ public abstract class AppcenterTask extends SimpleTask
      *            the dataSubsetName associate to the applicationDatas
      * @param demandClass
      *            a class who extend DemandObject
+     * @throws HttpAccessException 
      */
     public <AD extends ApplicationData, ADS extends ApplicationDatas<AD>, D extends Demand> void processTask( int nIdResourceHistory,
-            HttpServletRequest request, Locale locale, Class<AD> applicationDataClass, Class<ADS> applicationDatasClass, Class<D> demandClass )
+            HttpServletRequest request, Locale locale, Class<AD> applicationDataClass, Class<ADS> applicationDatasClass, Class<D> demandClass ) throws HttpAccessException
     {
         processTask( nIdResourceHistory, request, locale, applicationDataClass, applicationDatasClass, demandClass, null );
 

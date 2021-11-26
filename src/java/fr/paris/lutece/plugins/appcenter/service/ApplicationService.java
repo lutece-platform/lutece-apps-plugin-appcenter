@@ -55,6 +55,7 @@ import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
 import fr.paris.lutece.plugins.appcenter.business.Demand;
 import fr.paris.lutece.plugins.appcenter.business.DemandHome;
+import fr.paris.lutece.plugins.appcenter.service.sitereleaser.SiteReleaserService;
 import fr.paris.lutece.plugins.appcenter.util.AppCenterUtils;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 import fr.paris.lutece.util.ReferenceList;
@@ -81,7 +82,7 @@ public class ApplicationService
         try
         {
             String strUpdatedJson = getApplicationData( application, dataSubset );
-            ApplicationHome.updateData( application.getId( ), strUpdatedJson );
+            ApplicationHome.updateData( application.getId( ), strUpdatedJson );            
         }
         catch( IOException ex )
         {
@@ -158,7 +159,7 @@ public class ApplicationService
      * @throws IOException
      *             if an error occurs
      */
-    static String getApplicationData( Application application, DataSubset dataSubset ) throws IOException
+    public static String getApplicationData( Application application, DataSubset dataSubset ) throws IOException
     {
         String strApplicationJson = application.getApplicationData( );
         JsonNode nodeApplication = _mapper.readTree( strApplicationJson );
