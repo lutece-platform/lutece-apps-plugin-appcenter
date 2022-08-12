@@ -105,7 +105,7 @@ public final class ApplicationDAO implements IApplicationDAO
         daoUtil.setString( nIndex++, application.getDescription( ) );
         if( application.getOrganizationManager( )!=null)
         {
-        	daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganization( ) );
+        	daoUtil.setInt( nIndex++, application.getOrganizationManager( ).getIdOrganizationManager( ) );
         }
         else
         {
