@@ -4,11 +4,43 @@
 <@box>
 	<@boxHeader title='#i18n{appcenter.task_form.title}' />
 	<@boxBody>
-                <!-- Display info about application -->
-                <h4>#i18n{appcenter.task_form.application.name} : ${application.name}</h4>
-                <h5>#i18n{appcenter.task_form.application.description} : ${application.description}</h5>
-                </br>
-                <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
+
+        <!-- Display info about application -->
+        <h3>#i18n{appcenter.task_form.application.title}</h3>
+        <@formGroup labelKey='#i18n{appcenter.task_form.application.code}' helpKey='' mandatory=false>
+            ${application.code!''}
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.task_form.application.name}' helpKey='' mandatory=false>
+            ${application.name!''}
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.task_form.application.description}' helpKey='' mandatory=false>
+            ${application.description!''}
+        </@formGroup>
+        </br>
+
+        <!-- Display info about demand -->
+        <h3>#i18n{appcenter.task_form.demand.title}</h3>
+        <@formGroup labelKey='#i18n{appcenter.task_form.demand.id}' helpKey='' mandatory=false>
+            ${demand.id!''}
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.task_form.demand.owner}' helpKey='' mandatory=false>
+            ${demand.idUserFront!''}
+        </@formGroup>
+        <@formGroup labelKey='#i18n{appcenter.task_form.demand.creation}' helpKey='' mandatory=false>
+            ${demand.creationDate!''}
+        </@formGroup>
+        <#if demand.environment??>
+        <@formGroup labelKey='#i18n{appcenter.task_form.demand.environment}' helpKey='' mandatory=false>
+            #i18n{${(demand.environment.labelKey)!''}}
+        </@formGroup>
+        </#if>
+        <@formGroup labelKey='#i18n{appcenter.task_form.demand.status}' helpKey='' mandatory=false>
+            ${demand.statusText!''}
+        </@formGroup>
+        </br>
+
+        <h3>#i18n{appcenter.task_form.form.title}</h3>
+        <@tform class="form-horizontal" method="post" name="process_action" action="jsp/admin/plugins/appcenter/ManageDemands.jsp">
 			<@messages errors=errors />
 			<input type="hidden" id="id" name="id" value="${demand.id}"/>
 			<input type="hidden" id="id_action" name="id_action" value="${id_action}"/>

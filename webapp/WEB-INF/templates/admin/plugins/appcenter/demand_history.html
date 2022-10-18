@@ -9,6 +9,9 @@
 	
                 <!-- Display info about application -->
                 <h3>#i18n{appcenter.demand_history.application.title}</h3>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.application.code}' helpKey='' mandatory=false>
+                    ${application.code!''}
+                </@formGroup>
                 <@formGroup labelKey='#i18n{appcenter.demand_history.application.name}' helpKey='' mandatory=false>
                     ${application.name!''}
                 </@formGroup>
@@ -19,6 +22,20 @@
 
                 <!-- Display info about demand -->
                 <h3>#i18n{appcenter.demand_history.demand.title}</h3>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.id}' helpKey='' mandatory=false>
+                    ${demand.id!''}
+                </@formGroup>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.owner}' helpKey='' mandatory=false>
+                    ${demand.idUserFront!''}
+                </@formGroup>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.creation}' helpKey='' mandatory=false>
+                    ${demand.creationDate!''}
+                </@formGroup>
+                <#if demand.environment??>
+                <@formGroup labelKey='#i18n{appcenter.demand_history.demand.environment}' helpKey='' mandatory=false>
+                    #i18n{${(demand.environment.labelKey)!''}}
+                </@formGroup>
+                </#if>
                 <@formGroup labelKey='#i18n{appcenter.demand_history.demand.status}' helpKey='' mandatory=false>
                     ${demand.statusText!''}
                 </@formGroup>
