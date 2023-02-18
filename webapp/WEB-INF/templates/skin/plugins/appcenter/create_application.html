@@ -64,7 +64,7 @@
 				<label for="id_organization" class="col-sm-12 col-md-2 col-form-label">#i18n{appcenter.create_application.labelIdOrganizationManager} <@icon style='asterisk' /></label>
 				<div class="col-sm-12 col-md-6">
                 <@select name='id_organization_manager' id='id_organization_manager'>
-                    <option selected="selected" organization="" value="" label="${i18n("portal.util.labelEmpty")}"></option>
+                    <option selected="selected" organization="empty" value="" label="${i18n("portal.util.labelEmpty")}"></option>
                     <#list list_organization_managers as organization_manager>
                         <#assign item_name = organization_manager.firstName + " " + organization_manager.familyName + " ( " + organization_manager.mail + " )" />
                         <option organization="${organization_manager.idOrganization}" value="${organization_manager.idOrganizationManager}">${item_name}</option>
@@ -150,7 +150,7 @@ $(function() {
         var id_organization = $('#id_organization option:checked').attr("value");
         var first_visible = true;
         $('#id_organization_manager option').each( function() {
-            if ( $(this).attr("organization") == id_organization )
+            if ( $(this).attr("organization") == id_organization || $(this).attr("organization") == 'empty'  )
             {
                 $(this).show();
                 if ( first_visible )
