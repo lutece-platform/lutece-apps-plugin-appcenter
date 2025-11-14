@@ -17,6 +17,9 @@
                                 <@formGroup labelKey='#i18n{appcenter.create_demandtype.labelDescription}' helpKey='#i18n{appcenter.create_demandtype.labelDescription.help}' mandatory=true>
                                         <@input type='text' name='description' value='${demandtype.description!\'\'}' />
                                 </@formGroup>
+				<@formGroup labelKey='#i18n{appcenter.modify_demandtype.labelQuestion}' helpKey='#i18n{appcenter.modify_demandtype.labelQuestion.help}' mandatory=true>
+						<@input type='text' name='question' value='${demandtype.question!\'\'}' />
+				</@formGroup>
 				<@formGroup labelKey='#i18n{appcenter.modify_demandtype.labelIdCategoryDemandType}' helpKey='#i18n{appcenter.modify_demandtype.labelIdCategoryDemandType.help}' >
 					<@input type='text' name='id_category_demand_type' value='${demandtype.idCategoryDemandType}' />
 				</@formGroup>

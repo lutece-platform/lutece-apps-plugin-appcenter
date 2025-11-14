@@ -11,6 +11,9 @@
             <@formGroup labelKey='#i18n{appcenter.modify_categorydemandtype.labelLabel}' helpKey='#i18n{appcenter.modify_categorydemandtype.labelLabel.help}' >
                     <@input type='text' name='label' value='${categorydemandtype.label}' />
             </@formGroup>
+            <@formGroup labelKey='#i18n{appcenter.modify_categorydemandtype.labelQuestion}' helpKey='#i18n{appcenter.modify_categorydemandtype.labelQuestion.help}' >
+                    <@input type='text' name='question' value='${categorydemandtype.question}' />
+            </@formGroup>
             <@formGroup labelKey='#i18n{appcenter.create_categorydemandtype.labelIsDependingOfEnvironment}' helpKey='#i18n{appcenter.create_categorydemandtype.labelIsDependingOfEnvironment.help}' >
                 <input type="checkbox" name="is_depending_of_environment" value="true" <#if categorydemandtype.isDependingOfEnvironment>checked = "checked"</#if>/>
             </@formGroup>
