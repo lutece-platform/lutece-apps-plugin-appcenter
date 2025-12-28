@@ -40,6 +40,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.appcenter.business.Application;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationDatas;
 import fr.paris.lutece.plugins.appcenter.business.ApplicationHome;
@@ -206,7 +207,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
             mapStates.put( Integer.toString( demand.getId( ) ), state );
 
             Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listAllActions = WorkflowService.getInstance( ).getActions( demand.getId( ),
-                    Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, getUser( ) );
+                    Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow,  (User) getUser( ) );
             Collection<fr.paris.lutece.plugins.workflowcore.business.action.Action> listActions = new ArrayList<>( );
 
             for (fr.paris.lutece.plugins.workflowcore.business.action.Action action : listAllActions )
@@ -385,7 +386,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
 
         String strHtmlTasksForm = WorkflowService.getInstance( )
-                .getDisplayTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, request, getLocale( ) );
+                .getDisplayTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, request, getLocale( ), getUser( ) );
 
         Map<String, Object> model = getModel( );
         model.put( MARK_DEMAND, demand );
@@ -417,7 +418,7 @@ public class DemandJspBean extends ManageAppCenterJspBean
         int nIdWorkflow = DemandTypeService.getIdWorkflow( demand.getDemandType( ) );
 
         String strHistoryHtml = WorkflowService.getInstance( ).getDisplayDocumentHistory( demand.getId( ), Demand.WORKFLOW_RESOURCE_TYPE, nIdWorkflow, request,
-                request.getLocale( ) );
+                request.getLocale( ), getUser( ) );
 
         // Aplication
         Application application = ApplicationHome.findByPrimaryKey( demand.getIdApplication( ) );
@@ -451,8 +452,8 @@ public class DemandJspBean extends ManageAppCenterJspBean
         {
             return redirect( request, VIEW_TASK_FORM, PARAMETER_ID_DEMAND, nIdDemand, PARAMETER_ID_ACTION, nIdAction );
         }
-
-        WorkflowService.getInstance( ).doProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ), true );
+        
+        WorkflowService.getInstance( ).doProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ), true, getUser( ) );
 
         return redirectView( request, VIEW_MANAGE_DEMANDS );
     }
@@ -471,13 +472,13 @@ public class DemandJspBean extends ManageAppCenterJspBean
         Integer nIdDemand = request.getParameter( PARAMETER_ID_DEMAND ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_DEMAND ) ) : null;
         Integer nIdAction = request.getParameter( PARAMETER_ID_ACTION ) != null ? Integer.parseInt( request.getParameter( PARAMETER_ID_ACTION ) ) : null;
 
-        if ( WorkflowService.getInstance( ).canProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, false ) )
+        if ( WorkflowService.getInstance( ).canProcessAction( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, false, getUser( ) ) )
         {
 
             try
             {
                 String strError = WorkflowService.getInstance( )
-                        .doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ) );
+                        .doSaveTasksForm( nIdDemand, Demand.WORKFLOW_RESOURCE_TYPE, nIdAction, -1, request, getLocale( ), getUser( ) );
                 if ( strError != null )
                 {
                     addError( strError );
